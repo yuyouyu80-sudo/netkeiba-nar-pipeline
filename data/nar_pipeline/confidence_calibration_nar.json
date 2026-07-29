@@ -1,0 +1,454 @@
+{
+  "fitted_on": {
+    "n_races": 126,
+    "dates": [
+      "20260725",
+      "20260726",
+      "20260727",
+      "20260728"
+    ]
+  },
+  "method": "lobo_quantile_bucket_calibration",
+  "k_buckets": 4,
+  "candidates_tested": [
+    "gap_pct",
+    "spread",
+    "gap_top2"
+  ],
+  "results_by_box_n": {
+    "5": {
+      "place": {
+        "hit_label": "複勝的中(3着以内)",
+        "n_races": 126,
+        "overall_hit_rate_pct": 94.4,
+        "trivial_baseline_oof_brier": 0.05401175284381858,
+        "raw_gap_pct_insample_brier": 0.7978655718154095,
+        "candidates": {
+          "gap_pct": {
+            "oof_brier": 0.05205715157298347,
+            "spearman_with_hit": -0.22624421058386737
+          },
+          "spread": {
+            "oof_brier": 0.05496204762850601,
+            "spearman_with_hit": -0.12240929114534309
+          },
+          "gap_top2": {
+            "oof_brier": 0.05398190652048022,
+            "spearman_with_hit": 0.18528098932116135
+          }
+        },
+        "chosen_feature": "gap_pct",
+        "beats_trivial_baseline": true,
+        "calibration_table": {
+          "feature": "gap_pct",
+          "n_buckets": 4,
+          "edges": [
+            0.025058549293797368,
+            0.05251214215063407,
+            0.11575174565221934
+          ],
+          "buckets": [
+            {
+              "bucket": 0,
+              "n_races": 32,
+              "hit_rate_pct": 100.0,
+              "value_range": [
+                0.0006620362510049966,
+                0.025007540324946793
+              ]
+            },
+            {
+              "bucket": 1,
+              "n_races": 31,
+              "hit_rate_pct": 96.8,
+              "value_range": [
+                0.025211576200349098,
+                0.051722508453115844
+              ]
+            },
+            {
+              "bucket": 2,
+              "n_races": 31,
+              "hit_rate_pct": 96.8,
+              "value_range": [
+                0.0533017758481523,
+                0.11397990675842576
+              ]
+            },
+            {
+              "bucket": 3,
+              "n_races": 32,
+              "hit_rate_pct": 84.4,
+              "value_range": [
+                0.1163423586168172,
+                1.0
+              ]
+            }
+          ]
+        }
+      },
+      "profit": {
+        "hit_label": "複勝+ワイド単体黒字",
+        "n_races": 126,
+        "overall_hit_rate_pct": 24.6,
+        "trivial_baseline_oof_brier": 0.1903298754311171,
+        "raw_gap_pct_insample_brier": 0.2465789293148777,
+        "candidates": {
+          "gap_pct": {
+            "oof_brier": 0.19993771752955627,
+            "spearman_with_hit": -0.06155594314800838
+          },
+          "spread": {
+            "oof_brier": 0.1986668248699803,
+            "spearman_with_hit": -0.08232741359529201
+          },
+          "gap_top2": {
+            "oof_brier": 0.19343603596935185,
+            "spearman_with_hit": -0.0960064300080482
+          }
+        },
+        "chosen_feature": "gap_top2",
+        "beats_trivial_baseline": false,
+        "calibration_table": {
+          "feature": "gap_top2",
+          "n_buckets": 4,
+          "edges": [
+            0.09206375287454173,
+            0.1658973529097144,
+            0.24707138249465996
+          ],
+          "buckets": [
+            {
+              "bucket": 0,
+              "n_races": 32,
+              "hit_rate_pct": 37.5,
+              "value_range": [
+                0.003429777413685237,
+                0.09204495877081377
+              ]
+            },
+            {
+              "bucket": 1,
+              "n_races": 31,
+              "hit_rate_pct": 16.1,
+              "value_range": [
+                0.0921201351857256,
+                0.16160249044168526
+              ]
+            },
+            {
+              "bucket": 2,
+              "n_races": 31,
+              "hit_rate_pct": 22.6,
+              "value_range": [
+                0.17019221537774354,
+                0.24434666376036154
+              ]
+            },
+            {
+              "bucket": 3,
+              "n_races": 32,
+              "hit_rate_pct": 21.9,
+              "value_range": [
+                0.24797962207275942,
+                0.6278019526138086
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "4": {
+      "place": {
+        "hit_label": "複勝的中(3着以内)",
+        "n_races": 126,
+        "overall_hit_rate_pct": 93.7,
+        "trivial_baseline_oof_brier": 0.06095628703872362,
+        "raw_gap_pct_insample_brier": 0.7565625511549259,
+        "candidates": {
+          "gap_pct": {
+            "oof_brier": 0.06196533116577889,
+            "spearman_with_hit": 0.02416081183459294
+          },
+          "spread": {
+            "oof_brier": 0.06317037231126588,
+            "spearman_with_hit": -0.061744296910626405
+          },
+          "gap_top2": {
+            "oof_brier": 0.05974790693570773,
+            "spearman_with_hit": 0.21834215139409915
+          }
+        },
+        "chosen_feature": "gap_top2",
+        "beats_trivial_baseline": true,
+        "calibration_table": {
+          "feature": "gap_top2",
+          "n_buckets": 4,
+          "edges": [
+            0.09206375287454173,
+            0.1658973529097144,
+            0.24707138249465996
+          ],
+          "buckets": [
+            {
+              "bucket": 0,
+              "n_races": 32,
+              "hit_rate_pct": 84.4,
+              "value_range": [
+                0.003429777413685237,
+                0.09204495877081377
+              ]
+            },
+            {
+              "bucket": 1,
+              "n_races": 31,
+              "hit_rate_pct": 93.5,
+              "value_range": [
+                0.0921201351857256,
+                0.16160249044168526
+              ]
+            },
+            {
+              "bucket": 2,
+              "n_races": 31,
+              "hit_rate_pct": 96.8,
+              "value_range": [
+                0.17019221537774354,
+                0.24434666376036154
+              ]
+            },
+            {
+              "bucket": 3,
+              "n_races": 32,
+              "hit_rate_pct": 100.0,
+              "value_range": [
+                0.24797962207275942,
+                0.6278019526138086
+              ]
+            }
+          ]
+        }
+      },
+      "profit": {
+        "hit_label": "複勝+ワイド単体黒字",
+        "n_races": 126,
+        "overall_hit_rate_pct": 30.2,
+        "trivial_baseline_oof_brier": 0.21557414143118325,
+        "raw_gap_pct_insample_brier": 0.2541845320981126,
+        "candidates": {
+          "gap_pct": {
+            "oof_brier": 0.22287017135903303,
+            "spearman_with_hit": 0.06466057019587154
+          },
+          "spread": {
+            "oof_brier": 0.22887165311613453,
+            "spearman_with_hit": -0.0717922507321809
+          },
+          "gap_top2": {
+            "oof_brier": 0.22288167523078792,
+            "spearman_with_hit": 0.03803562952698326
+          }
+        },
+        "chosen_feature": "gap_pct",
+        "beats_trivial_baseline": false,
+        "calibration_table": {
+          "feature": "gap_pct",
+          "n_buckets": 4,
+          "edges": [
+            0.03462772898176231,
+            0.07969403019497728,
+            0.14893375015963317
+          ],
+          "buckets": [
+            {
+              "bucket": 0,
+              "n_races": 32,
+              "hit_rate_pct": 25.0,
+              "value_range": [
+                0.0011494372013313996,
+                0.03422382029735309
+              ]
+            },
+            {
+              "bucket": 1,
+              "n_races": 31,
+              "hit_rate_pct": 25.8,
+              "value_range": [
+                0.035839455034989975,
+                0.07940206749129972
+              ]
+            },
+            {
+              "bucket": 2,
+              "n_races": 31,
+              "hit_rate_pct": 35.5,
+              "value_range": [
+                0.07998599289865484,
+                0.13737194118918147
+              ]
+            },
+            {
+              "bucket": 3,
+              "n_races": 32,
+              "hit_rate_pct": 34.4,
+              "value_range": [
+                0.15278768648311708,
+                0.49373782002596023
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "3": {
+      "place": {
+        "hit_label": "複勝的中(3着以内)",
+        "n_races": 126,
+        "overall_hit_rate_pct": 91.3,
+        "trivial_baseline_oof_brier": 0.08119011993952323,
+        "raw_gap_pct_insample_brier": 0.7313021584040437,
+        "candidates": {
+          "gap_pct": {
+            "oof_brier": 0.08289562742347127,
+            "spearman_with_hit": -0.04908651715092347
+          },
+          "spread": {
+            "oof_brier": 0.08226995161413818,
+            "spearman_with_hit": -0.05758969335029605
+          },
+          "gap_top2": {
+            "oof_brier": 0.07892802179349619,
+            "spearman_with_hit": 0.23770242557336957
+          }
+        },
+        "chosen_feature": "gap_top2",
+        "beats_trivial_baseline": true,
+        "calibration_table": {
+          "feature": "gap_top2",
+          "n_buckets": 4,
+          "edges": [
+            0.09206375287454173,
+            0.1658973529097144,
+            0.24707138249465996
+          ],
+          "buckets": [
+            {
+              "bucket": 0,
+              "n_races": 32,
+              "hit_rate_pct": 81.2,
+              "value_range": [
+                0.003429777413685237,
+                0.09204495877081377
+              ]
+            },
+            {
+              "bucket": 1,
+              "n_races": 31,
+              "hit_rate_pct": 87.1,
+              "value_range": [
+                0.0921201351857256,
+                0.16160249044168526
+              ]
+            },
+            {
+              "bucket": 2,
+              "n_races": 31,
+              "hit_rate_pct": 96.8,
+              "value_range": [
+                0.17019221537774354,
+                0.24434666376036154
+              ]
+            },
+            {
+              "bucket": 3,
+              "n_races": 32,
+              "hit_rate_pct": 100.0,
+              "value_range": [
+                0.24797962207275942,
+                0.6278019526138086
+              ]
+            }
+          ]
+        }
+      },
+      "profit": {
+        "hit_label": "複勝+ワイド単体黒字",
+        "n_races": 126,
+        "overall_hit_rate_pct": 29.4,
+        "trivial_baseline_oof_brier": 0.21327487130960723,
+        "raw_gap_pct_insample_brier": 0.2660360615615723,
+        "candidates": {
+          "gap_pct": {
+            "oof_brier": 0.22211419694238982,
+            "spearman_with_hit": -0.09654125521756193
+          },
+          "spread": {
+            "oof_brier": 0.2186618055579629,
+            "spearman_with_hit": 0.01125915383430623
+          },
+          "gap_top2": {
+            "oof_brier": 0.22204073115823786,
+            "spearman_with_hit": -0.05485843038417291
+          }
+        },
+        "chosen_feature": "spread",
+        "beats_trivial_baseline": false,
+        "calibration_table": {
+          "feature": "spread",
+          "n_buckets": 4,
+          "edges": [
+            0.4501258983198403,
+            0.5414934998181862,
+            0.6134293062569449
+          ],
+          "buckets": [
+            {
+              "bucket": 0,
+              "n_races": 32,
+              "hit_rate_pct": 28.1,
+              "value_range": [
+                0.2623791415427164,
+                0.4493026070184039
+              ]
+            },
+            {
+              "bucket": 1,
+              "n_races": 31,
+              "hit_rate_pct": 22.6,
+              "value_range": [
+                0.4525957722241493,
+                0.5408230121225742
+              ]
+            },
+            {
+              "bucket": 2,
+              "n_races": 31,
+              "hit_rate_pct": 35.5,
+              "value_range": [
+                0.542163987513798,
+                0.6086485411898029
+              ]
+            },
+            {
+              "bucket": 3,
+              "n_races": 32,
+              "hit_rate_pct": 31.2,
+              "value_range": [
+                0.6150228946126589,
+                0.8643593432018679
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "code_sha256": {
+    "nar_signals.py": "45091ad9ca746d19",
+    "nar_eval.py": "c495ca165a2fd3a1",
+    "nar_backtest.py": "e827264789f68c39",
+    "nar_dataset.py": "21622705404a94d4",
+    "nar_confidence_calibrate.py": "1e79af24924ce02b"
+  },
+  "created_at": "2026-07-29T22:09:51"
+}

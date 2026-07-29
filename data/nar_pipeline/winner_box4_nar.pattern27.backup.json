@@ -1,0 +1,189 @@
+{
+  "box_n": 4,
+  "pattern_id": 27,
+  "weights": {
+    "speed": 0.21280701466965773,
+    "form": 0.04938039249832128,
+    "style": 0.046402746663438715,
+    "jt": 0.06552829284326604,
+    "waku": 0.024794706930820924,
+    "apt": 0.16211712600389663,
+    "train": 0.1376710733933026,
+    "distance": 0.11208404255753072,
+    "sire": 0.09575935241711407,
+    "bms": 0.09345525202265142
+  },
+  "priors": {
+    "style_win": 10.044182621502209,
+    "style_place3": 30.746686303387335,
+    "jockey_win": 9.675994108983799,
+    "trainer_win": 10.240058910162002,
+    "waku_win": 9.748159057437407,
+    "apt_win": NaN,
+    "distance_win": 10.670103092783505,
+    "distance_place3": 30.310309278350513,
+    "distance_return": 78.23387334315169,
+    "sire_win": 10.639175257731958,
+    "sire_place3": 32.004418262150224,
+    "sire_return": 72.41531664212077,
+    "bms_win": 0.0,
+    "bms_place3": 0.0,
+    "bms_return": 0.0
+  },
+  "class_ordinal": {
+    "新馬": 0,
+    "C1C2": 2.5,
+    "C3": 1,
+    "C2": 2,
+    "C1": 3,
+    "B2": 4,
+    "B1": 5,
+    "A2": 6,
+    "A1": 7,
+    "重賞": 8
+  },
+  "fitted_on": {
+    "n_races": 71,
+    "search_dates": [
+      "20260725"
+    ],
+    "holdout_dates": [
+      "20260726"
+    ],
+    "search_races": 10,
+    "holdout_races": 28
+  },
+  "holdout_detail": {
+    "単勝": {
+      "hit_races": 23,
+      "hit_rate_pct": 82.1,
+      "stake": 11200,
+      "return": 8000,
+      "return_rate_pct": 71.4,
+      "sharpe": -0.451
+    },
+    "複勝": {
+      "hit_races": 28,
+      "hit_rate_pct": 100.0,
+      "stake": 11200,
+      "return": 9220,
+      "return_rate_pct": 82.3,
+      "sharpe": -0.451
+    },
+    "枠連": {
+      "hit_races": 0,
+      "hit_rate_pct": 0.0,
+      "stake": 0,
+      "return": 0,
+      "return_rate_pct": 0.0,
+      "sharpe": 0.0
+    },
+    "馬連": {
+      "hit_races": 17,
+      "hit_rate_pct": 60.7,
+      "stake": 16800,
+      "return": 16330,
+      "return_rate_pct": 97.2,
+      "sharpe": -0.017
+    },
+    "ワイド": {
+      "hit_races": 22,
+      "hit_rate_pct": 78.6,
+      "stake": 16800,
+      "return": 14270,
+      "return_rate_pct": 84.9,
+      "sharpe": -0.163
+    },
+    "馬単": {
+      "hit_races": 17,
+      "hit_rate_pct": 60.7,
+      "stake": 33600,
+      "return": 26580,
+      "return_rate_pct": 79.1,
+      "sharpe": -0.163
+    },
+    "3連複": {
+      "hit_races": 9,
+      "hit_rate_pct": 32.1,
+      "stake": 11200,
+      "return": 15850,
+      "return_rate_pct": 141.5,
+      "sharpe": 0.101
+    },
+    "3連単": {
+      "hit_races": 9,
+      "hit_rate_pct": 32.1,
+      "stake": 67200,
+      "return": 90020,
+      "return_rate_pct": 134.0,
+      "sharpe": 0.074
+    }
+  },
+  "all_races_backtest": {
+    "単勝": {
+      "hit_races": 29,
+      "hit_rate_pct": 40.8,
+      "stake": 28400,
+      "return": 11490,
+      "return_rate_pct": 40.5,
+      "sharpe": -0.723
+    },
+    "複勝": {
+      "hit_races": 37,
+      "hit_rate_pct": 52.1,
+      "stake": 28400,
+      "return": 13320,
+      "return_rate_pct": 46.9,
+      "sharpe": -0.856
+    },
+    "枠連": {
+      "hit_races": 0,
+      "hit_rate_pct": 0.0,
+      "stake": 0,
+      "return": 0,
+      "return_rate_pct": 0.0,
+      "sharpe": 0.0
+    },
+    "馬連": {
+      "hit_races": 19,
+      "hit_rate_pct": 26.8,
+      "stake": 42600,
+      "return": 25680,
+      "return_rate_pct": 60.3,
+      "sharpe": -0.189
+    },
+    "ワイド": {
+      "hit_races": 28,
+      "hit_rate_pct": 39.4,
+      "stake": 42600,
+      "return": 24460,
+      "return_rate_pct": 57.4,
+      "sharpe": -0.327
+    },
+    "馬単": {
+      "hit_races": 19,
+      "hit_rate_pct": 26.8,
+      "stake": 85200,
+      "return": 42620,
+      "return_rate_pct": 50.0,
+      "sharpe": -0.286
+    },
+    "3連複": {
+      "hit_races": 11,
+      "hit_rate_pct": 15.5,
+      "stake": 28400,
+      "return": 27430,
+      "return_rate_pct": 96.6,
+      "sharpe": -0.008
+    },
+    "3連単": {
+      "hit_races": 11,
+      "hit_rate_pct": 15.5,
+      "stake": 170400,
+      "return": 158280,
+      "return_rate_pct": 92.9,
+      "sharpe": -0.016
+    }
+  },
+  "note": "NAR5頭BOXモデル(winner_v3_nar.json)と全く同じsearch/holdout日付分割・同じ100候補の重みベクトル(乱数シード7)を使い、「上位4頭のBOX回収率」を適応度としてゼロから再探索したもの。5頭BOXの最良重みが4頭BOXでも最良とは限らないため独立に再評価している。NARは現状40レース(1日+1日)しかない、非常に薄いsearch/holdout分割での選定である。地方競馬の馬柱データは厩舎コメント欄・調教評価欄が存在しないため、waku列(枠番)が常に空になり、枠連(bet_type)のBOX検証は対象外(hit_rate/return_rateは常に0)。"
+}

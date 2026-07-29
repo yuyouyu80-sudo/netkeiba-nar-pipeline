@@ -1,0 +1,10 @@
+.env
+data/raw_html/
+logs/
+*.pkl
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/
+venv/
+.claude/scheduled_tasks.lock

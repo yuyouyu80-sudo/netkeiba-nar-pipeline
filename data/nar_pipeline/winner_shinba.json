@@ -1,0 +1,129 @@
+{
+  "pattern_id": 91,
+  "weights": {
+    "jt": 0.8940889260331812,
+    "waku": 0.0003811220948485115,
+    "train": 0.018185601594292423,
+    "sire": 8.490970630627648e-07,
+    "bms": 0.005783551045460524,
+    "comment": 0.08155995013515414
+  },
+  "fitted_on": {
+    "n_races": 14,
+    "dates": [
+      "20260711",
+      "20260712",
+      "20260718",
+      "20260719"
+    ],
+    "races_per_date": {
+      "20260711": 3,
+      "20260712": 5,
+      "20260718": 2,
+      "20260719": 4
+    }
+  },
+  "selection_method": {
+    "candidate_patterns": 100,
+    "evaluation": "開催日別4-fold(leave-one-date-out)。フロア判定はbaseline(equal-weight)比で絶対的中件数差1件以内(%pt閾値は2〜5レースfoldに不適切なため不採用)。ランキング主指標はfold間penalized_score(mean_return_rate - 1.0*std_return_rate、券種平均回収率%をfold間で分散ペナルティ付き平均)。sharpe(roi.mean/roi.std)は2〜3レースのfoldである券種が全滅するとroi.stdがほぼ0になり異常値化する実測不具合があったため不採用。maximinは参考診断値のみ(2〜5レースの極小foldでmaximinを主指標にすると「最小foldの偶然」に支配されるというシニアエンジニアレビュー指摘を反映)。"
+  },
+  "per_date_diagnostics": {
+    "20260711": {
+      "passes_floor": true,
+      "mean_return_rate_pct": 79.3
+    },
+    "20260712": {
+      "passes_floor": true,
+      "mean_return_rate_pct": 27.7
+    },
+    "20260718": {
+      "passes_floor": true,
+      "mean_return_rate_pct": 105.4
+    },
+    "20260719": {
+      "passes_floor": true,
+      "mean_return_rate_pct": 94.1
+    }
+  },
+  "pool_backtest_all_14_races": {
+    "単勝": {
+      "hit_races": 11,
+      "hit_rate_pct": 78.6,
+      "stake": 7000,
+      "return": 2570,
+      "return_rate_pct": 36.7,
+      "sharpe": -2.22
+    },
+    "複勝": {
+      "hit_races": 12,
+      "hit_rate_pct": 85.7,
+      "stake": 7000,
+      "return": 4990,
+      "return_rate_pct": 71.3,
+      "sharpe": -0.519
+    },
+    "枠連": {
+      "hit_races": 6,
+      "hit_rate_pct": 42.9,
+      "stake": 12800,
+      "return": 5710,
+      "return_rate_pct": 44.6,
+      "sharpe": -1.015
+    },
+    "馬連": {
+      "hit_races": 9,
+      "hit_rate_pct": 64.3,
+      "stake": 14000,
+      "return": 12670,
+      "return_rate_pct": 90.5,
+      "sharpe": -0.076
+    },
+    "ワイド": {
+      "hit_races": 9,
+      "hit_rate_pct": 64.3,
+      "stake": 14000,
+      "return": 12300,
+      "return_rate_pct": 87.9,
+      "sharpe": -0.129
+    },
+    "馬単": {
+      "hit_races": 9,
+      "hit_rate_pct": 64.3,
+      "stake": 28000,
+      "return": 18480,
+      "return_rate_pct": 66.0,
+      "sharpe": -0.367
+    },
+    "3連複": {
+      "hit_races": 6,
+      "hit_rate_pct": 42.9,
+      "stake": 14000,
+      "return": 12400,
+      "return_rate_pct": 88.6,
+      "sharpe": -0.086
+    },
+    "3連単": {
+      "hit_races": 6,
+      "hit_rate_pct": 42.9,
+      "stake": 84000,
+      "return": 57170,
+      "return_rate_pct": 68.1,
+      "sharpe": -0.274
+    }
+  },
+  "consensus_comparison": {
+    "purpose": "1位パターンが単一シグナルへの極端な重み集中である場合、それが小サンプルへの過学習でないかを確認するための比較対象(上位20パターンの重み平均)。同一の選定基準(floor_pass_count, penalized_score)で比較し、勝敗はどちらも記録する。",
+    "consensus_weights": {
+      "jt": 0.203,
+      "waku": 0.1211,
+      "train": 0.2165,
+      "sire": 0.168,
+      "bms": 0.1095,
+      "comment": 0.1819
+    },
+    "consensus_floor_pass_count": 4,
+    "consensus_penalized_score": 34.289,
+    "adopted": "winner"
+  },
+  "note": "新馬戦は現時点で4開催日14レース160頭のみを母集団として探索・評価している(pattern29の70レースの1/5程度)。1foldあたり2〜5レースと少なく、統計的検出力は限定的。今後新馬戦の開催日が追加取得されるたびに本スクリプトを再実行し、重みを再評価することを推奨する。 採用された重みはjtシグナルに89%集中する極端な解であり、上位20パターンの平均(コンセンサス、jt=0.20/waku=0.12/train=0.22/sire=0.17/bms=0.11/comment=0.18と6シグナルへ比較的均等)とは大きく異なる。事前に定めた選定基準(floor_pass_count→penalized_score)ではこの解が上回ったため機械的に採用しているが、14レースという小サンプルへの過学習である可能性を否定できない。開催日が増えて再探索した際にこの極端な集中が再現されるかどうかを確認すること。"
+}

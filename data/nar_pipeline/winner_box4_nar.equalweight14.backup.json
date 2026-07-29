@@ -1,0 +1,319 @@
+{
+  "schema_version": 2,
+  "box_n": 4,
+  "pattern_id": 0,
+  "model_label": "等重み(生存14シグナル)",
+  "method": "no_search_equal_weight",
+  "weights": {
+    "speed": 0.0,
+    "form": 0.07142857142857142,
+    "style": 0.07142857142857142,
+    "jt": 0.07142857142857142,
+    "waku": 0.07142857142857142,
+    "apt": 0.0,
+    "train": 0.0,
+    "distance": 0.07142857142857142,
+    "sire": 0.07142857142857142,
+    "bms": 0.0,
+    "jockey": 0.07142857142857142,
+    "trainer": 0.07142857142857142,
+    "nige": 0.07142857142857142,
+    "concerned": 0.07142857142857142,
+    "course": 0.07142857142857142,
+    "jt_return": 0.07142857142857142,
+    "margin": 0.07142857142857142,
+    "agari": 0.07142857142857142,
+    "interval": 0.0,
+    "kinryo": 0.0,
+    "timediff": 0.0,
+    "class_ninki": 0.0,
+    "weight": 0.0
+  },
+  "priors": {
+    "style_win": 9.733386709367494,
+    "style_place3": 29.76861489191353,
+    "jockey_win": 9.260208166533227,
+    "jockey_return": 67.44035228182545,
+    "trainer_win": 9.922337870296237,
+    "trainer_return": 73.71657325860689,
+    "waku_win": 9.530824659727783,
+    "apt_win": null,
+    "distance_win": 10.556204963971178,
+    "distance_place3": 28.727702161729386,
+    "distance_return": 70.20784627702162,
+    "sire_win": 10.569255404323458,
+    "sire_place3": 31.431545236188953,
+    "sire_return": 73.93835068054443,
+    "bms_win": 0.0,
+    "bms_place3": 0.0,
+    "bms_return": 0.0,
+    "course_win": 11.722738190552443,
+    "course_place3": 32.0435548438751,
+    "course_return": 73.22506004803843,
+    "concerned_win": 10.474779823859087,
+    "concerned_place3": 28.489991993594877,
+    "concerned_return": 72.62449959967974
+  },
+  "class_ordinal": {
+    "新馬": 0.0,
+    "未勝利": 0.5,
+    "C4": 0.5,
+    "C3": 1.0,
+    "C1C2": 2.5,
+    "C2": 2.0,
+    "C1": 3.0,
+    "B4": 3.2,
+    "B3": 3.5,
+    "B2": 4.0,
+    "B1": 5.0,
+    "A3": 5.5,
+    "A2": 6.0,
+    "A1": 7.0,
+    "OP": 7.5,
+    "オープン": 7.5,
+    "重賞": 8.0,
+    "G1": 8.0,
+    "G2": 8.0,
+    "G3": 8.0,
+    "Jpn1": 8.0,
+    "Jpn2": 8.0,
+    "Jpn3": 8.0
+  },
+  "dead_signals": [
+    "speed",
+    "apt",
+    "train",
+    "bms"
+  ],
+  "dead_signal_criterion": "_minmax後に全レース・全馬でNaNになるシグナル(列の充填率ではなく値で判定)",
+  "alive_signals": [
+    "form",
+    "style",
+    "jt",
+    "waku",
+    "distance",
+    "sire",
+    "jockey",
+    "trainer",
+    "nige",
+    "concerned",
+    "course",
+    "jt_return",
+    "margin",
+    "agari"
+  ],
+  "fitted_on": {
+    "n_races": 126,
+    "n_horses": 1249,
+    "dates": [
+      "20260725",
+      "20260726",
+      "20260727",
+      "20260728"
+    ],
+    "blocks": [
+      "20260725_高知",
+      "20260726_盛岡",
+      "20260726_金沢",
+      "20260726_高知",
+      "20260727_川崎",
+      "20260727_盛岡",
+      "20260727_金沢",
+      "20260728_名古屋",
+      "20260728_川崎",
+      "20260728_盛岡",
+      "20260728_金沢",
+      "20260728_門別"
+    ],
+    "search_dates": [],
+    "holdout_dates": [],
+    "note": "重み探索を行わないため search/holdout の分割は存在しない"
+  },
+  "all_races_backtest": {
+    "単勝": {
+      "hit_races": 92,
+      "hit_rate_pct": 73.0,
+      "stake": 50400,
+      "return": 32220,
+      "return_rate_pct": 63.9
+    },
+    "複勝": {
+      "hit_races": 119,
+      "hit_rate_pct": 94.4,
+      "stake": 50400,
+      "return": 39320,
+      "return_rate_pct": 78.0
+    },
+    "馬連": {
+      "hit_races": 60,
+      "hit_rate_pct": 47.6,
+      "stake": 75600,
+      "return": 52200,
+      "return_rate_pct": 69.0
+    },
+    "ワイド": {
+      "hit_races": 92,
+      "hit_rate_pct": 73.0,
+      "stake": 75600,
+      "return": 58020,
+      "return_rate_pct": 76.7
+    },
+    "馬単": {
+      "hit_races": 60,
+      "hit_rate_pct": 47.6,
+      "stake": 151200,
+      "return": 92570,
+      "return_rate_pct": 61.2
+    },
+    "3連複": {
+      "hit_races": 32,
+      "hit_rate_pct": 25.4,
+      "stake": 50400,
+      "return": 36410,
+      "return_rate_pct": 72.2
+    },
+    "3連単": {
+      "hit_races": 32,
+      "hit_rate_pct": 25.4,
+      "stake": 302400,
+      "return": 181650,
+      "return_rate_pct": 60.1
+    }
+  },
+  "objective": {
+    "definition": "複勝+ワイドのコスト加重回収率 − 同一レースを上位4人気BOXで買った場合の同指標",
+    "model_pct": 77.25396825396825,
+    "market_pct": 76.13492063492063,
+    "excess_pt": 1.1190476190476204,
+    "bootstrap95_block": {
+      "mean": 77.27015114335819,
+      "lo": 66.67860458015267,
+      "hi": 88.6311475409836
+    }
+  },
+  "selection_bias_measured": {
+    "selected_side": 98.78139353388177,
+    "unseen_side": 70.70716885645359,
+    "unseen_all_mean": 72.90035747619496,
+    "optimism_pt": 28.074224677428177,
+    "true_edge_pt": -2.1931886197413544,
+    "true_edge_sd": 6.129947164470789,
+    "win_rate": 0.325
+  },
+  "rejected_alternatives": {
+    "現行pattern27": {
+      "model": 72.13492063492063,
+      "market": 76.13492063492063,
+      "excess": -4.0
+    },
+    "前向き選択のOOF": {
+      "model": 66.9047619047619,
+      "market": 76.13492063492063,
+      "excess": -9.230158730158735
+    },
+    "gates": {
+      "G1": false,
+      "G2": false,
+      "G3": false,
+      "adopt": false
+    }
+  },
+  "code_sha256": {
+    "nar_signals.py": "2615e249e5cf5c4c",
+    "nar_eval.py": "c495ca165a2fd3a1",
+    "nar_backtest.py": "e827264789f68c39",
+    "nar_dataset.py": "3d7645d441d99261",
+    "nar_new_factors_remodel.py": "d3b554a8be946d7f"
+  },
+  "created_at": "2026-07-29T19:26:56",
+  "note": "重み探索を一切行っていない。126レース(4開催日・12ブロック)で測定した結果、『良い重みを選ぶ』行為の真の価値は -2.19pt(sd 6.13)・未使用データで平均を上回る確率32%であり、探索は成績を悪化させることが確認された(旧pattern27はまさにその産物で、38レースで選ばれた重みの名目60.6%がNARに値の無いシグナルに乗っていた)。そのため、アウトカムを一切参照せずに決まる固定ルール『値が存在する全シグナルを等重み』を採用している。現行pattern27との差は +4.98pt(95%CI[-3.89,+12.59]、12ブロック中10勝)。市場ベンチマーク(上位4人気BOX)との差は +1.11pt(95%CI[-9.54,+11.90])で、市場を有意に上回っているとは言えない。 (2026-07-29追記) ユーザー依頼の新規3候補(直近5走タイム差・クラス×人気補正・直近馬体重)をLOBO OOFで検証、G1不通過のためいずれも不採用。モデル自体は不変。なお旧候補(休養日数適性interval・斤量帯適性kinryo)は3頭BOX側の検証で不採用と判定済みで、4頭BOX側で個別に再テストはしていない(同じ結論を採用)。",
+  "candidate_signals_rejected": {
+    "timediff": {
+      "label": "直近5走の1着とのタイム差",
+      "reason": "単独ではOOF市場差+4.02pt(基準+1.12ptを上回る)と最も有望だったが、8候補(新規3候補の全組合せ)から選ぶこと自体の真の価値は+0.16pt(sd3.62)でsdの2倍(7.25pt)を大きく下回りG1不通過。126レースでは「最良に見える候補」を選び出す統計的検出力が不足しており、真に効くとは判定できない。"
+    },
+    "class_ninki": {
+      "label": "当時のクラス×人気順補正近走成績",
+      "reason": "単独でOOF市場差-2.33ptと基準(+1.12pt)を悪化させた。"
+    },
+    "weight": {
+      "label": "直近馬体重の増減幅",
+      "reason": "単独でOOF市場差-5.05ptと基準(+1.12pt)を大きく悪化させた。"
+    }
+  },
+  "factor_test_2026_07_29_v2": {
+    "requested_by_user": "2026-07-29: 近走成績(form)に直近5走の1着とのタイム差・当時のクラスと人気順・直近取得馬体重を追加してほしいという依頼を受けて検証",
+    "method": "連続重み探索は行わず、新規3候補の全組合せ(8通り、等重み)をLOBO OOFで判定。プライマリのテストベッドはbox_n=4、決定した重みをbox_n=3に適用して一貫性を確認。",
+    "primary_test_bed": "box_n=4",
+    "factor_oof_box4": {
+      "基準": {
+        "model": 77.25396825396825,
+        "market": 76.13492063492063,
+        "excess": 1.1190476190476204
+      },
+      "基準+timediff": {
+        "model": 80.15873015873017,
+        "market": 76.13492063492063,
+        "excess": 4.023809523809533
+      },
+      "基準+class_ninki": {
+        "model": 73.8015873015873,
+        "market": 76.13492063492063,
+        "excess": -2.3333333333333286
+      },
+      "基準+weight": {
+        "model": 71.08730158730158,
+        "market": 76.13492063492063,
+        "excess": -5.047619047619051
+      },
+      "基準+timediff+class_ninki": {
+        "model": 77.44444444444444,
+        "market": 76.13492063492063,
+        "excess": 1.3095238095238102
+      },
+      "基準+timediff+weight": {
+        "model": 76.65873015873017,
+        "market": 76.13492063492063,
+        "excess": 0.5238095238095326
+      },
+      "基準+class_ninki+weight": {
+        "model": 74.06349206349206,
+        "market": 76.13492063492063,
+        "excess": -2.0714285714285694
+      },
+      "基準+timediff+class_ninki+weight": {
+        "model": 75.0,
+        "market": 76.13492063492063,
+        "excess": -1.1349206349206327
+      }
+    },
+    "selection_optimism_box4": {
+      "selected_side": 80.87216965435348,
+      "unseen_side": 76.04182722669898,
+      "unseen_all_mean": 75.88648659780742,
+      "optimism_pt": 4.8303424276545,
+      "true_edge_pt": 0.1553406288915747,
+      "true_edge_sd": 3.6228956612395264,
+      "win_rate": 0.55
+    },
+    "gates_box4": {
+      "G1": false,
+      "G2": true,
+      "G3": true,
+      "adopt_candidate": false
+    },
+    "box3_consistency_check": {
+      "market": 70.63492063492063,
+      "base": {
+        "model": 82.8042328042328,
+        "excess": 12.169312169312164
+      },
+      "final": {
+        "model": 82.8042328042328,
+        "excess": 12.169312169312164
+      },
+      "consistent": true
+    },
+    "conclusion": "G1(選抜の真の価値がsdの2倍を超える)不通過のため新規3候補はいずれも不採用。生存14シグナル等重みモデルを両BOXサイズで維持。"
+  }
+}
