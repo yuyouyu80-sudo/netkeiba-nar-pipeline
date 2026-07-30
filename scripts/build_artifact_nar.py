@@ -168,6 +168,32 @@ payouts = pd.concat(_payout_frames, ignore_index=True) if _payout_frames else pd
 if not payouts.empty:
     payouts["payout"] = payouts["payout"].astype(int)
 
+# --- 簡易結果(2026-07-30、nar.netkeiba.com/race/result.htmlから発走当日中に取得できるもの)。
+#     正式な確定データ(db.netkeiba.com、ACTUAL_MAPS)は翌日反映のため、それより前に
+#     発走済みレースの1〜3着・単勝払戻だけを速報として出す(検証・回収率計算には使わない)。
+QUICK_RESULT_MAP: dict[str, dict] = {}
+for _qr_path in sorted(DATA_DIR.glob("quick_result_nar_*.csv")):
+    _qr_df = pd.read_csv(_qr_path, dtype=str)
+    for _row in _qr_df.to_dict("records"):
+        QUICK_RESULT_MAP[_row["race_id"]] = _row
+
+
+def quick_result_html(race_id: str) -> str:
+    r = QUICK_RESULT_MAP.get(race_id)
+    if r is None or not r.get("finish1_horse"):
+        return ""
+    parts = [
+        f'1着 {esc(r["finish1_umaban"])} {esc(r["finish1_horse"])}',
+        f'2着 {esc(r["finish2_umaban"])} {esc(r["finish2_horse"])}',
+        f'3着 {esc(r["finish3_umaban"])} {esc(r["finish3_horse"])}',
+    ]
+    payout = f'単勝{esc(r["tansho_payout"])}({esc(r["tansho_ninki"])})' if r.get("tansho_payout") else ""
+    return (
+        '<div class="quick-result"><span class="quick-result-label">結果速報</span>'
+        f'<span class="quick-result-body">{" / ".join(parts)}{" ・ " + payout if payout else ""}</span></div>'
+    )
+
+
 ACTUAL_MAPS: dict[str, dict[str, dict]] = {}
 for _race_id, _g in payouts.groupby("race_id"):
     _per_bt = {}
@@ -482,6 +508,8 @@ def race_card(race_id: str, race_name: str, rows: pd.DataFrame, racecourse: str 
             f'{"".join(chips)}</div>'
         )
 
+    quick_result = "" if has_actual else quick_result_html(race_id)
+
     return f"""
     <article class="race-card" id="race-{esc(race_id)}">
       <header class="race-head">
@@ -502,6 +530,7 @@ def race_card(race_id: str, race_name: str, rows: pd.DataFrame, racecourse: str 
         </table>
       </div>
       {confidence_ladder_html(race_id)}
+      {quick_result}
       {result_strip}
     </article>"""
 
@@ -1142,7 +1171,8 @@ for entry in reversed(DATE_MANIFEST):
     predict_cmd = f"python scripts/predict_top5_nar.py --date {d}"
     refresh_cmd = (
         f"python scripts/refresh_bias.py --date {d} --circuit nar\n"
-        f"python scripts/predict_top5_nar.py --date {d}"
+        f"python scripts/predict_top5_nar.py --date {d}\n"
+        f"python scripts/fetch_quick_result_nar.py --date {d}"
     )
 
     def _fb_cell(done: bool, cmd: str) -> str:
@@ -1187,7 +1217,9 @@ fetch_board_section = f"""
         「最新オッズ・馬体重」は発走前(検証待ち)の日付でのみ、単勝オッズ・人気・馬体重の3列だけを
         bias.html 1ページから再取得する軽量版です(1レース約1分かかる馬柱の全項目取得とは別物)。
         馬体重は発走約1時間前に発表されるため、それより前は空欄のままです。取消・除外馬が出た
-        場合もこのボタンで検出されます。
+        場合もこのボタンで検出されます。あわせて、nar.netkeiba.comの簡易結果ページ(発走直後に
+        確定、db.netkeiba.comの正式データより早い)から1〜3着・単勝払戻を取得し、発走済みレースの
+        カードに速報として表示します(正式な回収率検証には使わず、翌日の確定データで別途検証します)。
       </p>
       <div class="fetch-board-today">
         <div class="fetch-board-today-text">
@@ -1436,6 +1468,16 @@ main { max-width: 960px; margin: 0 auto; padding: 0 20px 64px; }
 .ladder-cell.ladder-top20 b { color: inherit; }
 .ladder-cell.ladder-top50 { background: var(--place3-soft); color: var(--place3-soft-ink); }
 .ladder-cell.ladder-top50 b { color: inherit; }
+
+.quick-result {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px;
+  margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--pending);
+  font-size: 11.5px;
+}
+.quick-result-label {
+  font: 700 10px/1 var(--sans); color: var(--pending); letter-spacing: 0.03em; flex: none;
+}
+.quick-result-body { color: var(--ink-muted); }
 
 .result-strip {
   display: flex; flex-wrap: wrap; align-items: center; gap: 6px;

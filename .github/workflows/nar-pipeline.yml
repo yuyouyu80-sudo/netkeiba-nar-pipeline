@@ -56,6 +56,15 @@ jobs:
       - name: Regenerate predictions
         run: python scripts/predict_top5_nar.py --date ${{ steps.date.outputs.date }}
 
+      - name: Fetch same-day quick results (nar.netkeiba.com, ahead of next-day official data)
+        env:
+          NETKEIBA_EMAIL: ${{ secrets.NETKEIBA_EMAIL }}
+          NETKEIBA_PASSWORD: ${{ secrets.NETKEIBA_PASSWORD }}
+        run: python scripts/fetch_quick_result_nar.py --date ${{ steps.date.outputs.date }}
+
+      - name: Recalculate confidence per race
+        run: python scripts/nar_model/confidence_per_race_nar.py
+
       - name: Build report HTML
         run: python scripts/build_artifact_nar.py
 
