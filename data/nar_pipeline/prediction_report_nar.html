@@ -1,4 +1,4 @@
-<title>地方競馬 馬柱データ予想 - 7/25・7/26・7/27・7/28(+7/29検証待ち)</title>
+<title>地方競馬 馬柱データ予想 - 7/25・7/26・7/27・7/28(+7/29・7/30検証待ち)</title>
 <style>
 :root {
   --bg: #ECEEEA;
@@ -326,7 +326,7 @@ a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outli
 
 <nav class="jumpnav">
   <div class="jumpnav-inner">
-    <span class="jumpnav-label">JUMP</span><a href="#sec-fetch-board">取得状況</a><a href="#sec-box">通常戦回収率</a><a href="#sec-box4">4頭BOX回収率</a><a href="#sec-box3">3頭BOX回収率</a><a href="#sec-box-shinba">新馬戦回収率</a><span class="jumpnav-group is-pending">検証待ち</span><a class="is-pending" href="#sec-20260729-timeline">7月29日(水) 発走時刻順(全競馬場)</a><span class="jumpnav-group">検証済み</span><a href="#sec-20260728-門別">7月28日(火) 門別</a><a href="#sec-20260728-盛岡">7月28日(火) 盛岡</a><a href="#sec-20260728-川崎">7月28日(火) 川崎</a><a href="#sec-20260728-金沢">7月28日(火) 金沢</a><a href="#sec-20260728-名古屋">7月28日(火) 名古屋</a><a href="#sec-20260727-盛岡">7月27日(月) 盛岡</a><a href="#sec-20260727-川崎">7月27日(月) 川崎</a><a href="#sec-20260727-金沢">7月27日(月) 金沢</a><a href="#sec-20260726-盛岡">7月26日(日) 盛岡</a><a href="#sec-20260726-金沢">7月26日(日) 金沢</a><a href="#sec-20260726-高知">7月26日(日) 高知</a><a href="#sec-20260725-高知">7月25日(土) 高知</a>
+    <span class="jumpnav-label">JUMP</span><a href="#sec-fetch-board">取得状況</a><a href="#sec-box">通常戦回収率</a><a href="#sec-box4">4頭BOX回収率</a><a href="#sec-box3">3頭BOX回収率</a><a href="#sec-box-shinba">新馬戦回収率</a><span class="jumpnav-group is-pending">検証待ち</span><a class="is-pending" href="#sec-20260730-timeline">7月30日(木) 発走時刻順(全競馬場)</a><a class="is-pending" href="#sec-20260729-timeline">7月29日(水) 発走時刻順(全競馬場)</a><span class="jumpnav-group">検証済み</span><a href="#sec-20260728-門別">7月28日(火) 門別</a><a href="#sec-20260728-盛岡">7月28日(火) 盛岡</a><a href="#sec-20260728-川崎">7月28日(火) 川崎</a><a href="#sec-20260728-金沢">7月28日(火) 金沢</a><a href="#sec-20260728-名古屋">7月28日(火) 名古屋</a><a href="#sec-20260727-盛岡">7月27日(月) 盛岡</a><a href="#sec-20260727-川崎">7月27日(月) 川崎</a><a href="#sec-20260727-金沢">7月27日(月) 金沢</a><a href="#sec-20260726-盛岡">7月26日(日) 盛岡</a><a href="#sec-20260726-金沢">7月26日(日) 金沢</a><a href="#sec-20260726-高知">7月26日(日) 高知</a><a href="#sec-20260725-高知">7月25日(土) 高知</a>
   </div>
 </nav>
 
@@ -334,7 +334,7 @@ a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outli
   <header class="masthead">
     <p class="eyebrow">NETKEIBA NEWSPAPER ANALYSIS - NAR</p>
     <h1 class="title">地方競馬 馬柱データによる着順予想</h1>
-    <p class="lede">2026年7月25日・26日・27日・28日開催の地方競馬(NAR)名古屋・川崎・盛岡・金沢・門別・高知を対象に、レースの性質(通常戦・新馬戦)に応じて専用にチューニングした2モデルで1着〜5着を予想。全128レースが対象です。単勝人気・オッズは分析軸に混ぜると循環参照になるため、いずれのモデルも予想スコアには一切使用していません(表には参考情報として併記のみ)。地方競馬の馬柱データには厩舎コメント欄・調教評価欄が存在しないため、枠番(waku)は表内で常に「-」表示、枠連のBOX回収率も検証対象外です。各モデルの詳細は下の「予想ロジックの内訳」で確認できます。 2026年7月29日開催分(47レース)も同じモデル体制で予想済みですが、結果・払戻データが未取得のため回収率検証はまだできていません(該当セクションに表示)。</p>
+    <p class="lede">2026年7月25日・26日・27日・28日開催の地方競馬(NAR)名古屋・川崎・盛岡・金沢・門別・高知を対象に、レースの性質(通常戦・新馬戦)に応じて専用にチューニングした2モデルで1着〜5着を予想。全128レースが対象です。単勝人気・オッズは分析軸に混ぜると循環参照になるため、いずれのモデルも予想スコアには一切使用していません(表には参考情報として併記のみ)。地方競馬の馬柱データには厩舎コメント欄・調教評価欄が存在しないため、枠番(waku)は表内で常に「-」表示、枠連のBOX回収率も検証対象外です。各モデルの詳細は下の「予想ロジックの内訳」で確認できます。 2026年7月29日・30日開催分(91レース)も同じモデル体制で予想済みですが、結果・払戻データが未取得のため回収率検証はまだできていません(該当セクションに表示)。</p>
     <details class="method">
       <summary>通常戦モデルの内訳(予想5頭、300パターン自由探索(差のある重み、pattern#157、box_n=4))</summary>
       <ul>
@@ -473,6 +473,13 @@ python scripts/run_pilot.py --date {DATE} --circuit nar">📋 本日分のコマ
         <table class="box-table fetch-board-table">
           <thead><tr><th>日付</th><th>newspaper</th><th>レース結果と払戻</th><th>モデリング</th><th>最新オッズ・馬体重</th></tr></thead>
           <tbody><tr>
+      <td class="fb-date">7月30日(木)</td>
+      <td class="fb-cell is-done"><span class="status-badge is-done">完了</span></td>
+      <td class="fb-cell is-todo"><span class="status-badge is-todo">未取得</span><button type="button" class="copy-btn" data-copy="python scripts/run_pilot.py --date 20260730 --circuit nar">📋 コマンドをコピー</button></td>
+      <td class="fb-cell is-done"><span class="status-badge is-done">完了</span></td>
+      <td class="fb-cell"><button type="button" class="copy-btn" data-copy="python scripts/refresh_bias.py --date 20260730 --circuit nar
+python scripts/predict_top5_nar.py --date 20260730">📋 最新オッズを再取得</button></td>
+    </tr><tr>
       <td class="fb-date">7月29日(水)</td>
       <td class="fb-cell is-done"><span class="status-badge is-done">完了</span></td>
       <td class="fb-cell is-todo"><span class="status-badge is-todo">未取得</span><button type="button" class="copy-btn" data-copy="python scripts/run_pilot.py --date 20260729 --circuit nar">📋 コマンドをコピー</button></td>
@@ -1988,6 +1995,3539 @@ python scripts/predict_top5_nar.py --date 20260729">📋 最新オッズを再�
     </section>
 
   
+    <section class="pending-section" id="sec-pending-20260730">
+      <h2 class="date-head">7月30日(木)<span class="status-badge is-pending">検証待ち</span></h2>
+      <p class="pending-note">
+        この日の結果・払戻データはまだ存在しないため、的中率・回収率の検証はできません。
+        人気・オッズは前日〜当日朝時点の値です。結果反映後に更新予定です。
+        当日分は競馬場ごとではなく、発走時刻順に全競馬場を横断して並べています。
+      </p>
+      
+        <section class="course-block" id="sec-20260730-timeline">
+          <h3 class="course-head">発走時刻順・全競馬場<span class="course-count">44R</span></h3>
+          <div class="race-grid">
+    <article class="race-card" id="race-202650073001">
+      <header class="race-head">
+        <span class="race-num">1R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202650073001" target="_blank" rel="noopener">C3三</a></h3>
+          <p class="race-sub">園田・ダート1400m・発走10:40</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">4</td>
+              <td class="c-name">フッカツラヴ<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">2.3</td>
+              <td class="c-weight">429kg (+3)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:77%"></div></div>
+                <span class="score-num">77</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">1</td>
+              <td class="c-name">リケアクスクス<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">1.6</td>
+              <td class="c-weight">472kg</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:75%"></div></div>
+                <span class="score-num">75</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">タッタタラリラ<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">7人気</td>
+              <td class="c-odds">64.9</td>
+              <td class="c-weight">405kg (-2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:46%"></div></div>
+                <span class="score-num">46</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">6</td>
+              <td class="c-name">ヤシロスマイリー<span class="mark"></span></td>
+              <td class="c-ninki">6人気</td>
+              <td class="c-odds">45.9</td>
+              <td class="c-weight">471kg (+6)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:36%"></div></div>
+                <span class="score-num">36</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">3</td>
+              <td class="c-name">ララパサージュ<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">43.0</td>
+              <td class="c-weight">447kg (-1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:32%"></div></div>
+                <span class="score-num">32</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202650073002">
+      <header class="race-head">
+        <span class="race-num">2R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202650073002" target="_blank" rel="noopener">C3二</a></h3>
+          <p class="race-sub">園田・ダート1400m・発走11:10</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">10</td>
+              <td class="c-name">エイシンリーパー<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">1.4</td>
+              <td class="c-weight">481kg (-8)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:81%"></div></div>
+                <span class="score-num">81</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">8</td>
+              <td class="c-name">アラタマノキセキ<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">7.4</td>
+              <td class="c-weight">452kg (-3)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:63%"></div></div>
+                <span class="score-num">63</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">2</td>
+              <td class="c-name">ナムラダニー<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">12.4</td>
+              <td class="c-weight">445kg (-5)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:46%"></div></div>
+                <span class="score-num">46</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">プライムテーラー<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">8.3</td>
+              <td class="c-weight">447kg (+3)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:44%"></div></div>
+                <span class="score-num">44</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">スカリーワグ<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">11.2</td>
+              <td class="c-weight">498kg (+6)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:43%"></div></div>
+                <span class="score-num">43</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202650073003">
+      <header class="race-head">
+        <span class="race-num">3R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202650073003" target="_blank" rel="noopener">C3二</a></h3>
+          <p class="race-sub">園田・ダート820m・発走11:40</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">3</td>
+              <td class="c-name">タマノルーナ<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">3.6</td>
+              <td class="c-weight">448kg (-2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:77%"></div></div>
+                <span class="score-num">77</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">12</td>
+              <td class="c-name">スカイライズ<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">2.5</td>
+              <td class="c-weight">471kg (-4)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:52%"></div></div>
+                <span class="score-num">52</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">2</td>
+              <td class="c-name">モモノコトノハ<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">6.8</td>
+              <td class="c-weight">469kg (-4)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:51%"></div></div>
+                <span class="score-num">51</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">11</td>
+              <td class="c-name">キャスパインパクト<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">4.6</td>
+              <td class="c-weight">446kg (+4)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:50%"></div></div>
+                <span class="score-num">50</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">モンシュヴァル<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">12.2</td>
+              <td class="c-weight">460kg (+7)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:49%"></div></div>
+                <span class="score-num">49</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202650073004">
+      <header class="race-head">
+        <span class="race-num">4R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202650073004" target="_blank" rel="noopener">遠方7ハロンC3一</a></h3>
+          <p class="race-sub">園田・ダート1400m・発走12:10</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">4</td>
+              <td class="c-name">スマートレイヴ<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">9.0</td>
+              <td class="c-weight">440kg (-4)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:61%"></div></div>
+                <span class="score-num">61</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">10</td>
+              <td class="c-name">カイラシ<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">3.6</td>
+              <td class="c-weight">446kg (±0)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:51%"></div></div>
+                <span class="score-num">51</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">リゴートゥー<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">3.0</td>
+              <td class="c-weight">447kg (-3)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:50%"></div></div>
+                <span class="score-num">50</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">9</td>
+              <td class="c-name">クールジャーマン<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">5.0</td>
+              <td class="c-weight">476kg (+5)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:49%"></div></div>
+                <span class="score-num">49</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">オースミストロング<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">3.9</td>
+              <td class="c-weight">490kg (-5)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:43%"></div></div>
+                <span class="score-num">43</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202650073005">
+      <header class="race-head">
+        <span class="race-num">5R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202650073005" target="_blank" rel="noopener">古森7ハロンC2二</a></h3>
+          <p class="race-sub">園田・ダート1400m・発走12:45</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">1</td>
+              <td class="c-name">ワンダーグァルネリ<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">5.6</td>
+              <td class="c-weight">426kg (-1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:81%"></div></div>
+                <span class="score-num">81</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">4</td>
+              <td class="c-name">メイショウシュート<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">4.6</td>
+              <td class="c-weight">473kg (+3)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:66%"></div></div>
+                <span class="score-num">66</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">6</td>
+              <td class="c-name">ナリタゲッコウ<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">8.5</td>
+              <td class="c-weight">412kg (+6)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:53%"></div></div>
+                <span class="score-num">53</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">クールブレーブ<span class="mark"></span></td>
+              <td class="c-ninki">7人気</td>
+              <td class="c-odds">22.4</td>
+              <td class="c-weight">480kg (-12)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:53%"></div></div>
+                <span class="score-num">53</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">3</td>
+              <td class="c-name">アスターリコッタ<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">4.1</td>
+              <td class="c-weight">429kg (-2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:46%"></div></div>
+                <span class="score-num">46</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202650073006">
+      <header class="race-head">
+        <span class="race-num">6R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202650073006" target="_blank" rel="noopener">C3一</a></h3>
+          <p class="race-sub">園田・ダート820m・発走13:15</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">ウィンビュー<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">3.6</td>
+              <td class="c-weight">476kg (+44)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:67%"></div></div>
+                <span class="score-num">67</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">12</td>
+              <td class="c-name">セイウンスペリオル<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">5.3</td>
+              <td class="c-weight">473kg (-1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:65%"></div></div>
+                <span class="score-num">65</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">1</td>
+              <td class="c-name">カツ<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">7人気</td>
+              <td class="c-odds">33.6</td>
+              <td class="c-weight">477kg (-3)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:61%"></div></div>
+                <span class="score-num">61</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">4</td>
+              <td class="c-name">バイカル<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">21.2</td>
+              <td class="c-weight">499kg (+6)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:60%"></div></div>
+                <span class="score-num">60</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">9</td>
+              <td class="c-name">ラヴスティンガー<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">1.9</td>
+              <td class="c-weight">510kg (+8)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:55%"></div></div>
+                <span class="score-num">55</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202650073007">
+      <header class="race-head">
+        <span class="race-num">7R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202650073007" target="_blank" rel="noopener">C2一</a></h3>
+          <p class="race-sub">園田・ダート1400m・発走13:50</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">2</td>
+              <td class="c-name">アラン<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">1.1</td>
+              <td class="c-weight">522kg (+5)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:71%"></div></div>
+                <span class="score-num">71</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">ヴァリラプトル<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">7人気</td>
+              <td class="c-odds">54.6</td>
+              <td class="c-weight">428kg (-4)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:66%"></div></div>
+                <span class="score-num">66</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">10</td>
+              <td class="c-name">ミライチケット<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">37.7</td>
+              <td class="c-weight">446kg (-5)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:48%"></div></div>
+                <span class="score-num">48</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">1</td>
+              <td class="c-name">チョウウマクイク<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">5.7</td>
+              <td class="c-weight">474kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:47%"></div></div>
+                <span class="score-num">47</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">9</td>
+              <td class="c-name">ビガーサンライズ<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">19.3</td>
+              <td class="c-weight">394kg (±0)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:45%"></div></div>
+                <span class="score-num">45</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202648073001">
+      <header class="race-head">
+        <span class="race-num">1R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202648073001" target="_blank" rel="noopener">名古屋モーニングフィーバー10(3歳)</a></h3>
+          <p class="race-sub">名古屋・ダート1500m・発走14:10</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">3</td>
+              <td class="c-name">ハタノグランクリュ<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">4.2</td>
+              <td class="c-weight">462kg (-2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:73%"></div></div>
+                <span class="score-num">73</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">フローラルウェイ<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">10人気</td>
+              <td class="c-odds">131.7</td>
+              <td class="c-weight">453kg (-3)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:65%"></div></div>
+                <span class="score-num">65</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">9</td>
+              <td class="c-name">アウトリュコス<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">7.1</td>
+              <td class="c-weight">534kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:61%"></div></div>
+                <span class="score-num">61</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">8</td>
+              <td class="c-name">テリオスヒナ<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">1.5</td>
+              <td class="c-weight">461kg (+4)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:60%"></div></div>
+                <span class="score-num">60</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">ヘヴンリースカイ<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">16.4</td>
+              <td class="c-weight">482kg (+3)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:51%"></div></div>
+                <span class="score-num">51</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202650073008">
+      <header class="race-head">
+        <span class="race-num">8R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202650073008" target="_blank" rel="noopener">JRA認定アッパートライ競走</a></h3>
+          <p class="race-sub">園田・ダート1400m・発走14:25</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">6</td>
+              <td class="c-name">ソウルアンドソウル<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">2.3</td>
+              <td class="c-weight">429kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:71%"></div></div>
+                <span class="score-num">71</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">3</td>
+              <td class="c-name">ゴッズフェイヴリト<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">1.9</td>
+              <td class="c-weight">422kg (+4)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:68%"></div></div>
+                <span class="score-num">68</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">4</td>
+              <td class="c-name">モズハート<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">5.5</td>
+              <td class="c-weight">481kg (-2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:59%"></div></div>
+                <span class="score-num">59</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">ヒナデコルテ<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">8.6</td>
+              <td class="c-weight">438kg (-1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:57%"></div></div>
+                <span class="score-num">57</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">クイーンピロコ<span class="mark"></span></td>
+              <td class="c-ninki">6人気</td>
+              <td class="c-odds">250.8</td>
+              <td class="c-weight">427kg (-1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:27%"></div></div>
+                <span class="score-num">27</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202648073002">
+      <header class="race-head">
+        <span class="race-num">2R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202648073002" target="_blank" rel="noopener">2歳2組</a></h3>
+          <p class="race-sub">名古屋・ダート1500m・発走14:40</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">ケイズヴェロシティ<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">1.7</td>
+              <td class="c-weight">467kg (-1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:84%"></div></div>
+                <span class="score-num">84</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">1</td>
+              <td class="c-name">ラルスチェイサー<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">7人気</td>
+              <td class="c-odds">53.7</td>
+              <td class="c-weight">431kg (+8)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:74%"></div></div>
+                <span class="score-num">74</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">8</td>
+              <td class="c-name">ヘルツクライス<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">9人気</td>
+              <td class="c-odds">94.2</td>
+              <td class="c-weight">437kg (-1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:64%"></div></div>
+                <span class="score-num">64</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">カクシンパーティー<span class="mark"></span></td>
+              <td class="c-ninki">6人気</td>
+              <td class="c-odds">28.1</td>
+              <td class="c-weight">387kg (+13)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:61%"></div></div>
+                <span class="score-num">61</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">9</td>
+              <td class="c-name">ルクスオリジン<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">9.8</td>
+              <td class="c-weight">405kg (±0)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:56%"></div></div>
+                <span class="score-num">56</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202650073009">
+      <header class="race-head">
+        <span class="race-num">9R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202650073009" target="_blank" rel="noopener">B2</a></h3>
+          <p class="race-sub">園田・ダート1230m・発走15:00</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">1</td>
+              <td class="c-name">セクシーキャット<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">4.5</td>
+              <td class="c-weight">492kg (±0)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:63%"></div></div>
+                <span class="score-num">63</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">3</td>
+              <td class="c-name">エイシンリガーズ<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">1.2</td>
+              <td class="c-weight">512kg (+1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:60%"></div></div>
+                <span class="score-num">60</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">ジューンコメット<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">23.5</td>
+              <td class="c-weight">503kg (-2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:60%"></div></div>
+                <span class="score-num">60</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">8</td>
+              <td class="c-name">ファンシンレディー<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">11.2</td>
+              <td class="c-weight">454kg (±0)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:55%"></div></div>
+                <span class="score-num">55</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">2</td>
+              <td class="c-name">エルピーゾ<span class="mark"></span></td>
+              <td class="c-ninki">6人気</td>
+              <td class="c-odds">29.9</td>
+              <td class="c-weight">502kg (-4)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:42%"></div></div>
+                <span class="score-num">42</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202645073001">
+      <header class="race-head">
+        <span class="race-num">1R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202645073001" target="_blank" rel="noopener">ヒラマサ賞(C3)</a></h3>
+          <p class="race-sub">川崎・ダート900m・発走15:00</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">11</td>
+              <td class="c-name">アンジュラプソディ<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">8.6</td>
+              <td class="c-weight">513kg (-8)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:71%"></div></div>
+                <span class="score-num">71</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">6</td>
+              <td class="c-name">ドラマツルギー<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">2.4</td>
+              <td class="c-weight">420kg (-3)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:58%"></div></div>
+                <span class="score-num">58</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">コーリングヘニー<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">3.0</td>
+              <td class="c-weight">545kg (-19)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:54%"></div></div>
+                <span class="score-num">54</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">12</td>
+              <td class="c-name">タノシサ<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">14.4</td>
+              <td class="c-weight">486kg (+6)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:51%"></div></div>
+                <span class="score-num">51</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">カウニスミエリ<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">4.3</td>
+              <td class="c-weight">420kg (-8)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:49%"></div></div>
+                <span class="score-num">49</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202648073003">
+      <header class="race-head">
+        <span class="race-num">3R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202648073003" target="_blank" rel="noopener">サンシャイン特別(2歳)</a></h3>
+          <p class="race-sub">名古屋・ダート1500m・発走15:15</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">9</td>
+              <td class="c-name">エンジェルリング<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">3.6</td>
+              <td class="c-weight">441kg (±0)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:74%"></div></div>
+                <span class="score-num">74</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">10</td>
+              <td class="c-name">ロイヤルアンバー<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">2.3</td>
+              <td class="c-weight">463kg (-2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:71%"></div></div>
+                <span class="score-num">71</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">シルダリヤ<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">6人気</td>
+              <td class="c-odds">19.5</td>
+              <td class="c-weight">481kg (+4)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:66%"></div></div>
+                <span class="score-num">66</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">2</td>
+              <td class="c-name">リュウワンニーケー<span class="mark"></span></td>
+              <td class="c-ninki">8人気</td>
+              <td class="c-odds">61.4</td>
+              <td class="c-weight">377kg (-2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:61%"></div></div>
+                <span class="score-num">61</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">1</td>
+              <td class="c-name">アルバイトボシュウ<span class="mark"></span></td>
+              <td class="c-ninki">10人気</td>
+              <td class="c-odds">183.7</td>
+              <td class="c-weight">408kg (+4)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:55%"></div></div>
+                <span class="score-num">55</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202630073003">
+      <header class="race-head">
+        <span class="race-num">3R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202630073003" target="_blank" rel="noopener">3歳以上 C4ー2</a></h3>
+          <p class="race-sub">門別・ダート1200m・発走15:25</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">4</td>
+              <td class="c-name">スティールアンバー<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">3.7</td>
+              <td class="c-weight">494kg (-10)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:81%"></div></div>
+                <span class="score-num">81</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">10</td>
+              <td class="c-name">ブラストブラック<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">1.4</td>
+              <td class="c-weight">470kg (-2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:79%"></div></div>
+                <span class="score-num">79</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">3</td>
+              <td class="c-name">ブールドネージュ<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">8.3</td>
+              <td class="c-weight">456kg (-2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:54%"></div></div>
+                <span class="score-num">54</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">6</td>
+              <td class="c-name">ピンクサウスポー<span class="mark"></span></td>
+              <td class="c-ninki">6人気</td>
+              <td class="c-odds">102.1</td>
+              <td class="c-weight">462kg (-8)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:51%"></div></div>
+                <span class="score-num">51</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">スーパーブラザー<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">22.5</td>
+              <td class="c-weight">570kg (-24)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:47%"></div></div>
+                <span class="score-num">47</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202645073002">
+      <header class="race-head">
+        <span class="race-num">2R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202645073002" target="_blank" rel="noopener">C2一二</a></h3>
+          <p class="race-sub">川崎・ダート1400m・発走15:30</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">ライヴバフィ<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">1.8</td>
+              <td class="c-weight">485kg (+11)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:72%"></div></div>
+                <span class="score-num">72</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">6</td>
+              <td class="c-name">シェナベスト<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">6人気</td>
+              <td class="c-odds">14.8</td>
+              <td class="c-weight">478kg (+1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:66%"></div></div>
+                <span class="score-num">66</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">2</td>
+              <td class="c-name">ベルレオーネ<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">3.4</td>
+              <td class="c-weight">469kg (-3)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:64%"></div></div>
+                <span class="score-num">64</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">3</td>
+              <td class="c-name">ピコグリーン<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">9.6</td>
+              <td class="c-weight">460kg (+9)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:55%"></div></div>
+                <span class="score-num">55</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">10</td>
+              <td class="c-name">トーセンアデレード<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">12.9</td>
+              <td class="c-weight">434kg (±0)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:44%"></div></div>
+                <span class="score-num">44</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202650073010">
+      <header class="race-head">
+        <span class="race-num">10R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202650073010" target="_blank" rel="noopener">C1</a></h3>
+          <p class="race-sub">園田・ダート820m・発走15:40</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">10</td>
+              <td class="c-name">フィオリーノ<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">3.3</td>
+              <td class="c-weight">467kg (-7)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:77%"></div></div>
+                <span class="score-num">77</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">12</td>
+              <td class="c-name">サチノメグミ<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">3.8</td>
+              <td class="c-weight">494kg (+5)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:76%"></div></div>
+                <span class="score-num">76</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">サマーエンジェル<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">2.3</td>
+              <td class="c-weight">481kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:61%"></div></div>
+                <span class="score-num">61</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">1</td>
+              <td class="c-name">スービーズ<span class="mark"></span></td>
+              <td class="c-ninki">8人気</td>
+              <td class="c-odds">44.6</td>
+              <td class="c-weight">456kg (-8)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:52%"></div></div>
+                <span class="score-num">52</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">9</td>
+              <td class="c-name">ミキヨウッドテール<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">11.3</td>
+              <td class="c-weight">473kg (+5)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:48%"></div></div>
+                <span class="score-num">48</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202648073004">
+      <header class="race-head">
+        <span class="race-num">4R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202648073004" target="_blank" rel="noopener">名古屋から世界へ!馬主デビュー(3歳)</a></h3>
+          <p class="race-sub">名古屋・ダート1500m・発走15:50</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">2</td>
+              <td class="c-name">ベベペッパー<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">2.0</td>
+              <td class="c-weight">442kg (-4)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:74%"></div></div>
+                <span class="score-num">74</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">8</td>
+              <td class="c-name">ベイビーメイビー<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">3.8</td>
+              <td class="c-weight">439kg (-3)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:55%"></div></div>
+                <span class="score-num">55</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">ゴッドシュアウイン<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">6.6</td>
+              <td class="c-weight">494kg (-11)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:52%"></div></div>
+                <span class="score-num">52</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">11</td>
+              <td class="c-name">エバーウインド<span class="mark"></span></td>
+              <td class="c-ninki">7人気</td>
+              <td class="c-odds">39.2</td>
+              <td class="c-weight">443kg (+9)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:44%"></div></div>
+                <span class="score-num">44</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">6</td>
+              <td class="c-name">ウインクリンゲル<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">5.7</td>
+              <td class="c-weight">523kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:43%"></div></div>
+                <span class="score-num">43</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202630073004">
+      <header class="race-head">
+        <span class="race-num">4R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202630073004" target="_blank" rel="noopener">3歳以上 C3ー2 C4ー1</a></h3>
+          <p class="race-sub">門別・ダート1200m・発走16:00</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">4</td>
+              <td class="c-name">コウユーダイダイ<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">4.3</td>
+              <td class="c-weight">526kg (+8)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:76%"></div></div>
+                <span class="score-num">76</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">ガイストゼーゲン<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">1.6</td>
+              <td class="c-weight">526kg (+4)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:68%"></div></div>
+                <span class="score-num">68</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">オギフシノチカイ<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">4.3</td>
+              <td class="c-weight">454kg (+12)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:66%"></div></div>
+                <span class="score-num">66</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">3</td>
+              <td class="c-name">カセノフォルス<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">7.2</td>
+              <td class="c-weight">466kg (-8)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:55%"></div></div>
+                <span class="score-num">55</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">2</td>
+              <td class="c-name">ロピア<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">27.1</td>
+              <td class="c-weight">466kg (±0)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:40%"></div></div>
+                <span class="score-num">40</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202650073011">
+      <header class="race-head">
+        <span class="race-num">11R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202650073011" target="_blank" rel="noopener">丹波篠山デカンショ特別B1</a></h3>
+          <p class="race-sub">園田・ダート1230m・発走16:15</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">1</td>
+              <td class="c-name">ベラジオドリーム<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">1.0</td>
+              <td class="c-weight">500kg (+1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:85%"></div></div>
+                <span class="score-num">85</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">8</td>
+              <td class="c-name">ハイラブソング<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">5.6</td>
+              <td class="c-weight">446kg (+1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:62%"></div></div>
+                <span class="score-num">62</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">4</td>
+              <td class="c-name">シュネルクィーン<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">10.1</td>
+              <td class="c-weight">468kg (+3)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:61%"></div></div>
+                <span class="score-num">61</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">ソレア<span class="mark"></span></td>
+              <td class="c-ninki">6人気</td>
+              <td class="c-odds">174.5</td>
+              <td class="c-weight">430kg (+1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:52%"></div></div>
+                <span class="score-num">52</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">2</td>
+              <td class="c-name">トリニティノット<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">137.7</td>
+              <td class="c-weight">486kg (-1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:50%"></div></div>
+                <span class="score-num">50</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202648073005">
+      <header class="race-head">
+        <span class="race-num">5R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202648073005" target="_blank" rel="noopener">ハンブルグ疾風戦(3歳)</a></h3>
+          <p class="race-sub">名古屋・ダート920m・発走16:25</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">9</td>
+              <td class="c-name">フェスティヴニーサ<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">6.3</td>
+              <td class="c-weight">455kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:70%"></div></div>
+                <span class="score-num">70</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">11</td>
+              <td class="c-name">ユイノレジスタンス<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">6.1</td>
+              <td class="c-weight">484kg (+3)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:64%"></div></div>
+                <span class="score-num">64</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">クィーンズローズ<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">8人気</td>
+              <td class="c-odds">27.8</td>
+              <td class="c-weight">493kg (±0)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:58%"></div></div>
+                <span class="score-num">58</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">6</td>
+              <td class="c-name">ブルーアンバー<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">4.3</td>
+              <td class="c-weight">411kg (-7)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:56%"></div></div>
+                <span class="score-num">56</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">8</td>
+              <td class="c-name">ケイズシャーロット<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">2.2</td>
+              <td class="c-weight">487kg (+8)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:55%"></div></div>
+                <span class="score-num">55</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202630073005">
+      <header class="race-head">
+        <span class="race-num">5R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202630073005" target="_blank" rel="noopener">JRA認定競走アタックチャレンジ競走(2歳)</a></h3>
+          <p class="race-sub">門別・ダート1700m・発走16:35</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">ウィンターキャビン<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">3.4</td>
+              <td class="c-weight">468kg (-4)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:72%"></div></div>
+                <span class="score-num">72</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">8</td>
+              <td class="c-name">レモンサワー<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">11.1</td>
+              <td class="c-weight">462kg (-8)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:69%"></div></div>
+                <span class="score-num">69</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">6</td>
+              <td class="c-name">リガンド<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">1.9</td>
+              <td class="c-weight">484kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:61%"></div></div>
+                <span class="score-num">61</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">9</td>
+              <td class="c-name">アオフガーベ<span class="mark"></span></td>
+              <td class="c-ninki">7人気</td>
+              <td class="c-odds">19.0</td>
+              <td class="c-weight">474kg (+10)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:56%"></div></div>
+                <span class="score-num">56</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">2</td>
+              <td class="c-name">カストール<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">11.3</td>
+              <td class="c-weight">476kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:46%"></div></div>
+                <span class="score-num">46</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202650073012">
+      <header class="race-head">
+        <span class="race-num">12R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202650073012" target="_blank" rel="noopener">C2</a></h3>
+          <p class="race-sub">園田・ダート1700m・発走16:50</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">11</td>
+              <td class="c-name">ザタイムズ<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">3.0</td>
+              <td class="c-weight">448kg (+3)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:70%"></div></div>
+                <span class="score-num">70</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">4</td>
+              <td class="c-name">サンミゲル<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">2.3</td>
+              <td class="c-weight">506kg (-2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:65%"></div></div>
+                <span class="score-num">65</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">6</td>
+              <td class="c-name">ビカムキング<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">15.3</td>
+              <td class="c-weight">521kg (±0)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:62%"></div></div>
+                <span class="score-num">62</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">1</td>
+              <td class="c-name">ヴィクトリーアイ<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">15.2</td>
+              <td class="c-weight">454kg (-7)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:47%"></div></div>
+                <span class="score-num">47</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">3</td>
+              <td class="c-name">アテナガール<span class="mark"></span></td>
+              <td class="c-ninki">9人気</td>
+              <td class="c-odds">39.8</td>
+              <td class="c-weight">474kg (-2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:44%"></div></div>
+                <span class="score-num">44</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202645073005">
+      <header class="race-head">
+        <span class="race-num">5R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202645073005" target="_blank" rel="noopener">C2一二</a></h3>
+          <p class="race-sub">川崎・ダート1400m・発走17:00</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">9</td>
+              <td class="c-name">ゼンダントモニ<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">2.9</td>
+              <td class="c-weight">473kg (±0)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:82%"></div></div>
+                <span class="score-num">82</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">4</td>
+              <td class="c-name">マッセダムール<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">2.6</td>
+              <td class="c-weight">456kg (+3)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:73%"></div></div>
+                <span class="score-num">73</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">2</td>
+              <td class="c-name">ウインプリームス<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">12.0</td>
+              <td class="c-weight">464kg (+8)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:50%"></div></div>
+                <span class="score-num">50</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">1</td>
+              <td class="c-name">フリージングフォグ<span class="mark"></span></td>
+              <td class="c-ninki">7人気</td>
+              <td class="c-odds">18.9</td>
+              <td class="c-weight">479kg (+4)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:49%"></div></div>
+                <span class="score-num">49</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">オリコウパラダイス<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">9.4</td>
+              <td class="c-weight">480kg (+1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:48%"></div></div>
+                <span class="score-num">48</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202648073006">
+      <header class="race-head">
+        <span class="race-num">6R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202648073006" target="_blank" rel="noopener">C5組</a></h3>
+          <p class="race-sub">名古屋・ダート1500m・発走17:05</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">3</td>
+              <td class="c-name">ラヴァーズブルー<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">2.0</td>
+              <td class="c-weight">463kg (-1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:85%"></div></div>
+                <span class="score-num">85</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">セブンスプリングス<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">10.9</td>
+              <td class="c-weight">467kg (-7)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:66%"></div></div>
+                <span class="score-num">66</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">11</td>
+              <td class="c-name">ニホンピログリット<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">7人気</td>
+              <td class="c-odds">40.6</td>
+              <td class="c-weight">529kg (±0)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:62%"></div></div>
+                <span class="score-num">62</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">4</td>
+              <td class="c-name">チャットケリー<span class="mark"></span></td>
+              <td class="c-ninki">6人気</td>
+              <td class="c-odds">37.7</td>
+              <td class="c-weight">437kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:55%"></div></div>
+                <span class="score-num">55</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">2</td>
+              <td class="c-name">ポムドール<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">2.1</td>
+              <td class="c-weight">490kg (+28)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:52%"></div></div>
+                <span class="score-num">52</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202630073006">
+      <header class="race-head">
+        <span class="race-num">6R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202630073006" target="_blank" rel="noopener">JRA認定競走フレッシュチャレンジ競走(2歳)</a></h3>
+          <p class="race-sub">門別・ダート1000m・発走17:10</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">ザーゲアバンティ<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">17.3</td>
+              <td class="c-weight">434kg</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:80%"></div></div>
+                <span class="score-num">80</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">9</td>
+              <td class="c-name">ファイヤーパターン<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">1.3</td>
+              <td class="c-weight">422kg</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:74%"></div></div>
+                <span class="score-num">74</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">3</td>
+              <td class="c-name">ダンストンフォルテ<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">7.6</td>
+              <td class="c-weight">444kg</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:70%"></div></div>
+                <span class="score-num">70</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">4</td>
+              <td class="c-name">エムティアイビー<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">18.6</td>
+              <td class="c-weight">444kg</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:68%"></div></div>
+                <span class="score-num">68</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">8</td>
+              <td class="c-name">ゼニスアスラーダ<span class="mark"></span></td>
+              <td class="c-ninki">8人気</td>
+              <td class="c-odds">80.1</td>
+              <td class="c-weight">412kg</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:55%"></div></div>
+                <span class="score-num">55</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202645073006">
+      <header class="race-head">
+        <span class="race-num">6R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202645073006" target="_blank" rel="noopener">雷鳴賞(C2)</a></h3>
+          <p class="race-sub">川崎・ダート900m・発走17:30</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">11</td>
+              <td class="c-name">エースクイーン<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">1.8</td>
+              <td class="c-weight">443kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:74%"></div></div>
+                <span class="score-num">74</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">10</td>
+              <td class="c-name">ミツカネエリーズ<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">12.5</td>
+              <td class="c-weight">479kg (+6)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:67%"></div></div>
+                <span class="score-num">67</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">9</td>
+              <td class="c-name">ブリテン<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">3.1</td>
+              <td class="c-weight">520kg (+7)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:54%"></div></div>
+                <span class="score-num">54</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">3</td>
+              <td class="c-name">パイナ<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">8.4</td>
+              <td class="c-weight">456kg (-1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:42%"></div></div>
+                <span class="score-num">42</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">シンシアビューティ<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">17.4</td>
+              <td class="c-weight">484kg (+22)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:40%"></div></div>
+                <span class="score-num">40</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202648073007">
+      <header class="race-head">
+        <span class="race-num">7R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202648073007" target="_blank" rel="noopener">南陽賞(C)</a></h3>
+          <p class="race-sub">名古屋・ダート1400m・発走17:40</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">4</td>
+              <td class="c-name">マンノミューズ<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">3.7</td>
+              <td class="c-weight">444kg (+3)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:71%"></div></div>
+                <span class="score-num">71</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">9</td>
+              <td class="c-name">トモエゴゼン<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">2.5</td>
+              <td class="c-weight">493kg (-2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:68%"></div></div>
+                <span class="score-num">68</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">メイショウイチモン<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">2.9</td>
+              <td class="c-weight">510kg (-1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:63%"></div></div>
+                <span class="score-num">63</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">10</td>
+              <td class="c-name">アミアン<span class="mark"></span></td>
+              <td class="c-ninki">6人気</td>
+              <td class="c-odds">49.8</td>
+              <td class="c-weight">431kg (-1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:44%"></div></div>
+                <span class="score-num">44</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">パープルルージュ<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">6.1</td>
+              <td class="c-weight">434kg (+9)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:43%"></div></div>
+                <span class="score-num">43</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202630073007">
+      <header class="race-head">
+        <span class="race-num">7R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202630073007" target="_blank" rel="noopener">3歳以上 C3ー2 C4ー1</a></h3>
+          <p class="race-sub">門別・ダート1200m・発走17:45</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">キタサンモンドー<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">3.7</td>
+              <td class="c-weight">494kg (-6)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:75%"></div></div>
+                <span class="score-num">75</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">1</td>
+              <td class="c-name">ウォーキャット<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">10.1</td>
+              <td class="c-weight">462kg (±0)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:73%"></div></div>
+                <span class="score-num">73</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">9</td>
+              <td class="c-name">ジューンランド<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">3.8</td>
+              <td class="c-weight">464kg (-6)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:69%"></div></div>
+                <span class="score-num">69</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">6</td>
+              <td class="c-name">アサガオ<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">9.0</td>
+              <td class="c-weight">488kg (+6)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:63%"></div></div>
+                <span class="score-num">63</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">8</td>
+              <td class="c-name">ラジャアンパット<span class="mark"></span></td>
+              <td class="c-ninki">6人気</td>
+              <td class="c-odds">22.8</td>
+              <td class="c-weight">522kg (-10)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:53%"></div></div>
+                <span class="score-num">53</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202645073007">
+      <header class="race-head">
+        <span class="race-num">7R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202645073007" target="_blank" rel="noopener">デギュスタシオン賞(C2)</a></h3>
+          <p class="race-sub">川崎・ダート1500m・発走18:00</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">6</td>
+              <td class="c-name">サクセスベージュ<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">3.7</td>
+              <td class="c-weight">474kg (-7)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:73%"></div></div>
+                <span class="score-num">73</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">3</td>
+              <td class="c-name">エクセルブラック<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">4.4</td>
+              <td class="c-weight">449kg (-12)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:56%"></div></div>
+                <span class="score-num">56</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">ベラヴィットーリア<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">7人気</td>
+              <td class="c-odds">16.6</td>
+              <td class="c-weight">520kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:55%"></div></div>
+                <span class="score-num">55</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">9</td>
+              <td class="c-name">エールラヴィクトワ<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">6.4</td>
+              <td class="c-weight">439kg (-4)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:52%"></div></div>
+                <span class="score-num">52</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">13</td>
+              <td class="c-name">ブランディストック<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">12.6</td>
+              <td class="c-weight">488kg (-1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:48%"></div></div>
+                <span class="score-num">48</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202648073008">
+      <header class="race-head">
+        <span class="race-num">8R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202648073008" target="_blank" rel="noopener">B8組</a></h3>
+          <p class="race-sub">名古屋・ダート1500m・発走18:10</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">8</td>
+              <td class="c-name">ハーピークオーレ<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">4.1</td>
+              <td class="c-weight">465kg (+8)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:71%"></div></div>
+                <span class="score-num">71</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">1</td>
+              <td class="c-name">リンクスターツ<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">4.5</td>
+              <td class="c-weight">432kg (-8)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:61%"></div></div>
+                <span class="score-num">61</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">11</td>
+              <td class="c-name">グールマン<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">10人気</td>
+              <td class="c-odds">27.1</td>
+              <td class="c-weight">515kg (-1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:58%"></div></div>
+                <span class="score-num">58</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">シャッフルガール<span class="mark"></span></td>
+              <td class="c-ninki">7人気</td>
+              <td class="c-odds">11.4</td>
+              <td class="c-weight">459kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:57%"></div></div>
+                <span class="score-num">57</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">10</td>
+              <td class="c-name">エドノバイオレット<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">6.9</td>
+              <td class="c-weight">474kg (-1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:57%"></div></div>
+                <span class="score-num">57</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202630073008">
+      <header class="race-head">
+        <span class="race-num">8R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202630073008" target="_blank" rel="noopener">JRA認定競走ウィナーズチャレンジ3競走(2歳)OP</a></h3>
+          <p class="race-sub">門別・ダート1700m・発走18:15</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">ゴーゴーミツヒコ<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">11.5</td>
+              <td class="c-weight">490kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:66%"></div></div>
+                <span class="score-num">66</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">10</td>
+              <td class="c-name">カリムパッション<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">12.6</td>
+              <td class="c-weight">488kg (-6)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:61%"></div></div>
+                <span class="score-num">61</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">ソルデイスター<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">1.7</td>
+              <td class="c-weight">510kg (-8)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:59%"></div></div>
+                <span class="score-num">59</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">8</td>
+              <td class="c-name">タルマエドン<span class="mark"></span></td>
+              <td class="c-ninki">6人気</td>
+              <td class="c-odds">17.7</td>
+              <td class="c-weight">474kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:45%"></div></div>
+                <span class="score-num">45</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">1</td>
+              <td class="c-name">ファイトレーヴ<span class="mark"></span></td>
+              <td class="c-ninki">8人気</td>
+              <td class="c-odds">38.1</td>
+              <td class="c-weight">440kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:45%"></div></div>
+                <span class="score-num">45</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202645073008">
+      <header class="race-head">
+        <span class="race-num">8R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202645073008" target="_blank" rel="noopener">エベレスト賞(C1)</a></h3>
+          <p class="race-sub">川崎・ダート1600m・発走18:30</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">フジュム<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">2.2</td>
+              <td class="c-weight">508kg (+4)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:73%"></div></div>
+                <span class="score-num">73</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">11</td>
+              <td class="c-name">スティールウィル<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">3.4</td>
+              <td class="c-weight">498kg (-7)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:65%"></div></div>
+                <span class="score-num">65</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">10</td>
+              <td class="c-name">エスプリゴンザレス<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">6.4</td>
+              <td class="c-weight">477kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:62%"></div></div>
+                <span class="score-num">62</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">9</td>
+              <td class="c-name">ペータース<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">10.6</td>
+              <td class="c-weight">439kg (-4)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:49%"></div></div>
+                <span class="score-num">49</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">8</td>
+              <td class="c-name">ハクシンドラゴン<span class="mark"></span></td>
+              <td class="c-ninki">7人気</td>
+              <td class="c-odds">14.9</td>
+              <td class="c-weight">452kg (-5)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:38%"></div></div>
+                <span class="score-num">38</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202648073009">
+      <header class="race-head">
+        <span class="race-num">9R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202648073009" target="_blank" rel="noopener">B7組</a></h3>
+          <p class="race-sub">名古屋・ダート1500m・発走18:45</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">12</td>
+              <td class="c-name">コスモナッシュビル<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">2.3</td>
+              <td class="c-weight">509kg (-3)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:78%"></div></div>
+                <span class="score-num">78</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">1</td>
+              <td class="c-name">エイシンナザレ<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">3.2</td>
+              <td class="c-weight">469kg (-2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:65%"></div></div>
+                <span class="score-num">65</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">ミヤイグアス<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">7人気</td>
+              <td class="c-odds">22.2</td>
+              <td class="c-weight">457kg (-2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:61%"></div></div>
+                <span class="score-num">61</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">6</td>
+              <td class="c-name">ウォーオブサウンド<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">7.2</td>
+              <td class="c-weight">508kg (-10)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:53%"></div></div>
+                <span class="score-num">53</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">2</td>
+              <td class="c-name">セイウンピカイチ<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">12.6</td>
+              <td class="c-weight">480kg (-5)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:46%"></div></div>
+                <span class="score-num">46</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202630073009">
+      <header class="race-head">
+        <span class="race-num">9R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202630073009" target="_blank" rel="noopener">北海道日高乳業ヨーグルッペ賞(C3)</a></h3>
+          <p class="race-sub">門別・ダート1600m・発走18:50</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">9</td>
+              <td class="c-name">ベイストラトラ<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">9人気</td>
+              <td class="c-odds">23.9</td>
+              <td class="c-weight">504kg (-6)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:60%"></div></div>
+                <span class="score-num">60</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">ウフフトルンナ<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">5.5</td>
+              <td class="c-weight">538kg (±0)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:59%"></div></div>
+                <span class="score-num">59</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">2</td>
+              <td class="c-name">レーザーベルン<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">8人気</td>
+              <td class="c-odds">13.7</td>
+              <td class="c-weight">516kg (-6)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:58%"></div></div>
+                <span class="score-num">58</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">3</td>
+              <td class="c-name">ヤマニンエラマ<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">3.4</td>
+              <td class="c-weight">496kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:49%"></div></div>
+                <span class="score-num">49</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">4</td>
+              <td class="c-name">スイートキャンディ<span class="mark"></span></td>
+              <td class="c-ninki">6人気</td>
+              <td class="c-odds">12.8</td>
+              <td class="c-weight">486kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:43%"></div></div>
+                <span class="score-num">43</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202645073009">
+      <header class="race-head">
+        <span class="race-num">9R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202645073009" target="_blank" rel="noopener">アルタイル賞(B2B3)</a></h3>
+          <p class="race-sub">川崎・ダート2000m・発走19:05</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">ハクシュ<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">13.1</td>
+              <td class="c-weight">514kg (-6)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:72%"></div></div>
+                <span class="score-num">72</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">レルアバド<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">2.9</td>
+              <td class="c-weight">512kg (-1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:64%"></div></div>
+                <span class="score-num">64</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">4</td>
+              <td class="c-name">セイノスケ<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">6人気</td>
+              <td class="c-odds">23.7</td>
+              <td class="c-weight">474kg (-3)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:55%"></div></div>
+                <span class="score-num">55</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">11</td>
+              <td class="c-name">オウケンデューク<span class="mark"></span></td>
+              <td class="c-ninki">10人気</td>
+              <td class="c-odds">41.9</td>
+              <td class="c-weight">430kg (-2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:51%"></div></div>
+                <span class="score-num">51</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">3</td>
+              <td class="c-name">ラファールドール<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">2.4</td>
+              <td class="c-weight">488kg (+4)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:50%"></div></div>
+                <span class="score-num">50</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202648073010">
+      <header class="race-head">
+        <span class="race-num">10R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202648073010" target="_blank" rel="noopener">B6組</a></h3>
+          <p class="race-sub">名古屋・ダート1500m・発走19:20</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">10</td>
+              <td class="c-name">ブルースバローズ<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">1.2</td>
+              <td class="c-weight">508kg (-1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:75%"></div></div>
+                <span class="score-num">75</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">6</td>
+              <td class="c-name">ヤマカツライコウ<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">6人気</td>
+              <td class="c-odds">28.4</td>
+              <td class="c-weight">487kg (+13)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:69%"></div></div>
+                <span class="score-num">69</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">メイクン<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">11.4</td>
+              <td class="c-weight">485kg (+1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:62%"></div></div>
+                <span class="score-num">62</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">12</td>
+              <td class="c-name">バイアンドホールド<span class="mark"></span></td>
+              <td class="c-ninki">7人気</td>
+              <td class="c-odds">30.9</td>
+              <td class="c-weight">487kg (-3)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:54%"></div></div>
+                <span class="score-num">54</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">ヴァルドグラース<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">16.6</td>
+              <td class="c-weight">447kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:45%"></div></div>
+                <span class="score-num">45</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202630073010">
+      <header class="race-head">
+        <span class="race-num">10R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202630073010" target="_blank" rel="noopener">グランシャリオドリーム40(C3)</a></h3>
+          <p class="race-sub">門別・ダート1800m・発走19:25</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">8</td>
+              <td class="c-name">ビービーエリス<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">2.2</td>
+              <td class="c-weight">438kg (-4)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:80%"></div></div>
+                <span class="score-num">80</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">4</td>
+              <td class="c-name">ホウオウアーネスト<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">2.1</td>
+              <td class="c-weight">506kg (-6)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:59%"></div></div>
+                <span class="score-num">59</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">2</td>
+              <td class="c-name">トレビアンクリール<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">8人気</td>
+              <td class="c-odds">40.7</td>
+              <td class="c-weight">444kg (+6)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:57%"></div></div>
+                <span class="score-num">57</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">マリノロマンス<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">9.2</td>
+              <td class="c-weight">438kg (-8)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:42%"></div></div>
+                <span class="score-num">42</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">6</td>
+              <td class="c-name">ユニコーンホエール<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">24.7</td>
+              <td class="c-weight">460kg (±0)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:34%"></div></div>
+                <span class="score-num">34</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202645073010">
+      <header class="race-head">
+        <span class="race-num">10R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202645073010" target="_blank" rel="noopener">夏至光特別(B2)</a></h3>
+          <p class="race-sub">川崎・ダート1600m・発走19:40</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">スカイアクロス<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">6人気</td>
+              <td class="c-odds">11.4</td>
+              <td class="c-weight">466kg (+1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:63%"></div></div>
+                <span class="score-num">63</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">6</td>
+              <td class="c-name">ドウザンワン<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">4.0</td>
+              <td class="c-weight">456kg (+1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:63%"></div></div>
+                <span class="score-num">63</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">1</td>
+              <td class="c-name">フォースゲイト<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">11.0</td>
+              <td class="c-weight">448kg (±0)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:62%"></div></div>
+                <span class="score-num">62</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">9</td>
+              <td class="c-name">ソウルストライク<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">6.5</td>
+              <td class="c-weight">500kg (-35)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:55%"></div></div>
+                <span class="score-num">55</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">13</td>
+              <td class="c-name">デアシュトゥルム<span class="mark"></span></td>
+              <td class="c-ninki">10人気</td>
+              <td class="c-odds">33.0</td>
+              <td class="c-weight">481kg (+1)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:44%"></div></div>
+                <span class="score-num">44</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202648073011">
+      <header class="race-head">
+        <span class="race-num">11R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202648073011" target="_blank" rel="noopener">蝉時雨特別(A)</a></h3>
+          <p class="race-sub">名古屋・ダート1400m・発走19:55</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">3</td>
+              <td class="c-name">デスティニーホープ<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">4.6</td>
+              <td class="c-weight">464kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:79%"></div></div>
+                <span class="score-num">79</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">ブライテン<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">4.1</td>
+              <td class="c-weight">426kg (-2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:50%"></div></div>
+                <span class="score-num">50</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">6</td>
+              <td class="c-name">ジェイエルバルカー<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">7人気</td>
+              <td class="c-odds">24.6</td>
+              <td class="c-weight">495kg (-3)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:45%"></div></div>
+                <span class="score-num">45</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">ミニマルデザイン<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">7.0</td>
+              <td class="c-weight">483kg (±0)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:45%"></div></div>
+                <span class="score-num">45</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">10</td>
+              <td class="c-name">コムーネ<span class="mark"></span></td>
+              <td class="c-ninki">10人気</td>
+              <td class="c-odds">35.8</td>
+              <td class="c-weight">451kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:42%"></div></div>
+                <span class="score-num">42</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202630073011">
+      <header class="race-head">
+        <span class="race-num">11R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202630073011" target="_blank" rel="noopener">十勝軽種馬農業協同組合特別(A1)</a></h3>
+          <p class="race-sub">門別・ダート1000m・発走20:00</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">2</td>
+              <td class="c-name">ジャイロ<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">3.9</td>
+              <td class="c-weight">486kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:77%"></div></div>
+                <span class="score-num">77</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">イッツクール<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">6.3</td>
+              <td class="c-weight">498kg (-4)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:64%"></div></div>
+                <span class="score-num">64</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">6</td>
+              <td class="c-name">オメガレインボー<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">7人気</td>
+              <td class="c-odds">12.3</td>
+              <td class="c-weight">480kg (+2)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:51%"></div></div>
+                <span class="score-num">51</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">1</td>
+              <td class="c-name">キタノエクスプレス<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">3.6</td>
+              <td class="c-weight">516kg (-4)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:50%"></div></div>
+                <span class="score-num">50</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">ピンクヴェノム<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">4.6</td>
+              <td class="c-weight">500kg (+8)</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:36%"></div></div>
+                <span class="score-num">36</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202645073011">
+      <header class="race-head">
+        <span class="race-num">11R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202645073011" target="_blank" rel="noopener">初陣賞(2歳)OP</a></h3>
+          <p class="race-sub">川崎・ダート1400m・発走20:15</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">1</td>
+              <td class="c-name">インディゴールド<span class="mark"></span></td>
+              <td class="c-ninki">4人気</td>
+              <td class="c-odds">8.3</td>
+              <td class="c-weight">-</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:65%"></div></div>
+                <span class="score-num">65</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">ウィズサークレット<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">8人気</td>
+              <td class="c-odds">34.7</td>
+              <td class="c-weight">-</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:62%"></div></div>
+                <span class="score-num">62</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">2</td>
+              <td class="c-name">サンバルカン<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">3.1</td>
+              <td class="c-weight">-</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:58%"></div></div>
+                <span class="score-num">58</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">4</td>
+              <td class="c-name">シナノクロヌ<span class="mark"></span></td>
+              <td class="c-ninki">6人気</td>
+              <td class="c-odds">12.9</td>
+              <td class="c-weight">-</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:54%"></div></div>
+                <span class="score-num">54</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">6</td>
+              <td class="c-name">ナイトムーブ<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">3.1</td>
+              <td class="c-weight">-</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:52%"></div></div>
+                <span class="score-num">52</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202648073012">
+      <header class="race-head">
+        <span class="race-num">12R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202648073012" target="_blank" rel="noopener">金シャチ最終戦777(C)</a></h3>
+          <p class="race-sub">名古屋・ダート1500m・発走20:30</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">4</td>
+              <td class="c-name">ベアショット<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">7.9</td>
+              <td class="c-weight">-</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:62%"></div></div>
+                <span class="score-num">62</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">10</td>
+              <td class="c-name">カムイパパイヤ<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">4.7</td>
+              <td class="c-weight">-</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:60%"></div></div>
+                <span class="score-num">60</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">11</td>
+              <td class="c-name">ヒダサワヤカ<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">5.4</td>
+              <td class="c-weight">-</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:58%"></div></div>
+                <span class="score-num">58</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">8</td>
+              <td class="c-name">エイシンハトホル<span class="mark"></span></td>
+              <td class="c-ninki">6人気</td>
+              <td class="c-odds">10.2</td>
+              <td class="c-weight">-</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:51%"></div></div>
+                <span class="score-num">51</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">スターロード<span class="mark"></span></td>
+              <td class="c-ninki">7人気</td>
+              <td class="c-odds">11.3</td>
+              <td class="c-weight">-</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:49%"></div></div>
+                <span class="score-num">49</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202630073012">
+      <header class="race-head">
+        <span class="race-num">12R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202630073012" target="_blank" rel="noopener">ポラリスサマースプリント〔H3〕(ダノン重賞</a></h3>
+          <p class="race-sub">門別・ダート1200m・発走20:35</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">2</td>
+              <td class="c-name">ヤマニンパッセ<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">4.3</td>
+              <td class="c-weight">-</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:88%"></div></div>
+                <span class="score-num">88</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">6</td>
+              <td class="c-name">ストリーム<span class="mark"></span></td>
+              <td class="c-ninki">1人気</td>
+              <td class="c-odds">1.7</td>
+              <td class="c-weight">-</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:73%"></div></div>
+                <span class="score-num">73</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">4</td>
+              <td class="c-name">モノノフブラック<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">19.8</td>
+              <td class="c-weight">-</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:64%"></div></div>
+                <span class="score-num">64</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">5</td>
+              <td class="c-name">スティールペガサス<span class="mark"></span></td>
+              <td class="c-ninki">3人気</td>
+              <td class="c-odds">4.5</td>
+              <td class="c-weight">-</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:60%"></div></div>
+                <span class="score-num">60</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">7</td>
+              <td class="c-name">ジャスパーメジャー<span class="mark"></span></td>
+              <td class="c-ninki">6人気</td>
+              <td class="c-odds">29.4</td>
+              <td class="c-weight">-</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:52%"></div></div>
+                <span class="score-num">52</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article>
+    <article class="race-card" id="race-202645073012">
+      <header class="race-head">
+        <span class="race-num">12R</span>
+        <div class="race-head-text">
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id=202645073012" target="_blank" rel="noopener">夏紅特別(B3二)</a></h3>
+          <p class="race-sub">川崎・ダート1400m・発走20:50</p>
+        </div>
+      </header>
+      <div class="pick-table-wrap">
+        <table class="pick-table">
+          <thead>
+            <tr><th></th><th></th><th>馬番</th><th>馬名</th><th>人気</th><th>単勝</th><th>馬体重</th><th>score</th></tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td class="c-rank"><span class="rank-badge">1</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">8</td>
+              <td class="c-name">バルジェロ<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">10人気</td>
+              <td class="c-odds">29.8</td>
+              <td class="c-weight">-</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:61%"></div></div>
+                <span class="score-num">61</span>
+              </td>
+            </tr><tr class="rank-2">
+              <td class="c-rank"><span class="rank-badge">2</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">1</td>
+              <td class="c-name">エルガー<span class="mark is-mark">穴</span></td>
+              <td class="c-ninki">6人気</td>
+              <td class="c-odds">9.1</td>
+              <td class="c-weight">-</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:60%"></div></div>
+                <span class="score-num">60</span>
+              </td>
+            </tr><tr class="rank-3">
+              <td class="c-rank"><span class="rank-badge">3</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">11</td>
+              <td class="c-name">リコーベレッタ<span class="mark"></span></td>
+              <td class="c-ninki">5人気</td>
+              <td class="c-odds">7.0</td>
+              <td class="c-weight">-</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:59%"></div></div>
+                <span class="score-num">59</span>
+              </td>
+            </tr><tr class="rank-4">
+              <td class="c-rank"><span class="rank-badge">4</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">10</td>
+              <td class="c-name">サラサチャレンジ<span class="mark"></span></td>
+              <td class="c-ninki">8人気</td>
+              <td class="c-odds">16.2</td>
+              <td class="c-weight">-</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:55%"></div></div>
+                <span class="score-num">55</span>
+              </td>
+            </tr><tr class="rank-5">
+              <td class="c-rank"><span class="rank-badge">5</span></td>
+              <td class="c-waku"><span class="waku">-</span></td>
+              <td class="c-uma">9</td>
+              <td class="c-name">エムティワイザー<span class="mark"></span></td>
+              <td class="c-ninki">2人気</td>
+              <td class="c-odds">4.9</td>
+              <td class="c-weight">-</td>
+              <td class="c-score">
+                <div class="score-bar"><div class="score-bar-fill" style="width:49%"></div></div>
+                <span class="score-num">49</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </article></div>
+        </section>
+    </section>
     <section class="pending-section" id="sec-pending-20260729">
       <h2 class="date-head">7月29日(水)<span class="status-badge is-pending">検証待ち</span></h2>
       <p class="pending-note">
