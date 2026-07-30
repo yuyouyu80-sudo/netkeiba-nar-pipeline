@@ -256,6 +256,25 @@ LADDER_MAP = {
     rid: tuple(row[f"ladder_conf_{k}_pct"] for k in LADDER_KS)
     for rid, row in zip(conf_race["race_id"], conf_race.to_dict("records"))
 }
+
+# 同じK(頭数)同士で比較した順位分け(2026-07-30追加)。上位20%=赤、20〜50%=黄、
+# それ以外は無着色。K列ごとに全レースを通した相対順位で決めるため、日付や場は区別しない。
+for _k in LADDER_KS:
+    conf_race[f"ladder_tier_{_k}"] = conf_race[f"ladder_conf_{_k}_pct"].rank(pct=True, method="average")
+LADDER_TIER_MAP = {
+    rid: tuple(row[f"ladder_tier_{k}"] for k in LADDER_KS)
+    for rid, row in zip(conf_race["race_id"], conf_race.to_dict("records"))
+}
+
+
+def _ladder_tier_class(pct_rank: float) -> str:
+    if pd.isna(pct_rank):
+        return ""
+    if pct_rank >= 0.8:
+        return " ladder-top20"
+    if pct_rank >= 0.5:
+        return " ladder-top50"
+    return ""
 CONF_TITLE = (
     "モデル自身が出す予想スコアで1位と2位の差を(1位-最下位の幅)で正規化した値(gap_top2)を、"
     f"検証済み{_box5_place.get('n_races', 0)}レースの実測複勝的中率でLOBO較正した値。大きいほど"
@@ -286,6 +305,7 @@ _LADDER_TITLE = (
     "一般に5頭側が高く1頭側が低くなる。検証済みレース数がまだ少なく、K=3,2,1は現時点では"
     "自明な基準(常に平均を予測)を安定して上回れていない(下表の淡色表示)。日々検証レースが"
     "増えるたびにnar_confidence_calibrate.pyを再実行すれば自動的に更新される。"
+    "色は同じK(頭数)の中での相対順位: 赤=上位20%、黄=上位20〜50%、無色=それ以外。"
 )
 
 
@@ -293,13 +313,15 @@ def confidence_ladder_html(race_id: str) -> str:
     vals = LADDER_MAP.get(race_id)
     if vals is None or all(pd.isna(v) for v in vals):
         return ""
+    tiers = LADDER_TIER_MAP.get(race_id, (float("nan"),) * len(LADDER_KS))
     beats = CONFIDENCE_CALIB.get("topk_ladder", {}).get("results_by_k", {})
     cells = []
-    for k, v in zip(LADDER_KS, vals):
+    for k, v, tier in zip(LADDER_KS, vals, tiers):
         beats_trivial = bool(beats.get(str(k), {}).get("beats_trivial_baseline"))
         dim = "" if beats_trivial else ' style="opacity:.55"'
         txt = f"{v:.0f}%" if pd.notna(v) else "-"
-        cells.append(f'<div class="ladder-cell"{dim}><b>{k}頭</b> {esc(txt)}</div>')
+        tier_cls = _ladder_tier_class(tier)
+        cells.append(f'<div class="ladder-cell{tier_cls}"{dim}><b>{k}頭</b> {esc(txt)}</div>')
     return (
         f'<div class="conf-ladder" title="{esc(_LADDER_TITLE)}">'
         + "".join(cells) + "</div>"
@@ -1231,6 +1253,8 @@ CSS = r"""
   --place2-soft-ink: #1F4E79;
   --place3-soft: #F5EAB3;
   --place3-soft-ink: #6B5610;
+  --tier-red-soft: #F3D9D3;
+  --tier-red-soft-ink: #8A2E1E;
   --score-track: #E2E4DD;
   --shadow: 0 1px 2px rgba(20, 22, 18, 0.06), 0 6px 16px -10px rgba(20, 22, 18, 0.18);
   --serif: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "Noto Serif JP", "Georgia", serif;
@@ -1243,6 +1267,7 @@ CSS = r"""
     --accent-soft: #1E3A28; --accent-soft-ink: #A9E6BF; --pending: #A997D6; --pending-ink: #1F1830;
     --pending-soft: #332B4A; --pending-soft-ink: #D4C8EC; --score-track: #29302A;
     --place2-soft: #1F3A52; --place2-soft-ink: #A9CBEA; --place3-soft: #4A3D0F; --place3-soft-ink: #F0DA8C;
+    --tier-red-soft: #4A241D; --tier-red-soft-ink: #F0B39F;
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 20px -12px rgba(0, 0, 0, 0.5);
   }
 }
@@ -1252,6 +1277,7 @@ CSS = r"""
   --accent-soft: #1E3A28; --accent-soft-ink: #A9E6BF; --pending: #A997D6; --pending-ink: #1F1830;
   --pending-soft: #332B4A; --pending-soft-ink: #D4C8EC; --score-track: #29302A;
   --place2-soft: #1F3A52; --place2-soft-ink: #A9CBEA; --place3-soft: #4A3D0F; --place3-soft-ink: #F0DA8C;
+  --tier-red-soft: #4A241D; --tier-red-soft-ink: #F0B39F;
   --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 20px -12px rgba(0,0,0,0.5);
 }
 :root[data-theme="light"] {
@@ -1260,6 +1286,7 @@ CSS = r"""
   --accent-soft: #D9E9DE; --accent-soft-ink: #1E4A31; --pending: #6B5B95; --pending-ink: #FFFFFF;
   --pending-soft: #E7E1F0; --pending-soft-ink: #4A3D6B; --score-track: #E2E4DD;
   --place2-soft: #D9E4F2; --place2-soft-ink: #1F4E79; --place3-soft: #F5EAB3; --place3-soft-ink: #6B5610;
+  --tier-red-soft: #F3D9D3; --tier-red-soft-ink: #8A2E1E;
   --shadow: 0 1px 2px rgba(20,22,18,0.06), 0 6px 16px -10px rgba(20,22,18,0.18);
 }
 
@@ -1405,6 +1432,10 @@ main { max-width: 960px; margin: 0 auto; padding: 0 20px 64px; }
   border-radius: 6px; padding: 3px 7px; white-space: nowrap; font-variant-numeric: tabular-nums;
 }
 .ladder-cell b { color: var(--ink); font-weight: 700; margin-right: 3px; }
+.ladder-cell.ladder-top20 { background: var(--tier-red-soft); color: var(--tier-red-soft-ink); }
+.ladder-cell.ladder-top20 b { color: inherit; }
+.ladder-cell.ladder-top50 { background: var(--place3-soft); color: var(--place3-soft-ink); }
+.ladder-cell.ladder-top50 b { color: inherit; }
 
 .result-strip {
   display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
