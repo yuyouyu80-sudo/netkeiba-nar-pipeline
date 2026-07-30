@@ -16,7 +16,6 @@ JRA版との違い:
 import html
 import itertools
 import json
-import math
 import re
 from datetime import datetime
 from pathlib import Path
@@ -225,22 +224,45 @@ def box_actual_results(race_id: str, umabans: list[int]) -> list[dict]:
     return out
 
 
-# --- レース単位の確信度(2026-07-29、nar_confidence_calibrate.pyのLOBO較正を反映) ---
+# --- 確信度較正(2026-07-30、nar_confidence_calibrate.py。CONF_MAPより先に読み込む必要あり) ---
+_confidence_calib_path = DATA_DIR / "confidence_calibration_nar.json"
+CONFIDENCE_CALIB = (
+    json.loads(_confidence_calib_path.read_text(encoding="utf-8"))
+    if _confidence_calib_path.exists() else {}
+)
+
+# --- レース単位の確信度(2026-07-30、gap_top2ベースに統一。バッジのis_highは
+#     「その日のgap_top2上位5件」ではなく「較正バケットのうち実測的中率が最も高いか」で判定する。
+#     旧ロジック(selected_5をそのままis_highに使う)は、日次相対順位と較正の絶対値が
+#     食い違い、的中率が低いレースに「高確信度」が付く逆転バグがあったため修正した) ---
 conf_race = pd.read_csv(DATA_DIR / "confidence_per_race_nar.csv", dtype=str)
 conf_race["gap_pct_5"] = pd.to_numeric(conf_race["gap_pct_5"])
-conf_race["selected_5"] = conf_race["selected_5"] == "True"
 conf_race["confidence_calibrated_pct"] = pd.to_numeric(conf_race.get("confidence_calibrated_pct"))
+LADDER_KS = [5, 4, 3, 2, 1]
+for _k in LADDER_KS:
+    conf_race[f"ladder_conf_{_k}_pct"] = pd.to_numeric(conf_race.get(f"ladder_conf_{_k}_pct"))
+
+_box5_place = CONFIDENCE_CALIB.get("results_by_box_n", {}).get("5", {}).get("place", {})
+_best_bucket_pct = (
+    _box5_place.get("calibration_table", {}).get("best_hit_rate_bucket", {}).get("hit_rate_pct")
+)
+
 CONF_MAP = {
-    rid: (gap, sel, cal) for rid, gap, sel, cal in zip(
-        conf_race["race_id"], conf_race["gap_pct_5"], conf_race["selected_5"],
-        conf_race["confidence_calibrated_pct"],
+    rid: (gap, cal) for rid, gap, cal in zip(
+        conf_race["race_id"], conf_race["gap_pct_5"], conf_race["confidence_calibrated_pct"],
     )
 }
+LADDER_MAP = {
+    rid: tuple(row[f"ladder_conf_{k}_pct"] for k in LADDER_KS)
+    for rid, row in zip(conf_race["race_id"], conf_race.to_dict("records"))
+}
 CONF_TITLE = (
-    "モデル自身が出す予想スコアで5位と6位の差を(1位-最下位の幅)で正規化した値(gap_pct)を、"
-    "検証済み126レースの実測複勝的中率でLOBO較正した値。大きいほど過去実績上「箱の中の誰かが"
-    "3着以内に入った」割合が高い(オッズ・人気は使用していません)。"
-    "「高確信度」は同日開催レース中でgap_pct上位5件を意味します。"
+    "モデル自身が出す予想スコアで1位と2位の差を(1位-最下位の幅)で正規化した値(gap_top2)を、"
+    f"検証済み{_box5_place.get('n_races', 0)}レースの実測複勝的中率でLOBO較正した値。大きいほど"
+    "過去実績上「箱の中の誰かが3着以内に入った」割合が高い(オッズ・人気は使用していません)。"
+    "「高確信度」は較正バケットのうち実測的中率が最も高いものに属することを意味します"
+    "(2026-07-30以前は「同日開催レース中で上位5件」という日次相対基準だったが、較正の"
+    "絶対値と食い違う逆転が見つかったため、較正バケット基準に統一した)。"
 )
 
 
@@ -248,15 +270,40 @@ def confidence_badge(race_id: str) -> str:
     entry = CONF_MAP.get(race_id)
     if entry is None:
         return ""
-    gap_pct, is_high, calibrated_pct = entry
+    gap_pct, calibrated_pct = entry
+    is_high = pd.notna(calibrated_pct) and _best_bucket_pct is not None and calibrated_pct == _best_bucket_pct
     if pd.notna(calibrated_pct):
         text = f"{'高確信度' if is_high else '確信度'} {calibrated_pct:.0f}%"
-    elif math.isinf(gap_pct):
-        text = "確信度 全頭差"
     else:
         text = f"{'高確信度' if is_high else '確信度'} {gap_pct * 100:.0f}%"
     cls = "conf-badge is-high" if is_high else "conf-badge"
     return f'<span class="{cls}" title="{esc(CONF_TITLE)}">{esc(text)}</span>'
+
+
+_LADDER_TITLE = (
+    "段階的な的中確率のはしご: 「上位K頭picksの中に実際の1着馬が入っていたか」を的中と定義し、"
+    "K=5,4,3,2,1それぞれで独立にLOBO較正した値(2026-07-30新設)。Kを絞るほど的中は難しくなるため、"
+    "一般に5頭側が高く1頭側が低くなる。検証済みレース数がまだ少なく、K=3,2,1は現時点では"
+    "自明な基準(常に平均を予測)を安定して上回れていない(下表の淡色表示)。日々検証レースが"
+    "増えるたびにnar_confidence_calibrate.pyを再実行すれば自動的に更新される。"
+)
+
+
+def confidence_ladder_html(race_id: str) -> str:
+    vals = LADDER_MAP.get(race_id)
+    if vals is None or all(pd.isna(v) for v in vals):
+        return ""
+    beats = CONFIDENCE_CALIB.get("topk_ladder", {}).get("results_by_k", {})
+    cells = []
+    for k, v in zip(LADDER_KS, vals):
+        beats_trivial = bool(beats.get(str(k), {}).get("beats_trivial_baseline"))
+        dim = "" if beats_trivial else ' style="opacity:.55"'
+        txt = f"{v:.0f}%" if pd.notna(v) else "-"
+        cells.append(f'<div class="ladder-cell"{dim}><b>{k}頭</b> {esc(txt)}</div>')
+    return (
+        f'<div class="conf-ladder" title="{esc(_LADDER_TITLE)}">'
+        + "".join(cells) + "</div>"
+    )
 
 
 MODEL_BADGE_META = {
@@ -432,6 +479,7 @@ def race_card(race_id: str, race_name: str, rows: pd.DataFrame, racecourse: str 
           </tbody>
         </table>
       </div>
+      {confidence_ladder_html(race_id)}
       {result_strip}
     </article>"""
 
@@ -563,12 +611,7 @@ MODEL_LABEL = winner.get("model_label", f"pattern{PATTERN_ID}")
 MODEL_DEAD = winner.get("dead_signals", [])
 MODEL_ALIVE = winner.get("alive_signals", [])
 
-# --- 確信度較正(2026-07-29、nar_confidence_calibrate.py) ---
-_confidence_calib_path = DATA_DIR / "confidence_calibration_nar.json"
-CONFIDENCE_CALIB = (
-    json.loads(_confidence_calib_path.read_text(encoding="utf-8"))
-    if _confidence_calib_path.exists() else {}
-)
+# CONFIDENCE_CALIBはCONF_MAP定義より前(ファイル前方)で読み込み済み。
 
 
 def _confidence_calibration_note(box_n: int) -> str:
@@ -584,16 +627,26 @@ def _confidence_calibration_note(box_n: int) -> str:
     cand_lines = "、".join(
         f"{k}(Spearman{v.get('spearman_with_hit', 0):+.3f})" for k, v in cands.items()
     )
+    sign_warning = place.get("chosen_feature_sign_warning", False)
+    warn_html = (
+        "<br><br><b style=\"color:#c0392b\">注意:</b> 正の相関を持つ候補が無かったため、"
+        "符号を無視してBrier score最良の候補を採用しています(表示上の大小と実測的中率の"
+        "大小が一致しない可能性があります)。"
+    ) if sign_warning else ""
     return (
-        "<br><br>＜確信度指標の較正(2026-07-29)＞ 「高確信度」の判定に使うスコア差の統計量を、"
+        "<br><br>＜確信度指標の較正(2026-07-30、符号チェック付きに改訂)＞ 「高確信度」の判定に"
+        "使うスコア差の統計量を、"
         f"検証済み{place.get('n_races', 0)}レースの実測複勝的中率(実測{place.get('overall_hit_rate_pct', 0):.1f}%)"
         "に対するLOBO較正(1ブロックを除いた残りで分位点・バケット別実測率を計算し、除いた"
         "ブロックで評価)で選び直した。候補は事前に3つだけ宣言(自由探索はしない): "
         f"{cand_lines}。"
+        "OOF Brier scoreが最良でも、生の値と的中率のSpearman相関が負(値が大きいほど"
+        "的中率が下がる)の候補は選ばず、正の相関を持つ候補の中で最良のものを優先する。"
         f"採用した統計量は<b>{esc(chosen_label)}</b>で、OOF Brier score"
         f"{place.get('candidates', {}).get(chosen, {}).get('oof_brier', 0):.4f}は"
         f"自明な基準(常に平均を予測、{place.get('trivial_baseline_oof_brier', 0):.4f})を"
         f"{'上回った' if place.get('beats_trivial_baseline') else '上回れなかった'}。"
+        f"{warn_html}"
         "なお「複勝+ワイド単体の黒字/赤字」を的中の定義にすると、"
         f"どの候補も自明な基準(Brier {profit.get('trivial_baseline_oof_brier', 0):.4f})を"
         "上回れなかった(オッズ変動の影響が大きく、スコア差だけでは回収率そのものは"
@@ -871,12 +924,28 @@ conf_tabs_css_box5, box_section = build_tabbed_box_section(
         "1点100円換算、単勝・複勝は5点、馬連・ワイド・3連複は10点、馬単は20点、3連単は60点。"
         "枠連は枠番データが無いため対象外(常に0)。JRAの控除率(競馬全体の理論回収率は約70〜80%)を"
         "上回れば、予想モデルが市場平均を上回っていることを意味します。「高確信度Nレース/日」は"
-        "オッズ・人気を一切使わず、レース内で5位と6位のスコア差を(1位−最下位)の幅で正規化した"
-        "比率が大きい順にレースを選んだものです。NARは1場あたり最大12レースの開催があるため、"
+        "オッズ・人気を一切使わず、レース内で1位と2位のスコア差を(1位−最下位)の幅で正規化した"
+        "比率(gap_top2)が大きい順にレースを選んだものです(2026-07-30以前は5位-6位のスコア差を"
+        "使っていたが、的中率と逆相関であることが判明したため他のBOXサイズと同じgap_top2に"
+        "統一した)。NARは1場あたり最大12レースの開催があるため、"
         "JRAのN=5〜10ではなくN=5〜12まで対象にしています。単一の最良Nを示すものではなく、"
         "回収率の振れ幅は大きめです。重みの選び方・探索の経緯・専門家レビューの詳細は"
         "「予想4頭BOXモデルの内訳」を参照してください。"
         + _confidence_calibration_note(5)
+        + "<br><br>＜段階的的中確率のはしご(2026-07-30新設)＞ 各レースカードに、"
+        "「上位K頭picksの中に実際の1着馬が入っていたか」をK=5,4,3,2,1それぞれで"
+        "独立にLOBO較正した確信度を表示しています(予想5頭表示と同じ重みを使用)。"
+        + "、".join(
+            f"{k}頭側は実測hit率{v.get('overall_hit_rate_pct', 0):.0f}%・"
+            f"{'自明な基準を上回る' if v.get('beats_trivial_baseline') else '自明な基準を上回れていない'}"
+            for k, v in sorted(
+                CONFIDENCE_CALIB.get("topk_ladder", {}).get("results_by_k", {}).items(),
+                key=lambda kv: -int(kv[0]),
+            )
+        )
+        + "。K=3,2,1(特に1頭=単勝的中相当)は現時点の検証済みレース数ではまだ自明な基準を"
+        "安定して上回れておらず、表では淡色表示にしています。今後検証済みレースが増えるたびに"
+        "nar_confidence_calibrate.pyを再実行すれば自動的に再較正されます。"
     ),
 )
 
@@ -1327,6 +1396,15 @@ main { max-width: 960px; margin: 0 auto; padding: 0 20px 64px; }
 .c-finish { text-align: center; white-space: nowrap; color: var(--ink-muted); font-weight: 700; }
 .c-finish.is-won { color: var(--accent); }
 .c-place { text-align: right; white-space: nowrap; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+
+.conf-ladder {
+  display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px;
+}
+.ladder-cell {
+  font-size: 10.5px; color: var(--ink-muted); background: var(--score-track);
+  border-radius: 6px; padding: 3px 7px; white-space: nowrap; font-variant-numeric: tabular-nums;
+}
+.ladder-cell b { color: var(--ink); font-weight: 700; margin-right: 3px; }
 
 .result-strip {
   display: flex; flex-wrap: wrap; align-items: center; gap: 6px;

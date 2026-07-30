@@ -1,12 +1,18 @@
 # -*- coding: utf-8 -*-
 """NAR通常戦モデル(予想5頭BOX)の確信度フィルタリング(5~12レース/日)。
 confidence_sweep_box4_nar.py/confidence_sweep_box3_nar.pyと全く同じ設計
-(CONF_N固定・N_RANGE=5~12)を、BOX_N=5に戻したもの。
+(N_RANGE=5~12)を、BOX_N=5に戻したもの。
 
 2026-07-29、予想4頭BOX回収率検証で採用した等重み14シグナルモデル(nar_signals.py +
 winner_box4_nar.json、predict_box4_nar.py)にスコアリングを統一した。旧版は
 scripts/predict_pattern29.pyのWEIGHTS_NAR(pattern24、40レースのみで探索・以後
 レビュー対象外)を動的importして使っていた。
+
+2026-07-30、確信度の基準を「BOXの賭け目位置(5位-6位差)」から「1位-2位のスコア差
+(gap_top2)」に切替え。nar_confidence_calibrate.pyの再検証で、5位-6位差は的中率と
+逆相関(-0.136、値が大きいほど的中率が下がる)であることが判明したため
+(box4/box3は既に2026-07-29にgap_top2へ切替済みで、box5だけ旧基準が残っていた)。
+gap_top2は正の相関(+0.104)で、box4(+0.185)・box3(+0.199)と同じ方向性。
 """
 import itertools
 import sys
@@ -22,7 +28,6 @@ UNIT = 100
 BET_TYPES = ["単勝", "複勝", "枠連", "馬連", "ワイド", "馬単", "3連複", "3連単"]
 N_RANGE = [5, 6, 7, 8, 9, 10, 11, 12]
 BOX_N = 5
-CONF_N = BOX_N
 
 sys.path.insert(0, str(LIB_DIR))
 sys.path.insert(0, str(PROJECT_ROOT))
@@ -137,11 +142,7 @@ def analyze_model(model_name: str, score_fn):
         top_score, bottom_score = sorted_scores[0], sorted_scores[-1]
         spread = top_score - bottom_score
 
-        if field_size > CONF_N:
-            gap = sorted_scores[CONF_N - 1] - sorted_scores[CONF_N]
-            gap_pct = gap / spread if spread > 0 else 0.0
-        else:
-            gap_pct = np.inf  # box covers the entire field
+        gap_pct = (sorted_scores[0] - sorted_scores[1]) / spread if (field_size > 1 and spread > 0) else 0.0
         conf_rows.append({"race_id": race_id, "kaisai_date": row["kaisai_date"], "gap_pct": gap_pct})
 
         topN = df.iloc[order[:BOX_N]]
