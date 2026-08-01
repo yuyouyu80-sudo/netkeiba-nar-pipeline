@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
-"""レースカードの「予想5頭」を、BOX4回収率検証で採用した等重み14シグナルモデル
-(nar_signals.py + winner_box4_nar.json、predict_box4_nar.pyと同一ロジック)で
+"""レースカードの「予想5頭」を、box5専用に300パターン探索で選んだ独立重みモデル
+(nar_signals.py + winner_box5_nar.json、predict_box5_nar.pyと同一ロジック)で
 生成し直す。
 
-旧版は scripts/predict_pattern29.py 独自の WEIGHTS_NAR(pattern24、7/25+7/26の
-40レースのみで探索・以後レビュー対象外)を使っており、BOX4検証で採用した
-モデルと一致していなかった。ユーザー指示によりレースカード表示もBOX4と
-同じスコアリングに統一する(頭数は5のまま、BOX4のBOX_N=4とは独立)。
+2026-08-01までは予想4頭BOX回収率検証モデル(winner_box4_nar.json)をそのまま
+流用していたが、ユーザー依頼(取得データ増加を受けた再モデリング)によりbox5にも
+独立した300パターン探索の最良重みを持たせた(nar_search300_2026_08_01.py)。
 
 race_names_nar_{date}.csv は既存ファイルをそのまま使う(ヘッダ再取得の
-ネットワークアクセスを避ける)。対象日はscratchpad上のrace_names_nar_*.csv
+ネットワークアクセスを避ける)。対象日はdata/nar_pipeline上のrace_names_nar_*.csv
 から自動検出するため、新しい日付を取得したら本スクリプトを再実行するだけで
 反映される。
 """
@@ -27,13 +26,13 @@ NAR_MODEL_DIR = PROJECT_ROOT / "scripts" / "nar_model"
 sys.path.insert(0, str(NAR_MODEL_DIR))
 sys.path.insert(0, str(PROJECT_ROOT))
 
-import predict_box4_nar as P  # noqa: E402
+import predict_box5_nar as P  # noqa: E402
 from src.netkeiba_pipeline.storage.paths import newspaper_csv_path  # noqa: E402
 
 N_SHOW = 5
 
 parser = argparse.ArgumentParser(
-    description="レースカードの予想5頭をBOX4等重みモデルで生成する。"
+    description="レースカードの予想5頭をbox5専用モデルで生成する。"
     "--date省略時はrace_names_nar_*.csvから検出した全日付を処理する。"
 )
 parser.add_argument("--date", help="単一日付のみ処理する場合(YYYYMMDD)。事前に "

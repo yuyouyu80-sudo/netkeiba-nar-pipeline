@@ -13,6 +13,9 @@ scripts/predict_pattern29.pyのWEIGHTS_NAR(pattern24、40レースのみで探�
 逆相関(-0.136、値が大きいほど的中率が下がる)であることが判明したため
 (box4/box3は既に2026-07-29にgap_top2へ切替済みで、box5だけ旧基準が残っていた)。
 gap_top2は正の相関(+0.104)で、box4(+0.185)・box3(+0.199)と同じ方向性。
+
+2026-08-01、box5がbox4の重み流用をやめ独立重み(winner_box5_nar.json、
+predict_box5_nar.py)を持つようになったのに合わせてスコアリング元を切り替えた。
 """
 import itertools
 import sys
@@ -31,7 +34,7 @@ BOX_N = 5
 
 sys.path.insert(0, str(LIB_DIR))
 sys.path.insert(0, str(PROJECT_ROOT))
-import predict_box4_nar as predict_mod  # noqa: E402
+import predict_box5_nar as predict_mod  # noqa: E402
 
 PATTERN_ID = predict_mod.PATTERN_ID
 

@@ -10,7 +10,8 @@
      (1ブロックを除いた残りで分位点とバケット別実測率を計算し、除いたブロックに適用)の
      OOF Brier scoreを比較する。
   2. 「常に全体平均を予測する」自明な基準とも比較し、較正が本当に改善しているかを確認する。
-  3. box_n=3/4/5(5は4頭BOXと同じ重みを流用、既存設計と同じ)それぞれで独立に判定する。
+  3. box_n=3/4/5それぞれで独立に判定する(2026-08-01以降、box5もbox4の重み流用を
+     やめ独立重みを持つため、3サイズとも完全に別のスコア分布・別の較正になる)。
 
 【2026-07-30 追記: 符号チェックを追加】
   システムエンジニアレビューにより、box_n=5×place判定でgap_pctを採用していた従来ロジックは
@@ -29,8 +30,9 @@
   (`topk_ladder`)。1着馬の的中判定は単勝の払戻(box_n=K頭を選んだときの単勝リターンが
   0より大きいか)をそのまま使う(nar_backtest.BoxSettlerが頭数<Kの場合を自動的に
   全頭カバーとして扱うため、小頭数レースの特別扱いは不要)。重みは予想5頭表示と同じ
-  winner_box4_nar.jsonを一貫して使用し、Kが変わっても「同じ順位付けをどこまで
-  信頼できるか」という一貫した意味になるようにしている。
+  LADDER_WEIGHTS_JSON(2026-08-01以降はwinner_box5_nar.json)を一貫して使用し、
+  Kが変わっても「同じ順位付けをどこまで信頼できるか」という一貫した意味になる
+  ようにしている。
 
 【日々データが増える運用を想定した設計】
   - nar_dataset.load(rebuild=True) で常に最新の検証済みレース(race_results×payoutsの
@@ -62,9 +64,11 @@ import nar_signals as NS  # noqa: E402
 K_BUCKETS = 4
 CANDIDATES = ["gap_pct", "spread", "gap_top2"]
 LADDER_CANDIDATES = ["gap_boundary_k", "gap_top2"]
-BOX_CONFIGS = {5: "winner_box4_nar.json", 4: "winner_box4_nar.json", 3: "winner_box3_nar.json"}
+# 2026-08-01: box5はbox4の重み流用をやめ、独立に300パターン探索した
+# winner_box5_nar.jsonを持つ(nar_search300_2026_08_01.py)。
+BOX_CONFIGS = {5: "winner_box5_nar.json", 4: "winner_box4_nar.json", 3: "winner_box3_nar.json"}
 LADDER_KS = [5, 4, 3, 2, 1]
-LADDER_WEIGHTS_JSON = "winner_box4_nar.json"
+LADDER_WEIGHTS_JSON = "winner_box5_nar.json"  # 予想5頭表示(box5)と同じ重みを使う
 
 OUT_JSON = DATA_DIR / "confidence_calibration_nar.json"
 OUT_TXT = DATA_DIR / "confidence_calibration_report.txt"

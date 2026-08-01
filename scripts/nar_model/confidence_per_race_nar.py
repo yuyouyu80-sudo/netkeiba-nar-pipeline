@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """地方競馬(NAR)通常戦モデルのレース単位確信度指標。confidence_per_race.py(JRA)を移植。
 
-スコアリングは predict_box4_nar.py(BOX4回収率検証で採用した等重み14シグナル
-モデル、nar_signals.py + winner_box4_nar.json)と同一にする。レースカードの
+スコアリングは predict_box5_nar.py(box5専用に300パターン探索で選んだ独立重み
+モデル、nar_signals.py + winner_box5_nar.json)と同一にする。レースカードの
 「予想5頭」(predict_top5_nar.pyが生成するpredictions_nar_{date}.csv)と確信度
 バッジの順位付けが食い違わないようにするため。
 
@@ -12,6 +12,9 @@ box4/box3と同じ「1位-2位のスコア差(gap_top2)」に統一した(select
 gap_top2ベースに変更)。あわせて、上位K頭picksに実際の1着馬が入っている確率を
 K=5,4,3,2,1のはしご状に表示する`topk_ladder`列を追加した
 (confidence_calibration_nar.jsonのtopk_ladderセクションを参照)。
+
+2026-08-01、box5がbox4の重み流用をやめ独立重み(winner_box5_nar.json)を持つように
+なったのに合わせ、スコアリングをpredict_box4_nar→predict_box5_narに切り替えた。
 """
 import json
 import sys
@@ -27,7 +30,7 @@ LADDER_KS = [5, 4, 3, 2, 1]
 
 sys.path.insert(0, str(LIB_DIR))
 sys.path.insert(0, str(PROJECT_ROOT))
-import predict_box4_nar as predict_mod  # noqa: E402
+import predict_box5_nar as predict_mod  # noqa: E402
 
 from src.netkeiba_pipeline.storage.paths import newspaper_csv_path  # noqa: E402
 

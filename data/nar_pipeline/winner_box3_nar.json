@@ -2,63 +2,64 @@
   "schema_version": 3,
   "box_n": 3,
   "pattern_id": 0,
-  "model_label": "300パターン自由探索(差のある重み、pattern#157、box_n=3)",
-  "method": "dirichlet_search_300_user_override",
+  "model_label": "等重み17シグナル(2026-08-01、300パターン探索は不採用、box_n=3)",
+  "method": "equal_weight_17signals",
   "weights": {
     "speed": 0.0,
-    "form": 0.005076808166400378,
-    "style": 0.04550020468922107,
-    "jt": 0.033234381891621735,
-    "waku": 0.012686319047111375,
+    "form": 0.058823529411764705,
+    "style": 0.058823529411764705,
+    "jt": 0.058823529411764705,
+    "waku": 0.058823529411764705,
     "apt": 0.0,
     "train": 0.0,
-    "distance": 0.18385082902880012,
-    "sire": 0.014530402355198762,
+    "distance": 0.058823529411764705,
+    "sire": 0.058823529411764705,
     "bms": 0.0,
-    "jockey": 0.14471602593370664,
-    "trainer": 0.0038841337166751074,
-    "nige": 0.2406615642963471,
-    "concerned": 0.05275187687943027,
-    "course": 0.0053746774727115795,
-    "jt_return": 0.09926485094760948,
-    "margin": 0.005081374615625616,
-    "agari": 0.00802711539013074,
+    "jockey": 0.058823529411764705,
+    "trainer": 0.058823529411764705,
+    "nige": 0.058823529411764705,
+    "concerned": 0.058823529411764705,
+    "course": 0.058823529411764705,
+    "jt_return": 0.058823529411764705,
+    "margin": 0.058823529411764705,
+    "agari": 0.058823529411764705,
     "interval": 0.0,
     "kinryo": 0.0,
-    "timediff": 0.10198964129182982,
-    "class_ninki": 0.037007463419153945,
-    "weight": 0.006362330858426408
+    "timediff": 0.058823529411764705,
+    "class_ninki": 0.058823529411764705,
+    "weight": 0.058823529411764705
   },
   "priors": {
-    "style_win": 9.733386709367494,
-    "style_place3": 29.76861489191353,
-    "jockey_win": 9.260208166533227,
-    "jockey_return": 67.44035228182545,
-    "trainer_win": 9.922337870296237,
-    "trainer_return": 73.71657325860689,
-    "waku_win": 9.530824659727783,
+    "style_win": 9.23321554770318,
+    "style_place3": 28.11621515508441,
+    "jockey_win": 9.184138201806046,
+    "jockey_return": 67.77110325873576,
+    "trainer_win": 9.627797408716136,
+    "trainer_return": 72.07577542206518,
+    "waku_win": 9.23046721633294,
     "apt_win": null,
-    "distance_win": 10.556204963971178,
-    "distance_place3": 28.727702161729386,
-    "distance_return": 70.20784627702162,
-    "sire_win": 10.569255404323458,
-    "sire_place3": 31.431545236188953,
-    "sire_return": 73.93835068054443,
+    "distance_win": 10.478288182175108,
+    "distance_place3": 28.565174715351393,
+    "distance_return": 75.45971731448763,
+    "sire_win": 10.290145268943856,
+    "sire_place3": 30.42245779348253,
+    "sire_return": 73.99136238712211,
     "bms_win": 0.0,
     "bms_place3": 0.0,
     "bms_return": 0.0,
-    "course_win": 11.722738190552443,
-    "course_place3": 32.0435548438751,
-    "course_return": 73.22506004803843,
-    "concerned_win": 10.474779823859087,
-    "concerned_place3": 28.489991993594877,
-    "concerned_return": 72.62449959967974,
-    "interval_win": 9.299759807846277,
-    "interval_place3": 26.53210568454764,
-    "interval_return": 58.72177742193755,
-    "kinryo_win": 10.195516413130505,
-    "kinryo_place3": 28.756765412329866,
-    "kinryo_return": 70.35484387510007
+    "course_win": 11.456694149980368,
+    "course_place3": 31.362387122104437,
+    "course_return": 71.48688653317629,
+    "concerned_win": 10.564978405967805,
+    "concerned_place3": 28.07106399685905,
+    "concerned_return": 79.53003533568905,
+    "interval_win": 8.524342363564978,
+    "interval_place3": 25.219356105221827,
+    "interval_return": 56.15779348252846,
+    "kinryo_win": 9.895131527287004,
+    "kinryo_place3": 28.280054966627407,
+    "kinryo_return": 65.4306242638398,
+    "waku_recent2d_win": null
   },
   "class_ordinal": {
     "新馬": 0.0,
@@ -126,13 +127,16 @@
     }
   },
   "fitted_on": {
-    "n_races": 126,
-    "n_horses": 1249,
+    "n_races": 253,
+    "n_horses": 2547,
     "dates": [
       "20260725",
       "20260726",
       "20260727",
-      "20260728"
+      "20260728",
+      "20260729",
+      "20260730",
+      "20260731"
     ],
     "blocks": [
       "20260725_高知",
@@ -146,74 +150,84 @@
       "20260728_川崎",
       "20260728_盛岡",
       "20260728_金沢",
-      "20260728_門別"
+      "20260728_門別",
+      "20260729_名古屋",
+      "20260729_園田",
+      "20260729_川崎",
+      "20260729_門別",
+      "20260730_名古屋",
+      "20260730_園田",
+      "20260730_川崎",
+      "20260730_門別",
+      "20260731_名古屋",
+      "20260731_園田",
+      "20260731_川崎"
     ],
     "search_dates": [],
     "holdout_dates": [],
-    "note": "重み探索を行わないため search/holdout の分割は存在しない"
+    "note": "重み探索を行わないため search/holdout の分割は存在しない(2026-08-01: 300パターン探索は実施したがレビューにより不採用、等重みを維持)"
   },
   "all_races_backtest": {
     "単勝": {
-      "hit_races": 69,
-      "hit_rate_pct": 54.8,
-      "stake": 37800,
-      "return": 22350,
-      "return_rate_pct": 59.1
+      "hit_races": 164,
+      "hit_rate_pct": 64.8,
+      "stake": 75900,
+      "return": 55190,
+      "return_rate_pct": 72.7
     },
     "複勝": {
-      "hit_races": 115,
+      "hit_races": 231,
       "hit_rate_pct": 91.3,
-      "stake": 37800,
-      "return": 32130,
-      "return_rate_pct": 85.0
+      "stake": 75900,
+      "return": 59050,
+      "return_rate_pct": 77.8
     },
     "馬連": {
-      "hit_races": 36,
-      "hit_rate_pct": 28.6,
-      "stake": 37800,
-      "return": 36770,
-      "return_rate_pct": 97.3
+      "hit_races": 83,
+      "hit_rate_pct": 32.8,
+      "stake": 75900,
+      "return": 52860,
+      "return_rate_pct": 69.6
     },
     "ワイド": {
-      "hit_races": 69,
-      "hit_rate_pct": 54.8,
-      "stake": 37800,
-      "return": 38480,
-      "return_rate_pct": 101.8
+      "hit_races": 140,
+      "hit_rate_pct": 55.3,
+      "stake": 75900,
+      "return": 55740,
+      "return_rate_pct": 73.4
     },
     "馬単": {
-      "hit_races": 36,
-      "hit_rate_pct": 28.6,
-      "stake": 75600,
-      "return": 71330,
-      "return_rate_pct": 94.4
+      "hit_races": 83,
+      "hit_rate_pct": 32.8,
+      "stake": 151800,
+      "return": 100090,
+      "return_rate_pct": 65.9
     },
     "3連複": {
-      "hit_races": 14,
-      "hit_rate_pct": 11.1,
-      "stake": 12600,
-      "return": 11620,
-      "return_rate_pct": 92.2
+      "hit_races": 24,
+      "hit_rate_pct": 9.5,
+      "stake": 25300,
+      "return": 19600,
+      "return_rate_pct": 77.5
     },
     "3連単": {
-      "hit_races": 14,
-      "hit_rate_pct": 11.1,
-      "stake": 75600,
-      "return": 69710,
-      "return_rate_pct": 92.2
+      "hit_races": 24,
+      "hit_rate_pct": 9.5,
+      "stake": 151800,
+      "return": 86760,
+      "return_rate_pct": 57.2
     }
   },
   "objective": {
     "definition": "複勝+ワイドのコスト加重回収率 − 同一レースを上位N人気BOXで買った場合の同指標",
-    "model_pct": 93.3994708994709,
-    "market_pct": 70.63492063492063,
-    "excess_pt": 22.764550264550266,
+    "model_pct": 75.619236,
+    "market_pct": 76.587615,
+    "excess_pt": -0.968379,
     "bootstrap95_block": {
-      "mean": 93.39515260970697,
-      "lo": 70.83271144278608,
-      "hi": 119.70727956989249
-    },
-    "caveat": "この数字は300パターンをこの126レースそのもので探索して選んだ結果であり、in-sample(楽観的)な値である点に注意。誠実な汎化性能推定はsearch300_2026_07_29.nested_lobo_oof を参照。"
+      "mean": 75.73760066460714,
+      "lo": 65.21854922149039,
+      "hi": 86.91254940711461
+    }
   },
   "selection_bias_measured_for_factor_choice": {
     "selected_side": 86.48828761956067,
@@ -316,14 +330,14 @@
     ]
   },
   "code_sha256": {
-    "nar_signals.py": "45091ad9ca746d19",
+    "nar_signals.py": "18536247a4b327e0",
     "nar_eval.py": "c495ca165a2fd3a1",
     "nar_backtest.py": "e827264789f68c39",
-    "nar_dataset.py": "3d7645d441d99261",
-    "nar_search300_2026_07_29.py": "6a406da0f56588b6"
+    "nar_dataset.py": "21622705404a94d4",
+    "nar_search300_2026_08_01.py": "f1557841c932af70"
   },
-  "created_at": "2026-07-29T20:09:44",
-  "note": "(2026-07-29 3回目の更新) ユーザー指示により等重みを廃止し、300パターン自由探索(全17シグナル、Dirichletサンプリング、seed=2029)で選ばれたパターン#157の差のある重みを採用。box_n=3のNested LOBO OOF市場差は+13.11pt(現行の等重み14シグナルは+12.17pt)。競馬専門家・シニアエンジニアの両レビューは改善幅が誤差範囲内であるとして保留を推奨したが、ユーザーの指示により採用した。",
+  "created_at": "2026-08-01T13:48:53",
+  "note": "(2026-08-01) データ増加(253レース、7/25-7/31)を受け、2026-07-29と同じ手法で300パターン探索をbox5(新規)/4/3に拡張して再実行。ユーザー依頼によるプロのシステムエンジニアレビューの結果、探索は構造的に成立しない(box4では基準の等重み自体が300パターン中97パーセンタイルという探索自身の証拠あり)と判定されたため、box4/box3ともに2026-07-29に採用したpattern#157を撤回し、等重み17シグナルに差し戻した。詳細はsearch300_2026_08_01を参照。検証データの77%が発走後取得である点はdata_provenance_caveat_2026_08_01に記録、対応は別途保留。",
   "factor_test_2026_07_29_v2": {
     "requested_by_user": "2026-07-29: 近走成績(form)に直近5走の1着とのタイム差・当時のクラスと人気順・直近取得馬体重を追加してほしいという依頼を受けて検証",
     "method": "連続重み探索は行わず、新規3候補の全組合せ(8通り、等重み)をLOBO OOFで判定。プライマリのテストベッドはbox_n=4、決定した重みをbox_n=3に適用して一貫性を確認。",
@@ -495,17 +509,37 @@
       "usable_races": 253,
       "date_x_course_keys_with_valid_2day_window": "9 / 23",
       "races_with_at_least_1_horse_having_data": "102 / 253",
-      "per_waku_runs_in_window_when_present": {"mean": 32.1, "median": 31.0, "n_horse_rows_with_data": "1046 / 2547"}
+      "per_waku_runs_in_window_when_present": {
+        "mean": 32.1,
+        "median": 31.0,
+        "n_horse_rows_with_data": "1046 / 2547"
+      }
     },
     "dead_check": "生存(死にシグナルではない)",
     "factor_oof_box4": {
-      "基準(alive_signals17本等重み)": {"model": 80.46, "market": 79.24, "excess": 1.22},
-      "基準+waku_recent2d(18本等重み)": {"model": 78.98, "market": 79.24, "excess": -0.26},
+      "基準(alive_signals17本等重み)": {
+        "model": 80.46,
+        "market": 79.24,
+        "excess": 1.22
+      },
+      "基準+waku_recent2d(18本等重み)": {
+        "model": 78.98,
+        "market": 79.24,
+        "excess": -0.26
+      },
       "差分": -1.47
     },
     "factor_oof_box3": {
-      "基準(alive_signals17本等重み)": {"model": 75.62, "market": 76.59, "excess": -0.97},
-      "基準+waku_recent2d(18本等重み)": {"model": 74.54, "market": 76.59, "excess": -2.05},
+      "基準(alive_signals17本等重み)": {
+        "model": 75.62,
+        "market": 76.59,
+        "excess": -0.97
+      },
+      "基準+waku_recent2d(18本等重み)": {
+        "model": 74.54,
+        "market": 76.59,
+        "excess": -2.05
+      },
       "差分": -1.08
     },
     "adopt_candidate": false,
@@ -519,5 +553,75 @@
     "true_edge_pt": -4.396952886839824,
     "true_edge_sd": 8.471871230959882,
     "win_rate": 0.245
+  },
+  "search300_2026_08_01": {
+    "requested_by_user": "2026-08-01: 地方競馬の取得データ増加(7/23-7/31、253レース)を受け、2026-07-29と同じ手法(300パターンDirichlet探索、seed=2029、同一プール)をbox_n=5(新規)/4/3に拡張して再実行し、各BOXサイズの回収率が改善するか検証してほしいとの依頼。",
+    "method": "17シグナルプールにDirichlet([1]*17)で300パターンを生成(2026-07-29と同一シード)。box_n毎にin-sample最良パターン・Nested LOBO OOF(開催日×競馬場23ブロックで「300パターンから選ぶ手続き全体」を交差検証)・選択バイアス診断(ブロック半分割×200反復)を評価。スクリプトはscripts/nar_model/nar_search300_2026_08_01.py。",
+    "data": {
+      "n_races": 253,
+      "dates": [
+        "20260725",
+        "20260726",
+        "20260727",
+        "20260728",
+        "20260729",
+        "20260730",
+        "20260731"
+      ],
+      "n_blocks": 23,
+      "note": "7/23分は馬柱データ欠損で0件(newspaper未取得のため検証母集団から除外)"
+    },
+    "results_by_box": {
+      "5": {
+        "baseline_equal_weight_excess_pt": -4.02,
+        "in_sample_best_pattern_index": 140,
+        "in_sample_best_excess_pt": 6.85,
+        "nested_lobo_oof_excess_pt": -7.63,
+        "selection_true_edge_pt": -0.9,
+        "selection_true_edge_sd": 4.44,
+        "win_rate_vs_pool_mean": 0.4
+      },
+      "4": {
+        "baseline_equal_weight_excess_pt": 1.22,
+        "in_sample_best_pattern_index": 138,
+        "in_sample_best_excess_pt": 4.68,
+        "nested_lobo_oof_excess_pt": -7.26,
+        "selection_true_edge_pt": -2.54,
+        "selection_true_edge_sd": 4.51,
+        "win_rate_vs_pool_mean": 0.26
+      },
+      "3": {
+        "baseline_equal_weight_excess_pt": -0.97,
+        "in_sample_best_pattern_index": 182,
+        "in_sample_best_excess_pt": 11.98,
+        "nested_lobo_oof_excess_pt": -0.29,
+        "selection_true_edge_pt": -1.32,
+        "selection_true_edge_sd": 5.27,
+        "win_rate_vs_pool_mean": 0.44
+      }
+    },
+    "professional_review": {
+      "requested_by_user": "ユーザーから明示的に「モデリング、検証方法について、プロのシステムエンジニアにレビューをさせてください」との依頼を受け、サブエージェントによる検証手法レビューを実施(競馬ドメインではなく統計・検証手法そのものが焦点)。",
+      "key_findings": [
+        "統計的検出力: 300パターンの回収率の標準偏差は3.3〜4.0pt。in-sampleの「勝ち幅」(+9.9〜+13.2pt)は、相関のある300個の最大値が生む期待上振れ(6.6〜13.5pt)の範囲内に収まり、純ノイズで説明可能。実効的な信号の証拠は無い。",
+        "Dirichlet([1]*17)サンプリングは等重み近傍を一度も生成しない設計上の偏りがあり、box4では等重み(基準)が300パターン中97パーセンタイルに位置する。「探索の最良」ではなく「基準より悪いパターン群の最大値」を基準と比較していたに等しい。",
+        "誠実な対差(市場超過)のブロックブートストラップ95%CIを算出すると、例えばbox4のin-sample最良+4.68pt[-10.5,+23.5]と等重み+1.22pt[-10.5,+14.6]は大きく重なり統計的に区別不能。",
+        "23ブロックは実質7競馬場しかなく、LOBOの実効独立サンプル数は23より大幅に少ない。加えてLOBOは時系列を無視しており、常に前向きな本番運用と評価設計が一致していない。",
+        "priorsの算出が全データ一括(fold外)である点も指摘したが、実測では影響は無視できるレベル(train限定に直してもpicksの変化は253レース中1〜2件)と判明。",
+        "17シグナルは「馬の強さ」を測るものばかりで、市場(オッズ)が織り込み済みの情報を上回るには「ミスプライス」を検出する情報が必要。オッズ込み回収率を目的関数にする限り、原理的に市場を上回りにくい設計になっている。",
+        "副次的に、検証253レースの77%(196件)が発走後に馬柱データを取得したものであることが判明(別途data_provenance_caveat_2026_08_01に記録)。"
+      ],
+      "conclusion": "300パターン自由探索は現在の標本規模(253レース)では構造的に成立しない。データが増えれば改善する種類の問題ではなく、(1)必要標本数が数千レース規模、(2)目的関数(オッズ込み回収率)が入手可能な指標の中で最も高分散、(3)Dirichlet(1)の探索分布が基準点の近傍を探索しない設計、(4)シグナルが「強さ」を測る一方で目的が「市場が織り込んでいないミスプライス」の検出を要求する、という4点が独立に効いている。box4で基準(等重み)が300パターン中97パーセンタイルという探索結果自体が「等重み維持が最善」という最も強い証拠になっている。",
+      "recommendation": "box5/4/3すべて300パターン探索は不採用、等重み17シグナルを維持する。nar_eval.pyの評価基盤(pooled集計・対比較目的関数・ブロックCV・選択バイアス診断)自体は妥当であり継続使用してよいが、探索の対象・規模を見直す必要がある(推奨: 目的をリターンから複勝的中確率等の低分散な指標に変更する、Dirichlet濃度パラメータを等重み周りの局所摂動に変える、venue単位のleave-one-outとwalk-forward評価を追加する等)。"
+    },
+    "user_decision": "レビュー推奨通り、box5/4/3すべて等重み17シグナルを採用(2026-07-29にbox4/box3で採用したpattern#157は本決定により撤回・等重みに差し戻し)。",
+    "adopt_candidate": false
+  },
+  "data_provenance_caveat_2026_08_01": {
+    "found_by": "search300_2026_08_01の検証手法レビュー(プロのシステムエンジニア、サブエージェント)の過程で発見",
+    "issue": "検証に使った253レースのうち196レース(77%)が、レース終了後に馬柱CSVを取得したものだった(本番は09:00/13:00 JSTの発走前取得)。過去N走の成績・当該コースでの自己成績への直接的な着順混入の証拠は見つからなかったが、ca_*系の集計値(騎手勝率等)が取得タイミングで実際に変動することを実証しており、リークが無いことを証明できない状態。",
+    "affected_scope": "今回のbox5/4/3判断に限らず、これまでのNAR検証数値全般(2026-07-29のpattern#157採用判断等)に共通する制約。",
+    "user_decision": "2026-08-01時点では対応を保留し、別タスクとして後日改めて検討する。今回のbox5/4/3の判断・数値はこの制約が残ったままの暫定値として扱う。",
+    "remediation_if_addressed": "nar_dataset.build()に馬柱CSV取得時刻を記録し、発走時刻より後に取得されたレースを検証母集団から除外(または明示的に警告)する仕組みを追加する。"
   }
 }
