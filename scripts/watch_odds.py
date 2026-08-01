@@ -23,6 +23,7 @@
 """
 import argparse
 import csv
+import json
 import logging
 import os
 import sys
@@ -97,6 +98,32 @@ def _already_done(date: str, circuit: str) -> set[tuple[str, str]]:
         return set()
     df = pd.read_csv(out_path, dtype=str)
     return set(zip(df["race_id"], df["checkpoint_label"]))
+
+
+def _status_path(date: str, circuit: str) -> Path:
+    return OUT_DIR / f"odds_watch_status{_suffix(circuit)}_{date}.json"
+
+
+def _write_status(date: str, circuit: str, status: str, started_at: datetime, logger: logging.Logger) -> None:
+    """build_artifact.py側が「本当にプロセスが生きているか」を判定するためのハートビート。
+
+    odds_history_{date}.csvは最初のチェックポイントが発火するまで作られないため、その存在
+    だけでは「起動はしたがまだ何も取得していない」区間(ログイン成功〜最初のfetch)を
+    「未起動」と誤判定してしまう。ここでは待機ループの毎周回(最大60秒間隔)でこのファイルを
+    上書きし、last_heartbeatの新しさで生存を判定できるようにする。書き込み失敗はオッズ取得
+    本体を止める理由にはならないため、警告ログのみで握りつぶす。
+    """
+    try:
+        payload = {
+            "date": date, "circuit": circuit, "pid": os.getpid(), "status": status,
+            "started_at": started_at.isoformat(sep=" "),
+            "last_heartbeat": datetime.now().isoformat(sep=" "),
+        }
+        _status_path(date, circuit).write_text(
+            json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+    except OSError:
+        logger.warning("failed to write status heartbeat", exc_info=True)
 
 
 def build_events(date: str, now: datetime, circuit: str = "jra") -> tuple[list[Event], list[Event]]:
@@ -180,12 +207,16 @@ def run_watch(date: str, circuit: str = "jra") -> None:
 
     session = login(email, password)
     logger.info("logged in to netkeiba")
+    started_at = datetime.now()
+    _write_status(date, circuit, "running", started_at, logger)
 
     errored = 0
     fetched_count = 0
+    interrupted = False
     try:
         while future:
             now = datetime.now()
+            _write_status(date, circuit, "running", started_at, logger)
             wait = (future[0].scheduled_time - now).total_seconds()
             if wait > 0:
                 time.sleep(min(wait, 60))
@@ -209,8 +240,10 @@ def run_watch(date: str, circuit: str = "jra") -> None:
                 errored += 1
                 logger.exception("failed to fetch race_id=%s checkpoint=%s", ev.race_id, ev.checkpoint_label)
     except KeyboardInterrupt:
+        interrupted = True
         logger.info("interrupted by user - %d remaining checkpoint(s) not fetched", len(future))
 
+    _write_status(date, circuit, "interrupted" if interrupted else "done", started_at, logger)
     logger.info("done. fetched=%d errored=%d remaining=%d", fetched_count, errored, len(future))
 
 

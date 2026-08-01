@@ -1,13 +1,14 @@
 {
   "fitted_on": {
-    "n_races": 219,
+    "n_races": 253,
     "dates": [
       "20260725",
       "20260726",
       "20260727",
       "20260728",
       "20260729",
-      "20260730"
+      "20260730",
+      "20260731"
     ]
   },
   "method": "lobo_quantile_bucket_calibration_sign_safe",
@@ -21,22 +22,22 @@
     "5": {
       "place": {
         "hit_label": "複勝的中(3着以内)",
-        "n_races": 219,
-        "overall_hit_rate_pct": 95.9,
-        "trivial_baseline_oof_brier": 0.04007789680641235,
-        "raw_gap_pct_insample_brier": 0.8138043949020674,
+        "n_races": 253,
+        "overall_hit_rate_pct": 96.4,
+        "trivial_baseline_oof_brier": 0.03482391478447265,
+        "raw_gap_pct_insample_brier": 0.8137030301969269,
         "candidates": {
           "gap_pct": {
-            "oof_brier": 0.0401596709734403,
-            "spearman_with_hit": -0.13098607099747475
+            "oof_brier": 0.034912215047693394,
+            "spearman_with_hit": -0.11132274617021512
           },
           "spread": {
-            "oof_brier": 0.04100799810655412,
-            "spearman_with_hit": -0.06731190196073088
+            "oof_brier": 0.035418308974109664,
+            "spearman_with_hit": -0.05317759773063382
           },
           "gap_top2": {
-            "oof_brier": 0.040170136210958815,
-            "spearman_with_hit": 0.08623200413347686
+            "oof_brier": 0.03490079617169569,
+            "spearman_with_hit": 0.06866338168515905
           }
         },
         "chosen_feature": "gap_top2",
@@ -46,239 +47,77 @@
           "feature": "gap_top2",
           "n_buckets": 4,
           "edges": [
-            0.0776889200323487,
-            0.15273323594559765,
-            0.24736333069395858
+            0.07516538419501526,
+            0.14281873888213642,
+            0.24422996485214024
           ],
           "buckets": [
             {
               "bucket": 0,
-              "n_races": 55,
-              "hit_rate_pct": 94.5,
+              "n_races": 63,
+              "hit_rate_pct": 95.2,
               "value_range": [
-                0.0021378671706459066,
-                0.0759598295973101
+                0.0007175704358180689,
+                0.07252376551427894
               ]
             },
             {
               "bucket": 1,
-              "n_races": 54,
-              "hit_rate_pct": 92.6,
+              "n_races": 63,
+              "hit_rate_pct": 93.7,
               "value_range": [
-                0.07941801046738729,
-                0.15268864263642695
+                0.07516538419501526,
+                0.14154189590574293
               ]
             },
             {
               "bucket": 2,
-              "n_races": 55,
-              "hit_rate_pct": 98.2,
+              "n_races": 63,
+              "hit_rate_pct": 98.4,
               "value_range": [
-                0.15273323594559765,
-                0.2466020169854197
+                0.14281873888213642,
+                0.24359237774698692
               ]
             },
             {
               "bucket": 3,
-              "n_races": 55,
-              "hit_rate_pct": 98.2,
+              "n_races": 64,
+              "hit_rate_pct": 98.4,
               "value_range": [
-                0.24812464440249746,
-                0.6274962520177203
+                0.24422996485214024,
+                0.6274522525465049
               ]
             }
           ],
           "best_hit_rate_bucket": {
             "bucket": 2,
-            "n_races": 55,
-            "hit_rate_pct": 98.2,
+            "n_races": 63,
+            "hit_rate_pct": 98.4,
             "value_range": [
-              0.15273323594559765,
-              0.2466020169854197
+              0.14281873888213642,
+              0.24359237774698692
             ]
           }
         }
       },
       "profit": {
         "hit_label": "複勝+ワイド単体黒字",
-        "n_races": 219,
-        "overall_hit_rate_pct": 22.8,
-        "trivial_baseline_oof_brier": 0.17810672466075392,
-        "raw_gap_pct_insample_brier": 0.22990581028967655,
+        "n_races": 253,
+        "overall_hit_rate_pct": 22.1,
+        "trivial_baseline_oof_brier": 0.17404048448855144,
+        "raw_gap_pct_insample_brier": 0.21460994842925207,
         "candidates": {
           "gap_pct": {
-            "oof_brier": 0.18111940919912345,
-            "spearman_with_hit": -0.04215909179893783
+            "oof_brier": 0.1780917331750287,
+            "spearman_with_hit": 0.000782166528694519
           },
           "spread": {
-            "oof_brier": 0.18097791678236014,
-            "spearman_with_hit": -0.055236698609279364
+            "oof_brier": 0.17601456732271475,
+            "spearman_with_hit": -0.01277533930154845
           },
           "gap_top2": {
-            "oof_brier": 0.18095113614194508,
-            "spearman_with_hit": -0.06039900689052044
-          }
-        },
-        "chosen_feature": "gap_top2",
-        "chosen_feature_sign_warning": true,
-        "beats_trivial_baseline": false,
-        "calibration_table": {
-          "feature": "gap_top2",
-          "n_buckets": 4,
-          "edges": [
-            0.0776889200323487,
-            0.15273323594559765,
-            0.24736333069395858
-          ],
-          "buckets": [
-            {
-              "bucket": 0,
-              "n_races": 55,
-              "hit_rate_pct": 30.9,
-              "value_range": [
-                0.0021378671706459066,
-                0.0759598295973101
-              ]
-            },
-            {
-              "bucket": 1,
-              "n_races": 54,
-              "hit_rate_pct": 20.4,
-              "value_range": [
-                0.07941801046738729,
-                0.15268864263642695
-              ]
-            },
-            {
-              "bucket": 2,
-              "n_races": 55,
-              "hit_rate_pct": 20.0,
-              "value_range": [
-                0.15273323594559765,
-                0.2466020169854197
-              ]
-            },
-            {
-              "bucket": 3,
-              "n_races": 55,
-              "hit_rate_pct": 20.0,
-              "value_range": [
-                0.24812464440249746,
-                0.6274962520177203
-              ]
-            }
-          ],
-          "best_hit_rate_bucket": {
-            "bucket": 0,
-            "n_races": 55,
-            "hit_rate_pct": 30.9,
-            "value_range": [
-              0.0021378671706459066,
-              0.0759598295973101
-            ]
-          }
-        }
-      }
-    },
-    "4": {
-      "place": {
-        "hit_label": "複勝的中(3着以内)",
-        "n_races": 219,
-        "overall_hit_rate_pct": 94.1,
-        "trivial_baseline_oof_brier": 0.05665493052450918,
-        "raw_gap_pct_insample_brier": 0.7644072812785293,
-        "candidates": {
-          "gap_pct": {
-            "oof_brier": 0.05773285554886826,
-            "spearman_with_hit": 0.02414753703204425
-          },
-          "spread": {
-            "oof_brier": 0.058295199046372655,
-            "spearman_with_hit": 0.009169950771662373
-          },
-          "gap_top2": {
-            "oof_brier": 0.055408045261484115,
-            "spearman_with_hit": 0.17514605973875133
-          }
-        },
-        "chosen_feature": "gap_top2",
-        "chosen_feature_sign_warning": false,
-        "beats_trivial_baseline": true,
-        "calibration_table": {
-          "feature": "gap_top2",
-          "n_buckets": 4,
-          "edges": [
-            0.0776889200323487,
-            0.15273323594559765,
-            0.24736333069395858
-          ],
-          "buckets": [
-            {
-              "bucket": 0,
-              "n_races": 55,
-              "hit_rate_pct": 87.3,
-              "value_range": [
-                0.0021378671706459066,
-                0.0759598295973101
-              ]
-            },
-            {
-              "bucket": 1,
-              "n_races": 54,
-              "hit_rate_pct": 92.6,
-              "value_range": [
-                0.07941801046738729,
-                0.15268864263642695
-              ]
-            },
-            {
-              "bucket": 2,
-              "n_races": 55,
-              "hit_rate_pct": 98.2,
-              "value_range": [
-                0.15273323594559765,
-                0.2466020169854197
-              ]
-            },
-            {
-              "bucket": 3,
-              "n_races": 55,
-              "hit_rate_pct": 98.2,
-              "value_range": [
-                0.24812464440249746,
-                0.6274962520177203
-              ]
-            }
-          ],
-          "best_hit_rate_bucket": {
-            "bucket": 2,
-            "n_races": 55,
-            "hit_rate_pct": 98.2,
-            "value_range": [
-              0.15273323594559765,
-              0.2466020169854197
-            ]
-          }
-        }
-      },
-      "profit": {
-        "hit_label": "複勝+ワイド単体黒字",
-        "n_races": 219,
-        "overall_hit_rate_pct": 24.7,
-        "trivial_baseline_oof_brier": 0.1881020904347091,
-        "raw_gap_pct_insample_brier": 0.21218774176924055,
-        "candidates": {
-          "gap_pct": {
-            "oof_brier": 0.19243041196559557,
-            "spearman_with_hit": 0.0420616112624067
-          },
-          "spread": {
-            "oof_brier": 0.19343903592278985,
-            "spearman_with_hit": -0.0707171312857993
-          },
-          "gap_top2": {
-            "oof_brier": 0.19279556516632912,
-            "spearman_with_hit": -0.016087309486816904
+            "oof_brier": 0.17504757580624392,
+            "spearman_with_hit": -0.04106359061212001
           }
         },
         "chosen_feature": "gap_pct",
@@ -288,55 +127,217 @@
           "feature": "gap_pct",
           "n_buckets": 4,
           "edges": [
-            0.033769665374073284,
-            0.07666580381344823,
-            0.1541794343767121
+            0.024869318563400335,
+            0.05618188228727027,
+            0.11686071906431873
           ],
           "buckets": [
             {
               "bucket": 0,
-              "n_races": 55,
-              "hit_rate_pct": 23.6,
+              "n_races": 63,
+              "hit_rate_pct": 22.2,
               "value_range": [
-                0.00016908390267390713,
-                0.03376108833456867
+                5.323559750764521e-05,
+                0.02370557047451267
               ]
             },
             {
               "bucket": 1,
-              "n_races": 54,
-              "hit_rate_pct": 22.2,
+              "n_races": 63,
+              "hit_rate_pct": 19.0,
               "value_range": [
-                0.033778242413577894,
-                0.07624612355537883
+                0.024869318563400335,
+                0.053306672560812514
               ]
             },
             {
               "bucket": 2,
-              "n_races": 55,
-              "hit_rate_pct": 25.5,
+              "n_races": 63,
+              "hit_rate_pct": 25.4,
               "value_range": [
-                0.07666580381344823,
-                0.15308398168532453
+                0.05618188228727027,
+                0.11076154635103932
               ]
             },
             {
               "bucket": 3,
-              "n_races": 55,
-              "hit_rate_pct": 27.3,
+              "n_races": 64,
+              "hit_rate_pct": 21.9,
               "value_range": [
-                0.15527488706809967,
-                0.5620701642836622
+                0.11686071906431873,
+                1.0
+              ]
+            }
+          ],
+          "best_hit_rate_bucket": {
+            "bucket": 2,
+            "n_races": 63,
+            "hit_rate_pct": 25.4,
+            "value_range": [
+              0.05618188228727027,
+              0.11076154635103932
+            ]
+          }
+        }
+      }
+    },
+    "4": {
+      "place": {
+        "hit_label": "複勝的中(3着以内)",
+        "n_races": 253,
+        "overall_hit_rate_pct": 94.9,
+        "trivial_baseline_oof_brier": 0.049390207987887264,
+        "raw_gap_pct_insample_brier": 0.7730181834211818,
+        "candidates": {
+          "gap_pct": {
+            "oof_brier": 0.05041443821082395,
+            "spearman_with_hit": 0.014462661078369295
+          },
+          "spread": {
+            "oof_brier": 0.050683345956092175,
+            "spearman_with_hit": 0.017404219263800338
+          },
+          "gap_top2": {
+            "oof_brier": 0.048469933734062054,
+            "spearman_with_hit": 0.1522256360960565
+          }
+        },
+        "chosen_feature": "gap_top2",
+        "chosen_feature_sign_warning": false,
+        "beats_trivial_baseline": true,
+        "calibration_table": {
+          "feature": "gap_top2",
+          "n_buckets": 4,
+          "edges": [
+            0.07516538419501526,
+            0.14281873888213642,
+            0.24422996485214024
+          ],
+          "buckets": [
+            {
+              "bucket": 0,
+              "n_races": 63,
+              "hit_rate_pct": 88.9,
+              "value_range": [
+                0.0007175704358180689,
+                0.07252376551427894
+              ]
+            },
+            {
+              "bucket": 1,
+              "n_races": 63,
+              "hit_rate_pct": 93.7,
+              "value_range": [
+                0.07516538419501526,
+                0.14154189590574293
+              ]
+            },
+            {
+              "bucket": 2,
+              "n_races": 63,
+              "hit_rate_pct": 98.4,
+              "value_range": [
+                0.14281873888213642,
+                0.24359237774698692
+              ]
+            },
+            {
+              "bucket": 3,
+              "n_races": 64,
+              "hit_rate_pct": 98.4,
+              "value_range": [
+                0.24422996485214024,
+                0.6274522525465049
+              ]
+            }
+          ],
+          "best_hit_rate_bucket": {
+            "bucket": 2,
+            "n_races": 63,
+            "hit_rate_pct": 98.4,
+            "value_range": [
+              0.14281873888213642,
+              0.24359237774698692
+            ]
+          }
+        }
+      },
+      "profit": {
+        "hit_label": "複勝+ワイド単体黒字",
+        "n_races": 253,
+        "overall_hit_rate_pct": 22.9,
+        "trivial_baseline_oof_brier": 0.1787353817040812,
+        "raw_gap_pct_insample_brier": 0.2003288076944446,
+        "candidates": {
+          "gap_pct": {
+            "oof_brier": 0.18252229242784362,
+            "spearman_with_hit": 0.03308836556040501
+          },
+          "spread": {
+            "oof_brier": 0.18367044036728694,
+            "spearman_with_hit": -0.0466069584936444
+          },
+          "gap_top2": {
+            "oof_brier": 0.1812774501485191,
+            "spearman_with_hit": -0.028324670907739696
+          }
+        },
+        "chosen_feature": "gap_pct",
+        "chosen_feature_sign_warning": false,
+        "beats_trivial_baseline": false,
+        "calibration_table": {
+          "feature": "gap_pct",
+          "n_buckets": 4,
+          "edges": [
+            0.03440228974980756,
+            0.07377800851329182,
+            0.1402264028957336
+          ],
+          "buckets": [
+            {
+              "bucket": 0,
+              "n_races": 63,
+              "hit_rate_pct": 22.2,
+              "value_range": [
+                0.00011332813807716229,
+                0.0336875761856637
+              ]
+            },
+            {
+              "bucket": 1,
+              "n_races": 63,
+              "hit_rate_pct": 22.2,
+              "value_range": [
+                0.03440228974980756,
+                0.07227535523477573
+              ]
+            },
+            {
+              "bucket": 2,
+              "n_races": 63,
+              "hit_rate_pct": 22.2,
+              "value_range": [
+                0.07377800851329182,
+                0.13767953997136406
+              ]
+            },
+            {
+              "bucket": 3,
+              "n_races": 64,
+              "hit_rate_pct": 25.0,
+              "value_range": [
+                0.1402264028957336,
+                0.5631726956429418
               ]
             }
           ],
           "best_hit_rate_bucket": {
             "bucket": 3,
-            "n_races": 55,
-            "hit_rate_pct": 27.3,
+            "n_races": 64,
+            "hit_rate_pct": 25.0,
             "value_range": [
-              0.15527488706809967,
-              0.5620701642836622
+              0.1402264028957336,
+              0.5631726956429418
             ]
           }
         }
@@ -345,22 +346,22 @@
     "3": {
       "place": {
         "hit_label": "複勝的中(3着以内)",
-        "n_races": 219,
-        "overall_hit_rate_pct": 90.9,
-        "trivial_baseline_oof_brier": 0.08401553590102051,
-        "raw_gap_pct_insample_brier": 0.7259672653520566,
+        "n_races": 253,
+        "overall_hit_rate_pct": 91.7,
+        "trivial_baseline_oof_brier": 0.07694325949640664,
+        "raw_gap_pct_insample_brier": 0.7260348388245124,
         "candidates": {
           "gap_pct": {
-            "oof_brier": 0.08684553862794936,
-            "spearman_with_hit": -0.008023419101933544
+            "oof_brier": 0.07947892080386072,
+            "spearman_with_hit": 0.020597245887454197
           },
           "spread": {
-            "oof_brier": 0.08620221032872227,
-            "spearman_with_hit": -0.012536592346771161
+            "oof_brier": 0.07815951440426804,
+            "spearman_with_hit": 0.02216655985983166
           },
           "gap_top2": {
-            "oof_brier": 0.08451618371142931,
-            "spearman_with_hit": 0.11182640373319876
+            "oof_brier": 0.07771852333049115,
+            "spearman_with_hit": 0.0935703456030062
           }
         },
         "chosen_feature": "gap_top2",
@@ -370,77 +371,77 @@
           "feature": "gap_top2",
           "n_buckets": 4,
           "edges": [
-            0.0776889200323487,
-            0.15273323594559765,
-            0.24736333069395858
+            0.07516538419501526,
+            0.14281873888213642,
+            0.24422996485214024
           ],
           "buckets": [
             {
               "bucket": 0,
-              "n_races": 55,
-              "hit_rate_pct": 85.5,
+              "n_races": 63,
+              "hit_rate_pct": 87.3,
               "value_range": [
-                0.0021378671706459066,
-                0.0759598295973101
+                0.0007175704358180689,
+                0.07252376551427894
               ]
             },
             {
               "bucket": 1,
-              "n_races": 54,
-              "hit_rate_pct": 92.6,
+              "n_races": 63,
+              "hit_rate_pct": 92.1,
               "value_range": [
-                0.07941801046738729,
-                0.15268864263642695
+                0.07516538419501526,
+                0.14154189590574293
               ]
             },
             {
               "bucket": 2,
-              "n_races": 55,
-              "hit_rate_pct": 90.9,
+              "n_races": 63,
+              "hit_rate_pct": 92.1,
               "value_range": [
-                0.15273323594559765,
-                0.2466020169854197
+                0.14281873888213642,
+                0.24359237774698692
               ]
             },
             {
               "bucket": 3,
-              "n_races": 55,
-              "hit_rate_pct": 94.5,
+              "n_races": 64,
+              "hit_rate_pct": 95.3,
               "value_range": [
-                0.24812464440249746,
-                0.6274962520177203
+                0.24422996485214024,
+                0.6274522525465049
               ]
             }
           ],
           "best_hit_rate_bucket": {
             "bucket": 3,
-            "n_races": 55,
-            "hit_rate_pct": 94.5,
+            "n_races": 64,
+            "hit_rate_pct": 95.3,
             "value_range": [
-              0.24812464440249746,
-              0.6274962520177203
+              0.24422996485214024,
+              0.6274522525465049
             ]
           }
         }
       },
       "profit": {
         "hit_label": "複勝+ワイド単体黒字",
-        "n_races": 219,
-        "overall_hit_rate_pct": 24.7,
-        "trivial_baseline_oof_brier": 0.18846893708380313,
-        "raw_gap_pct_insample_brier": 0.22620976879521026,
+        "n_races": 253,
+        "overall_hit_rate_pct": 24.1,
+        "trivial_baseline_oof_brier": 0.18500599885944471,
+        "raw_gap_pct_insample_brier": 0.2185928266409067,
         "candidates": {
           "gap_pct": {
-            "oof_brier": 0.19118802090726,
-            "spearman_with_hit": -0.0861341362106655
+            "oof_brier": 0.18436528429177085,
+            "spearman_with_hit": -0.05832555604985692
           },
           "spread": {
-            "oof_brier": 0.1942886285968759,
-            "spearman_with_hit": 0.020611865279984157
+            "oof_brier": 0.1881528568104373,
+            "spearman_with_hit": 0.024038732428357516
           },
           "gap_top2": {
-            "oof_brier": 0.18708725659599498,
-            "spearman_with_hit": -0.10741630605260037
+            "oof_brier": 0.18442362250870808,
+            "spearman_with_hit": -0.11007209059300546
           }
         },
         "chosen_feature": "spread",
@@ -450,55 +451,55 @@
           "feature": "spread",
           "n_buckets": 4,
           "edges": [
-            0.45769170134916254,
-            0.5452624720020101,
-            0.6147382892639868
+            0.4582560162101429,
+            0.5503797991173736,
+            0.618463095599469
           ],
           "buckets": [
             {
               "bucket": 0,
-              "n_races": 55,
-              "hit_rate_pct": 21.8,
+              "n_races": 63,
+              "hit_rate_pct": 20.6,
               "value_range": [
-                0.2541529974283165,
-                0.4569425439505225
+                0.25415864057393484,
+                0.4576081448655167
               ]
             },
             {
               "bucket": 1,
-              "n_races": 54,
-              "hit_rate_pct": 24.1,
+              "n_races": 63,
+              "hit_rate_pct": 20.6,
               "value_range": [
-                0.4584408587478026,
-                0.5438414952362922
+                0.4582560162101429,
+                0.5499382546584746
               ]
             },
             {
               "bucket": 2,
-              "n_races": 55,
-              "hit_rate_pct": 29.1,
+              "n_races": 63,
+              "hit_rate_pct": 31.7,
               "value_range": [
-                0.5452624720020101,
-                0.6145282043098721
+                0.5503797991173736,
+                0.6175143234990753
               ]
             },
             {
               "bucket": 3,
-              "n_races": 55,
-              "hit_rate_pct": 23.6,
+              "n_races": 64,
+              "hit_rate_pct": 23.4,
               "value_range": [
-                0.6149483742181016,
-                0.8646673080006324
+                0.618463095599469,
+                0.8646999798192206
               ]
             }
           ],
           "best_hit_rate_bucket": {
             "bucket": 2,
-            "n_races": 55,
-            "hit_rate_pct": 29.1,
+            "n_races": 63,
+            "hit_rate_pct": 31.7,
             "value_range": [
-              0.5452624720020101,
-              0.6145282043098721
+              0.5503797991173736,
+              0.6175143234990753
             ]
           }
         }
@@ -521,17 +522,17 @@
     ],
     "results_by_k": {
       "5": {
-        "n_races": 219,
-        "overall_hit_rate_pct": 78.5,
-        "trivial_baseline_oof_brier": 0.16998652062070754,
+        "n_races": 253,
+        "overall_hit_rate_pct": 79.4,
+        "trivial_baseline_oof_brier": 0.16451989906427883,
         "candidates": {
           "gap_boundary_k": {
-            "oof_brier": 0.1717197165961944,
-            "spearman_with_hit": 0.03888057132732177
+            "oof_brier": 0.16652999894880685,
+            "spearman_with_hit": 0.03000014965741271
           },
           "gap_top2": {
-            "oof_brier": 0.16827469056134062,
-            "spearman_with_hit": 0.17874404890524057
+            "oof_brier": 0.16296012346423264,
+            "spearman_with_hit": 0.17678594118745852
           }
         },
         "chosen_feature": "gap_top2",
@@ -541,71 +542,71 @@
           "feature": "gap_top2",
           "n_buckets": 4,
           "edges": [
-            0.0776889200323487,
-            0.15273323594559765,
-            0.24736333069395858
+            0.07516538419501526,
+            0.14281873888213642,
+            0.24422996485214024
           ],
           "buckets": [
             {
               "bucket": 0,
-              "n_races": 55,
-              "hit_rate_pct": 67.3,
+              "n_races": 63,
+              "hit_rate_pct": 66.7,
               "value_range": [
-                0.0021378671706459066,
-                0.0759598295973101
+                0.0007175704358180689,
+                0.07252376551427894
               ]
             },
             {
               "bucket": 1,
-              "n_races": 54,
-              "hit_rate_pct": 77.8,
+              "n_races": 63,
+              "hit_rate_pct": 81.0,
               "value_range": [
-                0.07941801046738729,
-                0.15268864263642695
+                0.07516538419501526,
+                0.14154189590574293
               ]
             },
             {
               "bucket": 2,
-              "n_races": 55,
-              "hit_rate_pct": 83.6,
+              "n_races": 63,
+              "hit_rate_pct": 82.5,
               "value_range": [
-                0.15273323594559765,
-                0.2466020169854197
+                0.14281873888213642,
+                0.24359237774698692
               ]
             },
             {
               "bucket": 3,
-              "n_races": 55,
-              "hit_rate_pct": 85.5,
+              "n_races": 64,
+              "hit_rate_pct": 87.5,
               "value_range": [
-                0.24812464440249746,
-                0.6274962520177203
+                0.24422996485214024,
+                0.6274522525465049
               ]
             }
           ],
           "best_hit_rate_bucket": {
             "bucket": 3,
-            "n_races": 55,
-            "hit_rate_pct": 85.5,
+            "n_races": 64,
+            "hit_rate_pct": 87.5,
             "value_range": [
-              0.24812464440249746,
-              0.6274962520177203
+              0.24422996485214024,
+              0.6274522525465049
             ]
           }
         }
       },
       "4": {
-        "n_races": 219,
-        "overall_hit_rate_pct": 68.0,
-        "trivial_baseline_oof_brier": 0.21960267189126947,
+        "n_races": 253,
+        "overall_hit_rate_pct": 69.6,
+        "trivial_baseline_oof_brier": 0.21366023372396886,
         "candidates": {
           "gap_boundary_k": {
-            "oof_brier": 0.2232114246497204,
-            "spearman_with_hit": 0.07062748218437062
+            "oof_brier": 0.2171548690176954,
+            "spearman_with_hit": 0.04845839368066786
           },
           "gap_top2": {
-            "oof_brier": 0.22226021398598458,
-            "spearman_with_hit": 0.08007545677482371
+            "oof_brier": 0.2141164494329281,
+            "spearman_with_hit": 0.08762500799052804
           }
         },
         "chosen_feature": "gap_top2",
@@ -615,145 +616,71 @@
           "feature": "gap_top2",
           "n_buckets": 4,
           "edges": [
-            0.0776889200323487,
-            0.15273323594559765,
-            0.24736333069395858
+            0.07516538419501526,
+            0.14281873888213642,
+            0.24422996485214024
           ],
           "buckets": [
             {
               "bucket": 0,
-              "n_races": 55,
-              "hit_rate_pct": 60.0,
+              "n_races": 63,
+              "hit_rate_pct": 58.7,
               "value_range": [
-                0.0021378671706459066,
-                0.0759598295973101
+                0.0007175704358180689,
+                0.07252376551427894
               ]
             },
             {
               "bucket": 1,
-              "n_races": 54,
-              "hit_rate_pct": 70.4,
+              "n_races": 63,
+              "hit_rate_pct": 76.2,
               "value_range": [
-                0.07941801046738729,
-                0.15268864263642695
+                0.07516538419501526,
+                0.14154189590574293
               ]
             },
             {
               "bucket": 2,
-              "n_races": 55,
-              "hit_rate_pct": 70.9,
+              "n_races": 63,
+              "hit_rate_pct": 68.3,
               "value_range": [
-                0.15273323594559765,
-                0.2466020169854197
+                0.14281873888213642,
+                0.24359237774698692
               ]
             },
             {
               "bucket": 3,
-              "n_races": 55,
-              "hit_rate_pct": 70.9,
+              "n_races": 64,
+              "hit_rate_pct": 75.0,
               "value_range": [
-                0.24812464440249746,
-                0.6274962520177203
+                0.24422996485214024,
+                0.6274522525465049
               ]
             }
           ],
           "best_hit_rate_bucket": {
-            "bucket": 2,
-            "n_races": 55,
-            "hit_rate_pct": 70.9,
+            "bucket": 1,
+            "n_races": 63,
+            "hit_rate_pct": 76.2,
             "value_range": [
-              0.15273323594559765,
-              0.2466020169854197
+              0.07516538419501526,
+              0.14154189590574293
             ]
           }
         }
       },
       "3": {
-        "n_races": 219,
-        "overall_hit_rate_pct": 56.6,
-        "trivial_baseline_oof_brier": 0.24850551396012804,
+        "n_races": 253,
+        "overall_hit_rate_pct": 58.5,
+        "trivial_baseline_oof_brier": 0.24533552870379122,
         "candidates": {
           "gap_boundary_k": {
-            "oof_brier": 0.25448250927522575,
-            "spearman_with_hit": 0.058004469967795014
+            "oof_brier": 0.24787101151584826,
+            "spearman_with_hit": 0.0878694633628985
           },
           "gap_top2": {
-            "oof_brier": 0.25181825436998506,
-            "spearman_with_hit": -0.007432733588838054
-          }
-        },
-        "chosen_feature": "gap_boundary_k",
-        "chosen_feature_sign_warning": false,
-        "beats_trivial_baseline": false,
-        "calibration_table": {
-          "feature": "gap_boundary_k",
-          "n_buckets": 4,
-          "edges": [
-            0.034465417657406086,
-            0.08419516349250383,
-            0.15997026787206753
-          ],
-          "buckets": [
-            {
-              "bucket": 0,
-              "n_races": 55,
-              "hit_rate_pct": 49.1,
-              "value_range": [
-                4.5200508423687626e-05,
-                0.033797704285512764
-              ]
-            },
-            {
-              "bucket": 1,
-              "n_races": 54,
-              "hit_rate_pct": 64.8,
-              "value_range": [
-                0.0351331310292994,
-                0.08394965116611663
-              ]
-            },
-            {
-              "bucket": 2,
-              "n_races": 55,
-              "hit_rate_pct": 56.4,
-              "value_range": [
-                0.08419516349250383,
-                0.15713840620106825
-              ]
-            },
-            {
-              "bucket": 3,
-              "n_races": 55,
-              "hit_rate_pct": 56.4,
-              "value_range": [
-                0.16280212954306678,
-                0.5806721226790011
-              ]
-            }
-          ],
-          "best_hit_rate_bucket": {
-            "bucket": 1,
-            "n_races": 54,
-            "hit_rate_pct": 64.8,
-            "value_range": [
-              0.0351331310292994,
-              0.08394965116611663
-            ]
-          }
-        }
-      },
-      "2": {
-        "n_races": 219,
-        "overall_hit_rate_pct": 44.3,
-        "trivial_baseline_oof_brier": 0.25076807485369207,
-        "candidates": {
-          "gap_boundary_k": {
-            "oof_brier": 0.25501066107249193,
-            "spearman_with_hit": 0.07037697812435019
-          },
-          "gap_top2": {
-            "oof_brier": 0.25318140464471317,
-            "spearman_with_hit": 0.04405831481751675
+            "oof_brier": 0.24668329631558014,
+            "spearman_with_hit": 0.00812792536106811
           }
         },
         "chosen_feature": "gap_top2",
@@ -763,71 +690,71 @@
           "feature": "gap_top2",
           "n_buckets": 4,
           "edges": [
-            0.0776889200323487,
-            0.15273323594559765,
-            0.24736333069395858
+            0.07516538419501526,
+            0.14281873888213642,
+            0.24422996485214024
           ],
           "buckets": [
             {
               "bucket": 0,
-              "n_races": 55,
-              "hit_rate_pct": 34.5,
+              "n_races": 63,
+              "hit_rate_pct": 52.4,
               "value_range": [
-                0.0021378671706459066,
-                0.0759598295973101
+                0.0007175704358180689,
+                0.07252376551427894
               ]
             },
             {
               "bucket": 1,
-              "n_races": 54,
-              "hit_rate_pct": 51.9,
+              "n_races": 63,
+              "hit_rate_pct": 68.3,
               "value_range": [
-                0.07941801046738729,
-                0.15268864263642695
+                0.07516538419501526,
+                0.14154189590574293
               ]
             },
             {
               "bucket": 2,
-              "n_races": 55,
-              "hit_rate_pct": 47.3,
+              "n_races": 63,
+              "hit_rate_pct": 55.6,
               "value_range": [
-                0.15273323594559765,
-                0.2466020169854197
+                0.14281873888213642,
+                0.24359237774698692
               ]
             },
             {
               "bucket": 3,
-              "n_races": 55,
-              "hit_rate_pct": 43.6,
+              "n_races": 64,
+              "hit_rate_pct": 57.8,
               "value_range": [
-                0.24812464440249746,
-                0.6274962520177203
+                0.24422996485214024,
+                0.6274522525465049
               ]
             }
           ],
           "best_hit_rate_bucket": {
             "bucket": 1,
-            "n_races": 54,
-            "hit_rate_pct": 51.9,
+            "n_races": 63,
+            "hit_rate_pct": 68.3,
             "value_range": [
-              0.07941801046738729,
-              0.15268864263642695
+              0.07516538419501526,
+              0.14154189590574293
             ]
           }
         }
       },
-      "1": {
-        "n_races": 219,
-        "overall_hit_rate_pct": 21.5,
-        "trivial_baseline_oof_brier": 0.16964828927847814,
+      "2": {
+        "n_races": 253,
+        "overall_hit_rate_pct": 46.2,
+        "trivial_baseline_oof_brier": 0.2520403506514885,
         "candidates": {
           "gap_boundary_k": {
-            "oof_brier": 0.1708206001688881,
-            "spearman_with_hit": 0.09253874972850053
+            "oof_brier": 0.2532280673981973,
+            "spearman_with_hit": 0.06838355253712615
           },
           "gap_top2": {
-            "oof_brier": 0.1708206001688881,
-            "spearman_with_hit": 0.09253874972850053
+            "oof_brier": 0.25339752104254226,
+            "spearman_with_hit": 0.047325760168550786
           }
         },
         "chosen_feature": "gap_boundary_k",
@@ -837,55 +764,129 @@
           "feature": "gap_boundary_k",
           "n_buckets": 4,
           "edges": [
-            0.0776889200323487,
-            0.15273323594559765,
-            0.24736333069395858
+            0.03498484731604035,
+            0.08977045464481058,
+            0.17953863904384523
           ],
           "buckets": [
             {
               "bucket": 0,
-              "n_races": 55,
-              "hit_rate_pct": 12.7,
+              "n_races": 63,
+              "hit_rate_pct": 42.9,
               "value_range": [
-                0.0021378671706459066,
-                0.0759598295973101
+                0.0009330207064243602,
+                0.033985892756496695
               ]
             },
             {
               "bucket": 1,
-              "n_races": 54,
-              "hit_rate_pct": 25.9,
+              "n_races": 63,
+              "hit_rate_pct": 47.6,
               "value_range": [
-                0.07941801046738729,
-                0.15268864263642695
+                0.03498484731604035,
+                0.08876832359915889
               ]
             },
             {
               "bucket": 2,
-              "n_races": 55,
-              "hit_rate_pct": 21.8,
+              "n_races": 63,
+              "hit_rate_pct": 39.7,
               "value_range": [
-                0.15273323594559765,
-                0.2466020169854197
+                0.08977045464481058,
+                0.17812695431369138
               ]
             },
             {
               "bucket": 3,
-              "n_races": 55,
-              "hit_rate_pct": 25.5,
+              "n_races": 64,
+              "hit_rate_pct": 54.7,
               "value_range": [
-                0.24812464440249746,
-                0.6274962520177203
+                0.17953863904384523,
+                0.6001490722856758
+              ]
+            }
+          ],
+          "best_hit_rate_bucket": {
+            "bucket": 3,
+            "n_races": 64,
+            "hit_rate_pct": 54.7,
+            "value_range": [
+              0.17953863904384523,
+              0.6001490722856758
+            ]
+          }
+        }
+      },
+      "1": {
+        "n_races": 253,
+        "overall_hit_rate_pct": 22.9,
+        "trivial_baseline_oof_brier": 0.1778512753423415,
+        "candidates": {
+          "gap_boundary_k": {
+            "oof_brier": 0.17758612126310958,
+            "spearman_with_hit": 0.08059656358293203
+          },
+          "gap_top2": {
+            "oof_brier": 0.17758612126310958,
+            "spearman_with_hit": 0.08059656358293203
+          }
+        },
+        "chosen_feature": "gap_boundary_k",
+        "chosen_feature_sign_warning": false,
+        "beats_trivial_baseline": true,
+        "calibration_table": {
+          "feature": "gap_boundary_k",
+          "n_buckets": 4,
+          "edges": [
+            0.07516538419501526,
+            0.14281873888213642,
+            0.24422996485214024
+          ],
+          "buckets": [
+            {
+              "bucket": 0,
+              "n_races": 63,
+              "hit_rate_pct": 14.3,
+              "value_range": [
+                0.0007175704358180689,
+                0.07252376551427894
+              ]
+            },
+            {
+              "bucket": 1,
+              "n_races": 63,
+              "hit_rate_pct": 28.6,
+              "value_range": [
+                0.07516538419501526,
+                0.14154189590574293
+              ]
+            },
+            {
+              "bucket": 2,
+              "n_races": 63,
+              "hit_rate_pct": 23.8,
+              "value_range": [
+                0.14281873888213642,
+                0.24359237774698692
+              ]
+            },
+            {
+              "bucket": 3,
+              "n_races": 64,
+              "hit_rate_pct": 25.0,
+              "value_range": [
+                0.24422996485214024,
+                0.6274522525465049
               ]
             }
           ],
           "best_hit_rate_bucket": {
             "bucket": 1,
-            "n_races": 54,
-            "hit_rate_pct": 25.9,
+            "n_races": 63,
+            "hit_rate_pct": 28.6,
             "value_range": [
-              0.07941801046738729,
-              0.15268864263642695
+              0.07516538419501526,
+              0.14154189590574293
             ]
           }
         }
@@ -899,5 +900,5 @@
     "nar_dataset.py": "21622705404a94d4",
     "nar_confidence_calibrate.py": "63c26060eaed8dce"
   },
-  "created_at": "2026-07-31T07:08:29"
+  "created_at": "2026-08-01T09:22:44"
 }

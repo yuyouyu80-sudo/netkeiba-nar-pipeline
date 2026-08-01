@@ -353,7 +353,7 @@ def main() -> None:
             top5.insert(2, "race_name", row["race_name"])
             all_predictions.append(
                 top5[["kaisai_date", "racecourse", "race_name", "race_id", "pred_rank", "waku", "umaban",
-                      "horse_name", "bias_ninki", "bias_win_odds", "_score"]]
+                      "horse_name", "bias_ninki", "bias_win_odds", "bias_horse_weight", "_score"]]
             )
         except Exception as exc:  # noqa: BLE001 - one bad race must not abort the whole batch
             errored.append((race_id, repr(exc)))
