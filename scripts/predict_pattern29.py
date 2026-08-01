@@ -10,6 +10,11 @@ scratchpad/predict.pyと同一の重み・シグナルロジックでpredictions
 出力する(JRA分と衝突させないため)。重み・事前値・クラス序列はNAR専用のものに
 差し替わるが、--circuit省略時(JRA)の挙動・出力は一切変更しない。
 
+JRA(--circuit省略時)のみ、当日レポートの全頭表示用にpredictions_full_{date}.csv
+(box検証に使うtop5版のpredictions_{date}.csvとは別に、全頭分をpred_rank付きで
+書き出したもの)もあわせて出力する。box_return等の検証系スクリプトは従来通り
+predictions_{date}.csv(top5)だけを見るため、過去の検証結果には影響しない。
+
 前提: scripts/fetch_newspaper.py --date {date} [--circuit nar] で当日のnewspaper
 データが取得済みであること(未取得のレースはmissingとして報告されるのみで、
 エラー終了はしない)。
@@ -324,6 +329,7 @@ def main() -> None:
     logger.info("wrote %s (%d races)", race_names_out, len(race_names_df))
 
     all_predictions = []
+    all_predictions_full = []
     missing = []
     errored = []
     for row in targets:
@@ -355,6 +361,17 @@ def main() -> None:
                 top5[["kaisai_date", "racecourse", "race_name", "race_id", "pred_rank", "waku", "umaban",
                       "horse_name", "bias_ninki", "bias_win_odds", "bias_horse_weight", "_score"]]
             )
+            if args.circuit != "nar":
+                full = scored.copy()
+                full["race_id"] = race_id
+                full.insert(0, "pred_rank", range(1, len(full) + 1))
+                full.insert(0, "kaisai_date", row["kaisai_date"])
+                full.insert(1, "racecourse", row["racecourse"])
+                full.insert(2, "race_name", row["race_name"])
+                all_predictions_full.append(
+                    full[["kaisai_date", "racecourse", "race_name", "race_id", "pred_rank", "waku", "umaban",
+                          "horse_name", "bias_ninki", "bias_win_odds", "bias_horse_weight", "_score"]]
+                )
         except Exception as exc:  # noqa: BLE001 - one bad race must not abort the whole batch
             errored.append((race_id, repr(exc)))
             continue
@@ -374,6 +391,12 @@ def main() -> None:
     print(f"missing newspaper csv: {len(missing)} -> {missing}")
     print(f"errored races: {len(errored)} -> {errored}")
     print(f"wrote {predictions_out}")
+
+    if args.circuit != "nar" and all_predictions_full:
+        result_full = pd.concat(all_predictions_full, ignore_index=True)
+        predictions_full_out = out_dir / f"predictions_full_{args.date}.csv"
+        result_full.to_csv(predictions_full_out, index=False, encoding="utf-8-sig")
+        print(f"wrote {predictions_full_out} (全頭, {result_full['race_id'].nunique()} races)")
 
 
 if __name__ == "__main__":
