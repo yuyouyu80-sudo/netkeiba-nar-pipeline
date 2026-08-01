@@ -119,6 +119,10 @@
     "kinryo": {
       "label": "斤量帯適性",
       "reason": "LOBO OOFで基準(市場差+12.17pt)をわずかに下回った(+11.32pt)"
+    },
+    "waku_recent2d": {
+      "label": "直近連続2暦日・同競馬場の枠番別勝率",
+      "reason": "LOBO OOFで基準(alive_signals17本等重み)を悪化させた。box4: +1.22pt→-0.26pt(差分-1.47pt)、box3: -0.97pt→-2.05pt(差分-1.08pt)。両BOXサイズで一貫して悪化のため不採用。詳細はfactor_test_2026_08_01_waku_recent2dを参照。"
     }
   },
   "fitted_on": {
@@ -482,6 +486,30 @@
       "user_decision": "上記のレビュー結果(特にbox_n=4のNested LOBO OOFが-11.40ptと現行を大幅に下回る測定)を提示した上でユーザーに確認したところ、ユーザーは測定上のリスクを承知の上で「指示通りbox4もbox3も探索結果(差のある重み)を採用する」ことを明示的に選択した。そのためレビューの推奨(不採用/保留)ではなく、ユーザーの明示的な指示により本モデルを採用している。"
     },
     "interpretation": "in-sample(全126レースで探索・選択)の市場差は+22.76ptだが、これは学習データそのものでの評価であり楽観バイアスを含む。300パターン探索という手続き全体をNested LOBO(開催日×競馬場の12ブロックで交差検証)した誠実な汎化性能推定は市場差+13.11pt。選択バイアス診断(ブロック半分割×200反復)では選ぶことの真の価値は-4.40pt(標準偏差8.47)。"
+  },
+  "factor_test_2026_08_01_waku_recent2d": {
+    "requested_by_user": "2026-08-01: 直近連続3日間→2日間の同競馬場・同コースでの枠順勝率傾向をモデリングに加えると予想精度は上がるか、という提案を受けて検証",
+    "signal_design": "course_analysisの全期間waku勝率とは別に、レース当日の直前2\"連続暦日\"(D-1・D-2の両方に該当競馬場の開催実績が無ければ欠損=NaN)における同競馬場の枠番別勝率をSHRINK_K=12.0でシュリンケージした新規シグナル(waku_recent2d)。馬柱CSVの生waku列はNARでは常に空のため、各馬の枠番はcourse_analysis解決済みのca_waku_category_labelから取得。",
+    "method": "候補は1本のみのため8通り選抜のselection_optimismは行わず、alive_signals(現行本番の17本)等重み基準と、そこにwaku_recent2dを足した18本等重みをLOBO OOFで比較する単純な差分判定。プライマリのテストベッドはbox_n=4、box_n=3で一貫性を確認。評価データは現時点の全253レース(7/23-7/31、旧v2検証時の126レースより拡大)。",
+    "data_coverage": {
+      "usable_races": 253,
+      "date_x_course_keys_with_valid_2day_window": "9 / 23",
+      "races_with_at_least_1_horse_having_data": "102 / 253",
+      "per_waku_runs_in_window_when_present": {"mean": 32.1, "median": 31.0, "n_horse_rows_with_data": "1046 / 2547"}
+    },
+    "dead_check": "生存(死にシグナルではない)",
+    "factor_oof_box4": {
+      "基準(alive_signals17本等重み)": {"model": 80.46, "market": 79.24, "excess": 1.22},
+      "基準+waku_recent2d(18本等重み)": {"model": 78.98, "market": 79.24, "excess": -0.26},
+      "差分": -1.47
+    },
+    "factor_oof_box3": {
+      "基準(alive_signals17本等重み)": {"model": 75.62, "market": 76.59, "excess": -0.97},
+      "基準+waku_recent2d(18本等重み)": {"model": 74.54, "market": 76.59, "excess": -2.05},
+      "差分": -1.08
+    },
+    "adopt_candidate": false,
+    "conclusion": "box_n=4・box_n=3の両方でwaku_recent2dの追加が一貫して市場差を悪化させた(-1.47pt/-1.08pt)ため不採用。標本自体は当初懸念したほど極端に薄くはなかった(欠損時以外は1枠あたり平均32件)が、短期(直近2日)の枠順傾向は次走以降に持ち越す予測力を持たず、既存の全期間waku信号やその他17シグナルに対してノイズとして働いたとみられる。生存17シグナル(pattern#157の重み)モデルを両BOXサイズで維持。"
   },
   "selection_bias_measured": {
     "selected_side": 99.48060593081598,

@@ -39,7 +39,13 @@ CANDIDATE_SIGNALS = ["interval", "kinryo"]
 #   weight      : 直近で再取得したbias_horse_weightの増減幅(絶対値)。増減が小さいほど
 #                 コンディション安定とみなし高スコアにする。
 CANDIDATE_SIGNALS_V2 = ["timediff", "class_ninki", "weight"]
-ALL_SIGNALS = LEGACY_SIGNALS + NEW_SIGNALS + CANDIDATE_SIGNALS + CANDIDATE_SIGNALS_V2
+# --- ユーザー依頼(2026-08-01)で追加した候補シグナル。course_analysisの全期間waku勝率とは
+# 別に、レース当日の直前"連続2暦日"(D-1・D-2の両方に該当競馬場の開催実績が無い場合は
+# 欠損=NaN)における同競馬場の枠番別勝率。馬場は数日単位で偏ることがあるという着眼。
+# 値の算出は nar_factor_test_waku_recent2d.py 側(race_results履歴が必要なため
+# build_signals()の入力であるdfに事前注入する形を取る、他のCANDIDATE同様)。
+CANDIDATE_SIGNALS_V3 = ["waku_recent2d"]
+ALL_SIGNALS = LEGACY_SIGNALS + NEW_SIGNALS + CANDIDATE_SIGNALS + CANDIDATE_SIGNALS_V2 + CANDIDATE_SIGNALS_V3
 
 # NARでは値が構造的に存在しないことを実測で確認したシグナル(686頭全件)。
 # ハードコードではなく detect_dead() で毎回検出するが、既定値としても持っておく。
@@ -98,6 +104,9 @@ SHRINK_SPECS = {
     "kinryo_win": ("data_others_slot2_win_rate", "data_others_slot2_runs"),
     "kinryo_place3": ("data_others_slot2_place3_rate", "data_others_slot2_runs"),
     "kinryo_return": ("data_others_slot2_win_return_rate", "data_others_slot2_runs"),
+    # 直近連続2暦日・同競馬場の枠番別勝率(%スケール、他のrate列と同じ規約)。
+    # nar_factor_test_waku_recent2d.pyがdfに事前注入する列を読む。
+    "waku_recent2d_win": ("recent2d_waku_win_rate", "recent2d_waku_runs"),
 }
 
 _MARGIN_RE = re.compile(r"\(([-+]?\d+\.?\d*)\)")
@@ -319,6 +328,11 @@ def build_signals(df: pd.DataFrame, current_class: float, priors: dict) -> dict:
     # (他の複合シグナルと同じ _blend_minmax パターン)。
     wd = _col(df, "bias_horse_weight").map(_weight_delta)
     sig["weight"] = _blend_minmax(wd, -wd.abs())
+
+    # --- waku_recent2d(2026-08-01、ユーザー依頼): 直前連続2暦日・同競馬場の枠番別勝率。
+    # 通常のwaku(全期間)と違い標本が極小(1枠あたり数レース)になるため、SHRINK_K=12.0の
+    # シュリンケージで大半がpriorに引き戻される設計。
+    sig["waku_recent2d"] = _minmax(_shrink(df, "waku_recent2d_win", priors))
 
     return sig
 
