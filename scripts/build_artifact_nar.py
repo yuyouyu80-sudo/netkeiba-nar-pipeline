@@ -325,6 +325,23 @@ def confidence_badge(race_id: str) -> str:
     return f'<span class="{cls}" title="{esc(CONF_TITLE)}">{esc(text)}</span>'
 
 
+_ODDS_REFRESH_TITLE = (
+    "このレースだけ人気・オッズ・馬体重(bias.html 1ページ、数秒)を再取得して"
+    "予想表示へ即時反映します。1日分まとめての再取得(fetch-board上部)より高速です。"
+)
+
+
+def odds_refresh_button(race_id: str) -> str:
+    """発走前(検証待ち)のレースカードにのみ表示する、レース単位の軽量オッズ再取得ボタン。
+    全レース分をまとめて取得するfetch-boardの「最新オッズを再取得」ボタンと違い、
+    1レースだけbias.html(数秒)を取得してpredictions CSVへ直接反映するため高速。"""
+    cmd = f"python scripts/refresh_race_display.py --race-id {race_id}"
+    return (
+        f'<button type="button" class="copy-btn" data-copy="{esc(cmd)}" '
+        f'title="{esc(_ODDS_REFRESH_TITLE)}">📋 このレースだけ最新オッズ</button>'
+    )
+
+
 _LADDER_TITLE = (
     "段階的な的中確率のはしご: 「上位K頭picksの中に実際の1着馬が入っていたか」を的中と定義し、"
     "K=5,4,3,2,1それぞれで独立にLOBO較正した値(2026-07-30新設)。Kを絞るほど的中は難しくなるため、"
@@ -515,7 +532,7 @@ def race_card(race_id: str, race_name: str, rows: pd.DataFrame, racecourse: str 
       <header class="race-head">
         <span class="race-num">{esc(rnum)}R</span>
         <div class="race-head-text">
-          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id={esc(race_id)}" target="_blank" rel="noopener">{esc(race_name)}</a>{model_badge(model)}{confidence_badge(race_id)}</h3>
+          <h3><a class="race-name-link" href="https://nar.netkeiba.com/race/shutuba.html?race_id={esc(race_id)}" target="_blank" rel="noopener">{esc(race_name)}</a>{model_badge(model)}{confidence_badge(race_id)}{'' if has_actual else odds_refresh_button(race_id)}</h3>
           <p class="race-sub">{sub}</p>
         </div>
       </header>
