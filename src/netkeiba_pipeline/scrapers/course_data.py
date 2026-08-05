@@ -11,6 +11,17 @@ COURSEDATA_CID_LABELS = {
     4: "broodmare_sire",
 }
 
+# NOTE(2026-08-04): cid=4(broodmare_sire) returns a real table#table_sort_back for
+# NAR races (no Premium_Regist_Box, no parse error) but every row's category_label
+# and all stat cells are blank/"0"/"0%", for every horse regardless of actual dam
+# sire - confirmed by fetching a live NAR race (202630080401) and comparing cell-by-
+# cell against cid=1 (sire, which returns real per-horse data on the same race) and
+# against a JRA race's cid=4 page (which returns real non-zero data). This is not a
+# scraper/parser bug - netkeiba genuinely does not publish broodmare-sire aggregate
+# stats for NAR horses. Same category as speed/apt/train (see fetch_newspaper.py
+# and nar_signals.py KNOWN_DEAD); nar_signals.py's "bms" signal is expected to stay
+# structurally dead for NAR.
+
 
 def fetch_course_data_html(session: requests.Session, race_id: str, cid: int) -> str:
     url = race_url(race_id, "data_list.html", mode="coursedata", cid=cid)

@@ -50,7 +50,13 @@ def parse_combo(bet_type: str, combo_text: str):
     return frozenset(int(x) for x in combo_text.split("-"))
 
 
-def build(verbose: bool = True) -> dict:
+def build(verbose: bool = True, require_pre_race: bool = False) -> dict:
+    """require_pre_race=True: Phase B(2026-08-04、data_provenance_caveat_2026_08_01対応)。
+    verify_provenance.pyの判定(newspaper取得時刻 vs 実際の発走時刻)で"pre_race"と
+    確認できたレースだけに母集団を絞る。取得時刻が記録されていない過去分
+    ("unknown_no_result_yet"や記録自体が無いレース)は遡って判定できないため除外される
+    ことに注意 — 2026-08-04より前に取得したレースはこの絞り込みで全滅する。
+    既定はFalse(従来どおり絞り込まない)。"""
     results_dir = PROJECT_ROOT / "data" / "race_results" / "nar" / "2026"
     payouts_dir = PROJECT_ROOT / "data" / "payouts" / "nar" / "2026"
     dates = sorted(p.stem for p in results_dir.glob("2026*.csv") if (payouts_dir / p.name).exists())
@@ -64,8 +70,19 @@ def build(verbose: bool = True) -> dict:
     meta = pd.concat(meta_rows, ignore_index=True)
     meta = meta[~meta["race_name"].str.contains("新馬|未勝利", regex=True, na=False)]
 
+    pre_race_ids = None
+    if require_pre_race:
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from verify_provenance import build_provenance_table  # noqa: E402
+
+        prov = build_provenance_table()
+        pre_race_ids = set(prov.loc[prov["verdict"] == "pre_race", "race_id"])
+
     races, skipped = [], []
     for _, row in meta.iterrows():
+        if pre_race_ids is not None and row["race_id"] not in pre_race_ids:
+            skipped.append((row["race_id"], "not_pre_race_verified"))
+            continue
         path = newspaper_csv_path(row["race_id"])
         if not path.exists():
             skipped.append((row["race_id"], "no_newspaper"))
@@ -84,10 +101,16 @@ def build(verbose: bool = True) -> dict:
         })
 
     used_dates = sorted({r["kaisai_date"] for r in races})
-    payouts = pd.concat(
-        [pd.read_csv(payouts_dir / f"{d}.csv", dtype=str) for d in used_dates], ignore_index=True
-    )
-    payouts["payout"] = payouts["payout"].astype(int)
+    if used_dates:
+        payouts = pd.concat(
+            [pd.read_csv(payouts_dir / f"{d}.csv", dtype=str) for d in used_dates], ignore_index=True
+        )
+        payouts["payout"] = payouts["payout"].astype(int)
+    else:
+        # require_pre_race=True の運用初期など、対象レースが0件になりうる
+        # (Phase Bのmanifest記録が始まったばかりで pre_race 判定済みレースがまだ無い)。
+        # 空のracesに対してクラッシュせず、空のデータセットとして返す。
+        payouts = pd.DataFrame(columns=["race_id", "bet_type", "combination", "payout"])
 
     actual = {}
     for race_id, g in payouts.groupby("race_id"):
@@ -115,18 +138,29 @@ def build(verbose: bool = True) -> dict:
     return data
 
 
-def load(rebuild: bool = False) -> dict:
-    if CACHE.exists() and not rebuild:
-        with CACHE.open("rb") as f:
+def load(rebuild: bool = False, require_pre_race: bool = False) -> dict:
+    cache_path = DATA_DIR / "nar_dataset_cache_pre_race.pkl" if require_pre_race else CACHE
+    if cache_path.exists() and not rebuild:
+        with cache_path.open("rb") as f:
             return pickle.load(f)
-    data = build()
-    with CACHE.open("wb") as f:
+    data = build(require_pre_race=require_pre_race)
+    with cache_path.open("wb") as f:
         pickle.dump(data, f)
     return data
 
 
 if __name__ == "__main__":
-    d = build()
-    with CACHE.open("wb") as f:
+    import argparse
+
+    parser = argparse.ArgumentParser(description="NAR再モデリング用データセットをビルドしてpickleにキャッシュする")
+    parser.add_argument(
+        "--require-pre-race", action="store_true",
+        help="verify_provenance.pyでpre_raceと判定されたレースのみに母集団を絞る(Phase B)",
+    )
+    args = parser.parse_args()
+
+    d = build(require_pre_race=args.require_pre_race)
+    cache_path = DATA_DIR / "nar_dataset_cache_pre_race.pkl" if args.require_pre_race else CACHE
+    with cache_path.open("wb") as f:
         pickle.dump(d, f)
-    print(f"\nwrote {CACHE}")
+    print(f"\nwrote {cache_path}")

@@ -38,6 +38,7 @@ from src.netkeiba_pipeline.scrapers.race_data import (
 from src.netkeiba_pipeline.scrapers.shutuba_past import fetch_shutuba_past_html
 from src.netkeiba_pipeline.scrapers.speed_index import fetch_speed_index_html
 from src.netkeiba_pipeline.storage.paths import newspaper_csv_path
+from src.netkeiba_pipeline.storage.writer import mark_scraped
 from src.netkeiba_pipeline.utils.logging_conf import configure_logging
 
 # surf_summary.html key1+key2 combos: pairs a horse's own attribute (jockey /
@@ -199,6 +200,13 @@ def fetch_one_race(session, race_id: str, logger: logging.Logger, circuit: str =
     path.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(path, index=False, encoding="utf-8")
     logger.info("Wrote %d rows to %s", len(df), path)
+    # Phase B(2026-08-04, NAR回収率改善計画): このタイムスタンプが、モデル検証で
+    # 使う馬柱データの取得時刻を初めて記録する。従来はfetch_newspaper.pyがmanifestに
+    # 一切書き込んでおらず、「発走前取得か発走後取得か」を事後に判別する手段が
+    # 無かった(2026-08-01発覚のdata_provenance_caveat参照)。過去分は遡って復元
+    # できないが、今後の取得はここから記録され、nar_model/verify_provenance.pyで
+    # 発走時刻と突き合わせて使えるようになる。
+    mark_scraped(race_id, data_type="newspaper")
     return path
 
 

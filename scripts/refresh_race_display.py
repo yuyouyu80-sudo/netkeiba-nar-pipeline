@@ -22,10 +22,12 @@ top5版・全頭版の両方、JRA(セッションscratchpad)・NAR(data/nar_pip
     python scripts/refresh_race_display.py --race-id 202654080201 --no-rebuild
 """
 import argparse
+import csv
 import logging
 import os
 import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -51,15 +53,22 @@ JRA_SCRATCHPAD = Path(
 NAR_OUT_DIR = PROJECT_ROOT / "data" / "nar_pipeline"
 
 BIAS_COLUMNS = ["bias_win_odds", "bias_ninki", "bias_horse_weight"]
+ODDS_HISTORY_COLUMNS = [
+    "race_id", "checkpoint_label", "checkpoint_offset_sec",
+    "scheduled_time", "fetched_time", "umaban", "horse_name", "win_odds", "ninki",
+]
+MANUAL_CHECKPOINT_LABEL = "手動取得"
 
 
-def update_predictions_csv(path: Path, race_id: str, bias_by_umaban: pd.DataFrame) -> bool:
+def update_predictions_csv(path: Path, race_id: str, bias_by_umaban: pd.DataFrame) -> str | None:
+    """戻り値: 更新した場合はそのrace_idのkaisai_date(単勝オッズ推移CSVのファイル名解決に使う)、
+    対象race_idが含まれていなければNone。"""
     df = pd.read_csv(path, dtype=str, encoding="utf-8")
     if "race_id" not in df.columns or "umaban" not in df.columns:
-        return False
+        return None
     mask = df["race_id"].astype(str) == race_id
     if not mask.any():
-        return False
+        return None
     umaban = df.loc[mask, "umaban"].astype(str)
     for col in BIAS_COLUMNS:
         if col not in df.columns or col not in bias_by_umaban.columns:
@@ -67,7 +76,52 @@ def update_predictions_csv(path: Path, race_id: str, bias_by_umaban: pd.DataFram
         new_vals = umaban.map(bias_by_umaban[col])
         df.loc[mask, col] = new_vals.where(new_vals.notna(), df.loc[mask, col])
     df.to_csv(path, index=False, encoding="utf-8-sig")
-    return True
+    if "kaisai_date" in df.columns:
+        vals = df.loc[mask, "kaisai_date"].dropna()
+        if not vals.empty:
+            return str(vals.iloc[0])
+    return None
+
+
+def append_manual_odds_checkpoint(date: str, race_id: str, bias_by_umaban: pd.DataFrame) -> int:
+    """このレース単体の個別再取得を「単勝オッズ推移」スパークラインにも1点として反映する
+    (build_artifact.py側は2026-08-02からfetched_time実測順に表示するよう変更済みのため、
+    固定チェックポイントの合間の任意タイミングでもラベルに関わらず正しい位置に混ざる)。
+    JRAレポート限定の機能(NARレポートには単勝オッズ推移が存在しないため)。"""
+    out_path = JRA_SCRATCHPAD / f"odds_history_{date}.csv"
+    now = datetime.now()
+
+    scheduled_str = now.isoformat(sep=" ")
+    start_time_path = JRA_SCRATCHPAD / f"race_names_{date}.csv"
+    if start_time_path.exists():
+        rn = pd.read_csv(start_time_path, dtype=str)
+        match = rn[rn["race_id"].astype(str) == race_id]
+        if not match.empty and pd.notna(match.iloc[0].get("start_time")):
+            try:
+                start_dt = datetime.strptime(f"{date} {match.iloc[0]['start_time']}", "%Y%m%d %H:%M")
+                scheduled_str = start_dt.isoformat(sep=" ")
+            except ValueError:
+                pass
+
+    is_new = not out_path.exists()
+    n = 0
+    with open(out_path, "a", newline="", encoding="utf-8-sig") as f:
+        writer = csv.DictWriter(f, fieldnames=ODDS_HISTORY_COLUMNS)
+        if is_new:
+            writer.writeheader()
+        for umaban, row in bias_by_umaban.iterrows():
+            odds = row.get("bias_win_odds")
+            ninki = row.get("bias_ninki")
+            if pd.isna(odds) or str(odds).strip() == "":
+                continue
+            writer.writerow({
+                "race_id": race_id, "checkpoint_label": MANUAL_CHECKPOINT_LABEL, "checkpoint_offset_sec": "",
+                "scheduled_time": scheduled_str, "fetched_time": now.isoformat(sep=" "),
+                "umaban": umaban, "horse_name": row.get("horse_name", ""),
+                "win_odds": odds, "ninki": ninki,
+            })
+            n += 1
+    return n
 
 
 def main() -> None:
@@ -105,9 +159,12 @@ def main() -> None:
 
     search_dir = NAR_OUT_DIR if nar else JRA_SCRATCHPAD
     touched = []
+    kaisai_date = None
     for path in sorted(search_dir.glob("predictions*.csv")):
-        if update_predictions_csv(path, race_id, bias_by_umaban):
+        found_date = update_predictions_csv(path, race_id, bias_by_umaban)
+        if found_date is not None:
             touched.append(path.name)
+            kaisai_date = kaisai_date or found_date
 
     if not touched:
         print(
@@ -116,6 +173,10 @@ def main() -> None:
         )
     else:
         print(f"更新したpredictions CSV ({len(touched)}): {touched}")
+
+    if not nar and kaisai_date:
+        n = append_manual_odds_checkpoint(kaisai_date, race_id, bias_by_umaban)
+        print(f"単勝オッズ推移(odds_history_{kaisai_date}.csv)に{n}頭分のチェックポイントを追加")
 
     if not args.no_rebuild:
         if nar:
