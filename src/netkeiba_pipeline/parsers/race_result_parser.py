@@ -161,6 +161,47 @@ def parse_race_result(html: str, race_id: str) -> pd.DataFrame:
     return pd.DataFrame.from_records(records)
 
 
+_LAP_SEGMENT_RE = re.compile(r"\s*-\s*")
+
+
+def parse_lap_times(html: str, race_id: str) -> pd.DataFrame:
+    """Parses table.result_table_02[summary="ラップタイム"]'s "ラップ" row (先頭馬基準の
+    200mごとの区間タイム、race_lap_cellの"11.8 - 10.7 - ..."形式)。
+
+    一部レース(主にNAR)はこの表自体は存在するが中身が空(<tr>が1つも無い、
+    <caption>ラップタイム</caption>だけ)というケースが実際のfixtureで確認されている
+    (掲載自体が無いレースがある、という仕様上の欠測)。この場合は例外にせず空の
+    DataFrameを返す(呼び出し側はrace_result/payoutsの成功を妨げない)。表自体が
+    見つからない場合はページ構造が変わった可能性が高いため例外にする。"""
+    cleaned = _DIARY_SNAP_CUT_RE.sub("", html)
+    soup = BeautifulSoup(cleaned, "lxml")
+
+    empty = pd.DataFrame(columns=["race_id", "segment_index", "lap_time_sec"])
+
+    table = soup.select_one('table.result_table_02[summary="ラップタイム"]')
+    if table is None:
+        raise ValueError(f"race_id={race_id}: ラップタイム table not found - page structure may have changed")
+
+    lap_cell = None
+    for tr in table.find_all("tr"):
+        th = tr.find("th")
+        if th is not None and th.get_text(strip=True) == "ラップ":
+            lap_cell = tr.find("td", class_="race_lap_cell")
+            break
+    if lap_cell is None:
+        return empty  # このレースはラップタイム未掲載(欠測として許容)
+
+    segments = [s for s in _LAP_SEGMENT_RE.split(lap_cell.get_text(strip=True)) if s]
+    if not segments:
+        return empty
+
+    records = [
+        {"race_id": race_id, "segment_index": i, "lap_time_sec": float(seg)}
+        for i, seg in enumerate(segments, start=1)
+    ]
+    return pd.DataFrame.from_records(records)
+
+
 # th class -> canonical bet-type label, per dl.pay_block > table.pay_table_01.
 # 複勝/ワイド rows carry 2-3 <br>-separated combinations (fewer combos in
 # small fields); every other bet type always carries exactly one.

@@ -11,9 +11,15 @@ from dotenv import load_dotenv
 from config.settings import LOG_DIR
 from src.netkeiba_pipeline.auth.session import login
 from src.netkeiba_pipeline.discovery.race_calendar import list_nar_race_ids, list_race_ids
-from src.netkeiba_pipeline.parsers.race_result_parser import parse_payouts, parse_race_result
+from src.netkeiba_pipeline.parsers.race_result_parser import parse_lap_times, parse_payouts, parse_race_result
 from src.netkeiba_pipeline.scrapers.race_result import fetch_race_result_html
-from src.netkeiba_pipeline.storage.writer import is_already_scraped, mark_scraped, write_payouts, write_race_result
+from src.netkeiba_pipeline.storage.writer import (
+    is_already_scraped,
+    mark_scraped,
+    write_lap_times,
+    write_payouts,
+    write_race_result,
+)
 from src.netkeiba_pipeline.utils.logging_conf import configure_logging
 
 
@@ -64,8 +70,13 @@ def main() -> None:
             write_race_result(df, args.date, race_id, circuit=args.circuit)
             payouts_df = parse_payouts(html, race_id)
             write_payouts(payouts_df, args.date, race_id, circuit=args.circuit)
+            lap_df = parse_lap_times(html, race_id)
+            write_lap_times(lap_df, args.date, race_id, circuit=args.circuit)
             mark_scraped(race_id, status="success")
-            logger.info("Scraped %s (%d result rows, %d payout rows)", race_id, len(df), len(payouts_df))
+            logger.info(
+                "Scraped %s (%d result rows, %d payout rows, %d lap segments)",
+                race_id, len(df), len(payouts_df), len(lap_df),
+            )
             success += 1
         except Exception:
             logger.exception("Failed to scrape %s", race_id)

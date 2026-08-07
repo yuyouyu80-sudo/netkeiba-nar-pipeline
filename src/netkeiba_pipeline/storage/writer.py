@@ -7,6 +7,7 @@ from config.settings import MANIFEST_PATH
 from src.netkeiba_pipeline.storage.paths import (
     course_analysis_csv_path,
     course_ranking_csv_path,
+    lap_times_csv_path,
     payout_csv_path,
     race_result_csv_path,
 )
@@ -76,6 +77,24 @@ def write_course_ranking(df: pd.DataFrame, race_id: str, ranking_type: str) -> N
 def write_payouts(df: pd.DataFrame, kaisai_date: str, race_id: str, circuit: str = "jra") -> None:
     """Idempotent per race_id, same rationale as write_race_result."""
     path = payout_csv_path(kaisai_date, circuit)
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    df = df.astype(str)
+    if path.exists():
+        existing = pd.read_csv(path, dtype=str)
+        existing = existing[existing["race_id"] != race_id]
+        combined = pd.concat([existing, df], ignore_index=True)
+    else:
+        combined = df
+
+    combined.to_csv(path, index=False, encoding="utf-8")
+
+
+def write_lap_times(df: pd.DataFrame, kaisai_date: str, race_id: str, circuit: str = "jra") -> None:
+    """Idempotent per race_id, same rationale as write_race_result. df may be empty
+    (race has no published lap-time table, e.g. some NAR races) - an empty df for a
+    race_id still clears out any stale rows for it from a previous run."""
+    path = lap_times_csv_path(kaisai_date, circuit)
     path.parent.mkdir(parents=True, exist_ok=True)
 
     df = df.astype(str)

@@ -1,6 +1,13 @@
 from pathlib import Path
 
-from config.settings import COURSE_ANALYSIS_DIR, COURSE_RANKING_DIR, NEWSPAPER_DIR, PAYOUTS_DIR, RACE_RESULTS_DIR
+from config.settings import (
+    COURSE_ANALYSIS_DIR,
+    COURSE_RANKING_DIR,
+    LAP_TIMES_DIR,
+    NEWSPAPER_DIR,
+    PAYOUTS_DIR,
+    RACE_RESULTS_DIR,
+)
 from src.netkeiba_pipeline.discovery.tracks import is_nar_race
 
 
@@ -18,6 +25,13 @@ def payout_csv_path(kaisai_date: str, circuit: str = "jra") -> Path:
     """kaisai_date: 'YYYYMMDD'. See race_result_csv_path for the circuit param."""
     year = kaisai_date[:4]
     base = PAYOUTS_DIR if circuit == "jra" else PAYOUTS_DIR / circuit
+    return base / year / f"{kaisai_date}.csv"
+
+
+def lap_times_csv_path(kaisai_date: str, circuit: str = "jra") -> Path:
+    """kaisai_date: 'YYYYMMDD'. See race_result_csv_path for the circuit param."""
+    year = kaisai_date[:4]
+    base = LAP_TIMES_DIR if circuit == "jra" else LAP_TIMES_DIR / circuit
     return base / year / f"{kaisai_date}.csv"
 
 

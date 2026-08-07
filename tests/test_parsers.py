@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from src.netkeiba_pipeline.parsers.race_result_parser import parse_race_result
+from src.netkeiba_pipeline.parsers.race_result_parser import parse_lap_times, parse_race_result
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -49,6 +49,43 @@ def test_parse_race_result_nar_alphanumeric_jockey_id():
     assert winner["horse_name"] == "リュウノアキレス"
     assert winner["jockey_name"] == "近藤翔月"
     assert winner["jockey_id"] == "a05df"
+
+
+def test_parse_lap_times_basic():
+    html = (FIXTURES / "race_result_202406010101.html").read_text(encoding="utf-8")
+    df = parse_lap_times(html, race_id="202406010101")
+
+    assert len(df) == 6  # 1200m race, 200m segments
+    assert list(df["segment_index"]) == [1, 2, 3, 4, 5, 6]
+    assert df["lap_time_sec"].iloc[0] == 11.8
+    assert df["lap_time_sec"].sum() == 72.6
+
+
+def test_parse_lap_times_missing_table_raises():
+    import pytest
+
+    with pytest.raises(ValueError):
+        parse_lap_times("<html><body>no table here</body></html>", race_id="000000000000")
+
+
+def test_parse_lap_times_nar_empty_table_returns_empty_df():
+    """Some NAR races publish table.result_table_02[summary="ラップタイム"] with no
+    <tr> rows at all (lap data simply wasn't recorded for that race) - this is a
+    legitimate absence, not a structural break, so it must not raise."""
+    html = (FIXTURES / "race_result_202630070101_nar.html").read_text(encoding="utf-8")
+    df = parse_lap_times(html, race_id="202630070101")
+
+    assert len(df) == 0
+    assert list(df.columns) == ["race_id", "segment_index", "lap_time_sec"]
+
+
+def test_parse_lap_times_nar_populated():
+    html = (FIXTURES / "race_result_202644072401_nar.html").read_text(encoding="utf-8")
+    df = parse_lap_times(html, race_id="202644072401")
+
+    assert len(df) == 9
+    assert df["lap_time_sec"].iloc[0] == 12.9
+    assert df["lap_time_sec"].iloc[-1] == 13.0
 
 
 def test_parse_race_result_nar_alphanumeric_owner_id():
