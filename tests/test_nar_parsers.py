@@ -89,6 +89,54 @@ def test_parse_data_breakdown_distance_needs_nar_specific_slot_count():
     assert len(df) > 0
 
 
+def test_parse_data_breakdown_distance_terminal_label_accepts_variable_row_count():
+    """2026-08-13判明: NAR mode=distanceの行数は固定5ではなく、そのレースについて
+    netkeiba側に近傍距離の比較データがどれだけあるかで1-4本の距離別行+固定の
+    「全成績」行という可変長構造(笠松/門別の一部レースで2行のみのケースを実データで
+    確認済み)。terminal_label="全成績"を渡すと、行数の完全一致ではなく最終行の
+    ラベル一致で受理される。"""
+    html = (FIXTURES / "databreak_202635072701_distance_nar.html").read_text(encoding="utf-8")
+    df = parse_data_breakdown(
+        html, race_id="202635072701", prefix="data_distance", num_slots=5, terminal_label="全成績"
+    )
+    assert len(df) > 0
+
+
+def test_parse_data_breakdown_distance_terminal_label_rejects_wrong_last_row():
+    """最終行が「全成績」以外なら、たとえ行数が上限内でも構造異常として引き続き
+    raiseする(可変長を許容しても野放図にはしない)。"""
+    html = (FIXTURES / "databreak_202635072701_distance_nar.html").read_text(encoding="utf-8")
+    with pytest.raises(ValueError, match="expected the last of"):
+        parse_data_breakdown(
+            html, race_id="202635072701", prefix="data_distance", num_slots=5, terminal_label="存在しないラベル"
+        )
+
+
+def test_parse_data_breakdown_distance_terminal_label_handles_real_2slot_race():
+    """2026-08-12/13に実際に取得失敗していた笠松081206(202647081206)の実データ。
+    近傍距離データがほとんど無い馬ばかりのレースでは、距離別行が「ダートm」
+    (具体的な距離すら入らない1行)+「全成績」の計2行しか無い。"""
+    html = (FIXTURES / "databreak_202647081206_distance_nar_2slots.html").read_text(encoding="utf-8")
+    with pytest.raises(ValueError, match="expected 5 category rows"):
+        parse_data_breakdown(html, race_id="202647081206", prefix="data_distance", num_slots=5)
+
+    df = parse_data_breakdown(
+        html, race_id="202647081206", prefix="data_distance", num_slots=5, terminal_label="全成績"
+    )
+    assert len(df) > 0
+    assert "data_distance_slot3_label" not in df.columns
+
+
+def test_parse_data_breakdown_distance_terminal_label_rejects_over_upper_bound():
+    """num_slotsは可変長モードでも上限のガードとして機能する(想定より大幅に
+    多い行数が来た場合は構造変化としてraiseする)。"""
+    html = (FIXTURES / "databreak_202635072701_distance_nar.html").read_text(encoding="utf-8")
+    with pytest.raises(ValueError, match=r"expected 1-2 category rows"):
+        parse_data_breakdown(
+            html, race_id="202635072701", prefix="data_distance", num_slots=2, terminal_label="全成績"
+        )
+
+
 def test_parse_newspaper_tolerates_missing_writeup_for_nar():
     """Confirmed against multiple real NAR races (including a named/featured
     one) that 厩舎コメント/調教タイム content simply isn't published for NAR -

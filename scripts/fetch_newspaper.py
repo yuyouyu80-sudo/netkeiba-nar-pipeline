@@ -190,7 +190,14 @@ def fetch_one_race(session, race_id: str, logger: logging.Logger, circuit: str =
     breakdown_modes = NAR_DATA_BREAKDOWN_MODES if is_nar else DATA_BREAKDOWN_MODES
     for mode, num_slots in breakdown_modes.items():
         html_breakdown = fetch_data_breakdown_html(session, race_id, mode)
-        df_breakdown = parse_data_breakdown(html_breakdown, race_id, f"data_{mode}", num_slots)
+        # 2026-08-13: NAR's mode=distance row count is not actually fixed at 5 -
+        # it's "however many nearby-distance buckets this race/horse has comparison
+        # data for" (observed range: 1-4) followed by a fixed final "全成績" row.
+        # num_slots=5 stays as an upper-bound sanity check; acceptance is instead
+        # gated on the last row being labeled "全成績". Other modes are unaffected
+        # (not observed to vary) and keep the strict exact-count check.
+        terminal_label = "全成績" if (is_nar and mode == "distance") else None
+        df_breakdown = parse_data_breakdown(html_breakdown, race_id, f"data_{mode}", num_slots, terminal_label=terminal_label)
         df = _merge_breakdown(df, df_breakdown)
 
     df["umaban"] = pd.to_numeric(df["umaban"], errors="coerce")

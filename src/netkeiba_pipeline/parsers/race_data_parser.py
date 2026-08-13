@@ -103,20 +103,32 @@ def parse_horse_category_table(html: str, race_id: str, category_type: str, sour
     return pd.DataFrame.from_records(records)
 
 
-def parse_data_breakdown(html: str, race_id: str, prefix: str, num_slots: int) -> pd.DataFrame:
+def parse_data_breakdown(
+    html: str, race_id: str, prefix: str, num_slots: int, terminal_label: str | None = None
+) -> pd.DataFrame:
     """table.Course_Result_All (race/data.html?mode=distance|course|condition|
     others|cushion|baba_water): each horse has one tr.HorseList row (rowspan
-    across umaban/checkmark/horse-info) followed by exactly `num_slots`
-    sibling rows. Each sibling row is either a category-stat row
-    (td.Data_Title + 10 stat cells) or, for mode=others' final slot, a
-    free-text note row (plain first <td> + a single colspan <td>, e.g.
-    "馬体重" / "連対時馬体重452kg～464kg") - handled generically here so one
-    parser covers all six modes without knowing their category semantics.
+    across umaban/checkmark/horse-info) followed by sibling rows. Each
+    sibling row is either a category-stat row (td.Data_Title + 10 stat cells)
+    or, for mode=others' final slot, a free-text note row (plain first <td> +
+    a single colspan <td>, e.g. "馬体重" / "連対時馬体重452kg～464kg") -
+    handled generically here so one parser covers all six modes without
+    knowing their category semantics.
 
     Some breakdown modes don't apply to every race (e.g. mode=cushion is
     turf-only, so a dirt race has no cushion-value table at all) - that is
     real, not a scrape failure, so an empty (umaban-only) frame is returned
-    rather than raising."""
+    rather than raising.
+
+    By default the row count must equal `num_slots` exactly (strict mode,
+    unchanged historical behavior). If `terminal_label` is given, the row
+    count is instead treated as variable (1..num_slots): netkeiba's
+    mode=distance page emits one row per nearby-distance bucket it actually
+    has comparison data for (confirmed 2026-08-13: some NAR races only have
+    a single undated "ダートm" bucket instead of the usual 4 dated ones),
+    always followed by a fixed final "全成績" row. In that mode, `num_slots`
+    is only an upper bound sanity check and the true acceptance criterion is
+    that the last row's label matches `terminal_label`."""
     soup = BeautifulSoup(html, "lxml")
     label = f"race_id={race_id} source={prefix}"
 
@@ -150,11 +162,25 @@ def parse_data_breakdown(html: str, race_id: str, prefix: str, num_slots: int) -
             slot_rows.append(sib)
             sib = sib.find_next_sibling("tr")
 
-        if len(slot_rows) != num_slots:
-            raise ValueError(
-                f"{label}: expected {num_slots} category rows per horse, got {len(slot_rows)} - "
-                "page structure may have changed"
-            )
+        if terminal_label is None:
+            if len(slot_rows) != num_slots:
+                raise ValueError(
+                    f"{label}: expected {num_slots} category rows per horse, got {len(slot_rows)} - "
+                    "page structure may have changed"
+                )
+        else:
+            if not slot_rows or len(slot_rows) > num_slots:
+                raise ValueError(
+                    f"{label}: expected 1-{num_slots} category rows per horse, got {len(slot_rows)} - "
+                    "page structure may have changed"
+                )
+            last_title_td = slot_rows[-1].find("td", class_="Data_Title")
+            last_label = last_title_td.get_text(strip=True) if last_title_td is not None else None
+            if last_label != terminal_label:
+                raise ValueError(
+                    f"{label}: expected the last of {len(slot_rows)} category rows to be labeled "
+                    f"{terminal_label!r}, got {last_label!r} - page structure may have changed"
+                )
 
         for i, row in enumerate(slot_rows, start=1):
             slot_prefix = f"{prefix}_slot{i}"
