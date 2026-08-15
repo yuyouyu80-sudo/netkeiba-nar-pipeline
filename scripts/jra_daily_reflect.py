@@ -2,6 +2,7 @@
 """JRAの検証待ち日付を1コマンドで通しで反映する。
 
 refresh_bias(オッズ再取得) → predict_pattern29(通常戦予想再生成) →
+fetch_quick_result(当日速報、1〜5着・失敗は非fatal) →
 predict_shinba_pending(新馬戦、pending全日付を再生成) →
 predict_mishoubi_pending(未勝利戦、pending全日付を再生成) →
 confidence_per_race(確信度再計算) → build_artifact(レポート再構築)、の順に実行する。
@@ -52,11 +53,16 @@ def main() -> None:
 
     run([py, "scripts/refresh_bias.py", "--date", date], cwd=PROJECT_ROOT)
     run([py, "scripts/predict_pattern29.py", "--date", date], cwd=PROJECT_ROOT)
+    # db.netkeiba.com(run_pilot.py)は翌日反映のため、発走済みレースの1〜5着を当日中に
+    # 見たい場合はrace.netkeiba.com/result.htmlから取れる簡易結果を使う(2026-08-15追加)。
+    run([py, "scripts/fetch_quick_result.py", "--date", date], cwd=PROJECT_ROOT, allow_fail=True)
     if not args.skip_shinba:
         run([py, "predict_shinba_pending.py", "--date", date], cwd=SCRATCHPAD)
     if not args.skip_mishoubi:
         run([py, "predict_mishoubi_pending.py", "--date", date], cwd=SCRATCHPAD)
-    run([py, "confidence_per_race.py"], cwd=SCRATCHPAD)
+    # 2026-08-12、JRA/NAR確信度統一に伴いconfidence_per_race.pyはscripts/jra_model/へ
+    # 昇格した(git管理下、predict.pyへのscratchpad依存を解消済み)。
+    run([py, "scripts/jra_model/confidence_per_race.py"], cwd=PROJECT_ROOT)
     run([py, "build_artifact.py"], cwd=SCRATCHPAD)
 
     print("\n完了。レポート: prediction_report.html (scratchpad)")

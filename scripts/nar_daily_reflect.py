@@ -3,7 +3,7 @@
 
 fetch_newspaper(馬柱取得) → run_pilot(確定結果取得、失敗は非fatal) →
 predict_pattern29 --circuit nar(見出し生成) → refresh_bias(オッズ再取得) →
-predict_top5_nar(予想生成) → fetch_quick_result_nar(当日速報、失敗は非fatal) →
+predict_top5_nar(予想生成) → fetch_quick_result --circuit nar(当日速報、失敗は非fatal) →
 box_return_nar → confidence_sweep_baseline/box4/box3_nar → confidence_per_race_nar →
 build_artifact_nar(レポート再構築) → git add/commit/push、の順に実行する。
 
@@ -67,7 +67,7 @@ def main() -> None:
     run([py, "scripts/predict_pattern29.py", "--circuit", "nar", "--date", date])
     run([py, "scripts/refresh_bias.py", "--date", date, "--circuit", "nar"])
     run([py, "scripts/predict_top5_nar.py", "--date", date])
-    run([py, "scripts/fetch_quick_result_nar.py", "--date", date], allow_fail=True)
+    run([py, "scripts/fetch_quick_result.py", "--date", date, "--circuit", "nar"], allow_fail=True)
 
     run([py, "scripts/nar_model/box_return_nar.py"])
     run([py, "scripts/nar_model/confidence_sweep_baseline_nar.py"])
