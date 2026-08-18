@@ -8,3 +8,9 @@ __pycache__/
 .venv/
 venv/
 .claude/scheduled_tasks.lock
+
+# JRA展開予想シミュレーション: エンジン+入力データから再生成可能な派生物(コミット対象外)
+scripts/jra_race_sim/race_json/
+scripts/jra_race_sim/race_json_display/
+scripts/jra_race_sim/**/race_potential_*.csv
+scripts/jra_race_sim/_workdir/
