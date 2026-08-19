@@ -1,20 +1,21 @@
 # -*- coding: utf-8 -*-
-"""地方競馬(NAR)通常戦モデルのレース単位確信度指標。confidence_per_race.py(JRA)を移植。
+"""地方競馬(NAR)通常戦モデルのレース単位確信度指標。
 
 スコアリングは predict_box5_nar.py(box5専用に300パターン探索で選んだ独立重み
 モデル、nar_signals.py + winner_box5_nar.json)と同一にする。レースカードの
 「予想5頭」(predict_top5_nar.pyが生成するpredictions_nar_{date}.csv)と確信度
 バッジの順位付けが食い違わないようにするため。
 
-2026-07-30、nar_confidence_calibrate.pyの再検証で、旧来の「BOXの賭け目位置での
-スコア差(box5ならN=5位置)」は的中率と逆相関(-0.136)であることが判明したため、
-box4/box3と同じ「1位-2位のスコア差(gap_top2)」に統一した(selected_5の順位付けも
-gap_top2ベースに変更)。あわせて、上位K頭picksに実際の1着馬が入っている確率を
-K=5,4,3,2,1のはしご状に表示する`topk_ladder`列を追加した
-(confidence_calibration_nar.jsonのtopk_ladderセクションを参照)。
+2026-07-30、`gap_pct`(旧来のBOX賭け目位置でのスコア差)が的中率と逆相関(-0.136)である
+ことが判明したため、`selected_5`の順位付けは`gap_top2`(1位-2位のスコア差)に統一済み
+(このロジックは維持)。
 
-2026-08-01、box5がbox4の重み流用をやめ独立重み(winner_box5_nar.json)を持つように
-なったのに合わせ、スコアリングをpredict_box4_nar→predict_box5_narに切り替えた。
+2026-08-12、JRA/NAR確信度統一の一環で、較正済みパーセンテージの算出部分を全面書き換えた。
+旧来の`confidence_calibrated_pct`(box5×place較正)を廃止し、JRAと同じ単勝ベース
+`ladder_conf_{k}_pct`(k=5..1)に統一した。較正パラメータの適用は
+`scripts/common/confidence_calibrate.py`の`apply_calibration`を使う。
+`ladder_conf_{k}_show_pct`がFalseのK/レースはレポート側で3段階(高/中/低)表示に
+フォールバックする(較正のブロック数不足・統計的有意性不足の場合)。
 """
 import json
 import sys
@@ -29,7 +30,9 @@ DATA_DIR = PROJECT_ROOT / "data" / "nar_pipeline"
 LADDER_KS = [5, 4, 3, 2, 1]
 
 sys.path.insert(0, str(LIB_DIR))
+sys.path.insert(0, str(PROJECT_ROOT / "scripts" / "common"))
 sys.path.insert(0, str(PROJECT_ROOT))
+import confidence_calibrate as CC  # noqa: E402
 import predict_box5_nar as predict_mod  # noqa: E402
 
 from src.netkeiba_pipeline.storage.paths import newspaper_csv_path  # noqa: E402
@@ -66,19 +69,9 @@ for _, row in target.iterrows():
     order = np.argsort(-score, kind="stable")
     sorted_scores = score[order]
     field_size = len(scored)
-    spread = sorted_scores[0] - sorted_scores[-1]
 
-    gap_top2 = (sorted_scores[0] - sorted_scores[1]) / spread if (field_size > 1 and spread > 0) else 0.0
-
-    rec = {
-        "race_id": race_id, "kaisai_date": row["kaisai_date"],
-        "field_size": field_size, "gap_top2": gap_top2,
-    }
-    for k in LADDER_KS:
-        if field_size > k and spread > 0:
-            rec[f"gap_boundary_{k}"] = (sorted_scores[k - 1] - sorted_scores[k]) / spread
-        else:
-            rec[f"gap_boundary_{k}"] = 1.0  # 全頭カバー、またはスコア差が無い場合は最大確信として扱う
+    gaps = CC.gap_features(sorted_scores, LADDER_KS)
+    rec = {"race_id": race_id, "kaisai_date": row["kaisai_date"], "field_size": field_size, **gaps}
     rows.append(rec)
 
 conf = pd.DataFrame(rows)
@@ -90,41 +83,23 @@ for _date, g in conf.groupby("kaisai_date"):
 # 後方互換のため、5位確信度のはしご値をgap_pct_5という旧列名でも保持する。
 conf["gap_pct_5"] = conf["gap_boundary_5"]
 
-
-def _apply_calibration(values: pd.Series, table: dict) -> pd.Series:
-    edges = table["edges"]
-    bucket_rate = {b["bucket"]: b["hit_rate_pct"] for b in table["buckets"]}
-    idx = np.digitize(values.to_numpy(dtype=float), edges)
-    return pd.Series([bucket_rate.get(int(b), np.nan) for b in idx], index=values.index)
-
-
 _calib_path = DATA_DIR / "confidence_calibration_nar.json"
 if _calib_path.exists():
     _calib = json.loads(_calib_path.read_text(encoding="utf-8"))
-
-    # --- box5(予想5頭)本体の確信度%: results_by_box_n."5"."place" ---
-    _tbl = _calib["results_by_box_n"]["5"]["place"]["calibration_table"]
-    _feat_col = {"gap_pct": "gap_pct_5", "spread": None, "gap_top2": "gap_top2"}.get(_tbl["feature"])
-    assert _feat_col is not None, f"box5較正の対象特徴量に未対応です: {_tbl['feature']}"
-    conf["confidence_calibrated_pct"] = _apply_calibration(conf[_feat_col], _tbl)
-
-    # --- 段階的的中確率のはしご(5頭確信度〜1頭確信度) ---
     _ladder = _calib.get("topk_ladder", {}).get("results_by_k", {})
     for k in LADDER_KS:
         entry = _ladder.get(str(k))
         col = f"ladder_conf_{k}_pct"
         if entry is None:
             conf[col] = np.nan
+            conf[f"ladder_conf_{k}_show_pct"] = False
             continue
-        feat = entry["chosen_feature"]
-        src_col = "gap_top2" if feat == "gap_top2" else f"gap_boundary_{k}"
-        conf[col] = _apply_calibration(conf[src_col], entry["calibration_table"])
-        conf[f"ladder_conf_{k}_beats_trivial"] = bool(entry["beats_trivial_baseline"])
+        conf[col] = CC.apply_calibration(conf[f"gap_boundary_{k}"], entry)
+        conf[f"ladder_conf_{k}_show_pct"] = bool(entry["show_pct"])
 else:
-    conf["confidence_calibrated_pct"] = np.nan
     for k in LADDER_KS:
         conf[f"ladder_conf_{k}_pct"] = np.nan
-        conf[f"ladder_conf_{k}_beats_trivial"] = False
+        conf[f"ladder_conf_{k}_show_pct"] = False
 
 conf.to_csv(DATA_DIR / "confidence_per_race_nar.csv", index=False, encoding="utf-8-sig")
 print(conf.to_string(index=False))

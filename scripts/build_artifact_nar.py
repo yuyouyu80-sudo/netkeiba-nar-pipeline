@@ -16,13 +16,17 @@ JRA版との違い:
 import html
 import itertools
 import json
+import math
 import re
+import sys
 from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PROJECT_ROOT / "scripts" / "common"))
+import confidence_calibrate as CC  # noqa: E402
 DATA_DIR = PROJECT_ROOT / "data" / "nar_pipeline"
 NAR_DATA = PROJECT_ROOT / "data"
 
@@ -257,26 +261,32 @@ CONFIDENCE_CALIB = (
     if _confidence_calib_path.exists() else {}
 )
 
-# --- レース単位の確信度(2026-07-30、gap_top2ベースに統一。バッジのis_highは
-#     「その日のgap_top2上位5件」ではなく「較正バケットのうち実測的中率が最も高いか」で判定する。
-#     旧ロジック(selected_5をそのままis_highに使う)は、日次相対順位と較正の絶対値が
-#     食い違い、的中率が低いレースに「高確信度」が付く逆転バグがあったため修正した) ---
+# --- レース単位の確信度(2026-08-12、JRA/NAR確信度統一。単勝ベースtopk_ladderのみに
+#     統一し、box_n×place/profit較正(confidence_calibrated_pct)は廃止した。バッジは
+#     ladder_conf_5_pctが統計的に有意(show_pct=True)なら較正済み%、そうでなければ
+#     JRAと同じ3段階(高/中/低確信度)フォールバックにする) ---
 conf_race = pd.read_csv(DATA_DIR / "confidence_per_race_nar.csv", dtype=str)
 conf_race["gap_pct_5"] = pd.to_numeric(conf_race["gap_pct_5"])
-conf_race["confidence_calibrated_pct"] = pd.to_numeric(conf_race.get("confidence_calibrated_pct"))
+conf_race["gap_boundary_5"] = pd.to_numeric(conf_race.get("gap_boundary_5"))
+conf_race["ladder_conf_5_pct"] = pd.to_numeric(conf_race.get("ladder_conf_5_pct"))
+conf_race["ladder_conf_5_show_pct"] = conf_race.get("ladder_conf_5_show_pct") == "True"
+conf_race["selected_5"] = conf_race["selected_5"] == "True"
 LADDER_KS = [5, 4, 3, 2, 1]
 for _k in LADDER_KS:
     conf_race[f"ladder_conf_{_k}_pct"] = pd.to_numeric(conf_race.get(f"ladder_conf_{_k}_pct"))
 
-_box5_place = CONFIDENCE_CALIB.get("results_by_box_n", {}).get("5", {}).get("place", {})
-_best_bucket_pct = (
-    _box5_place.get("calibration_table", {}).get("best_hit_rate_bucket", {}).get("hit_rate_pct")
+# 較正済み%を出さないレース向けの3段階しきい値(JRA側と同じ発想: 較正を主張せず、
+# 検証済みレース群の中でのgap_boundary_5の相対位置=三分位だけを見る)。
+_gap5_pool = conf_race["gap_boundary_5"].dropna()
+_gap5_pool = _gap5_pool[~_gap5_pool.isin([float("inf")])]
+_GAP5_TERCILES = (
+    tuple(_gap5_pool.quantile([1 / 3, 2 / 3])) if len(_gap5_pool) >= 3 else (0.0, 1.0)
 )
 
 CONF_MAP = {
-    rid: (gap, cal) for rid, gap, cal in zip(
-        conf_race["race_id"], conf_race["gap_pct_5"], conf_race["confidence_calibrated_pct"],
-    )
+    rid: (row["gap_pct_5"], row["gap_boundary_5"], row["ladder_conf_5_pct"],
+         row["ladder_conf_5_show_pct"], row["selected_5"])
+    for rid, row in zip(conf_race["race_id"], conf_race.to_dict("records"))
 }
 LADDER_MAP = {
     rid: tuple(row[f"ladder_conf_{k}_pct"] for k in LADDER_KS)
@@ -301,13 +311,14 @@ def _ladder_tier_class(pct_rank: float) -> str:
     if pct_rank >= 0.5:
         return " ladder-top50"
     return ""
+
+
 CONF_TITLE = (
-    "モデル自身が出す予想スコアで1位と2位の差を(1位-最下位の幅)で正規化した値(gap_top2)を、"
-    f"検証済み{_box5_place.get('n_races', 0)}レースの実測複勝的中率でLOBO較正した値。大きいほど"
-    "過去実績上「箱の中の誰かが3着以内に入った」割合が高い(オッズ・人気は使用していません)。"
-    "「高確信度」は較正バケットのうち実測的中率が最も高いものに属することを意味します"
-    "(2026-07-30以前は「同日開催レース中で上位5件」という日次相対基準だったが、較正の"
-    "絶対値と食い違う逆転が見つかったため、較正バケット基準に統一した)。"
+    "上位K頭picksの中に実際の1着馬が入っていたかをLOBO較正した確率(単勝ベース、K=5)。"
+    "統計的に安定して自明な基準を上回れないK(NARは1025レース・93ブロックあってもK=5は"
+    "現時点で該当)は較正済み%の代わりに高/中/低の3段階で表示する。「高確信度」は同日開催"
+    "レース中でgap_pct_5(5位-6位差の正規化値)が上位5件であることを意味する(較正とは独立、"
+    "JRA側と同一ロジック)。"
 )
 
 
@@ -315,12 +326,15 @@ def confidence_badge(race_id: str) -> str:
     entry = CONF_MAP.get(race_id)
     if entry is None:
         return ""
-    gap_pct, calibrated_pct = entry
-    is_high = pd.notna(calibrated_pct) and _best_bucket_pct is not None and calibrated_pct == _best_bucket_pct
-    if pd.notna(calibrated_pct):
-        text = f"{'高確信度' if is_high else '確信度'} {calibrated_pct:.0f}%"
+    gap_pct, gap5, pct, show_pct, is_high = entry
+    if pd.notna(gap_pct) and math.isinf(gap_pct):
+        text = "確信度 全頭差"
+    elif show_pct and pd.notna(pct):
+        text = f"{'高確信度' if is_high else '確信度'} {pct:.0f}%"
+    elif pd.notna(gap5):
+        text = CC.tier_label(gap5, _GAP5_TERCILES)
     else:
-        text = f"{'高確信度' if is_high else '確信度'} {gap_pct * 100:.0f}%"
+        text = "確信度不明"
     cls = "conf-badge is-high" if is_high else "conf-badge"
     return f'<span class="{cls}" title="{esc(CONF_TITLE)}">{esc(text)}</span>'
 
@@ -360,8 +374,8 @@ def confidence_ladder_html(race_id: str) -> str:
     beats = CONFIDENCE_CALIB.get("topk_ladder", {}).get("results_by_k", {})
     cells = []
     for k, v, tier in zip(LADDER_KS, vals, tiers):
-        beats_trivial = bool(beats.get(str(k), {}).get("beats_trivial_baseline"))
-        dim = "" if beats_trivial else ' style="opacity:.55"'
+        show_pct = bool(beats.get(str(k), {}).get("show_pct"))
+        dim = "" if show_pct else ' style="opacity:.55"'
         txt = f"{v:.0f}%" if pd.notna(v) else "-"
         tier_cls = _ladder_tier_class(tier)
         cells.append(f'<div class="ladder-cell{tier_cls}"{dim}><b>{k}頭</b> {esc(txt)}</div>')
@@ -684,43 +698,41 @@ MODEL_ALIVE = winner.get("alive_signals", [])
 
 
 def _confidence_calibration_note(box_n: int) -> str:
-    r = CONFIDENCE_CALIB.get("results_by_box_n", {}).get(str(box_n), {})
+    """2026-08-12、JRA/NAR確信度統一に伴い書き換え。旧来のbox_n×place/profit較正
+    (results_by_box_n)は廃止し、JRA共通の単勝ベースtopk_ladder(K=box_n)の較正結果を
+    説明する。box5→K=5、box4→K=4、box3→K=3を1対1で対応させている。"""
+    r = CONFIDENCE_CALIB.get("topk_ladder", {}).get("results_by_k", {}).get(str(box_n), {})
     if not r:
         return ""
-    place = r.get("place", {})
-    profit = r.get("profit", {})
-    chosen = place.get("chosen_feature", "gap_pct")
-    chosen_label = {"gap_pct": "N位-(N+1)位のスコア差", "gap_top2": "1位-2位のスコア差",
-                    "spread": "スコア全幅(1位-最下位)"}.get(chosen, chosen)
-    cands = place.get("candidates", {})
-    cand_lines = "、".join(
-        f"{k}(Spearman{v.get('spearman_with_hit', 0):+.3f})" for k, v in cands.items()
-    )
-    sign_warning = place.get("chosen_feature_sign_warning", False)
+    show_pct = r.get("show_pct", False)
+    ci_lo, ci_hi = r.get("brier_gain_ci95", [0, 0])
+    sign_warning = r.get("chosen_feature_sign_warning", False)
     warn_html = (
         "<br><br><b style=\"color:#c0392b\">注意:</b> 正の相関を持つ候補が無かったため、"
         "符号を無視してBrier score最良の候補を採用しています(表示上の大小と実測的中率の"
         "大小が一致しない可能性があります)。"
     ) if sign_warning else ""
+    verdict = (
+        f"自明な基準を統計的に上回った(ブロック単位ブートストラップ95%CI=[{ci_lo:+.4f}, {ci_hi:+.4f}]、"
+        "下限がプラス)ため、較正済み%をそのまま表示している。"
+    ) if show_pct else (
+        f"自明な基準を安定して上回れていない(95%CI=[{ci_lo:+.4f}, {ci_hi:+.4f}]、または"
+        f"ブロック数{r.get('n_blocks_total', 0)}が目安の{r.get('min_blocks_for_pct', 60)}に"
+        "未達)ため、較正済み%の代わりに高/中/低の3段階(相対的な目安)で表示している。"
+    )
     return (
-        "<br><br>＜確信度指標の較正(2026-07-30、符号チェック付きに改訂)＞ 「高確信度」の判定に"
-        "使うスコア差の統計量を、"
-        f"検証済み{place.get('n_races', 0)}レースの実測複勝的中率(実測{place.get('overall_hit_rate_pct', 0):.1f}%)"
-        "に対するLOBO較正(1ブロックを除いた残りで分位点・バケット別実測率を計算し、除いた"
-        "ブロックで評価)で選び直した。候補は事前に3つだけ宣言(自由探索はしない): "
-        f"{cand_lines}。"
-        "OOF Brier scoreが最良でも、生の値と的中率のSpearman相関が負(値が大きいほど"
-        "的中率が下がる)の候補は選ばず、正の相関を持つ候補の中で最良のものを優先する。"
-        f"採用した統計量は<b>{esc(chosen_label)}</b>で、OOF Brier score"
-        f"{place.get('candidates', {}).get(chosen, {}).get('oof_brier', 0):.4f}は"
-        f"自明な基準(常に平均を予測、{place.get('trivial_baseline_oof_brier', 0):.4f})を"
-        f"{'上回った' if place.get('beats_trivial_baseline') else '上回れなかった'}。"
+        "<br><br>＜確信度指標の較正(2026-08-12、JRA/NAR共通ロジックに統一)＞ "
+        f"「上位{box_n}頭picksの中に実際の1着馬が入っていたか」(単勝ベース)を的中と定義し、"
+        f"検証済み{r.get('n_races', 0)}レース・{r.get('n_blocks_total', 0)}ブロック"
+        f"(実測hit率{r.get('overall_hit_rate_pct', 0):.1f}%)に対するLOBO較正(1ブロックを除いた"
+        "残りだけで較正パラメータを推定し、除いたブロックで評価)を行った。主手法は1変数"
+        "ロジスティック回帰(Platt scaling)。"
+        f"OOF Brier score {r.get('chosen_oof_brier', 0):.4f}と自明な基準(常に平均を予測、"
+        f"{r.get('trivial_baseline_oof_brier', 0):.4f})との差を、ブロック単位ブートストラップ"
+        f"(n=2000)で95%信頼区間評価した。{verdict}"
         f"{warn_html}"
-        "なお「複勝+ワイド単体の黒字/赤字」を的中の定義にすると、"
-        f"どの候補も自明な基準(Brier {profit.get('trivial_baseline_oof_brier', 0):.4f})を"
-        "上回れなかった(オッズ変動の影響が大きく、スコア差だけでは回収率そのものは"
-        "予測できないため)。これは検証済みレースが増えるたびに"
-        "nar_confidence_calibrate.pyを再実行するだけで自動的に最新化される。"
+        "検証済みレースが増えるたびにnar_confidence_calibrate.pyを再実行するだけで自動的に"
+        "最新化される。"
     )
 
 WEIGHT_META = {
@@ -1001,20 +1013,20 @@ conf_tabs_css_box5, box_section = build_tabbed_box_section(
         "回収率の振れ幅は大きめです。300パターン探索の経緯・専門家レビューの詳細は"
         "「予想4頭BOXモデルの内訳」を参照してください。"
         + _confidence_calibration_note(5)
-        + "<br><br>＜段階的的中確率のはしご(2026-07-30新設)＞ 各レースカードに、"
+        + "<br><br>＜段階的的中確率のはしご(2026-08-12、JRAと共通ロジックに統一)＞ 各レースカードに、"
         "「上位K頭picksの中に実際の1着馬が入っていたか」をK=5,4,3,2,1それぞれで"
         "独立にLOBO較正した確信度を表示しています(予想5頭表示と同じ重みを使用)。"
         + "、".join(
             f"{k}頭側は実測hit率{v.get('overall_hit_rate_pct', 0):.0f}%・"
-            f"{'自明な基準を上回る' if v.get('beats_trivial_baseline') else '自明な基準を上回れていない'}"
+            f"{'較正済み%を表示' if v.get('show_pct') else '3段階(高/中/低)表示にフォールバック'}"
             for k, v in sorted(
                 CONFIDENCE_CALIB.get("topk_ladder", {}).get("results_by_k", {}).items(),
                 key=lambda kv: -int(kv[0]),
             )
         )
-        + "。K=3,2,1(特に1頭=単勝的中相当)は現時点の検証済みレース数ではまだ自明な基準を"
-        "安定して上回れておらず、表では淡色表示にしています。今後検証済みレースが増えるたびに"
-        "nar_confidence_calibrate.pyを再実行すれば自動的に再較正されます。"
+        + "。ブロック単位ブートストラップ95%CIで自明な基準を安定して上回れないK、または"
+        "ブロック数が目安(60)未満のKは表では淡色表示にしています。今後検証済みレースが増える"
+        "たびにnar_confidence_calibrate.pyを再実行すれば自動的に再較正されます。"
     ),
 )
 
