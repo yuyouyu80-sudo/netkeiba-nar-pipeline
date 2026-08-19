@@ -3,8 +3,15 @@
 対象はJRA/NAR開催日のうち、まだレース結果(payout/finish)が確定していない日付。
 netkeibaから当日のnewspaper(馬柱)ページを読み直してレース見出し情報(レース名・
 競馬場・馬場・距離・発走時刻)を取得し、race_names_{date}.csvとして書き出した上で、
-scratchpad/predict.pyと同一の重み・シグナルロジックでpredictions_{date}.csvを生成する。
+predictions_{date}.csvを生成する。
 新馬戦・未勝利戦は対象外(専用モデルがあるが、検証待ち日付ではまだ対応していない)。
+
+JRA分岐(既定)のシグナル計算・重み合成は scripts/jra_model/jra_signals.py(単一の真実の源)
+に委譲し、重み・priorsは data/jra_pipeline/winner_v3.json から読む。scratchpad/predict.py・
+predict_box4.py・predict_box3.py も同じjra_signals.py/winner_v3.jsonを使うため、探索・検証・
+本番の3経路は必ず同じ値でスコアリングする(2026-08-11、NAR側で過去に発生した「探索側と
+本番側でpriorsが食い違う」事故を構造的に防ぐための統合)。--circuit nar のスコアリングは
+このファイル内の従来ロジック(WEIGHTS_NAR等)のまま無変更。
 
 --circuit nar 指定時は race_names_nar_{date}.csv / predictions_nar_{date}.csv に
 出力する(JRA分と衝突させないため)。重み・事前値・クラス序列はNAR専用のものに
@@ -20,6 +27,7 @@ predictions_{date}.csv(top5)だけを見るため、過去の検証結果には�
 エラー終了はしない)。
 """
 import argparse
+import json
 import logging
 import os
 import re
@@ -27,11 +35,13 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent / "jra_model"))
 
 import numpy as np
 import pandas as pd
 from dotenv import load_dotenv
 
+import jra_signals as JS  # noqa: E402 - JRA分岐の重み合成は単一の真実の源(jra_signals.py)に委譲
 from config.settings import LOG_DIR
 from src.netkeiba_pipeline.auth.session import login
 from src.netkeiba_pipeline.discovery.race_calendar import list_nar_race_ids, list_race_ids
@@ -50,38 +60,35 @@ OUT_DIR = Path(
 # セッション固有のscratchpadではなくGit管理下のdata/nar_pipelineに書き出す)。
 NAR_OUT_DIR = Path(__file__).resolve().parent.parent / "data" / "nar_pipeline"
 
+# JRA分岐の重み・priors・クラス序列は data/jra_pipeline/winner_v3.json を単一の真実の源とする
+# (2026-08-11、NARのwinner_*.json方式に統一。探索側(scripts/jra_model/jra_search_*.py)・
+# 本番側(このファイル)・scratchpad側(predict.py/predict_box4.py/predict_box3.py)が必ず
+# 同じ値を読むため、NAR側で過去に起きた「探索側と本番側でpriorsが食い違う」事故を構造的に防ぐ)。
+_WINNER_PATH = Path(__file__).resolve().parent.parent / "data" / "jra_pipeline" / "winner_v3.json"
+_winner = json.loads(_WINNER_PATH.read_text(encoding="utf-8"))
+
 TRAIN_RANK_MAP = {"S": 6, "A": 5, "B": 4, "C": 3, "D": 2, "E": 1}
 DNF_FINISH_PENALTY = 20
 DNF_CODES = {"中止", "取消", "除外", "失格", "中", "取", "除"}
-CLASS_ORDINAL = {
-    "新馬": 0, "未勝利": 0,
-    "1勝": 1, "2勝": 2, "3勝": 3,
-    "OP": 4, "オープン": 4, "L": 4,
-    "G3": 5, "GIII": 5, "G2": 6, "GII": 6, "G1": 7, "GI": 7,
-}
+CLASS_ORDINAL = _winner["class_ordinal"]
 CLASS_ADJUST_PER_LEVEL = 1.5
 RUNNING_STYLE_FRONT = {"逃", "先"}
 RUNNING_STYLE_CLOSE = {"差", "追"}
 SHRINK_K = 12.0
 
-# pattern29本番(winner_v3.json)と完全に同じ重み・縮約事前値。
-# scratchpad/predict.pyのWEIGHTS/_PRIORSと同一値を維持すること。
+# pattern29本番の重み・縮約事前値はdata/jra_pipeline/winner_v3.jsonから読む(上記参照)。
 # 2026-07-27: search_patterns_v4.py(検証済み6開催日105レース、search=7/11+7/12+7/18・
-# holdout=7/19+7/25+7/26)で再探索したpattern83に更新。旧pattern29(70レース時点)と
-# 比較し、同一holdoutで平均回収率110.0%→122.5%(全105レース)、111.8%→136.4%
-# (holdoutのみ)に改善したことを確認済み(compare_weights_v4.py)。
-WEIGHTS = {
-    "speed": 0.034364027936697336, "form": 0.10981085258380265, "style": 0.0776319854623864,
-    "jt": 0.05569302884106685, "waku": 0.05551407417856924, "apt": 0.08905627463717851,
-    "train": 0.04573635476958239, "distance": 0.13651762985111354, "sire": 0.18895587033571573,
-    "bms": 0.20671990140388727,
-}
-_PRIORS = {
-    "style_win": 10.1, "style_place3": 29.39, "jockey_win": 8.04, "trainer_win": 8.25,
-    "waku_win": 6.82, "apt_win": 7.7, "distance_win": 14.76, "distance_place3": 32.78,
-    "distance_return": 138.42, "sire_win": 8.04, "sire_place3": 22.98, "sire_return": 78.09,
-    "bms_win": 8.96, "bms_place3": 22.92, "bms_return": 84.36,
-}
+# holdout=7/19+7/25+7/26)で再探索したpattern83が現行値(winner_v3.json参照)。旧pattern29
+# (70レース時点)と比較し、同一holdoutで平均回収率110.0%→122.5%(全105レース)、
+# 111.8%→136.4%(holdoutのみ)に改善したことを確認済み(compare_weights_v4.py、詳細は
+# winner_v3.jsonのhistorical_headline参照)。2026-08-11、177レースへのデータ増加を受けて
+# scripts/jra_model/jra_search_2026_08_11.pyで再検証・候補シグナル探索に着手。
+WEIGHTS = _winner["weights"]
+_PRIORS = _winner["priors"]
+# 以下のSHRINK_SPECSは--circuit nar(WEIGHTS_NAR/_PRIORS_NAR、無変更)のscore_race()が
+# 引き続き使用する。JRA分岐(既定)のスコアリングはjra_signals.score_race()に委譲しており、
+# そちらは自身のSHRINK_SPECS(候補シグナル分を含む)を持つため、この辞書はJRA分岐では
+# 使われない。
 SHRINK_SPECS = {
     "style_win": ("ca_running_style_win_rate", "ca_running_style_runs"),
     "style_place3": ("ca_running_style_place3_rate", "ca_running_style_runs"),
@@ -349,7 +356,11 @@ def main() -> None:
                 continue
 
             current_class = _class_ordinal(row["race_name"])
-            scored = score_race(df, current_class)
+            if args.circuit == "nar":
+                scored = score_race(df, current_class)  # NAR分岐: 無変更(WEIGHTS_NAR等)
+            else:
+                scored = JS.score_race(df, current_class, weights=WEIGHTS, priors=_PRIORS,
+                                       class_ordinal_map=CLASS_ORDINAL)
             scored = scored.sort_values("_score", ascending=False, kind="stable").reset_index(drop=True)
             top5 = scored.head(5).copy()
             top5["race_id"] = race_id

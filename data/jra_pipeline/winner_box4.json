@@ -1,0 +1,234 @@
+{
+  "box_n": 4,
+  "pattern_id": 19,
+  "weights": {
+    "speed": 0.16842812354959458,
+    "form": 0.08687626557612343,
+    "style": 0.24336757540154302,
+    "jt": 0.04344453334972717,
+    "waku": 0.041058857707600115,
+    "apt": 0.18875648863400946,
+    "train": 0.0309971679569156,
+    "distance": 0.0470709425713599,
+    "sire": 0.06074268206219111,
+    "bms": 0.08925736319093565
+  },
+  "priors": {
+    "style_win": 10.1,
+    "style_place3": 29.39,
+    "jockey_win": 8.04,
+    "trainer_win": 8.25,
+    "waku_win": 6.82,
+    "apt_win": 7.7,
+    "distance_win": 14.76,
+    "distance_place3": 32.78,
+    "distance_return": 138.42,
+    "sire_win": 8.04,
+    "sire_place3": 22.98,
+    "sire_return": 78.09,
+    "bms_win": 8.96,
+    "bms_place3": 22.92,
+    "bms_return": 84.36
+  },
+  "shrink_k": 12.0,
+  "class_ordinal": {
+    "新馬": 0,
+    "未勝利": 0,
+    "1勝": 1,
+    "2勝": 2,
+    "3勝": 3,
+    "OP": 4,
+    "オープン": 4,
+    "L": 4,
+    "G3": 5,
+    "GIII": 5,
+    "G2": 6,
+    "GII": 6,
+    "G1": 7,
+    "GI": 7
+  },
+  "method": "search_patterns_box4.py (scratchpad, 非git管理) によるsearch/holdout 2分割検証のみ。box5(pattern83)と同じ105レース・同じ日付分割から、box4専用に独立探索されたパターン。Nested Leave-One-Block-Out OOF・選択バイアス診断は未実施。",
+  "created_at": "2026-08-11",
+  "note": "priors/class_ordinal/shrink_kはbox5(winner_v3.json)と同一値(同じ検証済みレース母集団から算出したシグナル計算側の定数で、BOX何頭で買うかとは無関係なため使い回している)。このファイルは2026-08-11、scratchpad上にのみ存在していたwinner_box4.jsonをdata/jra_pipeline/へ正式にコピーしたもの(git管理下に記録が存在していなかったギャップを埋める)。探索で有意な改善が見つかった場合はこのファイルを更新し、この版はwinner_box4.pattern19.backup.jsonとして保存する。",
+  "fitted_on": {
+    "n_races": 105,
+    "search_dates": [
+      "20260711",
+      "20260712",
+      "20260718"
+    ],
+    "holdout_dates": [
+      "20260719",
+      "20260725",
+      "20260726"
+    ],
+    "search_races": 53,
+    "holdout_races": 52
+  },
+  "holdout_detail": {
+    "単勝": {
+      "hit_races": 35,
+      "hit_rate_pct": 67.3,
+      "stake": 20800,
+      "return": 26710,
+      "return_rate_pct": 128.4,
+      "sharpe": 0.149
+    },
+    "複勝": {
+      "hit_races": 47,
+      "hit_rate_pct": 90.4,
+      "stake": 20800,
+      "return": 21520,
+      "return_rate_pct": 103.5,
+      "sharpe": 0.033
+    },
+    "枠連": {
+      "hit_races": 20,
+      "hit_rate_pct": 38.5,
+      "stake": 25800,
+      "return": 62640,
+      "return_rate_pct": 242.8,
+      "sharpe": 0.169
+    },
+    "馬連": {
+      "hit_races": 22,
+      "hit_rate_pct": 42.3,
+      "stake": 31200,
+      "return": 131860,
+      "return_rate_pct": 422.6,
+      "sharpe": 0.208
+    },
+    "ワイド": {
+      "hit_races": 29,
+      "hit_rate_pct": 55.8,
+      "stake": 31200,
+      "return": 57850,
+      "return_rate_pct": 185.4,
+      "sharpe": 0.182
+    },
+    "馬単": {
+      "hit_races": 22,
+      "hit_rate_pct": 42.3,
+      "stake": 62400,
+      "return": 232500,
+      "return_rate_pct": 372.6,
+      "sharpe": 0.213
+    },
+    "3連複": {
+      "hit_races": 9,
+      "hit_rate_pct": 17.3,
+      "stake": 20800,
+      "return": 89300,
+      "return_rate_pct": 429.3,
+      "sharpe": 0.149
+    },
+    "3連単": {
+      "hit_races": 9,
+      "hit_rate_pct": 17.3,
+      "stake": 124800,
+      "return": 533970,
+      "return_rate_pct": 427.9,
+      "sharpe": 0.177
+    }
+  },
+  "all_races_backtest": {
+    "単勝": {
+      "hit_races": 72,
+      "hit_rate_pct": 68.6,
+      "stake": 42000,
+      "return": 46680,
+      "return_rate_pct": 111.1,
+      "sharpe": 0.075
+    },
+    "複勝": {
+      "hit_races": 96,
+      "hit_rate_pct": 91.4,
+      "stake": 42000,
+      "return": 44920,
+      "return_rate_pct": 107.0,
+      "sharpe": 0.074
+    },
+    "枠連": {
+      "hit_races": 39,
+      "hit_rate_pct": 37.1,
+      "stake": 48800,
+      "return": 85550,
+      "return_rate_pct": 175.3,
+      "sharpe": 0.12
+    },
+    "馬連": {
+      "hit_races": 44,
+      "hit_rate_pct": 41.9,
+      "stake": 63000,
+      "return": 175230,
+      "return_rate_pct": 278.1,
+      "sharpe": 0.16
+    },
+    "ワイド": {
+      "hit_races": 63,
+      "hit_rate_pct": 60.0,
+      "stake": 63000,
+      "return": 105860,
+      "return_rate_pct": 168.0,
+      "sharpe": 0.182
+    },
+    "馬単": {
+      "hit_races": 44,
+      "hit_rate_pct": 41.9,
+      "stake": 126000,
+      "return": 308300,
+      "return_rate_pct": 244.7,
+      "sharpe": 0.157
+    },
+    "3連複": {
+      "hit_races": 16,
+      "hit_rate_pct": 15.2,
+      "stake": 42000,
+      "return": 146420,
+      "return_rate_pct": 348.6,
+      "sharpe": 0.146
+    },
+    "3連単": {
+      "hit_races": 16,
+      "hit_rate_pct": 15.2,
+      "stake": 252000,
+      "return": 802170,
+      "return_rate_pct": 318.3,
+      "sharpe": 0.154
+    }
+  },
+  "search_2026_08_11": {
+    "trigger": "データ増加(105→177レース)を受けたユーザー依頼による重み再検証。既存10シグナル+候補9シグナル(course/concerned/interval/kinryo/nige/margin/timediff/agari/holdtime、未使用データ調査から選定)の計19シグナルで1000パターンDirichlet探索+Nested Leave-One-Block-Out OOF(開催日×競馬場ブロック)+選択バイアス診断(ブロック半分割×200反復)を実施。手法はNAR側のnar_search300_2026_08_01.pyを移植。",
+    "nested_lobo_oof_excess_pt": -16.44067796610169,
+    "current_model_excess_pt": 38.2768361581921,
+    "true_edge_pt": -0.06981137475535291,
+    "true_edge_sd": 8.186294693196151,
+    "true_edge_over_sd_ratio": -0.009,
+    "decision_gate": "true_edge_pt / true_edge_sd >= 2.0 (NAR側 winner_box3_nar.json のsearch300_2026_07_29セクションで確立済みのゲート基準を踏襲)",
+    "decision": "REJECTED - 不採用、現行モデルを維持",
+    "decision_reason": "true_edge/sd比=-0.009(必要水準2.0を大幅に下回る)。win_rate=51.5%(ほぼコインフリップ)。「選ぶ」という行為自体に統計的に意味のある価値が無く、Nested LOBO OOF上の見かけの改善/悪化は偶然のばらつきと区別できない。専門家レビュー(Planエージェント)による独立検証でも同じ結論。",
+    "old_vs_new_data_check": {
+      "old_105_excess": 69.15,
+      "new_72_excess": -6.75,
+      "note": "新規データでは市場を下回る(要注意)",
+      "caveat": "現行モデル自体が旧105レース(自身の元fit母集団)と新72レース(真に未見)で成績が大きく異なる場合、元のsearch_patterns_v4.py/_box4.py/_box3.py(105レース、train/holdout 2分割のみ、Nested LOBO OOF未実施)による選定自体がやや楽観的だった可能性を示唆する。今回の再探索でもこの問題は解決できない(データ量が同じまま探索対象シグナルを増やすと過学習リスクはむしろ増す)。今後データがさらに増えた時点で、現行モデル自体も含めてNested LOBO OOFで再評価することを推奨する。"
+    },
+    "candidate_signal_weight_share_in_best_pattern": 0.5459344743601969,
+    "full_report": "jra_search_2026_08_11_result.json / jra_search_2026_08_11_report.txt"
+  },
+  "search_2026_08_12": {
+    "trigger": "box4/box3が新規72レースで市場割れした根本原因調査(統計学者・競馬予想家の二重レビュー)を受け、現行box4/box3の重み自体をNested LOBO OOF+選択バイアス診断で再検証。あわせて2026-08-11の専門家レビューでsurf_ketto/surf_jockey(候補6シグナル: ketto_training/ketto_comment/odds_jockey/surf_jt/jockey_owner/prevjockey)の除外仮定(既存シグナルと高相関のはず)が実データで否定されたため、これも探索プールに追加(既存10+候補9[2026-08-11]+候補6[2026-08-12]=25シグナル)。",
+    "n_signals": 25,
+    "current_model_excess_pt": 38.2768361581921,
+    "nested_lobo_oof_excess_pt": 12.480225988700568,
+    "true_edge_pt": -0.43021036302225873,
+    "true_edge_sd": 9.12978691020761,
+    "true_edge_over_sd_ratio": -0.047121621485081935,
+    "decision_gate": "true_edge_pt / true_edge_sd >= 2.0",
+    "decision": "REJECTED - 不採用、現行モデルを維持",
+    "decision_reason": "true_edge/sd比=-0.047が採否ゲート2.0を大幅に下回る。box4はNested LOBO OOF市場差が2026-08-11探索時の-16.44ptから+12.48ptへ改善したが、選択バイアス診断のtrue_edge自体は依然マイナス(-0.43pt)でノイズと区別不可。box3はむしろNested LOBO OOFが+19.72pt→-8.10ptへ悪化。box5もtrue_edgeがマイナス(-1.95pt)に転じた。25シグナルへの拡大は探索次元を増やすだけで、177レース・約30ブロックという母集団規模では検出力不足が解消しない。",
+    "note_on_current_model_validation_gap": "本探索は「現行モデル自体がNested LOBO OOF・選択バイアス診断で一度も検証されていない」という2026-08-12の根本原因調査の指摘を受けて実施したが、代替候補も採否ゲートを通過しなかったため、現行モデルの妥当性そのものは依然未証明のまま。current_model_excess_ptは177レース全体へのpooled評価であり、旧105レース(fit母集団)を含むため楽観的な値である点に注意。",
+    "candidate_v2_signal_weight_share_in_best_pattern": 0.21412663448988353,
+    "full_report": "data/jra_pipeline/jra_search_2026_08_12_report.txt"
+  }
+}

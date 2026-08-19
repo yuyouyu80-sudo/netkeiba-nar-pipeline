@@ -1,0 +1,253 @@
+{
+  "fitted_on": {
+    "n_races": 177,
+    "dates": [
+      "20260711",
+      "20260712",
+      "20260718",
+      "20260719",
+      "20260725",
+      "20260726",
+      "20260801",
+      "20260802",
+      "20260808",
+      "20260809"
+    ],
+    "n_blocks": 30
+  },
+  "method": "lobo_logistic_calibration_with_bootstrap_ci_gate",
+  "topk_ladder": {
+    "weights_source": "winner_v3.json",
+    "hit_definition": "上位K頭picksの中に実際の1着馬が含まれているか(単勝払戻)",
+    "ks": [
+      5,
+      4,
+      3,
+      2,
+      1
+    ],
+    "results_by_k": {
+      "5": {
+        "n_races": 177,
+        "n_blocks_total": 30,
+        "overall_hit_rate_pct": 72.3,
+        "hit_definition_label": "単勝: 1着馬が上位K頭picksに入っているか",
+        "method": "logistic",
+        "k_buckets": null,
+        "candidates_tested": [
+          "gap_boundary_k"
+        ],
+        "candidates": {
+          "gap_boundary_k": {
+            "oof_brier": 0.20152123206587974,
+            "spearman_with_hit": 0.11021891254848781
+          }
+        },
+        "chosen_feature": "gap_boundary_k",
+        "chosen_feature_sign_warning": false,
+        "trivial_baseline_oof_brier": 0.2021935920590673,
+        "chosen_oof_brier": 0.20152123206587974,
+        "brier_gain_ci95": [
+          -0.0006158069805201442,
+          0.002012064895803487
+        ],
+        "p_value_gain_le0": 0.166,
+        "min_blocks_for_pct": 60,
+        "min_blocks_ok": false,
+        "beats_trivial_baseline": false,
+        "show_pct": false,
+        "fit_params": {
+          "type": "logistic",
+          "intercept": 0.8871122391356128,
+          "slope": 0.6564277826479941
+        },
+        "bucket_diagnostic": {
+          "oof_brier": 0.20377740422249743,
+          "brier_gain_ci95": [
+            -0.004339762855919407,
+            0.0008266646929774586
+          ],
+          "beats_trivial_baseline": false,
+          "shrink_k": 80
+        }
+      },
+      "4": {
+        "n_races": 177,
+        "n_blocks_total": 30,
+        "overall_hit_rate_pct": 65.5,
+        "hit_definition_label": "単勝: 1着馬が上位K頭picksに入っているか",
+        "method": "logistic",
+        "k_buckets": null,
+        "candidates_tested": [
+          "gap_boundary_k"
+        ],
+        "candidates": {
+          "gap_boundary_k": {
+            "oof_brier": 0.2263721690611187,
+            "spearman_with_hit": 0.13657414082542446
+          }
+        },
+        "chosen_feature": "gap_boundary_k",
+        "chosen_feature_sign_warning": false,
+        "trivial_baseline_oof_brier": 0.22791483660082784,
+        "chosen_oof_brier": 0.2263721690611187,
+        "brier_gain_ci95": [
+          -0.0010848801730357085,
+          0.003987514450356944
+        ],
+        "p_value_gain_le0": 0.1265,
+        "min_blocks_for_pct": 60,
+        "min_blocks_ok": false,
+        "beats_trivial_baseline": false,
+        "show_pct": false,
+        "fit_params": {
+          "type": "logistic",
+          "intercept": 0.5504601242641983,
+          "slope": 0.8728985072468839
+        },
+        "bucket_diagnostic": {
+          "oof_brier": 0.22557438903106974,
+          "brier_gain_ci95": [
+            -0.0035807543566388524,
+            0.008176768215711066
+          ],
+          "beats_trivial_baseline": false,
+          "shrink_k": 40
+        }
+      },
+      "3": {
+        "n_races": 177,
+        "n_blocks_total": 30,
+        "overall_hit_rate_pct": 53.7,
+        "hit_definition_label": "単勝: 1着馬が上位K頭picksに入っているか",
+        "method": "logistic",
+        "k_buckets": null,
+        "candidates_tested": [
+          "gap_boundary_k"
+        ],
+        "candidates": {
+          "gap_boundary_k": {
+            "oof_brier": 0.24900388952643965,
+            "spearman_with_hit": -0.1283908644205059
+          }
+        },
+        "chosen_feature": "gap_boundary_k",
+        "chosen_feature_sign_warning": true,
+        "trivial_baseline_oof_brier": 0.2512034314283123,
+        "chosen_oof_brier": 0.24900388952643965,
+        "brier_gain_ci95": [
+          -0.00014004532419905832,
+          0.0044809032522377615
+        ],
+        "p_value_gain_le0": 0.031,
+        "min_blocks_for_pct": 60,
+        "min_blocks_ok": false,
+        "beats_trivial_baseline": false,
+        "show_pct": false,
+        "fit_params": {
+          "type": "logistic",
+          "intercept": 0.21155600716000278,
+          "slope": -0.9141516604593962
+        },
+        "bucket_diagnostic": {
+          "oof_brier": 0.2495511961688221,
+          "brier_gain_ci95": [
+            -0.005312409838136045,
+            0.008464740982256672
+          ],
+          "beats_trivial_baseline": false,
+          "shrink_k": 40
+        }
+      },
+      "2": {
+        "n_races": 177,
+        "n_blocks_total": 30,
+        "overall_hit_rate_pct": 40.7,
+        "hit_definition_label": "単勝: 1着馬が上位K頭picksに入っているか",
+        "method": "logistic",
+        "k_buckets": null,
+        "candidates_tested": [
+          "gap_boundary_k"
+        ],
+        "candidates": {
+          "gap_boundary_k": {
+            "oof_brier": 0.24457705584470135,
+            "spearman_with_hit": 0.09318880257695107
+          }
+        },
+        "chosen_feature": "gap_boundary_k",
+        "chosen_feature_sign_warning": false,
+        "trivial_baseline_oof_brier": 0.24386459329868293,
+        "chosen_oof_brier": 0.24457705584470135,
+        "brier_gain_ci95": [
+          -0.0018855083394014836,
+          0.0003803119154269629
+        ],
+        "p_value_gain_le0": 0.8865,
+        "min_blocks_for_pct": 60,
+        "min_blocks_ok": false,
+        "beats_trivial_baseline": false,
+        "show_pct": false,
+        "fit_params": {
+          "type": "logistic",
+          "intercept": -0.39697076048457675,
+          "slope": 0.2866562432423226
+        },
+        "bucket_diagnostic": {
+          "oof_brier": 0.2417787250272767,
+          "brier_gain_ci95": [
+            -0.003913366449542231,
+            0.008082008305685761
+          ],
+          "beats_trivial_baseline": false,
+          "shrink_k": 40
+        }
+      },
+      "1": {
+        "n_races": 177,
+        "n_blocks_total": 30,
+        "overall_hit_rate_pct": 25.4,
+        "hit_definition_label": "単勝: 1着馬が上位K頭picksに入っているか",
+        "method": "logistic",
+        "k_buckets": null,
+        "candidates_tested": [
+          "gap_boundary_k"
+        ],
+        "candidates": {
+          "gap_boundary_k": {
+            "oof_brier": 0.19184763179482056,
+            "spearman_with_hit": 0.09141838952099876
+          }
+        },
+        "chosen_feature": "gap_boundary_k",
+        "chosen_feature_sign_warning": false,
+        "trivial_baseline_oof_brier": 0.1916352306704473,
+        "chosen_oof_brier": 0.19184763179482056,
+        "brier_gain_ci95": [
+          -0.001805612951119978,
+          0.001444132605746569
+        ],
+        "p_value_gain_le0": 0.582,
+        "min_blocks_for_pct": 60,
+        "min_blocks_ok": false,
+        "beats_trivial_baseline": false,
+        "show_pct": false,
+        "fit_params": {
+          "type": "logistic",
+          "intercept": -1.1171179912935667,
+          "slope": 0.4230905065449636
+        },
+        "bucket_diagnostic": {
+          "oof_brier": 0.19139081737312327,
+          "brier_gain_ci95": [
+            -0.002875107607832969,
+            0.003503223047488902
+          ],
+          "beats_trivial_baseline": false,
+          "shrink_k": 80
+        }
+      }
+    }
+  },
+  "created_at": "2026-08-12T09:31:35"
+}

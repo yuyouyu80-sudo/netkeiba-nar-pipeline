@@ -1,0 +1,340 @@
+{
+  "n_races": 177,
+  "dates": [
+    "20260711",
+    "20260712",
+    "20260718",
+    "20260719",
+    "20260725",
+    "20260726",
+    "20260801",
+    "20260802",
+    "20260808",
+    "20260809"
+  ],
+  "pool": [
+    "speed",
+    "form",
+    "style",
+    "jt",
+    "waku",
+    "apt",
+    "train",
+    "distance",
+    "sire",
+    "bms",
+    "course",
+    "concerned",
+    "interval",
+    "kinryo",
+    "nige",
+    "margin",
+    "timediff",
+    "agari",
+    "holdtime"
+  ],
+  "n_patterns": 1000,
+  "seed": 2033,
+  "priors_fresh": {
+    "style_win": 10.041610738255034,
+    "style_place3": 29.427740492170024,
+    "jockey_win": 7.678299776286353,
+    "trainer_win": 8.138702460850112,
+    "waku_win": 6.869351230425056,
+    "apt_win": 7.624880382775119,
+    "distance_win": 15.220218579234972,
+    "distance_place3": 34.15450819672131,
+    "distance_return": 139.94749544626595,
+    "sire_win": 7.929306487695749,
+    "sire_place3": 23.399552572706934,
+    "sire_return": 79.6407158836689,
+    "bms_win": 8.58702460850112,
+    "bms_place3": 23.06890380313199,
+    "bms_return": 77.83266219239374,
+    "course_win": 12.526979865771814,
+    "course_place3": 26.384384787472037,
+    "course_return": 126.15959731543622,
+    "concerned_win": 10.504697986577181,
+    "concerned_place3": 22.885011185682327,
+    "concerned_return": 99.91901565995526,
+    "interval_win": 8.196241610738255,
+    "interval_place3": 18.252572706935123,
+    "interval_return": 86.71351230425057,
+    "kinryo_win": 9.036554809843398,
+    "kinryo_place3": 24.43668903803132,
+    "kinryo_return": 71.83006711409396
+  },
+  "results_by_box": {
+    "5": {
+      "pattern_id_current": 83,
+      "n_signals": 19,
+      "market": 76.88512241054613,
+      "current_model": {
+        "model": 96.78719397363466,
+        "excess": 19.902071563088526,
+        "percentile_among_1000": 96.0
+      },
+      "equal_weight": {
+        "model": 83.21280602636534,
+        "excess": 6.327683615819211,
+        "percentile_among_1000": 52.900000000000006
+      },
+      "best_full_population": {
+        "pattern_index": 382,
+        "model": 109.12241054613936,
+        "excess": 32.23728813559323,
+        "weights": {
+          "speed": 0.032383885873922325,
+          "form": 0.013645547438100198,
+          "style": 0.10160804294563973,
+          "jt": 0.034032968343355445,
+          "apt": 0.04914246359673857,
+          "train": 0.019087866992574337,
+          "sire": 0.03265973735132545,
+          "bms": 0.1541299201509941,
+          "course": 0.04123719993840097,
+          "concerned": 0.03293135744720524,
+          "interval": 0.10859584173660408,
+          "kinryo": 0.03486760276362498,
+          "nige": 0.04486260959656429,
+          "margin": 0.08175659741635945,
+          "timediff": 0.14431545589040234,
+          "agari": 0.016060220324454647,
+          "holdtime": 0.050401146650093154
+        },
+        "candidate_signal_weight_share": 0.5550280317637091,
+        "note": "全177レースで選んだ重みなのでin-sample最適化の楽観を含む",
+        "weights_full": {
+          "speed": 0.032383885873922325,
+          "form": 0.013645547438100198,
+          "style": 0.10160804294563973,
+          "jt": 0.034032968343355445,
+          "waku": 0.0035783327602222845,
+          "apt": 0.04914246359673857,
+          "train": 0.019087866992574337,
+          "distance": 0.004703202783418447,
+          "sire": 0.03265973735132545,
+          "bms": 0.1541299201509941,
+          "course": 0.04123719993840097,
+          "concerned": 0.03293135744720524,
+          "interval": 0.10859584173660408,
+          "kinryo": 0.03486760276362498,
+          "nige": 0.04486260959656429,
+          "margin": 0.08175659741635945,
+          "timediff": 0.14431545589040234,
+          "agari": 0.016060220324454647,
+          "holdtime": 0.050401146650093154
+        }
+      },
+      "nested_lobo_oof": {
+        "model": 85.05838041431262,
+        "excess": 8.173258003766492
+      },
+      "selection_optimism": {
+        "selected_side": 118.17256830947046,
+        "unseen_side": 85.65927193827872,
+        "unseen_all_mean": 83.57529142910764,
+        "optimism_pt": 32.51329637119174,
+        "true_edge_pt": 2.0839805091710994,
+        "true_edge_sd": 9.864099504465042,
+        "win_rate": 0.535
+      },
+      "gates_report_only": {
+        "nested_beats_current": false,
+        "nested_positive": true
+      },
+      "tansho_check_in_sample": {
+        "current_return_rate_pct": 95.4,
+        "current_hit_rate_pct": 72.3,
+        "best_return_rate_pct": 108.3,
+        "best_hit_rate_pct": 75.7
+      },
+      "bootstrap_full_population": {
+        "mean": 109.40272595492333,
+        "lo": 87.61902086677368,
+        "hi": 132.80395647223682
+      }
+    },
+    "4": {
+      "pattern_id_current": 19,
+      "n_signals": 19,
+      "market": 79.08474576271186,
+      "current_model": {
+        "model": 117.36158192090396,
+        "excess": 38.2768361581921,
+        "percentile_among_1000": 100.0
+      },
+      "equal_weight": {
+        "model": 85.54802259887005,
+        "excess": 6.463276836158187,
+        "percentile_among_1000": 60.5
+      },
+      "best_full_population": {
+        "pattern_index": 440,
+        "model": 106.83615819209041,
+        "excess": 27.751412429378547,
+        "weights": {
+          "speed": 0.009243638225811195,
+          "form": 0.025182567570811096,
+          "style": 0.04385679122050066,
+          "jt": 0.03639550018633478,
+          "waku": 0.03530583190639466,
+          "apt": 0.11948786740713997,
+          "distance": 0.02362100569487206,
+          "bms": 0.15384783911384498,
+          "course": 0.17336713949039206,
+          "concerned": 0.11738903932692042,
+          "interval": 0.04507076103577656,
+          "kinryo": 0.021450608091837825,
+          "nige": 0.09975337439997714,
+          "margin": 0.034459493257238134,
+          "timediff": 0.021610299563032478,
+          "agari": 0.011773080355213968,
+          "holdtime": 0.021060678839808424
+        },
+        "candidate_signal_weight_share": 0.5459344743601969,
+        "note": "全177レースで選んだ重みなのでin-sample最適化の楽観を含む",
+        "weights_full": {
+          "speed": 0.009243638225811195,
+          "form": 0.025182567570811096,
+          "style": 0.04385679122050066,
+          "jt": 0.03639550018633478,
+          "waku": 0.03530583190639466,
+          "apt": 0.11948786740713997,
+          "train": 0.004460134536206005,
+          "distance": 0.02362100569487206,
+          "sire": 0.0026643497778874696,
+          "bms": 0.15384783911384498,
+          "course": 0.17336713949039206,
+          "concerned": 0.11738903932692042,
+          "interval": 0.04507076103577656,
+          "kinryo": 0.021450608091837825,
+          "nige": 0.09975337439997714,
+          "margin": 0.034459493257238134,
+          "timediff": 0.021610299563032478,
+          "agari": 0.011773080355213968,
+          "holdtime": 0.021060678839808424
+        }
+      },
+      "nested_lobo_oof": {
+        "model": 62.64406779661017,
+        "excess": -16.44067796610169
+      },
+      "selection_optimism": {
+        "selected_side": 121.55837222926512,
+        "unseen_side": 83.89608140973527,
+        "unseen_all_mean": 83.96589278449065,
+        "optimism_pt": 37.662290819529844,
+        "true_edge_pt": -0.06981137475535291,
+        "true_edge_sd": 8.186294693196151,
+        "win_rate": 0.515
+      },
+      "gates_report_only": {
+        "nested_beats_current": false,
+        "nested_positive": false
+      },
+      "tansho_check_in_sample": {
+        "current_return_rate_pct": 106.0,
+        "current_hit_rate_pct": 62.7,
+        "best_return_rate_pct": 155.0,
+        "best_hit_rate_pct": 65.5
+      },
+      "bootstrap_full_population": {
+        "mean": 106.92658864799041,
+        "lo": 83.08415282392026,
+        "hi": 134.0420127118644
+      }
+    },
+    "3": {
+      "pattern_id_current": 95,
+      "n_signals": 19,
+      "market": 79.19962335216573,
+      "current_model": {
+        "model": 92.3352165725047,
+        "excess": 13.135593220338976,
+        "percentile_among_1000": 83.1
+      },
+      "equal_weight": {
+        "model": 86.8738229755179,
+        "excess": 7.674199623352166,
+        "percentile_among_1000": 59.099999999999994
+      },
+      "best_full_population": {
+        "pattern_index": 889,
+        "model": 115.06591337099812,
+        "excess": 35.86629001883239,
+        "weights": {
+          "form": 0.02693922271128545,
+          "style": 0.17962524211181932,
+          "jt": 0.060103182329695005,
+          "waku": 0.005309201359249217,
+          "apt": 0.1305692112048492,
+          "train": 0.01070524674268205,
+          "distance": 0.06032407252473069,
+          "sire": 0.005385888890712407,
+          "bms": 0.025121141873305625,
+          "course": 0.03272062559187785,
+          "concerned": 0.013087778805812128,
+          "interval": 0.08561009172063194,
+          "kinryo": 0.020781222862453326,
+          "nige": 0.09368644368199859,
+          "margin": 0.03139195814054268,
+          "timediff": 0.01425501186719181,
+          "agari": 0.12744212837555308,
+          "holdtime": 0.07450581214879602
+        },
+        "candidate_signal_weight_share": 0.4934810731948574,
+        "note": "全177レースで選んだ重みなのでin-sample最適化の楽観を含む",
+        "weights_full": {
+          "speed": 0.0024365170568135222,
+          "form": 0.02693922271128545,
+          "style": 0.17962524211181932,
+          "jt": 0.060103182329695005,
+          "waku": 0.005309201359249217,
+          "apt": 0.1305692112048492,
+          "train": 0.01070524674268205,
+          "distance": 0.06032407252473069,
+          "sire": 0.005385888890712407,
+          "bms": 0.025121141873305625,
+          "course": 0.03272062559187785,
+          "concerned": 0.013087778805812128,
+          "interval": 0.08561009172063194,
+          "kinryo": 0.020781222862453326,
+          "nige": 0.09368644368199859,
+          "margin": 0.03139195814054268,
+          "timediff": 0.01425501186719181,
+          "agari": 0.12744212837555308,
+          "holdtime": 0.07450581214879602
+        }
+      },
+      "nested_lobo_oof": {
+        "model": 98.91713747645952,
+        "excess": 19.717514124293785
+      },
+      "selection_optimism": {
+        "selected_side": 127.12352554192474,
+        "unseen_side": 87.10370233878655,
+        "unseen_all_mean": 85.39124248459021,
+        "optimism_pt": 40.01982320313819,
+        "true_edge_pt": 1.7124598541963563,
+        "true_edge_sd": 12.065114329466477,
+        "win_rate": 0.505
+      },
+      "gates_report_only": {
+        "nested_beats_current": true,
+        "nested_positive": true
+      },
+      "tansho_check_in_sample": {
+        "current_return_rate_pct": 92.3,
+        "current_hit_rate_pct": 52.0,
+        "best_return_rate_pct": 134.0,
+        "best_hit_rate_pct": 57.1
+      },
+      "bootstrap_full_population": {
+        "mean": 115.62673945163326,
+        "lo": 86.53675125192605,
+        "hi": 148.19702380952376
+      }
+    }
+  }
+}

@@ -1,0 +1,312 @@
+{
+  "n_races": 177,
+  "dates": [
+    "20260711",
+    "20260712",
+    "20260718",
+    "20260719",
+    "20260725",
+    "20260726",
+    "20260801",
+    "20260802",
+    "20260808",
+    "20260809"
+  ],
+  "pool": [
+    "speed",
+    "form",
+    "style",
+    "jt",
+    "waku",
+    "apt",
+    "train",
+    "distance",
+    "sire",
+    "bms",
+    "course",
+    "concerned",
+    "interval",
+    "kinryo",
+    "nige",
+    "margin",
+    "timediff",
+    "agari",
+    "holdtime",
+    "ketto_training",
+    "ketto_comment",
+    "odds_jockey",
+    "surf_jt",
+    "jockey_owner",
+    "prevjockey"
+  ],
+  "n_patterns": 1000,
+  "seed": 2044,
+  "priors_fresh": {
+    "style_win": 10.041610738255034,
+    "style_place3": 29.427740492170024,
+    "jockey_win": 7.678299776286353,
+    "trainer_win": 8.138702460850112,
+    "waku_win": 6.869351230425056,
+    "apt_win": 7.624880382775119,
+    "distance_win": 15.220218579234972,
+    "distance_place3": 34.15450819672131,
+    "distance_return": 139.94749544626595,
+    "sire_win": 7.929306487695749,
+    "sire_place3": 23.399552572706934,
+    "sire_return": 79.6407158836689,
+    "bms_win": 8.58702460850112,
+    "bms_place3": 23.06890380313199,
+    "bms_return": 77.83266219239374,
+    "course_win": 12.526979865771814,
+    "course_place3": 26.384384787472037,
+    "course_return": 126.15959731543622,
+    "concerned_win": 10.504697986577181,
+    "concerned_place3": 22.885011185682327,
+    "concerned_return": 99.91901565995526,
+    "interval_win": 8.196241610738255,
+    "interval_place3": 18.252572706935123,
+    "interval_return": 86.71351230425057,
+    "kinryo_win": 9.036554809843398,
+    "kinryo_place3": 24.43668903803132,
+    "kinryo_return": 71.83006711409396,
+    "ketto_training_win": 15.036930455635492,
+    "ketto_training_place3": 35.3726618705036,
+    "ketto_training_return": 136.04556354916068,
+    "ketto_comment_win": 17.274223034734916,
+    "ketto_comment_place3": 38.679159049360145,
+    "ketto_comment_return": 149.35009140767824,
+    "odds_jockey_win": 7.597708465945257,
+    "odds_jockey_place3": 24.22597071928708,
+    "odds_jockey_return": 75.26288987905792,
+    "surf_jt_win": 8.461614173228346,
+    "surf_jt_place3": 24.007874015748033,
+    "surf_jt_return": 90.19340551181102,
+    "jockey_owner_win": 11.066441441441441,
+    "jockey_owner_place3": 28.041103603603602,
+    "jockey_owner_return": 129.99605855855856,
+    "prevjockey_win": 7.448736998514116,
+    "prevjockey_place3": 22.289252105002475,
+    "prevjockey_return": 68.78107974244675
+  },
+  "results_by_box": {
+    "5": {
+      "pattern_id_current": 83,
+      "n_signals": 25,
+      "market": 76.88512241054613,
+      "current_model": {
+        "model": 96.78719397363466,
+        "excess": 19.902071563088526,
+        "percentile_among_1000": 98.0
+      },
+      "equal_weight": {
+        "model": 85.43126177024483,
+        "excess": 8.5461393596987,
+        "percentile_among_1000": 71.6
+      },
+      "best_full_population": {
+        "pattern_index": 689,
+        "model": 104.49340866290018,
+        "excess": 27.60828625235405,
+        "weights": {
+          "speed": 0.016407143829247284,
+          "form": 0.006377311999914509,
+          "style": 0.11812103423916229,
+          "jt": 0.03849370257566405,
+          "waku": 0.07059098023015598,
+          "apt": 0.13062401528514628,
+          "train": 0.045649301012151214,
+          "distance": 0.01672907139694684,
+          "sire": 0.11078044239336507,
+          "bms": 0.07506675620997016,
+          "course": 0.00643164580403363,
+          "nige": 0.029870751133443493,
+          "timediff": 0.07973348217992929,
+          "holdtime": 0.05441350930279129,
+          "ketto_training": 0.03425800344869957,
+          "ketto_comment": 0.007604856639153851,
+          "odds_jockey": 0.058666287418820524,
+          "surf_jt": 0.024133676740535234,
+          "jockey_owner": 0.013594566811382628,
+          "prevjockey": 0.05503208686551976
+        },
+        "candidate_signal_weight_share": 0.17787076290416454,
+        "candidate_v2_signal_weight_share": 0.19328947792411155,
+        "note": "全177レースで選んだ重みなのでin-sample最適化の楽観を含む"
+      },
+      "nested_lobo_oof": {
+        "model": 86.39548022598869,
+        "excess": 9.51035781544256
+      },
+      "selection_optimism": {
+        "selected_side": 115.357241485422,
+        "unseen_side": 80.65093454844377,
+        "unseen_all_mean": 82.59885975253482,
+        "optimism_pt": 34.70630693697822,
+        "true_edge_pt": -1.9479252040910666,
+        "true_edge_sd": 6.798942282003434,
+        "win_rate": 0.345
+      },
+      "gates_report_only": {
+        "nested_beats_current": false,
+        "nested_positive": true
+      },
+      "tansho_check_in_sample": {
+        "current_return_rate_pct": 95.4,
+        "current_hit_rate_pct": 72.3,
+        "best_return_rate_pct": 100.2,
+        "best_hit_rate_pct": 76.3
+      },
+      "bootstrap_full_population": {
+        "mean": 104.68200537642406,
+        "lo": 85.32534920634922,
+        "hi": 127.12731471135939
+      }
+    },
+    "4": {
+      "pattern_id_current": 19,
+      "n_signals": 25,
+      "market": 79.08474576271186,
+      "current_model": {
+        "model": 117.36158192090396,
+        "excess": 38.2768361581921,
+        "percentile_among_1000": 100.0
+      },
+      "equal_weight": {
+        "model": 85.14124293785311,
+        "excess": 6.056497175141246,
+        "percentile_among_1000": 64.7
+      },
+      "best_full_population": {
+        "pattern_index": 744,
+        "model": 109.98305084745763,
+        "excess": 30.898305084745772,
+        "weights": {
+          "form": 0.006410218817433364,
+          "style": 0.06418253336121015,
+          "jt": 0.11773793718015281,
+          "waku": 0.10444048947880633,
+          "apt": 0.027256353368781037,
+          "train": 0.015396270630523396,
+          "bms": 0.06545761397573359,
+          "course": 0.008006171589137566,
+          "interval": 0.10629491992388829,
+          "kinryo": 0.017153617054821314,
+          "nige": 0.061389854234436166,
+          "margin": 0.04366671163004385,
+          "agari": 0.006031260835148489,
+          "holdtime": 0.13221145486278654,
+          "ketto_training": 0.023525446973809348,
+          "ketto_comment": 0.04115924263446529,
+          "surf_jt": 0.035704378667077485,
+          "jockey_owner": 0.08696306884277187,
+          "prevjockey": 0.02188020810744783
+        },
+        "candidate_signal_weight_share": 0.3777204721668258,
+        "candidate_v2_signal_weight_share": 0.21412663448988353,
+        "note": "全177レースで選んだ重みなのでin-sample最適化の楽観を含む"
+      },
+      "nested_lobo_oof": {
+        "model": 91.56497175141243,
+        "excess": 12.480225988700568
+      },
+      "selection_optimism": {
+        "selected_side": 121.30115096493438,
+        "unseen_side": 82.3667742813368,
+        "unseen_all_mean": 82.79698464435907,
+        "optimism_pt": 38.93437668359758,
+        "true_edge_pt": -0.43021036302225873,
+        "true_edge_sd": 9.12978691020761,
+        "win_rate": 0.445
+      },
+      "gates_report_only": {
+        "nested_beats_current": false,
+        "nested_positive": true
+      },
+      "tansho_check_in_sample": {
+        "current_return_rate_pct": 106.0,
+        "current_hit_rate_pct": 62.7,
+        "best_return_rate_pct": 101.2,
+        "best_hit_rate_pct": 63.8
+      },
+      "bootstrap_full_population": {
+        "mean": 110.24452791037405,
+        "lo": 84.9998595505618,
+        "hi": 140.4494252873563
+      }
+    },
+    "3": {
+      "pattern_id_current": 95,
+      "n_signals": 25,
+      "market": 79.19962335216573,
+      "current_model": {
+        "model": 92.3352165725047,
+        "excess": 13.135593220338976,
+        "percentile_among_1000": 91.2
+      },
+      "equal_weight": {
+        "model": 85.80037664783427,
+        "excess": 6.6007532956685395,
+        "percentile_among_1000": 69.8
+      },
+      "best_full_population": {
+        "pattern_index": 529,
+        "model": 110.68738229755179,
+        "excess": 31.487758945386062,
+        "weights": {
+          "form": 0.025012279741136418,
+          "style": 0.242348784457466,
+          "jt": 0.025835436868398006,
+          "apt": 0.0918711626379993,
+          "train": 0.006842878832439667,
+          "distance": 0.035569516909455194,
+          "sire": 0.017743846675541217,
+          "course": 0.03664149771326528,
+          "concerned": 0.023502827306006453,
+          "interval": 0.08898185912171158,
+          "kinryo": 0.025638569453032212,
+          "nige": 0.033915572310648026,
+          "timediff": 0.046198542967506945,
+          "agari": 0.027361004565595728,
+          "holdtime": 0.0641043979488874,
+          "ketto_training": 0.010853996313791924,
+          "ketto_comment": 0.04132894630181207,
+          "odds_jockey": 0.051657568585524796,
+          "surf_jt": 0.07669095014785231,
+          "jockey_owner": 0.00826369811788722,
+          "prevjockey": 0.01491146979082257
+        },
+        "candidate_signal_weight_share": 0.3468541808184238,
+        "candidate_v2_signal_weight_share": 0.2037066292576909,
+        "note": "全177レースで選んだ重みなのでin-sample最適化の楽観を含む"
+      },
+      "nested_lobo_oof": {
+        "model": 71.10169491525423,
+        "excess": -8.097928436911502
+      },
+      "selection_optimism": {
+        "selected_side": 126.98571521968813,
+        "unseen_side": 80.87204250660604,
+        "unseen_all_mean": 82.22273531608796,
+        "optimism_pt": 46.113672713082096,
+        "true_edge_pt": -1.3506928094819393,
+        "true_edge_sd": 9.76303610312878,
+        "win_rate": 0.445
+      },
+      "gates_report_only": {
+        "nested_beats_current": false,
+        "nested_positive": false
+      },
+      "tansho_check_in_sample": {
+        "current_return_rate_pct": 92.3,
+        "current_hit_rate_pct": 52.0,
+        "best_return_rate_pct": 110.2,
+        "best_hit_rate_pct": 51.4
+      },
+      "bootstrap_full_population": {
+        "mean": 111.38851799860406,
+        "lo": 76.37908684546616,
+        "hi": 151.91082386363632
+      }
+    }
+  }
+}

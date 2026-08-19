@@ -72,7 +72,12 @@ def main() -> None:
         run([py, "scripts/run_pilot.py", "--date", args.date], cwd=PROJECT_ROOT, allow_fail=True)
 
     for step in VERIFY_STEPS:
-        run([py, step], cwd=SCRATCHPAD)
+        if step == "confidence_per_race.py":
+            # 2026-08-12、JRA/NAR確信度統一に伴いscripts/jra_model/へ昇格した
+            # (git管理下、predict.pyへのscratchpad依存を解消済み)。
+            run([py, "scripts/jra_model/confidence_per_race.py"], cwd=PROJECT_ROOT)
+        else:
+            run([py, step], cwd=SCRATCHPAD)
 
     print("\n完了。レポート: prediction_report.html (scratchpad)")
     print("Artifact再公開はこのスクリプトの対象外(Claude Codeセッション側で手動再公開すること)。")
