@@ -51,7 +51,48 @@ CANDIDATE_SIGNALS_V2 = ["timediff", "class_ninki", "weight"]
 # 値の算出は nar_factor_test_waku_recent2d.py 側(race_results履歴が必要なため
 # build_signals()の入力であるdfに事前注入する形を取る、他のCANDIDATE同様)。
 CANDIDATE_SIGNALS_V3 = ["waku_recent2d"]
-ALL_SIGNALS = LEGACY_SIGNALS + NEW_SIGNALS + CANDIDATE_SIGNALS + CANDIDATE_SIGNALS_V2 + CANDIDATE_SIGNALS_V3
+# --- 2026-08-20、ユーザー依頼(インターネット由来の勝率アップ手法の検証)で追加した候補
+# シグナル。いずれも「取得済みだが未使用」の列から、既存のSHRINK_SPECS/priorsパターンを
+# 踏襲できる(=fold内で完結し探索側と本番側でのリーク構造が既存シグナルと同型になる)
+# 範囲でのみ実装した。
+#   hold_just  : 持続タイム(holdtime_just_*)。この馬の「今回とほぼ同条件」の持続タイム
+#                ベンチマーク走のタイムをそのまま比較する(速いほど高評価)。speed(死に
+#                シグナル、speed_max_index等がNAR馬柱で空)とは別データソースで、実測で
+#                生存を確認済み(40ファイル412行で69.4%充足)。
+#                2026-08-20ゲート1(統計学者レビュー)で「発走後に馬柱データを取得した
+#                場合、今日の走破タイムが"自己ベスト"としてjustバケットに混入する経路が
+#                あるのでは」との懸念が挙がったが、pre_race検証済みサブセット(183レース、
+#                verify_provenance.py)とフルデータ(1385レース、77%が発走後取得
+#                [[project_nar_data_provenance_caveat]])とでhold_just最良馬の単勝的中率を
+#                比較したところ、pre_raceのみ16.4%・フルデータ15.7%とほぼ同水準(むしろ
+#                pre_raceの方がわずかに高い)で、懸念された「発走後取得による水増し」を
+#                示す証拠は見られなかった(2026-08-20確認)。
+#   hold_wide  : 持続タイムのshort/middle/long(distance帯違いの参考区分)3本をブレンドし、
+#                距離帯を跨いだ持続力の安定度を見る。
+#   jockey_change: 前走からの騎手乗り替わりの有無(1.0=乗り替わり/0.0=継続)。Web調査
+#                (competitive handicapping文献)で「乗り替わりは陣営の意志のサイン」との
+#                指摘があったが、乗り替わり先の騎手の技量までは(過去走の騎手個別成績が
+#                馬柱データに無いため)判定できない。「jockey」シグナル(今回の騎手の勝率)
+#                と組み合わせて線形モデルが間接的に効果を学習することを期待する設計。
+#   class_drop : 前走からのクラス降格幅(下がった分のみ加点、上がっても減点しない片側)。
+#                Web調査で「クラス降格馬は非降格より勝率が約3倍」との報告あり。
+#                2026-08-20ゲート1レビュー(競馬予想家ペルソナ)で実装バグを指摘・修正済み:
+#                当初`_minmax`でレース内相対正規化していたため、降格馬が1頭もいない
+#                レース(全馬タイで0.0)が`_minmax`のhi==lo分岐で丸ごとNaN化していた
+#                (bmsが死んでいた原因と同型のバグ、実測で73%のレースが該当)。固定スケール
+#                (3クラス分降格で満点)への写像に変更し、降格馬がいないレースでも
+#                「降格していない」という情報がそのまま0.0として残るようにした。
+#                statisticianレビューでform(クラス差で着順を補正する連続シグナル)との
+#                相関を実測(r=-0.368、VIF≒1.16)、多重共線性の警戒閾値未満のため対処不要
+#                と判定済み。
+#   weight_trend: 直近複数走(過去1〜5走)の馬体重増減の加重平均トレンド。既存の「weight」
+#                候補(今回1日分の増減幅のみ)とは別軸。2026-08-20ゲート1レビューの指摘を
+#                反映し、「weight」と同じ設計思想(増加方向+変化の小ささ=安定、の2成分
+#                ブレンド)に統一した(単純な「増加ほど良い」という一方向の前提は、
+#                太め残りの増加など実務的に誤りうるとの指摘のため)。
+CANDIDATE_SIGNALS_V4 = ["hold_just", "hold_wide", "jockey_change", "class_drop", "weight_trend"]
+ALL_SIGNALS = (LEGACY_SIGNALS + NEW_SIGNALS + CANDIDATE_SIGNALS + CANDIDATE_SIGNALS_V2
+               + CANDIDATE_SIGNALS_V3 + CANDIDATE_SIGNALS_V4)
 
 # NARでは値が構造的に存在しないことを実測で確認したシグナル(686頭全件)。
 # ハードコードではなく detect_dead() で毎回検出するが、既定値としても持っておく。
@@ -199,6 +240,18 @@ def _margin(s):
     return float(m.group(1)) if m else np.nan
 
 
+_TIME_RE = re.compile(r"^(\d+):(\d+\.?\d*)$")
+
+
+def _time_to_sec(s) -> float:
+    """"1:28.9" 形式(分:秒.コンマ)を秒(float)に変換する。holdtime_*_time用。"""
+    m = _TIME_RE.match(str(s).strip())
+    if not m:
+        return np.nan
+    minutes, seconds = m.groups()
+    return float(minutes) * 60.0 + float(seconds)
+
+
 # --------------------------------------------------------------------------- priors
 def make_priors(entries: list) -> dict:
     """渡されたレース集合(=学習fold)からシュリンケージの事前値を作る。
@@ -339,6 +392,39 @@ def build_signals(df: pd.DataFrame, current_class: float, priors: dict) -> dict:
     # 通常のwaku(全期間)と違い標本が極小(1枠あたり数レース)になるため、SHRINK_K=12.0の
     # シュリンケージで大半がpriorに引き戻される設計。
     sig["waku_recent2d"] = _minmax(_shrink(df, "waku_recent2d_win", priors))
+
+    # --- hold_just / hold_wide(2026-08-20、ユーザー依頼): 持続タイム。速いほど高評価なので
+    # 符号反転してminmax。
+    sig["hold_just"] = _minmax(-_col(df, "holdtime_just_time").map(_time_to_sec))
+    wide_cols = ["holdtime_short_time", "holdtime_middle_time", "holdtime_long_time"]
+    wide = pd.concat([_col(df, c).map(_time_to_sec) for c in wide_cols], axis=1).mean(axis=1, skipna=True)
+    sig["hold_wide"] = _minmax(-wide)
+
+    # --- jockey_change: 前走からの騎手乗り替わり(1.0=乗り替わり/0.0=継続/NaN=前走情報なし)
+    today_jockey = _col(df, "bias_jockey").astype(str).str.strip()
+    past1_jockey = _col(df, "past1_jockey").astype(str).str.strip()
+    has_past1 = _col(df, "past1_jockey").notna() & (past1_jockey != "")
+    changed = (today_jockey != past1_jockey).astype(float)
+    sig["jockey_change"] = changed.where(has_past1, np.nan)
+
+    # --- class_drop: 前走からのクラス降格幅(下がった分のみ、上がっても0)。
+    # レース内相対のminmaxではなく固定スケール(3クラス分降格=満点)へ写像する。降格馬が
+    # 1頭もいないレース(全馬0.0)でも「降格していない」という情報がそのまま残る設計
+    # (2026-08-20ゲート1レビューで、minmax版は_minmaxのhi==lo分岐により降格馬0頭の
+    # レースが丸ごとNaN化するバグ(bmsと同型、実測73%該当)を指摘され修正)。
+    CLASS_DROP_SCALE = 3.0
+    past1_class = _col(df, "past1_race_name").map(class_ordinal)
+    past1_class = past1_class.fillna(_col(df, "past1_race_class").map(class_ordinal))
+    drop = (past1_class - current_class).clip(lower=0.0)
+    sig["class_drop"] = (drop / CLASS_DROP_SCALE).clip(upper=1.0)
+
+    # --- weight_trend: 過去1〜5走の馬体重増減の加重平均トレンド(今回1日分のみを見る
+    # "weight"とは別軸)。"weight"と同じ2成分ブレンド(増加方向+変化の小ささ=安定)に統一。
+    wt = pd.concat(
+        [_num(_col(df, f"past{i}_horse_weight_diff")).rename(i) for i in range(1, 6)], axis=1
+    )
+    trend = _wavg(wt, [5, 4, 3, 2, 1])
+    sig["weight_trend"] = _blend_minmax(trend, -trend.abs())
 
     return sig
 
