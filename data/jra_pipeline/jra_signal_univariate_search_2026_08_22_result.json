@@ -1,0 +1,1076 @@
+{
+  "n_races": 211,
+  "names": [
+    "speed",
+    "form",
+    "style",
+    "jt",
+    "waku",
+    "apt",
+    "train",
+    "distance",
+    "sire",
+    "bms"
+  ],
+  "cos_gate": 0.9,
+  "grid_step": 0.01,
+  "grid_step_coarse": 0.05,
+  "note": "探索的診断・in-sample最適化+Nested LOBO OOF併記・本番非採用。シグナル個別最適化→結合という手法自体が全シグナル同時探索より過学習リスクが高いことを前提に、統計専門家レビューを反映した安全策(グリッド設計・目的関数整合性ゲート・Nested LOBO OOF化・選択バイアス診断・逆張りチェック)を組み込んでいる。",
+  "results_by_box": {
+    "5": {
+      "model_file": "winner_v3.json",
+      "baseline_weights": {
+        "speed": 0.03436402793669734,
+        "form": 0.10981085258380266,
+        "style": 0.07763198546238641,
+        "jt": 0.055693028841066854,
+        "waku": 0.055514074178569246,
+        "apt": 0.08905627463717852,
+        "train": 0.0457363547695824,
+        "distance": 0.13651762985111357,
+        "sire": 0.18895587033571576,
+        "bms": 0.2067199014038873
+      },
+      "signal_profile_table": [
+        {
+          "signal": "speed",
+          "baseline_w": 0.03436402793669734,
+          "t_star_win_pick": 0.12,
+          "peak_win_pick_pct": 24.170616113744074,
+          "plateau_width_win_pick": 3,
+          "t_star_box_hit": 0.12,
+          "peak_box_hit_pct": 75.35545023696683,
+          "plateau_width_box_hit": 3
+        },
+        {
+          "signal": "form",
+          "baseline_w": 0.10981085258380266,
+          "t_star_win_pick": 0.09,
+          "peak_win_pick_pct": 23.22274881516588,
+          "plateau_width_win_pick": 6,
+          "t_star_box_hit": 0.1,
+          "peak_box_hit_pct": 70.61611374407583,
+          "plateau_width_box_hit": 2
+        },
+        {
+          "signal": "style",
+          "baseline_w": 0.07763198546238641,
+          "t_star_win_pick": 0.19,
+          "peak_win_pick_pct": 24.170616113744074,
+          "plateau_width_win_pick": 2,
+          "t_star_box_hit": 1.0,
+          "peak_box_hit_pct": 71.56398104265402,
+          "plateau_width_box_hit": 1
+        },
+        {
+          "signal": "jt",
+          "baseline_w": 0.055693028841066854,
+          "t_star_win_pick": 0.055693,
+          "peak_win_pick_pct": 22.748815165876778,
+          "plateau_width_win_pick": 4,
+          "t_star_box_hit": 0.11,
+          "peak_box_hit_pct": 70.14218009478674,
+          "plateau_width_box_hit": 1
+        },
+        {
+          "signal": "waku",
+          "baseline_w": 0.055514074178569246,
+          "t_star_win_pick": 0.08,
+          "peak_win_pick_pct": 23.22274881516588,
+          "plateau_width_win_pick": 1,
+          "t_star_box_hit": 0.06,
+          "peak_box_hit_pct": 70.14218009478674,
+          "plateau_width_box_hit": 2
+        },
+        {
+          "signal": "apt",
+          "baseline_w": 0.08905627463717852,
+          "t_star_win_pick": 1.0,
+          "peak_win_pick_pct": 27.488151658767773,
+          "plateau_width_win_pick": 1,
+          "t_star_box_hit": 0.18,
+          "peak_box_hit_pct": 71.56398104265402,
+          "plateau_width_box_hit": 2
+        },
+        {
+          "signal": "train",
+          "baseline_w": 0.0457363547695824,
+          "t_star_win_pick": 1.0,
+          "peak_win_pick_pct": 72.51184834123224,
+          "plateau_width_win_pick": 1,
+          "t_star_box_hit": 1.0,
+          "peak_box_hit_pct": 86.7298578199052,
+          "plateau_width_box_hit": 1
+        },
+        {
+          "signal": "distance",
+          "baseline_w": 0.13651762985111357,
+          "t_star_win_pick": 0.18,
+          "peak_win_pick_pct": 23.696682464454977,
+          "plateau_width_win_pick": 5,
+          "t_star_box_hit": 0.16,
+          "peak_box_hit_pct": 70.61611374407583,
+          "plateau_width_box_hit": 3
+        },
+        {
+          "signal": "sire",
+          "baseline_w": 0.18895587033571576,
+          "t_star_win_pick": 0.1,
+          "peak_win_pick_pct": 26.540284360189574,
+          "plateau_width_win_pick": 2,
+          "t_star_box_hit": 0.21,
+          "peak_box_hit_pct": 70.14218009478674,
+          "plateau_width_box_hit": 1
+        },
+        {
+          "signal": "bms",
+          "baseline_w": 0.2067199014038873,
+          "t_star_win_pick": 0.08,
+          "peak_win_pick_pct": 23.22274881516588,
+          "plateau_width_win_pick": 3,
+          "t_star_box_hit": 0.17,
+          "peak_box_hit_pct": 71.09004739336493,
+          "plateau_width_box_hit": 3
+        }
+      ],
+      "gate": {
+        "cosine_sim_wp_bh": 0.6846282176987398,
+        "adopted_profile": "box_hit",
+        "adopted_weights": {
+          "speed": 0.03858520900321544,
+          "form": 0.03215434083601287,
+          "style": 0.3215434083601286,
+          "jt": 0.03536977491961415,
+          "waku": 0.01929260450160772,
+          "apt": 0.05787781350482315,
+          "train": 0.3215434083601286,
+          "distance": 0.051446945337620585,
+          "sire": 0.06752411575562701,
+          "bms": 0.054662379421221874
+        },
+        "grid_sensitivity_max_delta_win_pick": 0.06,
+        "grid_sensitivity_max_delta_box_hit": 0.13
+      },
+      "stacking_sanity_check": {
+        "baseline_winrate_pct": 22.748815165876778,
+        "composite_winrate_win_pick_pct": 21.32701421800948,
+        "sum_of_individual_gains_upper_bound_pct": 86.25592417061613,
+        "refine_max_t_shift": 0.98
+      },
+      "nested_lobo_oof": {
+        "model": 86.8088467614534,
+        "market": 75.97788309636651,
+        "excess": 10.830963665086884,
+        "n_unique_patterns": 15,
+        "n_folds": 36
+      },
+      "in_sample": {
+        "model": 91.1911532385466,
+        "market": 75.97788309636651,
+        "excess": 15.213270142180093,
+        "optimism_pt": 4.382306477093209
+      },
+      "selection_optimism_3candidates": {
+        "selected_side": 94.79904379086206,
+        "unseen_side": 88.37698659480662,
+        "unseen_all_mean": 89.97757033323292,
+        "optimism_pt": 6.422057196055434,
+        "true_edge_pt": -1.6005837384263129,
+        "true_edge_sd": 3.9264035916865834,
+        "win_rate": 0.345
+      },
+      "bootstrap_oof_vs_market": {
+        "mean": 10.744560361454525,
+        "lo": -9.299052069425906,
+        "hi": 30.873064770932054,
+        "n_blocks": 36
+      },
+      "bootstrap_oof_vs_current": {
+        "mean": -5.700965463179987,
+        "lo": -20.300670960815896,
+        "hi": 8.871802280782848,
+        "n_blocks": 36
+      },
+      "bootstrap_oof_vs_equal10": {
+        "mean": 2.218585287717101,
+        "lo": -13.09620954134071,
+        "hi": 19.20838299024919,
+        "n_blocks": 36
+      },
+      "full_table_composite_in_sample": [
+        {
+          "bet_type": "単勝",
+          "races": 211,
+          "hit_races": 142,
+          "hit_rate_pct": 67.3,
+          "stake": 105500.0,
+          "return": 98600.0,
+          "return_rate_pct": 93.5
+        },
+        {
+          "bet_type": "複勝",
+          "races": 211,
+          "hit_races": 194,
+          "hit_rate_pct": 91.9,
+          "stake": 105500.0,
+          "return": 91000.0,
+          "return_rate_pct": 86.3
+        },
+        {
+          "bet_type": "枠連",
+          "races": 211,
+          "hit_races": 85,
+          "hit_rate_pct": 40.3,
+          "stake": 164500.0,
+          "return": 145110.0,
+          "return_rate_pct": 88.2
+        },
+        {
+          "bet_type": "馬連",
+          "races": 211,
+          "hit_races": 79,
+          "hit_rate_pct": 37.4,
+          "stake": 211000.0,
+          "return": 289950.0,
+          "return_rate_pct": 137.4
+        },
+        {
+          "bet_type": "ワイド",
+          "races": 211,
+          "hit_races": 132,
+          "hit_rate_pct": 62.6,
+          "stake": 211000.0,
+          "return": 197620.0,
+          "return_rate_pct": 93.7
+        },
+        {
+          "bet_type": "馬単",
+          "races": 211,
+          "hit_races": 79,
+          "hit_rate_pct": 37.4,
+          "stake": 422000.0,
+          "return": 524380.0,
+          "return_rate_pct": 124.3
+        },
+        {
+          "bet_type": "3連複",
+          "races": 211,
+          "hit_races": 34,
+          "hit_rate_pct": 16.1,
+          "stake": 211000.0,
+          "return": 142980.0,
+          "return_rate_pct": 67.8
+        },
+        {
+          "bet_type": "3連単",
+          "races": 211,
+          "hit_races": 34,
+          "hit_rate_pct": 16.1,
+          "stake": 1266000.0,
+          "return": 988230.0,
+          "return_rate_pct": 78.1
+        }
+      ],
+      "worst_n_check": {
+        "n_excluded_races": 0,
+        "diff_worst_vs_top": {
+          "mean": -33.840796917147834,
+          "lo": -59.74343484680694,
+          "hi": -8.575528381642537,
+          "n_blocks": 36
+        },
+        "diff_worst_vs_market_top": {
+          "mean": -18.512322165932108,
+          "lo": -42.89459656084656,
+          "hi": 9.313001543209861,
+          "n_blocks": 36
+        },
+        "diff_worst_vs_market_worst": {
+          "mean": 10.711990890356683,
+          "lo": -6.370868887985915,
+          "hi": 29.425227510402053,
+          "n_blocks": 36
+        },
+        "full_table_model_worst": [
+          {
+            "bet_type": "単勝",
+            "races": 211,
+            "hit_races": 41,
+            "hit_rate_pct": 19.4,
+            "stake": 105500.0,
+            "return": 97770.0,
+            "return_rate_pct": 92.7
+          },
+          {
+            "bet_type": "複勝",
+            "races": 211,
+            "hit_races": 124,
+            "hit_rate_pct": 58.8,
+            "stake": 105500.0,
+            "return": 73650.0,
+            "return_rate_pct": 69.8
+          },
+          {
+            "bet_type": "枠連",
+            "races": 211,
+            "hit_races": 36,
+            "hit_rate_pct": 17.1,
+            "stake": 170300.0,
+            "return": 131810.0,
+            "return_rate_pct": 77.4
+          },
+          {
+            "bet_type": "馬連",
+            "races": 211,
+            "hit_races": 13,
+            "hit_rate_pct": 6.2,
+            "stake": 211000.0,
+            "return": 81120.0,
+            "return_rate_pct": 38.4
+          },
+          {
+            "bet_type": "ワイド",
+            "races": 211,
+            "hit_races": 35,
+            "hit_rate_pct": 16.6,
+            "stake": 211000.0,
+            "return": 109600.0,
+            "return_rate_pct": 51.9
+          },
+          {
+            "bet_type": "馬単",
+            "races": 211,
+            "hit_races": 13,
+            "hit_rate_pct": 6.2,
+            "stake": 422000.0,
+            "return": 197650.0,
+            "return_rate_pct": 46.8
+          },
+          {
+            "bet_type": "3連複",
+            "races": 211,
+            "hit_races": 5,
+            "hit_rate_pct": 2.4,
+            "stake": 211000.0,
+            "return": 72110.0,
+            "return_rate_pct": 34.2
+          },
+          {
+            "bet_type": "3連単",
+            "races": 211,
+            "hit_races": 5,
+            "hit_rate_pct": 2.4,
+            "stake": 1266000.0,
+            "return": 337380.0,
+            "return_rate_pct": 26.6
+          }
+        ]
+      }
+    },
+    "4": {
+      "model_file": "winner_box4.json",
+      "baseline_weights": {
+        "speed": 0.16842812354959458,
+        "form": 0.08687626557612343,
+        "style": 0.24336757540154302,
+        "jt": 0.04344453334972717,
+        "waku": 0.041058857707600115,
+        "apt": 0.18875648863400946,
+        "train": 0.0309971679569156,
+        "distance": 0.0470709425713599,
+        "sire": 0.06074268206219111,
+        "bms": 0.08925736319093565
+      },
+      "signal_profile_table": [
+        {
+          "signal": "speed",
+          "baseline_w": 0.16842812354959458,
+          "t_star_win_pick": 0.58,
+          "peak_win_pick_pct": 23.22274881516588,
+          "plateau_width_win_pick": 1,
+          "t_star_box_hit": 0.64,
+          "peak_box_hit_pct": 60.66350710900474,
+          "plateau_width_box_hit": 3
+        },
+        {
+          "signal": "form",
+          "baseline_w": 0.08687626557612343,
+          "t_star_win_pick": 0.34,
+          "peak_win_pick_pct": 21.32701421800948,
+          "plateau_width_win_pick": 1,
+          "t_star_box_hit": 0.15,
+          "peak_box_hit_pct": 60.66350710900474,
+          "plateau_width_box_hit": 4
+        },
+        {
+          "signal": "style",
+          "baseline_w": 0.24336757540154302,
+          "t_star_win_pick": 0.15,
+          "peak_win_pick_pct": 24.170616113744074,
+          "plateau_width_win_pick": 1,
+          "t_star_box_hit": 0.17,
+          "peak_box_hit_pct": 62.55924170616114,
+          "plateau_width_box_hit": 3
+        },
+        {
+          "signal": "jt",
+          "baseline_w": 0.04344453334972717,
+          "t_star_win_pick": 0.21,
+          "peak_win_pick_pct": 23.22274881516588,
+          "plateau_width_win_pick": 1,
+          "t_star_box_hit": 0.12,
+          "peak_box_hit_pct": 62.08530805687204,
+          "plateau_width_box_hit": 1
+        },
+        {
+          "signal": "waku",
+          "baseline_w": 0.041058857707600115,
+          "t_star_win_pick": 0.03,
+          "peak_win_pick_pct": 19.90521327014218,
+          "plateau_width_win_pick": 3,
+          "t_star_box_hit": 0.12,
+          "peak_box_hit_pct": 60.66350710900474,
+          "plateau_width_box_hit": 1
+        },
+        {
+          "signal": "apt",
+          "baseline_w": 0.18875648863400946,
+          "t_star_win_pick": 1.0,
+          "peak_win_pick_pct": 27.488151658767773,
+          "plateau_width_win_pick": 1,
+          "t_star_box_hit": 0.23,
+          "peak_box_hit_pct": 61.61137440758294,
+          "plateau_width_box_hit": 2
+        },
+        {
+          "signal": "train",
+          "baseline_w": 0.0309971679569156,
+          "t_star_win_pick": 1.0,
+          "peak_win_pick_pct": 72.51184834123224,
+          "plateau_width_win_pick": 1,
+          "t_star_box_hit": 1.0,
+          "peak_box_hit_pct": 86.25592417061611,
+          "plateau_width_box_hit": 1
+        },
+        {
+          "signal": "distance",
+          "baseline_w": 0.0470709425713599,
+          "t_star_win_pick": 0.17,
+          "peak_win_pick_pct": 21.80094786729858,
+          "plateau_width_win_pick": 4,
+          "t_star_box_hit": 0.53,
+          "peak_box_hit_pct": 63.507109004739334,
+          "plateau_width_box_hit": 3
+        },
+        {
+          "signal": "sire",
+          "baseline_w": 0.06074268206219111,
+          "t_star_win_pick": 0.22,
+          "peak_win_pick_pct": 23.22274881516588,
+          "plateau_width_win_pick": 2,
+          "t_star_box_hit": 0.16,
+          "peak_box_hit_pct": 63.03317535545023,
+          "plateau_width_box_hit": 4
+        },
+        {
+          "signal": "bms",
+          "baseline_w": 0.08925736319093565,
+          "t_star_win_pick": 0.31,
+          "peak_win_pick_pct": 22.274881516587676,
+          "plateau_width_win_pick": 1,
+          "t_star_box_hit": 0.18,
+          "peak_box_hit_pct": 63.03317535545023,
+          "plateau_width_box_hit": 3
+        }
+      ],
+      "gate": {
+        "cosine_sim_wp_bh": 0.8385639794140166,
+        "adopted_profile": "box_hit",
+        "adopted_weights": {
+          "speed": 0.19393939393939394,
+          "form": 0.04545454545454545,
+          "style": 0.051515151515151514,
+          "jt": 0.03636363636363636,
+          "waku": 0.03636363636363636,
+          "apt": 0.06969696969696969,
+          "train": 0.303030303030303,
+          "distance": 0.1606060606060606,
+          "sire": 0.048484848484848485,
+          "bms": 0.054545454545454536
+        },
+        "grid_sensitivity_max_delta_win_pick": 0.09000000000000002,
+        "grid_sensitivity_max_delta_box_hit": 0.078941
+      },
+      "stacking_sanity_check": {
+        "baseline_winrate_pct": 19.431279620853083,
+        "composite_winrate_win_pick_pct": 22.748815165876778,
+        "sum_of_individual_gains_upper_bound_pct": 104.26540284360189,
+        "refine_max_t_shift": 0.41000000000000003
+      },
+      "nested_lobo_oof": {
+        "model": 80.18957345971563,
+        "market": 76.00473933649289,
+        "excess": 4.184834123222743,
+        "n_unique_patterns": 14,
+        "n_folds": 36
+      },
+      "in_sample": {
+        "model": 81.18483412322274,
+        "market": 76.00473933649289,
+        "excess": 5.180094786729853,
+        "optimism_pt": 0.9952606635071106
+      },
+      "selection_optimism_3candidates": {
+        "selected_side": 108.28653406403633,
+        "unseen_side": 103.39512766515887,
+        "unseen_all_mean": 87.6599812569049,
+        "optimism_pt": 4.891406398877464,
+        "true_edge_pt": 15.735146408253986,
+        "true_edge_sd": 11.29475530251476,
+        "win_rate": 0.94
+      },
+      "bootstrap_oof_vs_market": {
+        "mean": 4.156959363830661,
+        "lo": -9.714814814814828,
+        "hi": 18.35898232452269,
+        "n_blocks": 36
+      },
+      "bootstrap_oof_vs_current": {
+        "mean": -26.87186746416323,
+        "lo": -57.34820744234564,
+        "hi": 0.5833462332301126,
+        "n_blocks": 36
+      },
+      "bootstrap_oof_vs_equal10": {
+        "mean": 4.208532216780885,
+        "lo": -8.780743051616563,
+        "hi": 18.107644683265445,
+        "n_blocks": 36
+      },
+      "full_table_composite_in_sample": [
+        {
+          "bet_type": "単勝",
+          "races": 211,
+          "hit_races": 135,
+          "hit_rate_pct": 64.0,
+          "stake": 84400.0,
+          "return": 67070.0,
+          "return_rate_pct": 79.5
+        },
+        {
+          "bet_type": "複勝",
+          "races": 211,
+          "hit_races": 196,
+          "hit_rate_pct": 92.9,
+          "stake": 84400.0,
+          "return": 70810.0,
+          "return_rate_pct": 83.9
+        },
+        {
+          "bet_type": "枠連",
+          "races": 211,
+          "hit_races": 74,
+          "hit_rate_pct": 35.1,
+          "stake": 105400.0,
+          "return": 66410.0,
+          "return_rate_pct": 63.0
+        },
+        {
+          "bet_type": "馬連",
+          "races": 211,
+          "hit_races": 72,
+          "hit_rate_pct": 34.1,
+          "stake": 126600.0,
+          "return": 104400.0,
+          "return_rate_pct": 82.5
+        },
+        {
+          "bet_type": "ワイド",
+          "races": 211,
+          "hit_races": 124,
+          "hit_rate_pct": 58.8,
+          "stake": 126600.0,
+          "return": 100490.0,
+          "return_rate_pct": 79.4
+        },
+        {
+          "bet_type": "馬単",
+          "races": 211,
+          "hit_races": 72,
+          "hit_rate_pct": 34.1,
+          "stake": 253200.0,
+          "return": 202690.0,
+          "return_rate_pct": 80.1
+        },
+        {
+          "bet_type": "3連複",
+          "races": 211,
+          "hit_races": 27,
+          "hit_rate_pct": 12.8,
+          "stake": 84400.0,
+          "return": 45330.0,
+          "return_rate_pct": 53.7
+        },
+        {
+          "bet_type": "3連単",
+          "races": 211,
+          "hit_races": 27,
+          "hit_rate_pct": 12.8,
+          "stake": 506400.0,
+          "return": 219480.0,
+          "return_rate_pct": 43.3
+        }
+      ],
+      "worst_n_check": {
+        "n_excluded_races": 0,
+        "diff_worst_vs_top": {
+          "mean": -17.099294030213244,
+          "lo": -51.19645222756555,
+          "hi": 20.141567739771954,
+          "n_blocks": 36
+        },
+        "diff_worst_vs_market_top": {
+          "mean": -11.62383629175121,
+          "lo": -42.772565392354124,
+          "hi": 27.498681228106292,
+          "n_blocks": 36
+        },
+        "diff_worst_vs_market_worst": {
+          "mean": 20.250149884253513,
+          "lo": -1.7521634615384614,
+          "hi": 45.83303805701936,
+          "n_blocks": 36
+        },
+        "full_table_model_worst": [
+          {
+            "bet_type": "単勝",
+            "races": 211,
+            "hit_races": 25,
+            "hit_rate_pct": 11.8,
+            "stake": 84400.0,
+            "return": 90580.0,
+            "return_rate_pct": 107.3
+          },
+          {
+            "bet_type": "複勝",
+            "races": 211,
+            "hit_races": 91,
+            "hit_rate_pct": 43.1,
+            "stake": 84400.0,
+            "return": 64080.0,
+            "return_rate_pct": 75.9
+          },
+          {
+            "bet_type": "枠連",
+            "races": 211,
+            "hit_races": 19,
+            "hit_rate_pct": 9.0,
+            "stake": 106600.0,
+            "return": 89470.0,
+            "return_rate_pct": 83.9
+          },
+          {
+            "bet_type": "馬連",
+            "races": 211,
+            "hit_races": 4,
+            "hit_rate_pct": 1.9,
+            "stake": 126600.0,
+            "return": 26640.0,
+            "return_rate_pct": 21.0
+          },
+          {
+            "bet_type": "ワイド",
+            "races": 211,
+            "hit_races": 19,
+            "hit_rate_pct": 9.0,
+            "stake": 126600.0,
+            "return": 70990.0,
+            "return_rate_pct": 56.1
+          },
+          {
+            "bet_type": "馬単",
+            "races": 211,
+            "hit_races": 4,
+            "hit_rate_pct": 1.9,
+            "stake": 253200.0,
+            "return": 44500.0,
+            "return_rate_pct": 17.6
+          },
+          {
+            "bet_type": "3連複",
+            "races": 211,
+            "hit_races": 2,
+            "hit_rate_pct": 0.9,
+            "stake": 84400.0,
+            "return": 34780.0,
+            "return_rate_pct": 41.2
+          },
+          {
+            "bet_type": "3連単",
+            "races": 211,
+            "hit_races": 2,
+            "hit_rate_pct": 0.9,
+            "stake": 506400.0,
+            "return": 162790.0,
+            "return_rate_pct": 32.1
+          }
+        ]
+      }
+    },
+    "3": {
+      "model_file": "winner_box3.json",
+      "baseline_weights": {
+        "speed": 0.05263714921865906,
+        "form": 0.1468118207498998,
+        "style": 0.041298321836912004,
+        "jt": 0.06456193695819279,
+        "waku": 0.11641287250009442,
+        "apt": 0.08198980550112589,
+        "train": 0.06938597487294722,
+        "distance": 0.06851191747172639,
+        "sire": 0.24719269492481985,
+        "bms": 0.11119750596562261
+      },
+      "signal_profile_table": [
+        {
+          "signal": "speed",
+          "baseline_w": 0.05263714921865906,
+          "t_star_win_pick": 0.19,
+          "peak_win_pick_pct": 22.748815165876778,
+          "plateau_width_win_pick": 2,
+          "t_star_box_hit": 0.44,
+          "peak_box_hit_pct": 52.60663507109005,
+          "plateau_width_box_hit": 2
+        },
+        {
+          "signal": "form",
+          "baseline_w": 0.1468118207498998,
+          "t_star_win_pick": 0.51,
+          "peak_win_pick_pct": 19.90521327014218,
+          "plateau_width_win_pick": 4,
+          "t_star_box_hit": 0.06,
+          "peak_box_hit_pct": 50.23696682464455,
+          "plateau_width_box_hit": 1
+        },
+        {
+          "signal": "style",
+          "baseline_w": 0.041298321836912004,
+          "t_star_win_pick": 0.08,
+          "peak_win_pick_pct": 19.431279620853083,
+          "plateau_width_win_pick": 4,
+          "t_star_box_hit": 0.07,
+          "peak_box_hit_pct": 49.28909952606635,
+          "plateau_width_box_hit": 2
+        },
+        {
+          "signal": "jt",
+          "baseline_w": 0.06456193695819279,
+          "t_star_win_pick": 0.03,
+          "peak_win_pick_pct": 20.379146919431278,
+          "plateau_width_win_pick": 2,
+          "t_star_box_hit": 0.07,
+          "peak_box_hit_pct": 49.28909952606635,
+          "plateau_width_box_hit": 1
+        },
+        {
+          "signal": "waku",
+          "baseline_w": 0.11641287250009442,
+          "t_star_win_pick": 0.03,
+          "peak_win_pick_pct": 23.696682464454977,
+          "plateau_width_win_pick": 3,
+          "t_star_box_hit": 0.0,
+          "peak_box_hit_pct": 51.18483412322274,
+          "plateau_width_box_hit": 1
+        },
+        {
+          "signal": "apt",
+          "baseline_w": 0.08198980550112589,
+          "t_star_win_pick": 1.0,
+          "peak_win_pick_pct": 27.488151658767773,
+          "plateau_width_win_pick": 1,
+          "t_star_box_hit": 0.15,
+          "peak_box_hit_pct": 49.763033175355446,
+          "plateau_width_box_hit": 2
+        },
+        {
+          "signal": "train",
+          "baseline_w": 0.06938597487294722,
+          "t_star_win_pick": 1.0,
+          "peak_win_pick_pct": 72.51184834123224,
+          "plateau_width_win_pick": 1,
+          "t_star_box_hit": 1.0,
+          "peak_box_hit_pct": 85.78199052132702,
+          "plateau_width_box_hit": 1
+        },
+        {
+          "signal": "distance",
+          "baseline_w": 0.06851191747172639,
+          "t_star_win_pick": 0.15,
+          "peak_win_pick_pct": 19.90521327014218,
+          "plateau_width_win_pick": 8,
+          "t_star_box_hit": 0.06,
+          "peak_box_hit_pct": 48.81516587677725,
+          "plateau_width_box_hit": 5
+        },
+        {
+          "signal": "sire",
+          "baseline_w": 0.24719269492481985,
+          "t_star_win_pick": 0.04,
+          "peak_win_pick_pct": 21.32701421800948,
+          "plateau_width_win_pick": 4,
+          "t_star_box_hit": 0.08,
+          "peak_box_hit_pct": 49.763033175355446,
+          "plateau_width_box_hit": 2
+        },
+        {
+          "signal": "bms",
+          "baseline_w": 0.11119750596562261,
+          "t_star_win_pick": 0.17,
+          "peak_win_pick_pct": 20.379146919431278,
+          "plateau_width_win_pick": 7,
+          "t_star_box_hit": 0.15,
+          "peak_box_hit_pct": 48.81516587677725,
+          "plateau_width_box_hit": 3
+        }
+      ],
+      "gate": {
+        "cosine_sim_wp_bh": 0.7592631971449008,
+        "adopted_profile": "box_hit",
+        "adopted_weights": {
+          "speed": 0.21153846153846154,
+          "form": 0.028846153846153844,
+          "style": 0.03365384615384616,
+          "jt": 0.03365384615384616,
+          "waku": 0.0,
+          "apt": 0.07211538461538461,
+          "train": 0.4807692307692307,
+          "distance": 0.028846153846153844,
+          "sire": 0.038461538461538464,
+          "bms": 0.07211538461538461
+        },
+        "grid_sensitivity_max_delta_win_pick": 0.31,
+        "grid_sensitivity_max_delta_box_hit": 0.09
+      },
+      "stacking_sanity_check": {
+        "baseline_winrate_pct": 18.48341232227488,
+        "composite_winrate_win_pick_pct": 21.80094786729858,
+        "sum_of_individual_gains_upper_bound_pct": 101.42180094786735,
+        "refine_max_t_shift": 0.28
+      },
+      "nested_lobo_oof": {
+        "model": 74.67614533965245,
+        "market": 77.4960505529226,
+        "excess": -2.8199052132701468,
+        "n_unique_patterns": 29,
+        "n_folds": 36
+      },
+      "in_sample": {
+        "model": 83.78357030015798,
+        "market": 77.4960505529226,
+        "excess": 6.287519747235379,
+        "optimism_pt": 9.107424960505526
+      },
+      "selection_optimism_3candidates": {
+        "selected_side": 91.91556975615045,
+        "unseen_side": 78.74360681667426,
+        "unseen_all_mean": 84.4424673919762,
+        "optimism_pt": 13.171962939476188,
+        "true_edge_pt": -5.698860575301934,
+        "true_edge_sd": 3.8234992351698365,
+        "win_rate": 0.095
+      },
+      "bootstrap_oof_vs_market": {
+        "mean": -2.927369984909933,
+        "lo": -15.861951063940246,
+        "hi": 11.332349149944228,
+        "n_blocks": 36
+      },
+      "bootstrap_oof_vs_current": {
+        "mean": -12.428785070239508,
+        "lo": -33.333722741433014,
+        "hi": 5.403360569614575,
+        "n_blocks": 36
+      },
+      "bootstrap_oof_vs_equal10": {
+        "mean": -8.908344089256465,
+        "lo": -24.332181259600606,
+        "hi": 6.5051410572127555,
+        "n_blocks": 36
+      },
+      "full_table_composite_in_sample": [
+        {
+          "bet_type": "単勝",
+          "races": 211,
+          "hit_races": 114,
+          "hit_rate_pct": 54.0,
+          "stake": 63300.0,
+          "return": 55420.0,
+          "return_rate_pct": 87.6
+        },
+        {
+          "bet_type": "複勝",
+          "races": 211,
+          "hit_races": 183,
+          "hit_rate_pct": 86.7,
+          "stake": 63300.0,
+          "return": 54270.0,
+          "return_rate_pct": 85.7
+        },
+        {
+          "bet_type": "枠連",
+          "races": 211,
+          "hit_races": 50,
+          "hit_rate_pct": 23.7,
+          "stake": 57300.0,
+          "return": 38700.0,
+          "return_rate_pct": 67.5
+        },
+        {
+          "bet_type": "馬連",
+          "races": 211,
+          "hit_races": 43,
+          "hit_rate_pct": 20.4,
+          "stake": 63300.0,
+          "return": 45870.0,
+          "return_rate_pct": 72.5
+        },
+        {
+          "bet_type": "ワイド",
+          "races": 211,
+          "hit_races": 85,
+          "hit_rate_pct": 40.3,
+          "stake": 63300.0,
+          "return": 51800.0,
+          "return_rate_pct": 81.8
+        },
+        {
+          "bet_type": "馬単",
+          "races": 211,
+          "hit_races": 43,
+          "hit_rate_pct": 20.4,
+          "stake": 126600.0,
+          "return": 85920.0,
+          "return_rate_pct": 67.9
+        },
+        {
+          "bet_type": "3連複",
+          "races": 211,
+          "hit_races": 9,
+          "hit_rate_pct": 4.3,
+          "stake": 21100.0,
+          "return": 15850.0,
+          "return_rate_pct": 75.1
+        },
+        {
+          "bet_type": "3連単",
+          "races": 211,
+          "hit_races": 9,
+          "hit_rate_pct": 4.3,
+          "stake": 126600.0,
+          "return": 72940.0,
+          "return_rate_pct": 57.6
+        }
+      ],
+      "worst_n_check": {
+        "n_excluded_races": 0,
+        "diff_worst_vs_top": {
+          "mean": -31.525644791105236,
+          "lo": -57.75344354114136,
+          "hi": -1.4713767727646196,
+          "n_blocks": 36
+        },
+        "diff_worst_vs_market_top": {
+          "mean": -24.882890759567715,
+          "lo": -50.89589055762301,
+          "hi": 5.4709041856132234,
+          "n_blocks": 36
+        },
+        "diff_worst_vs_market_worst": {
+          "mean": 10.798101226181615,
+          "lo": -15.673962700510383,
+          "hi": 40.51714467404039,
+          "n_blocks": 36
+        },
+        "full_table_model_worst": [
+          {
+            "bet_type": "単勝",
+            "races": 211,
+            "hit_races": 19,
+            "hit_rate_pct": 9.0,
+            "stake": 63300.0,
+            "return": 57570.0,
+            "return_rate_pct": 90.9
+          },
+          {
+            "bet_type": "複勝",
+            "races": 211,
+            "hit_races": 68,
+            "hit_rate_pct": 32.2,
+            "stake": 63300.0,
+            "return": 40390.0,
+            "return_rate_pct": 63.8
+          },
+          {
+            "bet_type": "枠連",
+            "races": 211,
+            "hit_races": 10,
+            "hit_rate_pct": 4.7,
+            "stake": 56700.0,
+            "return": 26840.0,
+            "return_rate_pct": 47.3
+          },
+          {
+            "bet_type": "馬連",
+            "races": 211,
+            "hit_races": 3,
+            "hit_rate_pct": 1.4,
+            "stake": 63300.0,
+            "return": 18130.0,
+            "return_rate_pct": 28.6
+          },
+          {
+            "bet_type": "ワイド",
+            "races": 211,
+            "hit_races": 10,
+            "hit_rate_pct": 4.7,
+            "stake": 63300.0,
+            "return": 25740.0,
+            "return_rate_pct": 40.7
+          },
+          {
+            "bet_type": "馬単",
+            "races": 211,
+            "hit_races": 3,
+            "hit_rate_pct": 1.4,
+            "stake": 126600.0,
+            "return": 31720.0,
+            "return_rate_pct": 25.1
+          },
+          {
+            "bet_type": "3連複",
+            "races": 211,
+            "hit_races": 1,
+            "hit_rate_pct": 0.5,
+            "stake": 21100.0,
+            "return": 5370.0,
+            "return_rate_pct": 25.5
+          },
+          {
+            "bet_type": "3連単",
+            "races": 211,
+            "hit_races": 1,
+            "hit_rate_pct": 0.5,
+            "stake": 126600.0,
+            "return": 18800.0,
+            "return_rate_pct": 14.8
+          }
+        ]
+      }
+    }
+  },
+  "cross_box_consistency_spearman": {
+    "box5_vs_box4": 0.309090909090909,
+    "box5_vs_box3": 0.5878787878787878,
+    "box4_vs_box3": 0.7939393939393938
+  }
+}
