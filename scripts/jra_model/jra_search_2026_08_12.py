@@ -139,7 +139,8 @@ for BOX_N in BOX_NS:
 
     def fit_fn(train_idx, all_st=all_st, all_rt=all_rt):
         vals = np.array([JE.cost_weighted_rate(all_st[j], all_rt[j], idx=train_idx) for j in range(N_PATTERNS)])
-        return W_POOL[:, int(np.argmax(vals))]
+        best = int(np.argmax(vals))
+        return W_POOL[:, best], best
 
     nested_oof = ev.lobo_oof(fit_fn, mats_all)
     log(f"\n[Nested LOBO OOF] {N_PATTERNS}パターン探索という手続き全体をブロックで交差検証: "

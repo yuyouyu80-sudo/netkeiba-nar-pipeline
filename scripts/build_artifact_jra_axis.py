@@ -305,9 +305,168 @@ def build_top3_section() -> str:
     </section>"""
 
 
+def build_front123_section() -> str:
+    """2026-08-21追加検証(ユーザー依頼「勝率・回収率を上げる工夫をお願いします」):
+    3つの質的に異なるアプローチ(新規シグナル・アンサンブル+時系列検証・ステーク配分)を
+    box5/4/3・axis5/4/3の両方に適用した結果セクション。"""
+    d1 = json.loads((DATA_DIR / "jra_search500_2026_08_21_v3signals_result.json").read_text(encoding="utf-8"))
+    d2 = json.loads((DATA_DIR / "jra_axis_search500_2026_08_21_v3signals_result.json").read_text(encoding="utf-8"))
+    d3 = json.loads((DATA_DIR / "jra_ensemble_search_2026_08_21_result.json").read_text(encoding="utf-8"))
+    d4 = json.loads((DATA_DIR / "jra_axis_ensemble_search_2026_08_21_result.json").read_text(encoding="utf-8"))
+    d5 = json.loads((DATA_DIR / "confidence_sweep_stake_box_summary.json").read_text(encoding="utf-8"))
+    cal = json.loads((DATA_DIR / "confidence_calibration.json").read_text(encoding="utf-8"))
+
+    def f1_row(label, r, ci_key):
+        ci = r[ci_key]
+        return f"""<tr>
+          <td class="bt-name">{esc(label)}</td>
+          <td class="num">{r['nested_lobo_oof']['excess']:+.2f}pt</td>
+          <td class="num">{r['nested_lobo_oof']['n_unique_patterns']}/{r['nested_lobo_oof']['n_folds']}</td>
+          <td class="num">{r['selection_optimism']['true_edge_pt']:+.2f}(sd{r['selection_optimism']['true_edge_sd']:.1f})</td>
+          <td class="num">[{ci['lo']:+.1f}, {ci['hi']:+.1f}]pt</td>
+          <td class="num rate is-minus">{r['decision']}</td>
+        </tr>"""
+
+    f1_rows = "".join([
+        f1_row("box5", d1["results_by_box"]["5"], "bootstrap_oof_vs_current"),
+        f1_row("box4", d1["results_by_box"]["4"], "bootstrap_oof_vs_current"),
+        f1_row("box3", d1["results_by_box"]["3"], "bootstrap_oof_vs_current"),
+        f1_row("axis5", d2["results_by_box"]["5"], "bootstrap_oof_vs_current_box_weight"),
+        f1_row("axis4", d2["results_by_box"]["4"], "bootstrap_oof_vs_current_box_weight"),
+        f1_row("axis3", d2["results_by_box"]["3"], "bootstrap_oof_vs_current_box_weight"),
+    ])
+
+    def f2_row(label, r):
+        ci = r["bootstrap_ensemble_vs_current"]
+        return f"""<tr>
+          <td class="bt-name">{esc(label)}</td>
+          <td class="num">{r['nested_lobo_oof_single']['n_unique_patterns']}/{r['nested_lobo_oof_single']['n_folds']}</td>
+          <td class="num">{r['nested_lobo_oof_ensemble']['n_unique_patterns']}/{r['nested_lobo_oof_ensemble']['n_folds']}</td>
+          <td class="num">{r['nested_lobo_oof_ensemble']['excess']:+.2f}pt</td>
+          <td class="num">[{ci['lo']:+.1f}, {ci['hi']:+.1f}]pt</td>
+          <td class="num rate is-minus">{r['decision']}</td>
+        </tr>"""
+
+    f2_rows = "".join([
+        f2_row("box5", d3["results_by_box"]["5"]), f2_row("box4", d3["results_by_box"]["4"]),
+        f2_row("box3", d3["results_by_box"]["3"]), f2_row("axis5", d4["results_by_box"]["5"]),
+        f2_row("axis4", d4["results_by_box"]["4"]), f2_row("axis3", d4["results_by_box"]["3"]),
+    ])
+
+    def f3_row(box_n):
+        s = d5["summary_by_box"][str(box_n)]
+        ci = s["diff_continuous_vs_baseline"]
+        return f"""<tr>
+          <td class="bt-name">box{box_n}</td>
+          <td class="num">{s['baseline']['excess']:+.2f}pt</td>
+          <td class="num">{s['continuous_multiplier']['excess']:+.2f}pt</td>
+          <td class="num">[{ci['lo']:+.2f}, {ci['hi']:+.2f}]pt</td>
+          <td class="num rate is-minus">有意差なし</td>
+        </tr>"""
+
+    f3_rows = "".join(f3_row(n) for n in (5, 4, 3))
+
+    cal_rows = "".join(f"""<tr>
+      <td class="bt-name">K={k}</td>
+      <td class="num">{v['overall_hit_rate_pct']:.1f}%</td>
+      <td class="num">{'○' if v['beats_trivial_baseline'] else '×'}</td>
+      <td class="num">{'○' if v['min_blocks_ok'] else '×'}</td>
+    </tr>""" for k, v in cal["topk_ladder"]["results_by_k"].items())
+
+    return f"""
+    <section class="box-section" id="sec-front123">
+      <details class="box-details">
+        <summary class="box-head">追加検証: 新規シグナル・アンサンブル・ステーク配分の3方向(2026-08-21)</summary>
+        <p class="box-lede">
+          box買い・軸流し買いいずれの探索も市場優位性が実証できなかったことを受け、質的に異なる
+          3つのアプローチで改善余地を探りました。box5/4/3・axis5/4/3の両方に適用しています。
+        </p>
+
+        <h3 class="box-subhead">① 新規シグナル(NARのV4シグナル5本を移植、25→30本プール)</h3>
+        <p class="method-note">
+          持続タイム(hold_just/hold_wide)・騎手乗り替わり(jockey_change)・クラス降格(class_drop)・
+          馬体重トレンド(weight_trend)の5本を追加し、500パターンで再探索しました。
+        </p>
+        <div class="box-table-wrap">
+          <table class="box-table">
+            <thead><tr><th>対象</th><th>OOF市場差</th><th>LOBOユニーク</th><th>選ぶことの真の価値</th>
+              <th>現行比95%CI</th><th>判定</th></tr></thead>
+            <tbody>{f1_rows}</tbody>
+          </table>
+        </div>
+        <p class="method-note">
+          6本すべてREJECTED。box4は現行モデルとの差の95%CIが完全にマイナス側
+          ([-58.87,-6.83]pt)で、統計的に有意に劣る結果でした。的中率はほぼ同水準
+          (単勝59.2%対60.2%)なのに全券種で回収率が下がっており(単勝99.0%→84.7%、
+          3連単196.8%→30.0%等)、より人気馬寄りの選択に偏り配当妙味が落ちたためと
+          考えられます。新規5シグナルの合計重みシェアは6.9〜16.7%と一定の存在感はありますが、
+          市場を上回るには至りませんでした。
+        </p>
+
+        <h3 class="box-subhead">② アンサンブル(多様性重視の上位8パターンをブレンド)+時系列検証</h3>
+        <p class="method-note">
+          ①と同じ500パターン母集団から、コサイン類似度で似すぎたものを除きながら上位8本を
+          均等ブレンドした重みを試しました。時系列walk-forward検証もロバスト性チェックとして
+          併記しています。
+        </p>
+        <div class="box-table-wrap">
+          <table class="box-table">
+            <thead><tr><th>対象</th><th>単一ベストのLOBOユニーク</th><th>ブレンドのLOBOユニーク</th>
+              <th>ブレンドOOF市場差</th><th>現行比95%CI</th><th>判定</th></tr></thead>
+            <tbody>{f2_rows}</tbody>
+          </table>
+        </div>
+        <p class="method-note">
+          6本すべてREJECTED。ただしブレンドはfold間で選ばれる組み合わせの安定性を単一ベスト選択
+          (2〜4/36ブロックでしか変わらない)より明確に改善しました(最大24/36)。「選択の不安定さを
+          均す」という狙い通りの効果はあったものの、それ自体が回収率の統計的な優位性には
+          直結しませんでした。
+        </p>
+
+        <h3 class="box-subhead">③ 確信度に応じたステーク配分</h3>
+        <p class="method-note">
+          レース内のスコア差(gap_pct)の日次パーセンタイル順位に応じて、賭け金を0.5〜1.5倍の
+          範囲で連続的に増減させた場合の回収率を、均等ステークと比較しました(box5/4/3、現行
+          本番モデル)。
+        </p>
+        <div class="box-table-wrap">
+          <table class="box-table">
+            <thead><tr><th>対象</th><th>均等ステーク市場差</th><th>連続乗数市場差</th>
+              <th>差の95%CI</th><th>判定</th></tr></thead>
+            <tbody>{f3_rows}</tbody>
+          </table>
+        </div>
+        <p class="method-note">
+          3サイズとも連続乗数がわずかにプラス方向(box3で+3.9pt)でしたが、いずれも95%CIが0を
+          またぎ統計的有意差はありません。土台となる確信度較正(topk_ladder)自体も、
+          {cal['fitted_on']['n_blocks']}ブロック(較正に必要な60ブロックに未到達)のため
+          まだ統計的に安定した%表示はできていません(K別の内訳):
+        </p>
+        <div class="box-table-wrap">
+          <table class="box-table">
+            <thead><tr><th>段階</th><th>実測的中率</th><th>ランダム基準を上回るか</th><th>ブロック数十分か</th></tr></thead>
+            <tbody>{cal_rows}</tbody>
+          </table>
+        </div>
+        <p class="method-note">
+          このためオッズベースの本格的なKelly基準サイジングは今回のスコープに含めず、
+          確信度較正がブロック数60以上に到達し安定するまでの将来課題としています。
+        </p>
+
+        <p class="box-lede is-tight">
+          <b>総合結論:</b> 新規シグナル・アンサンブル+時系列検証・ステーク配分という3つの
+          構造的に異なるアプローチいずれでも、市場に対して統計的に実証された優位性は
+          見つかりませんでした。これでbox買い・軸流し買いの重み探索(4回)・アンサンブル(1回)・
+          ステーク配分(1回)のすべてが同一の結論に達しています。
+        </p>
+      </details>
+    </section>"""
+
+
 all_css_rules = []
-all_sections = [build_top3_section()]
-jump_items = ['<a href="#sec-top3">軸の複勝的中率探索</a>']
+all_sections = [build_front123_section(), build_top3_section()]
+jump_items = ['<a href="#sec-front123">新シグナル・アンサンブル・ステーク</a>',
+             '<a href="#sec-top3">軸の複勝的中率探索</a>']
 for box_n in BOX_SIZES:
     css_rules, section_html = build_axis_section(box_n)
     all_css_rules.append(css_rules)
@@ -412,6 +571,8 @@ main { max-width: 900px; margin: 0 auto; padding: 0 20px 64px; }
 .method-note { margin: 10px 0 0; max-width: 68ch; }
 .box-method { margin-top: 14px; }
 .box-method summary { font-size: 12.5px; }
+.box-subhead { font-family: var(--serif); font-size: 14px; font-weight: 700; margin: 20px 0 8px; color: var(--ink); }
+.box-lede.is-tight { margin-top: 16px; }
 .pagefoot { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--rule); }
 .pagefoot p { font-size: 11.5px; color: var(--ink-faint); margin: 0; }
 a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }

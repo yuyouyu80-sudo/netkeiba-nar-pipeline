@@ -31,6 +31,7 @@ import jra_axis_backtest as AB  # noqa: E402
 import jra_axis_eval as AE  # noqa: E402
 import jra_dataset  # noqa: E402
 import jra_signals as JS  # noqa: E402
+import jra_stake_weighting as SW  # noqa: E402
 
 BOX_N = 4  # 軸+相手3頭=合計4頭
 CONF_N = BOX_N
@@ -107,10 +108,55 @@ def analyze_model(model_name: str, w: np.ndarray) -> pd.DataFrame:
     return pd.concat(summaries, ignore_index=True)
 
 
+def analyze_model_continuous(model_name: str, w: np.ndarray) -> pd.DataFrame:
+    """Front3(3)(2026-08-21新設): 「高確信度Nレース/日」0/1フィルタの連続一般化。
+    gap_pctの日次パーセンタイル順位で[0.5,1.5]のステーク乗数を割り当てる
+    (jra_stake_weighting.multiplier_from_rank)。picksは必ず全レース分・元の並び順で
+    settler.returns_for()に渡す(AxisSettlerの契約通り)ので、部分集合の
+    position=race_index取り違えバグは起きない。"""
+    conf_rows = []
+    picks_by_race_idx = []
+    for i, (r, m) in enumerate(zip(races, mats_all)):
+        num, den = m["S"] @ w, m["A"] @ w
+        score = np.where(den > 0, num / den, -1e18)
+        n = len(r["df"])
+        order = np.argsort(-score, kind="stable")
+        sorted_scores = score[order]
+        top_score, bottom_score = sorted_scores[0], sorted_scores[-1]
+        spread = top_score - bottom_score
+        if n > CONF_N:
+            gap = sorted_scores[CONF_N - 1] - sorted_scores[CONF_N]
+            gap_pct = gap / spread if spread > 0 else 0.0
+        else:
+            gap_pct = np.inf
+        conf_rows.append({"race_idx": i, "kaisai_date": r["kaisai_date"], "gap_pct": gap_pct})
+        picks_by_race_idx.append(order[:min(BOX_N, n)])
+    conf_df = pd.DataFrame(conf_rows)
+    mult = SW.multiplier_from_rank(conf_df, lo=SW.DEFAULT_LO, hi=SW.DEFAULT_HI)
+    st, rt = settler.returns_for(picks_by_race_idx)
+    st, rt = st * mult[:, None], rt * mult[:, None]
+    n_races = len(races)
+    rows = []
+    for j, bt in enumerate(AB.BET_TYPES_AXIS):
+        s, r_ = float(st[:, j].sum()), float(rt[:, j].sum())
+        hits = int((rt[:, j] > 0).sum())
+        rows.append({
+            "model": model_name,
+            "scope": f"連続乗数(gap_pct順位→[{SW.DEFAULT_LO},{SW.DEFAULT_HI}]、全{n_races}レース)",
+            "bet_type": bt, "races": n_races, "hit_races": hits,
+            "hit_rate_pct": round(hits / n_races * 100, 1) if n_races else 0.0,
+            "total_stake": s, "total_return": r_,
+            "return_rate_pct": round(r_ / s * 100, 1) if s else 0.0,
+        })
+    return pd.DataFrame(rows)
+
+
 if __name__ == "__main__":
     current_w = json.loads((DATA_DIR / CURRENT_WEIGHT_FILE).read_text(encoding="utf-8"))
     W_CURRENT = wvec(current_w["weights"])
     current_result = analyze_model(
+        f"軸流しモデル(現行box{BOX_N}重み転用、{CURRENT_WEIGHT_FILE})", W_CURRENT)
+    current_result_cont = analyze_model_continuous(
         f"軸流しモデル(現行box{BOX_N}重み転用、{CURRENT_WEIGHT_FILE})", W_CURRENT)
 
     search_result = json.loads((DATA_DIR / SEARCH_RESULT_FILE).read_text(encoding="utf-8"))
@@ -136,7 +182,8 @@ if __name__ == "__main__":
         })
     market_result = pd.DataFrame(mkt_rows)
 
-    result = pd.concat([current_result, candidate_result, market_result], ignore_index=True)
+    result = pd.concat(
+        [current_result, current_result_cont, candidate_result, market_result], ignore_index=True)
     result.to_csv(OUT_CSV, index=False, encoding="utf-8-sig")
     print(result.to_string(index=False))
     print(f"\nwrote {OUT_CSV}")

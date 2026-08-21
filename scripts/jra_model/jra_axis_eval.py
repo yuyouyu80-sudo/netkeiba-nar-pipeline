@@ -49,23 +49,37 @@ class Evaluator:
         self.block_ids = sorted(set(self.blocks))
         self.mkt_stake, self.mkt_ret = self.settler.returns_for(market_picks(races, box_n))
 
-    def evaluate(self, picks: list, idx: np.ndarray = None) -> dict:
-        """picks に対する目的関数値と、市場ベンチマーク(軸=1番人気、相手=2〜box_n番人気)との差。"""
+    def evaluate(self, picks: list, idx: np.ndarray = None, multipliers: np.ndarray = None) -> dict:
+        """picks に対する目的関数値と、市場ベンチマーク(軸=1番人気、相手=2〜box_n番人気)との差。
+        multipliers: レースごとのステーク乗数(2026-08-21、Front3用。Noneなら従来と同一)。"""
         st, rt = self.settler.returns_for(picks)
+        mkt_st, mkt_rt = self.mkt_stake, self.mkt_ret
+        if multipliers is not None:
+            m = np.asarray(multipliers, dtype=float)[:, None]
+            st, rt = st * m, rt * m
+            mkt_st, mkt_rt = mkt_st * m, mkt_rt * m
         model = cost_weighted_rate(st, rt, idx=idx)
-        market = cost_weighted_rate(self.mkt_stake, self.mkt_ret, idx=idx)
+        market = cost_weighted_rate(mkt_st, mkt_rt, idx=idx)
         return {"model": model, "market": market, "excess": model - market,
                 "stake": st, "return": rt}
 
-    def full_table(self, picks: list) -> pd.DataFrame:
-        """全券種(7区分)の的中率・回収率(レポート用)。"""
+    def full_table(self, picks: list, idx: np.ndarray = None,
+                   multipliers: np.ndarray = None) -> pd.DataFrame:
+        """全券種(7区分)の的中率・回収率(レポート用)。idx/multipliersの意味はjra_eval.py
+        と同じ(2026-08-21、Front3用に追加)。"""
         st, rt = self.settler.returns_for(picks)
+        if multipliers is not None:
+            m = np.asarray(multipliers, dtype=float)[:, None]
+            st, rt = st * m, rt * m
+        if idx is not None:
+            st, rt = st[idx], rt[idx]
+        n_races = st.shape[0]
         rows = []
         for i, bt in enumerate(AB.BET_TYPES_AXIS):
-            s, r = int(st[:, i].sum()), int(rt[:, i].sum())
+            s, r = float(st[:, i].sum()), float(rt[:, i].sum())
             hits = int((rt[:, i] > 0).sum())
-            rows.append({"bet_type": bt, "races": len(picks), "hit_races": hits,
-                         "hit_rate_pct": round(hits / len(picks) * 100, 1) if len(picks) else 0.0,
+            rows.append({"bet_type": bt, "races": n_races, "hit_races": hits,
+                         "hit_rate_pct": round(hits / n_races * 100, 1) if n_races else 0.0,
                          "stake": s, "return": r,
                          "return_rate_pct": round(r / s * 100, 1) if s else 0.0})
         return pd.DataFrame(rows)
@@ -93,13 +107,54 @@ class Evaluator:
         result["n_folds"] = len(chosen_pattern_idx)
         return result
 
+    # --------------------------------------------------------------- CV(時系列)
+    def chronological_oof(self, fit_fn, mats_all: list, min_train_blocks: int = 3) -> dict:
+        """開催日昇順のexpanding-window walk-forward評価(2026-08-21新設、jra_eval.pyと同一設計)。
+        **採否の主判定には使わない**(lobo_oof+選択バイアス診断が主判定)。時間方向のリークが
+        無いかを確認する追加のロバスト性チェック専用。"""
+        dates = sorted({b.split("_", 1)[0] for b in self.block_ids})
+        picks = [None] * len(self.races)
+        chosen_pattern_idx = {}
+        tested_race_idx = []
+        for i, d in enumerate(dates):
+            train_dates = set(dates[:i])
+            if len(train_dates) < min_train_blocks:
+                continue
+            test_blocks = [b for b in self.block_ids if b.split("_", 1)[0] == d]
+            train_blocks = [b for b in self.block_ids if b.split("_", 1)[0] in train_dates]
+            test_idx = np.where(np.isin(self.blocks, test_blocks))[0]
+            train_idx = np.where(np.isin(self.blocks, train_blocks))[0]
+            if len(test_idx) == 0 or len(train_idx) == 0:
+                continue
+            w, pat_idx = fit_fn(train_idx)
+            chosen_pattern_idx[d] = pat_idx
+            for j in test_idx:
+                m = mats_all[j]
+                num, den = m["S"] @ w, m["A"] @ w
+                score = np.where(den > 0, num / den, -1e18)
+                picks[j] = np.argsort(-score, kind="stable")[:self.box_n]
+                tested_race_idx.append(j)
+        tested_race_idx = np.array(sorted(tested_race_idx), dtype=int)
+        safe_picks = [p if p is not None else np.arange(self.box_n) for p in picks]
+        result = {"picks": picks, "tested_race_idx": tested_race_idx,
+                 "chosen_pattern_idx": chosen_pattern_idx,
+                 **self.evaluate(safe_picks, idx=tested_race_idx)}
+        result["n_unique_patterns"] = len(set(chosen_pattern_idx.values()))
+        result["n_folds"] = len(chosen_pattern_idx)
+        return result
+
     # --------------------------------------------------------------- bootstrap
     def block_bootstrap(self, picks: list, bets=OBJ_BETS_AXIS, n: int = 2000,
-                        seed: int = 11, block_subset=None) -> dict:
+                        seed: int = 11, block_subset=None,
+                        multipliers: np.ndarray = None) -> dict:
         """ブロック単位の比推定量ブートストラップ。block_subsetを指定すると、その
         ブロック集合だけを対象にリサンプルする(例: 重みのfit母集団と重複しないブロックだけで
-        「真に未見のデータ」上の信頼区間を出す用途)。"""
+        「真に未見のデータ」上の信頼区間を出す用途)。multipliersはレースごとのステーク乗数
+        (2026-08-21、Front3用)。"""
         st, rt = self.settler.returns_for(picks)
+        if multipliers is not None:
+            m = np.asarray(multipliers, dtype=float)[:, None]
+            st, rt = st * m, rt * m
         cols = [AB.BET_TYPES_AXIS.index(b) for b in bets]
         by_block = {b: np.where(self.blocks == b)[0] for b in self.block_ids}
         rng = np.random.default_rng(seed)
@@ -115,13 +170,18 @@ class Evaluator:
                 "hi": float(np.percentile(out, 97.5)), "n_blocks": len(ids)}
 
     def block_bootstrap_diff(self, picks_a: list, picks_b: list, bets=OBJ_BETS_AXIS,
-                             n: int = 2000, seed: int = 11, block_subset=None) -> dict:
+                             n: int = 2000, seed: int = 11, block_subset=None,
+                             multipliers: np.ndarray = None) -> dict:
         """2つのpicks(例: 探索モデル vs 現行box重み転用)の差(model_a - model_b)を
         ブロック単位でペアでブートストラップする。同一レースを同一リサンプルに使うことで
-        天候・その日の配当水準といった共通ノイズを相殺する。block_subsetの意味はblock_bootstrap
-        と同じ。"""
+        天候・その日の配当水準といった共通ノイズを相殺する。block_subset/multipliersの意味は
+        block_bootstrapと同じ。"""
         st_a, rt_a = self.settler.returns_for(picks_a)
         st_b, rt_b = self.settler.returns_for(picks_b)
+        if multipliers is not None:
+            m = np.asarray(multipliers, dtype=float)[:, None]
+            st_a, rt_a = st_a * m, rt_a * m
+            st_b, rt_b = st_b * m, rt_b * m
         cols = [AB.BET_TYPES_AXIS.index(b) for b in bets]
         by_block = {b: np.where(self.blocks == b)[0] for b in self.block_ids}
         rng = np.random.default_rng(seed)

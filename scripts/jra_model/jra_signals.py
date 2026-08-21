@@ -29,7 +29,20 @@ CANDIDATE_SIGNALS = ["course", "concerned", "interval", "kinryo", "nige", "margi
 # 騎手×調教師・騎手×オッズ・騎手×前走騎手(乗り替わり関連)の掛け合わせ集計。
 CANDIDATE_SIGNALS_V2 = ["ketto_training", "ketto_comment", "odds_jockey", "surf_jt",
                         "jockey_owner", "prevjockey"]
-ALL_SIGNALS = LEGACY_SIGNALS + CANDIDATE_SIGNALS + CANDIDATE_SIGNALS_V2
+# --- 候補シグナル第3弾(2026-08-21)。NARのCANDIDATE_SIGNALS_V4(scripts/nar_model/nar_signals.py
+# L396-427)をJRAへ移植。JRA固有の列差分に合わせて2本を変更している:
+#   jockey_change: NARはbias_jockey(今回騎手)とpast1_jockey(前走騎手)の単純不一致判定だが、
+#     JRAのbias_jockeyは略称形式(例: "松本")でpast1_jockeyはフルネーム形式(例: "富田暁")のため
+#     一致率が0.3%しかなく直接比較すると常時「乗り替わり」判定になり壊れる。代わりに
+#     フルネーム形式のca_jockey_category_label(past1_jockeyとの一致率41.9%、NARの39.8%と近い
+#     水準)を「今回騎手」として使う。
+#   class_drop: NARのCLASS_DROP_SCALE=3.0は15段階クラス向けの値で、JRAの8段階整数刻みには
+#     粗すぎる(3クラス分降格は3勝→未勝利のような極めて稀なケースでしか満点にならない)ため
+#     1.2に再較正する。また"重賞"/"JpnII"/"JpnI"は現行CLASS_ORDINAL(部分文字列一致)の
+#     どのキーにも一致しない(Gの文字を含まないため。"JGIII"/"JGII"は既存の"GIII"/"GII"に
+#     既に一致する)ので、class_drop専用にCLASS_ORDINAL_V3EXTを新設して対応する。
+CANDIDATE_SIGNALS_V3 = ["hold_just", "hold_wide", "jockey_change", "class_drop", "weight_trend"]
+ALL_SIGNALS = LEGACY_SIGNALS + CANDIDATE_SIGNALS + CANDIDATE_SIGNALS_V2 + CANDIDATE_SIGNALS_V3
 
 TRAIN_RANK_MAP = {"S": 6, "A": 5, "B": 4, "C": 3, "D": 2, "E": 1}
 DNF_FINISH_PENALTY = 20
@@ -41,6 +54,16 @@ CLASS_ORDINAL = {
     "G3": 5, "GIII": 5, "G2": 6, "GII": 6, "G1": 7, "GI": 7,
 }
 CLASS_ADJUST_PER_LEVEL = 1.5
+# class_drop専用の拡張クラス序列(2026-08-21)。既存CLASS_ORDINAL(formシグナル等が依存する
+# 本体)は変更せず、past1側の降格幅計算にのみ使う加算専用マップ。実データ確認済み: JRAの
+# past1_race_class等に"重賞"/"JGIII"/"JpnII"/"JpnI"/"JGII"(計15件)が出現するが、"JGIII"/"JGII"は
+# 既存の"GIII"/"GII"キーに部分文字列一致で既に解決されるため、未解決の3キー("重賞"/"JpnII"/
+# "JpnI")のみ追加する。"JpnIII"は現行データに出現しないが将来出現に備えて併せて追加する。
+# _class_ordinal()は部分文字列一致を先勝ちで採用するため、"JpnI"が"JpnII"/"JpnIII"の
+# プレフィックスになる(2026-08-21統計学者ゲート1レビュー指摘)。dict挿入順=判定順なので、
+# 必ず長い方から先に並べる("JpnIII"→"JpnII"→"JpnI"の順、崩すと短い方に誤マッチする)。
+CLASS_ORDINAL_V3EXT = {**CLASS_ORDINAL, "重賞": 5.0, "JpnIII": 5.0, "JpnII": 6.0, "JpnI": 7.0}
+CLASS_DROP_SCALE = 1.2  # NARの3.0(15段階クラス向け)をJRAの8段階整数刻みに合わせて再較正
 RUNNING_STYLE_FRONT = {"逃", "先"}
 RUNNING_STYLE_CLOSE = {"差", "追"}
 SHRINK_K = 12.0
@@ -162,6 +185,18 @@ def _first_corner(s):
 def _margin(s):
     m = _MARGIN_RE.search(str(s))
     return float(m.group(1)) if m else np.nan
+
+
+_TIME_RE = re.compile(r"^(\d+):(\d+\.?\d*)$")
+
+
+def _time_to_sec(s) -> float:
+    """"1:28.9" 形式(分:秒.コンマ)を秒(float)に変換する。holdtime_*_time用(NARから移植)。"""
+    m = _TIME_RE.match(str(s).strip())
+    if not m:
+        return np.nan
+    minutes, seconds = m.groups()
+    return float(minutes) * 60.0 + float(seconds)
 
 
 def _class_ordinal(text, class_ordinal_map: dict) -> float:
@@ -379,6 +414,54 @@ def compute_signals(df: pd.DataFrame, current_class_ordinal: float, priors: dict
         _shrink(df, "prevjockey_win", priors), _shrink(df, "prevjockey_place3", priors),
         _shrink(df, "prevjockey_return", priors)
     )
+
+    # --- 候補シグナル第3弾(2026-08-21、NARのCANDIDATE_SIGNALS_V4をJRAへ移植)。
+    # hold_just/hold_wide: 持続タイム。速いほど高評価なので符号反転してminmax。既存holdtime
+    # (holdtime_just_l3f=上がり3F専用)とは別列だが同一データソース由来のため、探索時に
+    # 相関を確認すること。
+    sig["hold_just"] = _minmax(-_col(df, "holdtime_just_time").map(_time_to_sec))
+    wide_cols = ["holdtime_short_time", "holdtime_middle_time", "holdtime_long_time"]
+    wide = pd.concat([_col(df, c).map(_time_to_sec) for c in wide_cols], axis=1).mean(axis=1, skipna=True)
+    sig["hold_wide"] = _minmax(-wide)
+
+    # --- jockey_change: 前走からの騎手乗り替わり(1.0=乗り替わり/0.0=継続/NaN=前走情報なし)。
+    # 「今回騎手」はbias_jockey(略称、past1_jockeyとの一致率0.3%で使うと壊れる)ではなく
+    # ca_jockey_category_label(フルネーム、一致率41.9%)を使う(JRA固有の対応、モジュール
+    # docstring・CANDIDATE_SIGNALS_V3コメント参照)。
+    today_jockey = _col(df, "ca_jockey_category_label").astype(str).str.strip()
+    past1_jockey = _col(df, "past1_jockey").astype(str).str.strip()
+    has_past1 = _col(df, "past1_jockey").notna() & (past1_jockey != "")
+    changed = (today_jockey != past1_jockey).astype(float)
+    sig["jockey_change"] = changed.where(has_past1, np.nan)
+
+    # --- class_drop: 前走からのクラス降格幅(下がった分のみ、上がっても0)。レース内相対の
+    # minmaxではなく固定スケール(CLASS_DROP_SCALE)へ写像する(降格馬0頭のレースでも
+    # "降格していない"という情報が全馬0.0のまま残る設計、NARで発見された_minmaxのhi==lo
+    # 全NaN化バグを踏襲して回避)。past1側の解決にはCLASS_ORDINAL_V3EXT(重賞/Jpn系を追加
+    # 収録)を使う。currentClassOrdinal自体は既存のclass_ordinal_map(呼び出し元指定、
+    # 通常CLASS_ORDINAL)のまま変更しない(formシグナルの挙動に影響させないため)。
+    past1_class_v3 = _col(df, "past1_race_name").map(lambda t: _class_ordinal(t, CLASS_ORDINAL_V3EXT))
+    past1_class_v3 = past1_class_v3.fillna(
+        _col(df, "past1_race_class").map(lambda t: _class_ordinal(t, CLASS_ORDINAL_V3EXT))
+    )
+    drop = (past1_class_v3 - current_class_ordinal).clip(lower=0.0)
+    sig["class_drop"] = (drop / CLASS_DROP_SCALE).clip(upper=1.0)
+
+    # --- weight_trend: 過去1〜5走の馬体重増減の加重平均トレンド。増加方向+変化の小ささ
+    # (安定)をブレンドする(NARと完全同一ロジック、JRA側で現状未使用の列)。
+    # 2026-08-21競馬予想家ゲート1レビュー指摘・実データで独立検証済み: past{i}_race_nameが
+    # 「新馬」(=その過去走自体がデビュー戦)の場合、netkeibaは比較対象の前走が無いため
+    # past{i}_horse_weight_diffをプレースホルダの0で埋めている(実測: 前走が新馬の馬は
+    # 25/25=100%が0固定、通常は545頭中73頭=13.4%)。これを実測値のまま使うと
+    # 「体重変化なし=安定」と誤判定する系統的バイアスになるため、該当スロットはNaN扱いにする。
+    wt_cols = []
+    for i in range(1, 6):
+        diff = _num(_col(df, f"past{i}_horse_weight_diff"))
+        is_debut = _col(df, f"past{i}_race_name").astype(str).str.contains("新馬", na=False)
+        wt_cols.append(diff.where(~is_debut, np.nan).rename(i))
+    wt = pd.concat(wt_cols, axis=1)
+    trend = _wavg(wt, [5, 4, 3, 2, 1])
+    sig["weight_trend"] = _blend_minmax(trend, -trend.abs())
 
     return sig
 

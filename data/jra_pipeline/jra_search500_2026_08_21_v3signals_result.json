@@ -1,0 +1,921 @@
+{
+  "n_races": 211,
+  "dates": [
+    "20260711",
+    "20260712",
+    "20260718",
+    "20260719",
+    "20260725",
+    "20260726",
+    "20260801",
+    "20260802",
+    "20260808",
+    "20260809",
+    "20260815",
+    "20260816"
+  ],
+  "n_blocks": 36,
+  "pool": [
+    "speed",
+    "form",
+    "style",
+    "jt",
+    "waku",
+    "apt",
+    "train",
+    "distance",
+    "sire",
+    "bms",
+    "course",
+    "concerned",
+    "interval",
+    "kinryo",
+    "nige",
+    "margin",
+    "timediff",
+    "agari",
+    "holdtime",
+    "ketto_training",
+    "ketto_comment",
+    "odds_jockey",
+    "surf_jt",
+    "jockey_owner",
+    "prevjockey",
+    "hold_just",
+    "hold_wide",
+    "jockey_change",
+    "class_drop",
+    "weight_trend"
+  ],
+  "n_patterns": 500,
+  "seed": 2851,
+  "weight_tiers": [
+    [
+      100.0,
+      150
+    ],
+    [
+      25.0,
+      150
+    ],
+    [
+      6.0,
+      100
+    ],
+    [
+      1.0,
+      99
+    ]
+  ],
+  "decision_gate_ratio_threshold": 2.0,
+  "signal_diagnostics_v3": {
+    "hold_just": {
+      "available_pct": 48.47583643122677
+    },
+    "hold_wide": {
+      "available_pct": 93.3085501858736
+    },
+    "jockey_change": {
+      "available_pct": 82.34200743494424
+    },
+    "class_drop": {
+      "available_pct": 80.0
+    },
+    "weight_trend": {
+      "available_pct": 99.182156133829
+    },
+    "corr_hold_just_vs_holdtime": 0.5524534835529248,
+    "corr_hold_wide_vs_holdtime": 0.0298066538756767
+  },
+  "results_by_box": {
+    "5": {
+      "pattern_id_current": 83,
+      "pool": [
+        "speed",
+        "form",
+        "style",
+        "jt",
+        "waku",
+        "apt",
+        "train",
+        "distance",
+        "sire",
+        "bms",
+        "course",
+        "concerned",
+        "interval",
+        "kinryo",
+        "nige",
+        "margin",
+        "timediff",
+        "agari",
+        "holdtime",
+        "ketto_training",
+        "ketto_comment",
+        "odds_jockey",
+        "surf_jt",
+        "jockey_owner",
+        "prevjockey",
+        "hold_just",
+        "hold_wide",
+        "jockey_change",
+        "class_drop",
+        "weight_trend"
+      ],
+      "n_patterns": 500,
+      "market": 75.97788309636651,
+      "current_model": {
+        "model": 92.55924170616113,
+        "excess": 16.58135860979462
+      },
+      "equal_weight_25_without_v3": {
+        "model": 82.88783570300157,
+        "excess": 6.909952606635059
+      },
+      "equal_weight_30_with_v3": {
+        "model": 84.23696682464455,
+        "excess": 8.259083728278043
+      },
+      "best_full_population": {
+        "pattern_index": 418,
+        "model": 93.27646129541864,
+        "excess": 17.29857819905213,
+        "weights": {
+          "form": 0.016522489363706285,
+          "style": 0.009129220440481393,
+          "jt": 0.044377819518781794,
+          "waku": 0.0522480531940472,
+          "apt": 0.012778973554020636,
+          "train": 0.013666101941389721,
+          "sire": 0.02304447553932601,
+          "bms": 0.14478270346804448,
+          "concerned": 0.03047945832507764,
+          "interval": 0.04922922341708571,
+          "kinryo": 0.09348459439446433,
+          "nige": 0.05192465819143732,
+          "margin": 0.03509548421646863,
+          "timediff": 0.022430740780904297,
+          "agari": 0.02899262359795878,
+          "holdtime": 0.0145402790433251,
+          "ketto_comment": 0.023617388104203843,
+          "odds_jockey": 0.035329614891916744,
+          "surf_jt": 0.1423235939640453,
+          "hold_just": 0.015493861099867688,
+          "hold_wide": 0.0973893970175152,
+          "jockey_change": 0.026625835749703147
+        },
+        "v3_signal_weight_share": 0.1419567785132262,
+        "note": "全211レースで選んだ重みなのでin-sample最適化の楽観を含む。統計的検定には使わない(post-selection inferenceの誤りを避けるため)。"
+      },
+      "nested_lobo_oof": {
+        "model": 77.68088467614534,
+        "excess": 1.703001579778828,
+        "n_unique_patterns": 2,
+        "n_folds": 36,
+        "degenerate": false
+      },
+      "selection_optimism": {
+        "selected_side": 100.48687127161979,
+        "unseen_side": 77.08012801208669,
+        "unseen_all_mean": 81.59145157167316,
+        "optimism_pt": 23.4067432595331,
+        "true_edge_pt": -4.511323559586465,
+        "true_edge_sd": 7.540793304213624,
+        "win_rate": 0.3
+      },
+      "decision_gate_ratio": -0.5982558303336123,
+      "decision": "REJECTED",
+      "bootstrap_oof_vs_market": {
+        "mean": 77.7095516097984,
+        "lo": 67.09841893780572,
+        "hi": 90.4173611111111,
+        "n_blocks": 36
+      },
+      "bootstrap_oof_vs_current": {
+        "mean": -14.782265264373258,
+        "lo": -34.82266355140186,
+        "hi": 2.3720912224997925,
+        "n_blocks": 36
+      },
+      "bootstrap_oof_vs_equal30": {
+        "mean": -6.732598103386959,
+        "lo": -17.523655125195617,
+        "hi": 5.221948222904772,
+        "n_blocks": 36
+      },
+      "full_table_current_model": {
+        "note": "採用案(現行モデル)の全券種内訳。レポート掲載用。",
+        "low_sample_bet_types": [],
+        "low_sample_threshold_hits": 10,
+        "rows": [
+          {
+            "bet_type": "単勝",
+            "races": 211,
+            "hit_races": 147,
+            "hit_rate_pct": 69.7,
+            "stake": 105500.0,
+            "return": 94330.0,
+            "return_rate_pct": 89.4
+          },
+          {
+            "bet_type": "複勝",
+            "races": 211,
+            "hit_races": 203,
+            "hit_rate_pct": 96.2,
+            "stake": 105500.0,
+            "return": 93760.0,
+            "return_rate_pct": 88.9
+          },
+          {
+            "bet_type": "枠連",
+            "races": 211,
+            "hit_races": 96,
+            "hit_rate_pct": 45.5,
+            "stake": 167800.0,
+            "return": 138670.0,
+            "return_rate_pct": 82.6
+          },
+          {
+            "bet_type": "馬連",
+            "races": 211,
+            "hit_races": 93,
+            "hit_rate_pct": 44.1,
+            "stake": 211000.0,
+            "return": 253050.0,
+            "return_rate_pct": 119.9
+          },
+          {
+            "bet_type": "ワイド",
+            "races": 211,
+            "hit_races": 146,
+            "hit_rate_pct": 69.2,
+            "stake": 211000.0,
+            "return": 199190.0,
+            "return_rate_pct": 94.4
+          },
+          {
+            "bet_type": "馬単",
+            "races": 211,
+            "hit_races": 93,
+            "hit_rate_pct": 44.1,
+            "stake": 422000.0,
+            "return": 485340.0,
+            "return_rate_pct": 115.0
+          },
+          {
+            "bet_type": "3連複",
+            "races": 211,
+            "hit_races": 38,
+            "hit_rate_pct": 18.0,
+            "stake": 211000.0,
+            "return": 201050.0,
+            "return_rate_pct": 95.3
+          },
+          {
+            "bet_type": "3連単",
+            "races": 211,
+            "hit_races": 38,
+            "hit_rate_pct": 18.0,
+            "stake": 1266000.0,
+            "return": 1323180.0,
+            "return_rate_pct": 104.5
+          }
+        ]
+      },
+      "full_table_rejected_candidate_oof_picks": {
+        "note": "不採用になった500パターン探索モデル(Nested LOBO OOF picks)の内訳。参考値。採用案の数値と混同しないこと。",
+        "rows": [
+          {
+            "bet_type": "単勝",
+            "races": 211,
+            "hit_races": 147,
+            "hit_rate_pct": 69.7,
+            "stake": 105500.0,
+            "return": 84850.0,
+            "return_rate_pct": 80.4
+          },
+          {
+            "bet_type": "複勝",
+            "races": 211,
+            "hit_races": 199,
+            "hit_rate_pct": 94.3,
+            "stake": 105500.0,
+            "return": 84120.0,
+            "return_rate_pct": 79.7
+          },
+          {
+            "bet_type": "枠連",
+            "races": 211,
+            "hit_races": 91,
+            "hit_rate_pct": 43.1,
+            "stake": 165600.0,
+            "return": 108540.0,
+            "return_rate_pct": 65.5
+          },
+          {
+            "bet_type": "馬連",
+            "races": 211,
+            "hit_races": 83,
+            "hit_rate_pct": 39.3,
+            "stake": 211000.0,
+            "return": 193770.0,
+            "return_rate_pct": 91.8
+          },
+          {
+            "bet_type": "ワイド",
+            "races": 211,
+            "hit_races": 142,
+            "hit_rate_pct": 67.3,
+            "stake": 211000.0,
+            "return": 161740.0,
+            "return_rate_pct": 76.7
+          },
+          {
+            "bet_type": "馬単",
+            "races": 211,
+            "hit_races": 83,
+            "hit_rate_pct": 39.3,
+            "stake": 422000.0,
+            "return": 345730.0,
+            "return_rate_pct": 81.9
+          },
+          {
+            "bet_type": "3連複",
+            "races": 211,
+            "hit_races": 39,
+            "hit_rate_pct": 18.5,
+            "stake": 211000.0,
+            "return": 95390.0,
+            "return_rate_pct": 45.2
+          },
+          {
+            "bet_type": "3連単",
+            "races": 211,
+            "hit_races": 39,
+            "hit_rate_pct": 18.5,
+            "stake": 1266000.0,
+            "return": 522740.0,
+            "return_rate_pct": 41.3
+          }
+        ]
+      }
+    },
+    "4": {
+      "pattern_id_current": 19,
+      "pool": [
+        "speed",
+        "form",
+        "style",
+        "jt",
+        "waku",
+        "apt",
+        "train",
+        "distance",
+        "sire",
+        "bms",
+        "course",
+        "concerned",
+        "interval",
+        "kinryo",
+        "nige",
+        "margin",
+        "timediff",
+        "agari",
+        "holdtime",
+        "ketto_training",
+        "ketto_comment",
+        "odds_jockey",
+        "surf_jt",
+        "jockey_owner",
+        "prevjockey",
+        "hold_just",
+        "hold_wide",
+        "jockey_change",
+        "class_drop",
+        "weight_trend"
+      ],
+      "n_patterns": 500,
+      "market": 76.00473933649289,
+      "current_model": {
+        "model": 106.97156398104266,
+        "excess": 30.966824644549774
+      },
+      "equal_weight_25_without_v3": {
+        "model": 81.35545023696682,
+        "excess": 5.350710900473928
+      },
+      "equal_weight_30_with_v3": {
+        "model": 83.27014218009478,
+        "excess": 7.2654028436018905
+      },
+      "best_full_population": {
+        "pattern_index": 429,
+        "model": 92.6872037914692,
+        "excess": 16.682464454976312,
+        "weights": {
+          "speed": 0.07029245691026718,
+          "form": 0.023344517597369583,
+          "style": 0.11070238859291724,
+          "jt": 0.047143480796468795,
+          "waku": 0.018688704991166486,
+          "apt": 0.006063775028085392,
+          "distance": 0.021020996097776967,
+          "sire": 0.06103467488315674,
+          "bms": 0.03597654204772636,
+          "course": 0.026084016455794452,
+          "concerned": 0.01037467759874092,
+          "interval": 0.07100192969967456,
+          "kinryo": 0.011726111490066403,
+          "nige": 0.07896690215177621,
+          "margin": 0.013992920089819328,
+          "agari": 0.010325313358233355,
+          "holdtime": 0.01516010845879924,
+          "ketto_training": 0.012177800436458925,
+          "ketto_comment": 0.017005552352460346,
+          "odds_jockey": 0.09085661350496903,
+          "jockey_owner": 0.06637103347312695,
+          "prevjockey": 0.009854097363438912,
+          "hold_just": 0.026523471591919357,
+          "hold_wide": 0.02120936901260183,
+          "jockey_change": 0.061305705148403,
+          "class_drop": 0.03128877244030946,
+          "weight_trend": 0.027094009656694937
+        },
+        "v3_signal_weight_share": 0.16742132784992858,
+        "note": "全211レースで選んだ重みなのでin-sample最適化の楽観を含む。統計的検定には使わない(post-selection inferenceの誤りを避けるため)。"
+      },
+      "nested_lobo_oof": {
+        "model": 76.34597156398104,
+        "excess": 0.34123222748814896,
+        "n_unique_patterns": 4,
+        "n_folds": 36,
+        "degenerate": false
+      },
+      "selection_optimism": {
+        "selected_side": 101.19050550895624,
+        "unseen_side": 76.3245069202357,
+        "unseen_all_mean": 83.07948520090058,
+        "optimism_pt": 24.86599858872053,
+        "true_edge_pt": -6.7549782806648615,
+        "true_edge_sd": 5.737922117093406,
+        "win_rate": 0.09
+      },
+      "decision_gate_ratio": -1.177251650129865,
+      "decision": "REJECTED",
+      "bootstrap_oof_vs_market": {
+        "mean": 76.28577684829345,
+        "lo": 66.86196228672023,
+        "hi": 86.3493130187855,
+        "n_blocks": 36
+      },
+      "bootstrap_oof_vs_current": {
+        "mean": -30.81363722481734,
+        "lo": -58.87347239454095,
+        "hi": -6.826437750637991,
+        "n_blocks": 36
+      },
+      "bootstrap_oof_vs_equal30": {
+        "mean": -6.849406814129438,
+        "lo": -17.617258350640352,
+        "hi": 3.5216635546738244,
+        "n_blocks": 36
+      },
+      "full_table_current_model": {
+        "note": "採用案(現行モデル)の全券種内訳。レポート掲載用。",
+        "low_sample_bet_types": [],
+        "low_sample_threshold_hits": 10,
+        "rows": [
+          {
+            "bet_type": "単勝",
+            "races": 211,
+            "hit_races": 127,
+            "hit_rate_pct": 60.2,
+            "stake": 84400.0,
+            "return": 83530.0,
+            "return_rate_pct": 99.0
+          },
+          {
+            "bet_type": "複勝",
+            "races": 211,
+            "hit_races": 186,
+            "hit_rate_pct": 88.2,
+            "stake": 84400.0,
+            "return": 76740.0,
+            "return_rate_pct": 90.9
+          },
+          {
+            "bet_type": "枠連",
+            "races": 211,
+            "hit_races": 69,
+            "hit_rate_pct": 32.7,
+            "stake": 104100.0,
+            "return": 121340.0,
+            "return_rate_pct": 116.6
+          },
+          {
+            "bet_type": "馬連",
+            "races": 211,
+            "hit_races": 67,
+            "hit_rate_pct": 31.8,
+            "stake": 126600.0,
+            "return": 241220.0,
+            "return_rate_pct": 190.5
+          },
+          {
+            "bet_type": "ワイド",
+            "races": 211,
+            "hit_races": 103,
+            "hit_rate_pct": 48.8,
+            "stake": 126600.0,
+            "return": 148970.0,
+            "return_rate_pct": 117.7
+          },
+          {
+            "bet_type": "馬単",
+            "races": 211,
+            "hit_races": 67,
+            "hit_rate_pct": 31.8,
+            "stake": 253200.0,
+            "return": 418160.0,
+            "return_rate_pct": 165.2
+          },
+          {
+            "bet_type": "3連複",
+            "races": 211,
+            "hit_races": 26,
+            "hit_rate_pct": 12.3,
+            "stake": 84400.0,
+            "return": 175380.0,
+            "return_rate_pct": 207.8
+          },
+          {
+            "bet_type": "3連単",
+            "races": 211,
+            "hit_races": 26,
+            "hit_rate_pct": 12.3,
+            "stake": 506400.0,
+            "return": 996550.0,
+            "return_rate_pct": 196.8
+          }
+        ]
+      },
+      "full_table_rejected_candidate_oof_picks": {
+        "note": "不採用になった500パターン探索モデル(Nested LOBO OOF picks)の内訳。参考値。採用案の数値と混同しないこと。",
+        "rows": [
+          {
+            "bet_type": "単勝",
+            "races": 211,
+            "hit_races": 125,
+            "hit_rate_pct": 59.2,
+            "stake": 84400.0,
+            "return": 71490.0,
+            "return_rate_pct": 84.7
+          },
+          {
+            "bet_type": "複勝",
+            "races": 211,
+            "hit_races": 184,
+            "hit_rate_pct": 87.2,
+            "stake": 84400.0,
+            "return": 66910.0,
+            "return_rate_pct": 79.3
+          },
+          {
+            "bet_type": "枠連",
+            "races": 211,
+            "hit_races": 73,
+            "hit_rate_pct": 34.6,
+            "stake": 104900.0,
+            "return": 72270.0,
+            "return_rate_pct": 68.9
+          },
+          {
+            "bet_type": "馬連",
+            "races": 211,
+            "hit_races": 68,
+            "hit_rate_pct": 32.2,
+            "stake": 126600.0,
+            "return": 109020.0,
+            "return_rate_pct": 86.1
+          },
+          {
+            "bet_type": "ワイド",
+            "races": 211,
+            "hit_races": 118,
+            "hit_rate_pct": 55.9,
+            "stake": 126600.0,
+            "return": 94180.0,
+            "return_rate_pct": 74.4
+          },
+          {
+            "bet_type": "馬単",
+            "races": 211,
+            "hit_races": 68,
+            "hit_rate_pct": 32.2,
+            "stake": 253200.0,
+            "return": 228100.0,
+            "return_rate_pct": 90.1
+          },
+          {
+            "bet_type": "3連複",
+            "races": 211,
+            "hit_races": 19,
+            "hit_rate_pct": 9.0,
+            "stake": 84400.0,
+            "return": 33240.0,
+            "return_rate_pct": 39.4
+          },
+          {
+            "bet_type": "3連単",
+            "races": 211,
+            "hit_races": 19,
+            "hit_rate_pct": 9.0,
+            "stake": 506400.0,
+            "return": 151760.0,
+            "return_rate_pct": 30.0
+          }
+        ]
+      }
+    },
+    "3": {
+      "pattern_id_current": 95,
+      "pool": [
+        "speed",
+        "form",
+        "style",
+        "jt",
+        "waku",
+        "apt",
+        "train",
+        "distance",
+        "sire",
+        "bms",
+        "course",
+        "concerned",
+        "interval",
+        "kinryo",
+        "nige",
+        "margin",
+        "timediff",
+        "agari",
+        "holdtime",
+        "ketto_training",
+        "ketto_comment",
+        "odds_jockey",
+        "surf_jt",
+        "jockey_owner",
+        "prevjockey",
+        "hold_just",
+        "hold_wide",
+        "jockey_change",
+        "class_drop",
+        "weight_trend"
+      ],
+      "n_patterns": 500,
+      "market": 77.4960505529226,
+      "current_model": {
+        "model": 86.79304897314375,
+        "excess": 9.296998420221158
+      },
+      "equal_weight_25_without_v3": {
+        "model": 80.52132701421802,
+        "excess": 3.0252764612954195
+      },
+      "equal_weight_30_with_v3": {
+        "model": 84.3522906793049,
+        "excess": 6.856240126382303
+      },
+      "best_full_population": {
+        "pattern_index": 485,
+        "model": 95.80568720379146,
+        "excess": 18.309636650868867,
+        "weights": {
+          "form": 0.02177309329943243,
+          "style": 0.07815329205758954,
+          "jt": 0.018187031953206496,
+          "apt": 0.058672661027938465,
+          "distance": 0.021363949003013177,
+          "sire": 0.07211281907478491,
+          "bms": 0.05865595848864905,
+          "course": 0.05072335416187689,
+          "concerned": 0.01699941029741308,
+          "interval": 0.05053266667069266,
+          "kinryo": 0.07002323383870745,
+          "nige": 0.04124467584316634,
+          "margin": 0.06539564917315158,
+          "timediff": 0.014063137831637084,
+          "agari": 0.039358317342287584,
+          "holdtime": 0.051967981719726566,
+          "ketto_training": 0.00893648633065157,
+          "ketto_comment": 0.018968070735887545,
+          "odds_jockey": 0.019472772057813885,
+          "surf_jt": 0.014463013480105608,
+          "jockey_owner": 0.04441871895527646,
+          "prevjockey": 0.011404369663131164,
+          "hold_just": 0.005596950485375274,
+          "hold_wide": 0.007985924435346362,
+          "jockey_change": 0.0320604856922384,
+          "class_drop": 0.07857968782528696,
+          "weight_trend": 0.01861934505742542
+        },
+        "v3_signal_weight_share": 0.1428423934956724,
+        "note": "全211レースで選んだ重みなのでin-sample最適化の楽観を含む。統計的検定には使わない(post-selection inferenceの誤りを避けるため)。"
+      },
+      "nested_lobo_oof": {
+        "model": 86.09004739336493,
+        "excess": 8.59399684044233,
+        "n_unique_patterns": 3,
+        "n_folds": 36,
+        "degenerate": false
+      },
+      "selection_optimism": {
+        "selected_side": 103.28223287133893,
+        "unseen_side": 76.88219775374002,
+        "unseen_all_mean": 80.73850775187695,
+        "optimism_pt": 26.400035117598918,
+        "true_edge_pt": -3.8563099981369326,
+        "true_edge_sd": 9.411181289805626,
+        "win_rate": 0.41
+      },
+      "decision_gate_ratio": -0.40975833738471945,
+      "decision": "REJECTED",
+      "bootstrap_oof_vs_market": {
+        "mean": 86.24752106292156,
+        "lo": 75.23571319885228,
+        "hi": 97.87891687561735,
+        "n_blocks": 36
+      },
+      "bootstrap_oof_vs_current": {
+        "mean": -0.9732976943437391,
+        "lo": -20.23868512314112,
+        "hi": 15.285845662543434,
+        "n_blocks": 36
+      },
+      "bootstrap_oof_vs_equal30": {
+        "mean": 1.7650238132827263,
+        "lo": -11.874280941763054,
+        "hi": 15.27755950251869,
+        "n_blocks": 36
+      },
+      "full_table_current_model": {
+        "note": "採用案(現行モデル)の全券種内訳。レポート掲載用。",
+        "low_sample_bet_types": [
+          "3連複",
+          "3連単"
+        ],
+        "low_sample_threshold_hits": 10,
+        "rows": [
+          {
+            "bet_type": "単勝",
+            "races": 211,
+            "hit_races": 102,
+            "hit_rate_pct": 48.3,
+            "stake": 63300.0,
+            "return": 52520.0,
+            "return_rate_pct": 83.0
+          },
+          {
+            "bet_type": "複勝",
+            "races": 211,
+            "hit_races": 171,
+            "hit_rate_pct": 81.0,
+            "stake": 63300.0,
+            "return": 52580.0,
+            "return_rate_pct": 83.1
+          },
+          {
+            "bet_type": "枠連",
+            "races": 211,
+            "hit_races": 32,
+            "hit_rate_pct": 15.2,
+            "stake": 54300.0,
+            "return": 35580.0,
+            "return_rate_pct": 65.5
+          },
+          {
+            "bet_type": "馬連",
+            "races": 211,
+            "hit_races": 36,
+            "hit_rate_pct": 17.1,
+            "stake": 63300.0,
+            "return": 68010.0,
+            "return_rate_pct": 107.4
+          },
+          {
+            "bet_type": "ワイド",
+            "races": 211,
+            "hit_races": 73,
+            "hit_rate_pct": 34.6,
+            "stake": 63300.0,
+            "return": 57300.0,
+            "return_rate_pct": 90.5
+          },
+          {
+            "bet_type": "馬単",
+            "races": 211,
+            "hit_races": 36,
+            "hit_rate_pct": 17.1,
+            "stake": 126600.0,
+            "return": 133480.0,
+            "return_rate_pct": 105.4
+          },
+          {
+            "bet_type": "3連複",
+            "races": 211,
+            "hit_races": 6,
+            "hit_rate_pct": 2.8,
+            "stake": 21100.0,
+            "return": 55890.0,
+            "return_rate_pct": 264.9
+          },
+          {
+            "bet_type": "3連単",
+            "races": 211,
+            "hit_races": 6,
+            "hit_rate_pct": 2.8,
+            "stake": 126600.0,
+            "return": 381750.0,
+            "return_rate_pct": 301.5
+          }
+        ]
+      },
+      "full_table_rejected_candidate_oof_picks": {
+        "note": "不採用になった500パターン探索モデル(Nested LOBO OOF picks)の内訳。参考値。採用案の数値と混同しないこと。",
+        "rows": [
+          {
+            "bet_type": "単勝",
+            "races": 211,
+            "hit_races": 114,
+            "hit_rate_pct": 54.0,
+            "stake": 63300.0,
+            "return": 68220.0,
+            "return_rate_pct": 107.8
+          },
+          {
+            "bet_type": "複勝",
+            "races": 211,
+            "hit_races": 175,
+            "hit_rate_pct": 82.9,
+            "stake": 63300.0,
+            "return": 56270.0,
+            "return_rate_pct": 88.9
+          },
+          {
+            "bet_type": "枠連",
+            "races": 211,
+            "hit_races": 46,
+            "hit_rate_pct": 21.8,
+            "stake": 55500.0,
+            "return": 40450.0,
+            "return_rate_pct": 72.9
+          },
+          {
+            "bet_type": "馬連",
+            "races": 211,
+            "hit_races": 43,
+            "hit_rate_pct": 20.4,
+            "stake": 63300.0,
+            "return": 54290.0,
+            "return_rate_pct": 85.8
+          },
+          {
+            "bet_type": "ワイド",
+            "races": 211,
+            "hit_races": 85,
+            "hit_rate_pct": 40.3,
+            "stake": 63300.0,
+            "return": 52720.0,
+            "return_rate_pct": 83.3
+          },
+          {
+            "bet_type": "馬単",
+            "races": 211,
+            "hit_races": 43,
+            "hit_rate_pct": 20.4,
+            "stake": 126600.0,
+            "return": 114890.0,
+            "return_rate_pct": 90.8
+          },
+          {
+            "bet_type": "3連複",
+            "races": 211,
+            "hit_races": 5,
+            "hit_rate_pct": 2.4,
+            "stake": 21100.0,
+            "return": 4870.0,
+            "return_rate_pct": 23.1
+          },
+          {
+            "bet_type": "3連単",
+            "races": 211,
+            "hit_races": 5,
+            "hit_rate_pct": 2.4,
+            "stake": 126600.0,
+            "return": 19850.0,
+            "return_rate_pct": 15.7
+          }
+        ]
+      }
+    }
+  }
+}

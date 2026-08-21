@@ -1,0 +1,295 @@
+{
+  "n_races": 211,
+  "dates": [
+    "20260711",
+    "20260712",
+    "20260718",
+    "20260719",
+    "20260725",
+    "20260726",
+    "20260801",
+    "20260802",
+    "20260808",
+    "20260809",
+    "20260815",
+    "20260816"
+  ],
+  "pool": [
+    "speed",
+    "form",
+    "style",
+    "jt",
+    "waku",
+    "apt",
+    "train",
+    "distance",
+    "sire",
+    "bms",
+    "course",
+    "concerned",
+    "interval",
+    "kinryo",
+    "nige",
+    "margin",
+    "timediff",
+    "agari",
+    "holdtime",
+    "ketto_training",
+    "ketto_comment",
+    "odds_jockey",
+    "surf_jt",
+    "jockey_owner",
+    "prevjockey",
+    "hold_just",
+    "hold_wide",
+    "jockey_change",
+    "class_drop",
+    "weight_trend"
+  ],
+  "n_patterns": 500,
+  "seed": 2851,
+  "top_n": 8,
+  "max_cos_sim": 0.9,
+  "results_by_box": {
+    "5": {
+      "market": 75.97788309636651,
+      "current_model": {
+        "model": 92.55924170616113,
+        "excess": 16.58135860979462
+      },
+      "single_best_full_population": {
+        "pattern_index": 418,
+        "model": 93.27646129541864,
+        "excess": 17.29857819905213
+      },
+      "ensemble_blend_full_population": {
+        "selected_patterns": [
+          418,
+          464,
+          429,
+          250,
+          472,
+          450,
+          473,
+          402
+        ],
+        "n_selected": 8,
+        "model": 82.41390205371249,
+        "excess": 6.436018957345979
+      },
+      "nested_lobo_oof_single": {
+        "model": 77.68088467614534,
+        "excess": 1.703001579778828,
+        "n_unique_patterns": 2,
+        "n_folds": 36
+      },
+      "nested_lobo_oof_ensemble": {
+        "model": 76.10426540284361,
+        "excess": 0.12638230647709747,
+        "n_unique_patterns": 23,
+        "n_folds": 36
+      },
+      "selection_optimism_4candidates": {
+        "selected_side": 98.13091182483562,
+        "unseen_side": 87.14452859248794,
+        "unseen_all_mean": 87.6510500245311,
+        "optimism_pt": 10.986383232347677,
+        "true_edge_pt": -0.5065214320431504,
+        "true_edge_sd": 5.054959823478085,
+        "win_rate": 0.555
+      },
+      "chronological_oof_single": {
+        "model": 71.48523206751055,
+        "excess": -5.704641350210963,
+        "n_folds": 9,
+        "n_tested_races": 158
+      },
+      "chronological_oof_ensemble": {
+        "model": 70.61603375527426,
+        "excess": -6.573839662447256,
+        "n_folds": 9,
+        "n_tested_races": 158,
+        "agrees_with_lobo_sign": false
+      },
+      "bootstrap_ensemble_vs_market": {
+        "mean": 76.29545225339872,
+        "lo": 63.19778101379932,
+        "hi": 93.032367475292,
+        "n_blocks": 36
+      },
+      "bootstrap_ensemble_vs_current": {
+        "mean": -16.641772123002607,
+        "lo": -36.25786875725898,
+        "hi": 1.1394456372915138,
+        "n_blocks": 36
+      },
+      "bootstrap_ensemble_vs_single_best_oof": {
+        "mean": -1.6516776608364252,
+        "lo": -13.890810744972983,
+        "hi": 10.217418425401815,
+        "n_blocks": 36
+      },
+      "decision": "REJECTED"
+    },
+    "4": {
+      "market": 76.00473933649289,
+      "current_model": {
+        "model": 106.97156398104266,
+        "excess": 30.966824644549774
+      },
+      "single_best_full_population": {
+        "pattern_index": 429,
+        "model": 92.6872037914692,
+        "excess": 16.682464454976312
+      },
+      "ensemble_blend_full_population": {
+        "selected_patterns": [
+          429,
+          157,
+          408,
+          472,
+          370,
+          418,
+          438,
+          413
+        ],
+        "n_selected": 8,
+        "model": 84.6303317535545,
+        "excess": 8.625592417061611
+      },
+      "nested_lobo_oof_single": {
+        "model": 76.34597156398104,
+        "excess": 0.34123222748814896,
+        "n_unique_patterns": 4,
+        "n_folds": 36
+      },
+      "nested_lobo_oof_ensemble": {
+        "model": 77.71090047393365,
+        "excess": 1.706161137440759,
+        "n_unique_patterns": 24,
+        "n_folds": 36
+      },
+      "selection_optimism_4candidates": {
+        "selected_side": 107.98744370032344,
+        "unseen_side": 101.45065923293943,
+        "unseen_all_mean": 91.29062389938434,
+        "optimism_pt": 6.53678446738401,
+        "true_edge_pt": 10.160035333555106,
+        "true_edge_sd": 11.473141370365912,
+        "win_rate": 0.815
+      },
+      "chronological_oof_single": {
+        "model": 80.01898734177215,
+        "excess": 2.9050632911392427,
+        "n_folds": 9,
+        "n_tested_races": 158
+      },
+      "chronological_oof_ensemble": {
+        "model": 68.94936708860759,
+        "excess": -8.164556962025316,
+        "n_folds": 9,
+        "n_tested_races": 158,
+        "agrees_with_lobo_sign": false
+      },
+      "bootstrap_ensemble_vs_market": {
+        "mean": 77.83870427723673,
+        "lo": 66.03767771701982,
+        "hi": 90.92020635440551,
+        "n_blocks": 36
+      },
+      "bootstrap_ensemble_vs_current": {
+        "mean": -29.4003361142302,
+        "lo": -54.65493612078977,
+        "hi": -6.559039331021468,
+        "n_blocks": 36
+      },
+      "bootstrap_ensemble_vs_single_best_oof": {
+        "mean": 1.1356395448768752,
+        "lo": -9.535937500000008,
+        "hi": 12.931855497097219,
+        "n_blocks": 36
+      },
+      "decision": "REJECTED"
+    },
+    "3": {
+      "market": 77.4960505529226,
+      "current_model": {
+        "model": 86.79304897314375,
+        "excess": 9.296998420221158
+      },
+      "single_best_full_population": {
+        "pattern_index": 485,
+        "model": 95.80568720379146,
+        "excess": 18.309636650868867
+      },
+      "ensemble_blend_full_population": {
+        "selected_patterns": [
+          485,
+          474,
+          480,
+          446,
+          434,
+          438,
+          381,
+          414
+        ],
+        "n_selected": 8,
+        "model": 85.5608214849921,
+        "excess": 8.064770932069507
+      },
+      "nested_lobo_oof_single": {
+        "model": 86.09004739336493,
+        "excess": 8.59399684044233,
+        "n_unique_patterns": 3,
+        "n_folds": 36
+      },
+      "nested_lobo_oof_ensemble": {
+        "model": 83.08846761453397,
+        "excess": 5.592417061611371,
+        "n_unique_patterns": 8,
+        "n_folds": 36
+      },
+      "selection_optimism_4candidates": {
+        "selected_side": 96.47750515246929,
+        "unseen_side": 89.38048846406174,
+        "unseen_all_mean": 87.88745068236916,
+        "optimism_pt": 7.09701668840755,
+        "true_edge_pt": 1.4930377816925913,
+        "true_edge_sd": 8.31990081844642,
+        "win_rate": 0.67
+      },
+      "chronological_oof_single": {
+        "model": 65.9704641350211,
+        "excess": -9.789029535864984,
+        "n_folds": 9,
+        "n_tested_races": 158
+      },
+      "chronological_oof_ensemble": {
+        "model": 78.13291139240506,
+        "excess": 2.373417721518976,
+        "n_folds": 9,
+        "n_tested_races": 158,
+        "agrees_with_lobo_sign": true
+      },
+      "bootstrap_ensemble_vs_market": {
+        "mean": 83.17032445868684,
+        "lo": 70.59885096662642,
+        "hi": 96.5676156783468,
+        "n_blocks": 36
+      },
+      "bootstrap_ensemble_vs_current": {
+        "mean": -3.9837686621714012,
+        "lo": -22.887703252032523,
+        "hi": 13.101202476958532,
+        "n_blocks": 36
+      },
+      "bootstrap_ensemble_vs_single_best_oof": {
+        "mean": -3.1172388462955833,
+        "lo": -14.356679682052695,
+        "hi": 7.4807569050067775,
+        "n_blocks": 36
+      },
+      "decision": "REJECTED"
+    }
+  }
+}

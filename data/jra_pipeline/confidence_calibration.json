@@ -1,6 +1,6 @@
 {
   "fitted_on": {
-    "n_races": 177,
+    "n_races": 211,
     "dates": [
       "20260711",
       "20260712",
@@ -11,9 +11,11 @@
       "20260801",
       "20260802",
       "20260808",
-      "20260809"
+      "20260809",
+      "20260815",
+      "20260816"
     ],
-    "n_blocks": 30
+    "n_blocks": 36
   },
   "method": "lobo_logistic_calibration_with_bootstrap_ci_gate",
   "topk_ladder": {
@@ -28,9 +30,9 @@
     ],
     "results_by_k": {
       "5": {
-        "n_races": 177,
-        "n_blocks_total": 30,
-        "overall_hit_rate_pct": 72.3,
+        "n_races": 211,
+        "n_blocks_total": 36,
+        "overall_hit_rate_pct": 70.6,
         "hit_definition_label": "単勝: 1着馬が上位K頭picksに入っているか",
         "method": "logistic",
         "k_buckets": null,
@@ -39,42 +41,42 @@
         ],
         "candidates": {
           "gap_boundary_k": {
-            "oof_brier": 0.20152123206587974,
-            "spearman_with_hit": 0.11021891254848781
+            "oof_brier": 0.2086309862722781,
+            "spearman_with_hit": 0.07567070714133277
           }
         },
         "chosen_feature": "gap_boundary_k",
         "chosen_feature_sign_warning": false,
-        "trivial_baseline_oof_brier": 0.2021935920590673,
-        "chosen_oof_brier": 0.20152123206587974,
+        "trivial_baseline_oof_brier": 0.20911591677435754,
+        "chosen_oof_brier": 0.2086309862722781,
         "brier_gain_ci95": [
-          -0.0006158069805201442,
-          0.002012064895803487
+          -0.0006757089282954084,
+          0.0015706685460057173
         ],
-        "p_value_gain_le0": 0.166,
+        "p_value_gain_le0": 0.2105,
         "min_blocks_for_pct": 60,
         "min_blocks_ok": false,
         "beats_trivial_baseline": false,
         "show_pct": false,
         "fit_params": {
           "type": "logistic",
-          "intercept": 0.8871122391356128,
-          "slope": 0.6564277826479941
+          "intercept": 0.812807074701539,
+          "slope": 0.6312568226032956
         },
         "bucket_diagnostic": {
-          "oof_brier": 0.20377740422249743,
+          "oof_brier": 0.21117143939955826,
           "brier_gain_ci95": [
-            -0.004339762855919407,
-            0.0008266646929774586
+            -0.004061553399934943,
+            -0.00019104066843069164
           ],
           "beats_trivial_baseline": false,
           "shrink_k": 80
         }
       },
       "4": {
-        "n_races": 177,
-        "n_blocks_total": 30,
-        "overall_hit_rate_pct": 65.5,
+        "n_races": 211,
+        "n_blocks_total": 36,
+        "overall_hit_rate_pct": 64.0,
         "hit_definition_label": "単勝: 1着馬が上位K頭picksに入っているか",
         "method": "logistic",
         "k_buckets": null,
@@ -83,42 +85,42 @@
         ],
         "candidates": {
           "gap_boundary_k": {
-            "oof_brier": 0.2263721690611187,
-            "spearman_with_hit": 0.13657414082542446
+            "oof_brier": 0.23114973258563384,
+            "spearman_with_hit": 0.10114023409250336
           }
         },
         "chosen_feature": "gap_boundary_k",
         "chosen_feature_sign_warning": false,
-        "trivial_baseline_oof_brier": 0.22791483660082784,
-        "chosen_oof_brier": 0.2263721690611187,
+        "trivial_baseline_oof_brier": 0.23207587206778804,
+        "chosen_oof_brier": 0.23114973258563384,
         "brier_gain_ci95": [
-          -0.0010848801730357085,
-          0.003987514450356944
+          -0.0011794001297889968,
+          0.00293770248065944
         ],
-        "p_value_gain_le0": 0.1265,
+        "p_value_gain_le0": 0.179,
         "min_blocks_for_pct": 60,
         "min_blocks_ok": false,
         "beats_trivial_baseline": false,
         "show_pct": false,
         "fit_params": {
           "type": "logistic",
-          "intercept": 0.5504601242641983,
-          "slope": 0.8728985072468839
+          "intercept": 0.49630875154346815,
+          "slope": 0.7784424244111482
         },
         "bucket_diagnostic": {
-          "oof_brier": 0.22557438903106974,
+          "oof_brier": 0.23169755835979214,
           "brier_gain_ci95": [
-            -0.0035807543566388524,
-            0.008176768215711066
+            -0.003115609624827158,
+            0.003511941751902889
           ],
           "beats_trivial_baseline": false,
-          "shrink_k": 40
+          "shrink_k": 80
         }
       },
       "3": {
-        "n_races": 177,
-        "n_blocks_total": 30,
-        "overall_hit_rate_pct": 53.7,
+        "n_races": 211,
+        "n_blocks_total": 36,
+        "overall_hit_rate_pct": 50.7,
         "hit_definition_label": "単勝: 1着馬が上位K頭picksに入っているか",
         "method": "logistic",
         "k_buckets": null,
@@ -127,42 +129,42 @@
         ],
         "candidates": {
           "gap_boundary_k": {
-            "oof_brier": 0.24900388952643965,
-            "spearman_with_hit": -0.1283908644205059
+            "oof_brier": 0.2491587154862761,
+            "spearman_with_hit": -0.15298822452274333
           }
         },
         "chosen_feature": "gap_boundary_k",
         "chosen_feature_sign_warning": true,
-        "trivial_baseline_oof_brier": 0.2512034314283123,
-        "chosen_oof_brier": 0.24900388952643965,
+        "trivial_baseline_oof_brier": 0.25220720408957725,
+        "chosen_oof_brier": 0.2491587154862761,
         "brier_gain_ci95": [
-          -0.00014004532419905832,
-          0.0044809032522377615
+          0.00036522397952850895,
+          0.005786922120228988
         ],
-        "p_value_gain_le0": 0.031,
+        "p_value_gain_le0": 0.0115,
         "min_blocks_for_pct": 60,
         "min_blocks_ok": false,
-        "beats_trivial_baseline": false,
+        "beats_trivial_baseline": true,
         "show_pct": false,
         "fit_params": {
           "type": "logistic",
-          "intercept": 0.21155600716000278,
-          "slope": -0.9141516604593962
+          "intercept": 0.11695210438234942,
+          "slope": -1.1172168253288421
         },
         "bucket_diagnostic": {
-          "oof_brier": 0.2495511961688221,
+          "oof_brier": 0.2506193116772321,
           "brier_gain_ci95": [
-            -0.005312409838136045,
-            0.008464740982256672
+            -0.00416712698588962,
+            0.00728637516562293
           ],
           "beats_trivial_baseline": false,
           "shrink_k": 40
         }
       },
       "2": {
-        "n_races": 177,
-        "n_blocks_total": 30,
-        "overall_hit_rate_pct": 40.7,
+        "n_races": 211,
+        "n_blocks_total": 36,
+        "overall_hit_rate_pct": 38.4,
         "hit_definition_label": "単勝: 1着馬が上位K頭picksに入っているか",
         "method": "logistic",
         "k_buckets": null,
@@ -171,42 +173,42 @@
         ],
         "candidates": {
           "gap_boundary_k": {
-            "oof_brier": 0.24457705584470135,
-            "spearman_with_hit": 0.09318880257695107
+            "oof_brier": 0.23885049479591264,
+            "spearman_with_hit": 0.10799474726323657
           }
         },
         "chosen_feature": "gap_boundary_k",
         "chosen_feature_sign_warning": false,
-        "trivial_baseline_oof_brier": 0.24386459329868293,
-        "chosen_oof_brier": 0.24457705584470135,
+        "trivial_baseline_oof_brier": 0.23856856829254564,
+        "chosen_oof_brier": 0.23885049479591264,
         "brier_gain_ci95": [
-          -0.0018855083394014836,
-          0.0003803119154269629
+          -0.0017879172286371342,
+          0.001184430547553661
         ],
-        "p_value_gain_le0": 0.8865,
+        "p_value_gain_le0": 0.628,
         "min_blocks_for_pct": 60,
         "min_blocks_ok": false,
         "beats_trivial_baseline": false,
         "show_pct": false,
         "fit_params": {
           "type": "logistic",
-          "intercept": -0.39697076048457675,
-          "slope": 0.2866562432423226
+          "intercept": -0.5050915121676032,
+          "slope": 0.4454759791724758
         },
         "bucket_diagnostic": {
-          "oof_brier": 0.2417787250272767,
+          "oof_brier": 0.23748659090976254,
           "brier_gain_ci95": [
-            -0.003913366449542231,
-            0.008082008305685761
+            -0.004016679642743473,
+            0.0060899622080340466
           ],
           "beats_trivial_baseline": false,
-          "shrink_k": 40
+          "shrink_k": 80
         }
       },
       "1": {
-        "n_races": 177,
-        "n_blocks_total": 30,
-        "overall_hit_rate_pct": 25.4,
+        "n_races": 211,
+        "n_blocks_total": 36,
+        "overall_hit_rate_pct": 23.7,
         "hit_definition_label": "単勝: 1着馬が上位K頭picksに入っているか",
         "method": "logistic",
         "k_buckets": null,
@@ -215,33 +217,33 @@
         ],
         "candidates": {
           "gap_boundary_k": {
-            "oof_brier": 0.19184763179482056,
-            "spearman_with_hit": 0.09141838952099876
+            "oof_brier": 0.18313046502883024,
+            "spearman_with_hit": 0.027264740807668983
           }
         },
         "chosen_feature": "gap_boundary_k",
         "chosen_feature_sign_warning": false,
-        "trivial_baseline_oof_brier": 0.1916352306704473,
-        "chosen_oof_brier": 0.19184763179482056,
+        "trivial_baseline_oof_brier": 0.18237868085523118,
+        "chosen_oof_brier": 0.18313046502883024,
         "brier_gain_ci95": [
-          -0.001805612951119978,
-          0.001444132605746569
+          -0.001431904102087557,
+          -6.505616621764331e-05
         ],
-        "p_value_gain_le0": 0.582,
+        "p_value_gain_le0": 0.9845,
         "min_blocks_for_pct": 60,
         "min_blocks_ok": false,
         "beats_trivial_baseline": false,
         "show_pct": false,
         "fit_params": {
           "type": "logistic",
-          "intercept": -1.1171179912935667,
-          "slope": 0.4230905065449636
+          "intercept": -1.1554553464528556,
+          "slope": 0.09246505523447132
         },
         "bucket_diagnostic": {
-          "oof_brier": 0.19139081737312327,
+          "oof_brier": 0.18248863603265983,
           "brier_gain_ci95": [
-            -0.002875107607832969,
-            0.003503223047488902
+            -0.002273284520316569,
+            0.0021931239607577923
           ],
           "beats_trivial_baseline": false,
           "shrink_k": 80
@@ -249,5 +251,5 @@
       }
     }
   },
-  "created_at": "2026-08-12T09:31:35"
+  "created_at": "2026-08-21T22:54:07"
 }

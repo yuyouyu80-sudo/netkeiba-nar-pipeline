@@ -95,6 +95,8 @@ main { max-width: 900px; margin: 0 auto; padding: 0 20px 64px; }
 .method-note { margin: 10px 0 0; max-width: 68ch; }
 .box-method { margin-top: 14px; }
 .box-method summary { font-size: 12.5px; }
+.box-subhead { font-family: var(--serif); font-size: 14px; font-weight: 700; margin: 20px 0 8px; color: var(--ink); }
+.box-lede.is-tight { margin-top: 16px; }
 .pagefoot { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--rule); }
 .pagefoot p { font-size: 11.5px; color: var(--ink-faint); margin: 0; }
 a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -107,6 +109,7 @@ a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outli
 #conf-tab-axis5-4:checked ~ .conf-tabs-panels #conf-panel-axis5-4 { display: block; }
 #conf-tab-axis5-5:checked ~ .conf-tabs-panels #conf-panel-axis5-5 { display: block; }
 #conf-tab-axis5-6:checked ~ .conf-tabs-panels #conf-panel-axis5-6 { display: block; }
+#conf-tab-axis5-7:checked ~ .conf-tabs-panels #conf-panel-axis5-7 { display: block; }
 #conf-tab-axis4-0:checked ~ .conf-tabs-panels #conf-panel-axis4-0 { display: block; }
 #conf-tab-axis4-1:checked ~ .conf-tabs-panels #conf-panel-axis4-1 { display: block; }
 #conf-tab-axis4-2:checked ~ .conf-tabs-panels #conf-panel-axis4-2 { display: block; }
@@ -114,6 +117,7 @@ a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outli
 #conf-tab-axis4-4:checked ~ .conf-tabs-panels #conf-panel-axis4-4 { display: block; }
 #conf-tab-axis4-5:checked ~ .conf-tabs-panels #conf-panel-axis4-5 { display: block; }
 #conf-tab-axis4-6:checked ~ .conf-tabs-panels #conf-panel-axis4-6 { display: block; }
+#conf-tab-axis4-7:checked ~ .conf-tabs-panels #conf-panel-axis4-7 { display: block; }
 #conf-tab-axis3-0:checked ~ .conf-tabs-panels #conf-panel-axis3-0 { display: block; }
 #conf-tab-axis3-1:checked ~ .conf-tabs-panels #conf-panel-axis3-1 { display: block; }
 #conf-tab-axis3-2:checked ~ .conf-tabs-panels #conf-panel-axis3-2 { display: block; }
@@ -121,11 +125,12 @@ a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outli
 #conf-tab-axis3-4:checked ~ .conf-tabs-panels #conf-panel-axis3-4 { display: block; }
 #conf-tab-axis3-5:checked ~ .conf-tabs-panels #conf-panel-axis3-5 { display: block; }
 #conf-tab-axis3-6:checked ~ .conf-tabs-panels #conf-panel-axis3-6 { display: block; }
+#conf-tab-axis3-7:checked ~ .conf-tabs-panels #conf-panel-axis3-7 { display: block; }
 </style>
 <nav class="jumpnav">
   <div class="jumpnav-inner">
     <span class="jumpnav-label">JUMP</span>
-    <a href="#sec-top3">軸の複勝的中率探索</a><a href="#sec-axis5">軸+相手4頭</a><a href="#sec-axis4">軸+相手3頭</a><a href="#sec-axis3">軸+相手2頭</a>
+    <a href="#sec-front123">新シグナル・アンサンブル・ステーク</a><a href="#sec-top3">軸の複勝的中率探索</a><a href="#sec-axis5">軸+相手4頭</a><a href="#sec-axis4">軸+相手3頭</a><a href="#sec-axis3">軸+相手2頭</a>
   </div>
 </nav>
 
@@ -148,6 +153,220 @@ a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outli
   </header>
 
   
+    <section class="box-section" id="sec-front123">
+      <details class="box-details">
+        <summary class="box-head">追加検証: 新規シグナル・アンサンブル・ステーク配分の3方向(2026-08-21)</summary>
+        <p class="box-lede">
+          box買い・軸流し買いいずれの探索も市場優位性が実証できなかったことを受け、質的に異なる
+          3つのアプローチで改善余地を探りました。box5/4/3・axis5/4/3の両方に適用しています。
+        </p>
+
+        <h3 class="box-subhead">① 新規シグナル(NARのV4シグナル5本を移植、25→30本プール)</h3>
+        <p class="method-note">
+          持続タイム(hold_just/hold_wide)・騎手乗り替わり(jockey_change)・クラス降格(class_drop)・
+          馬体重トレンド(weight_trend)の5本を追加し、500パターンで再探索しました。
+        </p>
+        <div class="box-table-wrap">
+          <table class="box-table">
+            <thead><tr><th>対象</th><th>OOF市場差</th><th>LOBOユニーク</th><th>選ぶことの真の価値</th>
+              <th>現行比95%CI</th><th>判定</th></tr></thead>
+            <tbody><tr>
+          <td class="bt-name">box5</td>
+          <td class="num">+1.70pt</td>
+          <td class="num">2/36</td>
+          <td class="num">-4.51(sd7.5)</td>
+          <td class="num">[-34.8, +2.4]pt</td>
+          <td class="num rate is-minus">REJECTED</td>
+        </tr><tr>
+          <td class="bt-name">box4</td>
+          <td class="num">+0.34pt</td>
+          <td class="num">4/36</td>
+          <td class="num">-6.75(sd5.7)</td>
+          <td class="num">[-58.9, -6.8]pt</td>
+          <td class="num rate is-minus">REJECTED</td>
+        </tr><tr>
+          <td class="bt-name">box3</td>
+          <td class="num">+8.59pt</td>
+          <td class="num">3/36</td>
+          <td class="num">-3.86(sd9.4)</td>
+          <td class="num">[-20.2, +15.3]pt</td>
+          <td class="num rate is-minus">REJECTED</td>
+        </tr><tr>
+          <td class="bt-name">axis5</td>
+          <td class="num">+13.50pt</td>
+          <td class="num">3/36</td>
+          <td class="num">-3.81(sd12.5)</td>
+          <td class="num">[-35.3, +17.4]pt</td>
+          <td class="num rate is-minus">REJECTED</td>
+        </tr><tr>
+          <td class="bt-name">axis4</td>
+          <td class="num">+7.17pt</td>
+          <td class="num">2/36</td>
+          <td class="num">+2.35(sd13.1)</td>
+          <td class="num">[-55.3, +14.7]pt</td>
+          <td class="num rate is-minus">REJECTED</td>
+        </tr><tr>
+          <td class="bt-name">axis3</td>
+          <td class="num">+9.62pt</td>
+          <td class="num">3/36</td>
+          <td class="num">+2.45(sd15.7)</td>
+          <td class="num">[-54.5, +29.8]pt</td>
+          <td class="num rate is-minus">REJECTED</td>
+        </tr></tbody>
+          </table>
+        </div>
+        <p class="method-note">
+          6本すべてREJECTED。box4は現行モデルとの差の95%CIが完全にマイナス側
+          ([-58.87,-6.83]pt)で、統計的に有意に劣る結果でした。的中率はほぼ同水準
+          (単勝59.2%対60.2%)なのに全券種で回収率が下がっており(単勝99.0%→84.7%、
+          3連単196.8%→30.0%等)、より人気馬寄りの選択に偏り配当妙味が落ちたためと
+          考えられます。新規5シグナルの合計重みシェアは6.9〜16.7%と一定の存在感はありますが、
+          市場を上回るには至りませんでした。
+        </p>
+
+        <h3 class="box-subhead">② アンサンブル(多様性重視の上位8パターンをブレンド)+時系列検証</h3>
+        <p class="method-note">
+          ①と同じ500パターン母集団から、コサイン類似度で似すぎたものを除きながら上位8本を
+          均等ブレンドした重みを試しました。時系列walk-forward検証もロバスト性チェックとして
+          併記しています。
+        </p>
+        <div class="box-table-wrap">
+          <table class="box-table">
+            <thead><tr><th>対象</th><th>単一ベストのLOBOユニーク</th><th>ブレンドのLOBOユニーク</th>
+              <th>ブレンドOOF市場差</th><th>現行比95%CI</th><th>判定</th></tr></thead>
+            <tbody><tr>
+          <td class="bt-name">box5</td>
+          <td class="num">2/36</td>
+          <td class="num">23/36</td>
+          <td class="num">+0.13pt</td>
+          <td class="num">[-36.3, +1.1]pt</td>
+          <td class="num rate is-minus">REJECTED</td>
+        </tr><tr>
+          <td class="bt-name">box4</td>
+          <td class="num">4/36</td>
+          <td class="num">24/36</td>
+          <td class="num">+1.71pt</td>
+          <td class="num">[-54.7, -6.6]pt</td>
+          <td class="num rate is-minus">REJECTED</td>
+        </tr><tr>
+          <td class="bt-name">box3</td>
+          <td class="num">3/36</td>
+          <td class="num">8/36</td>
+          <td class="num">+5.59pt</td>
+          <td class="num">[-22.9, +13.1]pt</td>
+          <td class="num rate is-minus">REJECTED</td>
+        </tr><tr>
+          <td class="bt-name">axis5</td>
+          <td class="num">3/36</td>
+          <td class="num">20/36</td>
+          <td class="num">+1.45pt</td>
+          <td class="num">[-48.1, +3.8]pt</td>
+          <td class="num rate is-minus">REJECTED</td>
+        </tr><tr>
+          <td class="bt-name">axis4</td>
+          <td class="num">2/36</td>
+          <td class="num">10/36</td>
+          <td class="num">+6.59pt</td>
+          <td class="num">[-58.4, +16.0]pt</td>
+          <td class="num rate is-minus">REJECTED</td>
+        </tr><tr>
+          <td class="bt-name">axis3</td>
+          <td class="num">3/36</td>
+          <td class="num">10/36</td>
+          <td class="num">-0.83pt</td>
+          <td class="num">[-55.9, +12.9]pt</td>
+          <td class="num rate is-minus">REJECTED</td>
+        </tr></tbody>
+          </table>
+        </div>
+        <p class="method-note">
+          6本すべてREJECTED。ただしブレンドはfold間で選ばれる組み合わせの安定性を単一ベスト選択
+          (2〜4/36ブロックでしか変わらない)より明確に改善しました(最大24/36)。「選択の不安定さを
+          均す」という狙い通りの効果はあったものの、それ自体が回収率の統計的な優位性には
+          直結しませんでした。
+        </p>
+
+        <h3 class="box-subhead">③ 確信度に応じたステーク配分</h3>
+        <p class="method-note">
+          レース内のスコア差(gap_pct)の日次パーセンタイル順位に応じて、賭け金を0.5〜1.5倍の
+          範囲で連続的に増減させた場合の回収率を、均等ステークと比較しました(box5/4/3、現行
+          本番モデル)。
+        </p>
+        <div class="box-table-wrap">
+          <table class="box-table">
+            <thead><tr><th>対象</th><th>均等ステーク市場差</th><th>連続乗数市場差</th>
+              <th>差の95%CI</th><th>判定</th></tr></thead>
+            <tbody><tr>
+          <td class="bt-name">box5</td>
+          <td class="num">+16.58pt</td>
+          <td class="num">+18.30pt</td>
+          <td class="num">[-2.87, +5.96]pt</td>
+          <td class="num rate is-minus">有意差なし</td>
+        </tr><tr>
+          <td class="bt-name">box4</td>
+          <td class="num">+30.97pt</td>
+          <td class="num">+35.53pt</td>
+          <td class="num">[-8.65, +11.88]pt</td>
+          <td class="num rate is-minus">有意差なし</td>
+        </tr><tr>
+          <td class="bt-name">box3</td>
+          <td class="num">+9.30pt</td>
+          <td class="num">+12.84pt</td>
+          <td class="num">[-1.47, +10.26]pt</td>
+          <td class="num rate is-minus">有意差なし</td>
+        </tr></tbody>
+          </table>
+        </div>
+        <p class="method-note">
+          3サイズとも連続乗数がわずかにプラス方向(box3で+3.9pt)でしたが、いずれも95%CIが0を
+          またぎ統計的有意差はありません。土台となる確信度較正(topk_ladder)自体も、
+          36ブロック(較正に必要な60ブロックに未到達)のため
+          まだ統計的に安定した%表示はできていません(K別の内訳):
+        </p>
+        <div class="box-table-wrap">
+          <table class="box-table">
+            <thead><tr><th>段階</th><th>実測的中率</th><th>ランダム基準を上回るか</th><th>ブロック数十分か</th></tr></thead>
+            <tbody><tr>
+      <td class="bt-name">K=5</td>
+      <td class="num">70.6%</td>
+      <td class="num">×</td>
+      <td class="num">×</td>
+    </tr><tr>
+      <td class="bt-name">K=4</td>
+      <td class="num">64.0%</td>
+      <td class="num">×</td>
+      <td class="num">×</td>
+    </tr><tr>
+      <td class="bt-name">K=3</td>
+      <td class="num">50.7%</td>
+      <td class="num">○</td>
+      <td class="num">×</td>
+    </tr><tr>
+      <td class="bt-name">K=2</td>
+      <td class="num">38.4%</td>
+      <td class="num">×</td>
+      <td class="num">×</td>
+    </tr><tr>
+      <td class="bt-name">K=1</td>
+      <td class="num">23.7%</td>
+      <td class="num">×</td>
+      <td class="num">×</td>
+    </tr></tbody>
+          </table>
+        </div>
+        <p class="method-note">
+          このためオッズベースの本格的なKelly基準サイジングは今回のスコープに含めず、
+          確信度較正がブロック数60以上に到達し安定するまでの将来課題としています。
+        </p>
+
+        <p class="box-lede is-tight">
+          <b>総合結論:</b> 新規シグナル・アンサンブル+時系列検証・ステーク配分という3つの
+          構造的に異なるアプローチいずれでも、市場に対して統計的に実証された優位性は
+          見つかりませんでした。これでbox買い・軸流し買いの重み探索(4回)・アンサンブル(1回)・
+          ステーク配分(1回)のすべてが同一の結論に達しています。
+        </p>
+      </details>
+    </section>
     <section class="box-section" id="sec-top3">
       <details class="box-details">
         <summary class="box-head">追加検証: 軸の複勝的中率を最大化する重み探索(2026-08-21)</summary>
@@ -364,7 +583,7 @@ a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outli
         <summary class="box-head">予想5頭軸流し(軸+相手4頭) 回収率検証</summary>
         <p class="box-lede">各レースの予想スコア1位を軸、2〜5位(4頭)を相手にした「ながし」買いの、実際の払い戻しとの答え合わせです(全211レース、現行box5モデルの重みをそのまま軸流しに転用)。<br><br><b>2026-08-21の検証で判明した限界(必ずお読みください)</b>: 上表の回収率は、重み自体の決定に使われた105レース(6開催日)を含む全レースでの評価であり、選定に使ったデータで選定結果を評価する楽観を含みます。この重複を除いた106レースだけの公正な評価では市場超過が消え、点推定はむしろマイナスに転じました(詳細は下記「計算方法・前提条件」参照)。軸流し専用の新規500パターン重み探索も統計的に不採用でした。つまり「市場に対する優位性が統計的に実証されたモデル」は今回の検証では見つかっていません。上表はあくまで実用上の最有力候補(現行box重みの転用)の透明な検証記録として掲載しています。</p>
         <div class="conf-tabs">
-          <input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-0" checked class="conf-tab-input"><label for="conf-tab-axis5-0" class="conf-tab-label">全211R</label><input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-1" class="conf-tab-input"><label for="conf-tab-axis5-1" class="conf-tab-label">5R/日</label><input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-2" class="conf-tab-input"><label for="conf-tab-axis5-2" class="conf-tab-label">6R/日</label><input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-3" class="conf-tab-input"><label for="conf-tab-axis5-3" class="conf-tab-label">7R/日</label><input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-4" class="conf-tab-input"><label for="conf-tab-axis5-4" class="conf-tab-label">8R/日</label><input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-5" class="conf-tab-input"><label for="conf-tab-axis5-5" class="conf-tab-label">9R/日</label><input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-6" class="conf-tab-input"><label for="conf-tab-axis5-6" class="conf-tab-label">10R/日</label>
+          <input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-0" checked class="conf-tab-input"><label for="conf-tab-axis5-0" class="conf-tab-label">全211R</label><input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-1" class="conf-tab-input"><label for="conf-tab-axis5-1" class="conf-tab-label">5R/日</label><input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-2" class="conf-tab-input"><label for="conf-tab-axis5-2" class="conf-tab-label">6R/日</label><input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-3" class="conf-tab-input"><label for="conf-tab-axis5-3" class="conf-tab-label">7R/日</label><input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-4" class="conf-tab-input"><label for="conf-tab-axis5-4" class="conf-tab-label">8R/日</label><input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-5" class="conf-tab-input"><label for="conf-tab-axis5-5" class="conf-tab-label">9R/日</label><input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-6" class="conf-tab-input"><label for="conf-tab-axis5-6" class="conf-tab-label">10R/日</label><input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-7" class="conf-tab-input"><label for="conf-tab-axis5-7" class="conf-tab-label">連続乗数(gap_pct順位→[0.5,1.5]、全211レース)</label>
           <div class="conf-tabs-panels"><div class="conf-tab-panel" id="conf-panel-axis5-0">
           <p class="conf-scope-label">全211レース</p>
           <div class="box-table-wrap">
@@ -715,6 +934,56 @@ a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outli
         </tr></tbody>
             </table>
           </div>
+        </div><div class="conf-tab-panel" id="conf-panel-axis5-7">
+          <p class="conf-scope-label">連続乗数(gap_pct順位→[0.5,1.5]、全211レース)</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>49/211<span class="box-sub">(23.2%)</span></td>
+          <td class="num">¥84,400</td>
+          <td class="num">¥95,149</td>
+          <td class="num rate is-plus">112.7%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>80/211<span class="box-sub">(37.9%)</span></td>
+          <td class="num">¥84,400</td>
+          <td class="num">¥80,404</td>
+          <td class="num rate is-mid">95.3%</td>
+        </tr><tr>
+          <td class="bt-name">3連複</td>
+          <td>24/211<span class="box-sub">(11.4%)</span></td>
+          <td class="num">¥126,600</td>
+          <td class="num">¥102,917</td>
+          <td class="num rate is-mid">81.3%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>31/211<span class="box-sub">(14.7%)</span></td>
+          <td class="num">¥84,400</td>
+          <td class="num">¥125,986</td>
+          <td class="num rate is-plus">149.3%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>49/211<span class="box-sub">(23.2%)</span></td>
+          <td class="num">¥168,800</td>
+          <td class="num">¥183,087</td>
+          <td class="num rate is-plus">108.5%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し)</td>
+          <td>10/211<span class="box-sub">(4.7%)</span></td>
+          <td class="num">¥253,200</td>
+          <td class="num">¥207,889</td>
+          <td class="num rate is-mid">82.1%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ)</td>
+          <td>24/211<span class="box-sub">(11.4%)</span></td>
+          <td class="num">¥759,600</td>
+          <td class="num">¥685,407</td>
+          <td class="num rate is-mid">90.2%</td>
+        </tr></tbody>
+            </table>
+          </div>
         </div></div>
         </div>
         <details class="method box-method">
@@ -838,7 +1107,7 @@ a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outli
         <summary class="box-head">予想4頭軸流し(軸+相手3頭) 回収率検証</summary>
         <p class="box-lede">各レースの予想スコア1位を軸、2〜4位(3頭)を相手にした「ながし」買いの、実際の払い戻しとの答え合わせです(全211レース、現行box4モデルの重みをそのまま軸流しに転用)。<br><br><b>2026-08-21の検証で判明した限界(必ずお読みください)</b>: 上表の回収率は、重み自体の決定に使われた105レース(6開催日)を含む全レースでの評価であり、選定に使ったデータで選定結果を評価する楽観を含みます。この重複を除いた106レースだけの公正な評価では市場超過が消え、点推定はむしろマイナスに転じました(詳細は下記「計算方法・前提条件」参照)。軸流し専用の新規500パターン重み探索も統計的に不採用でした。つまり「市場に対する優位性が統計的に実証されたモデル」は今回の検証では見つかっていません。上表はあくまで実用上の最有力候補(現行box重みの転用)の透明な検証記録として掲載しています。</p>
         <div class="conf-tabs">
-          <input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-0" checked class="conf-tab-input"><label for="conf-tab-axis4-0" class="conf-tab-label">全211R</label><input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-1" class="conf-tab-input"><label for="conf-tab-axis4-1" class="conf-tab-label">5R/日</label><input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-2" class="conf-tab-input"><label for="conf-tab-axis4-2" class="conf-tab-label">6R/日</label><input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-3" class="conf-tab-input"><label for="conf-tab-axis4-3" class="conf-tab-label">7R/日</label><input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-4" class="conf-tab-input"><label for="conf-tab-axis4-4" class="conf-tab-label">8R/日</label><input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-5" class="conf-tab-input"><label for="conf-tab-axis4-5" class="conf-tab-label">9R/日</label><input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-6" class="conf-tab-input"><label for="conf-tab-axis4-6" class="conf-tab-label">10R/日</label>
+          <input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-0" checked class="conf-tab-input"><label for="conf-tab-axis4-0" class="conf-tab-label">全211R</label><input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-1" class="conf-tab-input"><label for="conf-tab-axis4-1" class="conf-tab-label">5R/日</label><input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-2" class="conf-tab-input"><label for="conf-tab-axis4-2" class="conf-tab-label">6R/日</label><input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-3" class="conf-tab-input"><label for="conf-tab-axis4-3" class="conf-tab-label">7R/日</label><input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-4" class="conf-tab-input"><label for="conf-tab-axis4-4" class="conf-tab-label">8R/日</label><input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-5" class="conf-tab-input"><label for="conf-tab-axis4-5" class="conf-tab-label">9R/日</label><input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-6" class="conf-tab-input"><label for="conf-tab-axis4-6" class="conf-tab-label">10R/日</label><input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-7" class="conf-tab-input"><label for="conf-tab-axis4-7" class="conf-tab-label">連続乗数(gap_pct順位→[0.5,1.5]、全211レース)</label>
           <div class="conf-tabs-panels"><div class="conf-tab-panel" id="conf-panel-axis4-0">
           <p class="conf-scope-label">全211レース</p>
           <div class="box-table-wrap">
@@ -1189,6 +1458,56 @@ a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outli
         </tr></tbody>
             </table>
           </div>
+        </div><div class="conf-tab-panel" id="conf-panel-axis4-7">
+          <p class="conf-scope-label">連続乗数(gap_pct順位→[0.5,1.5]、全211レース)</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>37/211<span class="box-sub">(17.5%)</span></td>
+          <td class="num">¥63,300</td>
+          <td class="num">¥53,322</td>
+          <td class="num rate is-mid">84.2%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>68/211<span class="box-sub">(32.2%)</span></td>
+          <td class="num">¥63,300</td>
+          <td class="num">¥58,686</td>
+          <td class="num rate is-mid">92.7%</td>
+        </tr><tr>
+          <td class="bt-name">3連複</td>
+          <td>21/211<span class="box-sub">(10.0%)</span></td>
+          <td class="num">¥63,300</td>
+          <td class="num">¥131,287</td>
+          <td class="num rate is-plus">207.4%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>22/211<span class="box-sub">(10.4%)</span></td>
+          <td class="num">¥63,300</td>
+          <td class="num">¥50,690</td>
+          <td class="num rate is-mid">80.1%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>37/211<span class="box-sub">(17.5%)</span></td>
+          <td class="num">¥126,600</td>
+          <td class="num">¥103,761</td>
+          <td class="num rate is-mid">82.0%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>7/211<span class="box-sub">(3.3%)</span></td>
+          <td class="num">¥126,600</td>
+          <td class="num">¥123,900</td>
+          <td class="num rate is-mid">97.9%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ)</td>
+          <td>21/211<span class="box-sub">(10.0%)</span></td>
+          <td class="num">¥379,800</td>
+          <td class="num">¥864,688</td>
+          <td class="num rate is-plus">227.7%</td>
+        </tr></tbody>
+            </table>
+          </div>
         </div></div>
         </div>
         <details class="method box-method">
@@ -1312,7 +1631,7 @@ a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outli
         <summary class="box-head">予想3頭軸流し(軸+相手2頭) 回収率検証</summary>
         <p class="box-lede">各レースの予想スコア1位を軸、2〜3位(2頭)を相手にした「ながし」買いの、実際の払い戻しとの答え合わせです(全211レース、現行box3モデルの重みをそのまま軸流しに転用)。<br><br><b>2026-08-21の検証で判明した限界(必ずお読みください)</b>: 上表の回収率は、重み自体の決定に使われた105レース(6開催日)を含む全レースでの評価であり、選定に使ったデータで選定結果を評価する楽観を含みます。この重複を除いた106レースだけの公正な評価では市場超過が消え、点推定はむしろマイナスに転じました(詳細は下記「計算方法・前提条件」参照)。軸流し専用の新規500パターン重み探索も統計的に不採用でした。つまり「市場に対する優位性が統計的に実証されたモデル」は今回の検証では見つかっていません。上表はあくまで実用上の最有力候補(現行box重みの転用)の透明な検証記録として掲載しています。</p>
         <div class="conf-tabs">
-          <input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-0" checked class="conf-tab-input"><label for="conf-tab-axis3-0" class="conf-tab-label">全211R</label><input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-1" class="conf-tab-input"><label for="conf-tab-axis3-1" class="conf-tab-label">5R/日</label><input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-2" class="conf-tab-input"><label for="conf-tab-axis3-2" class="conf-tab-label">6R/日</label><input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-3" class="conf-tab-input"><label for="conf-tab-axis3-3" class="conf-tab-label">7R/日</label><input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-4" class="conf-tab-input"><label for="conf-tab-axis3-4" class="conf-tab-label">8R/日</label><input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-5" class="conf-tab-input"><label for="conf-tab-axis3-5" class="conf-tab-label">9R/日</label><input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-6" class="conf-tab-input"><label for="conf-tab-axis3-6" class="conf-tab-label">10R/日</label>
+          <input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-0" checked class="conf-tab-input"><label for="conf-tab-axis3-0" class="conf-tab-label">全211R</label><input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-1" class="conf-tab-input"><label for="conf-tab-axis3-1" class="conf-tab-label">5R/日</label><input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-2" class="conf-tab-input"><label for="conf-tab-axis3-2" class="conf-tab-label">6R/日</label><input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-3" class="conf-tab-input"><label for="conf-tab-axis3-3" class="conf-tab-label">7R/日</label><input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-4" class="conf-tab-input"><label for="conf-tab-axis3-4" class="conf-tab-label">8R/日</label><input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-5" class="conf-tab-input"><label for="conf-tab-axis3-5" class="conf-tab-label">9R/日</label><input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-6" class="conf-tab-input"><label for="conf-tab-axis3-6" class="conf-tab-label">10R/日</label><input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-7" class="conf-tab-input"><label for="conf-tab-axis3-7" class="conf-tab-label">連続乗数(gap_pct順位→[0.5,1.5]、全211レース)</label>
           <div class="conf-tabs-panels"><div class="conf-tab-panel" id="conf-panel-axis3-0">
           <p class="conf-scope-label">全211レース</p>
           <div class="box-table-wrap">
@@ -1660,6 +1979,56 @@ a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outli
           <td class="num">¥72,000</td>
           <td class="num">¥374,040</td>
           <td class="num rate is-plus">519.5%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div><div class="conf-tab-panel" id="conf-panel-axis3-7">
+          <p class="conf-scope-label">連続乗数(gap_pct順位→[0.5,1.5]、全211レース)</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>26/211<span class="box-sub">(12.3%)</span></td>
+          <td class="num">¥42,200</td>
+          <td class="num">¥55,346</td>
+          <td class="num rate is-plus">131.2%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>54/211<span class="box-sub">(25.6%)</span></td>
+          <td class="num">¥42,200</td>
+          <td class="num">¥41,575</td>
+          <td class="num rate is-mid">98.5%</td>
+        </tr><tr>
+          <td class="bt-name">3連複 <span class="box-sub">(参考値)</span></td>
+          <td>6/211<span class="box-sub">(2.8%)</span></td>
+          <td class="num">¥21,100</td>
+          <td class="num">¥71,249</td>
+          <td class="num rate is-plus">337.7%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>14/211<span class="box-sub">(6.6%)</span></td>
+          <td class="num">¥42,200</td>
+          <td class="num">¥58,927</td>
+          <td class="num rate is-plus">139.6%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>26/211<span class="box-sub">(12.3%)</span></td>
+          <td class="num">¥84,400</td>
+          <td class="num">¥116,213</td>
+          <td class="num rate is-plus">137.7%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>2/211<span class="box-sub">(0.9%)</span></td>
+          <td class="num">¥42,200</td>
+          <td class="num">¥4,962</td>
+          <td class="num rate is-minus">11.8%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ) <span class="box-sub">(参考値)</span></td>
+          <td>6/211<span class="box-sub">(2.8%)</span></td>
+          <td class="num">¥126,600</td>
+          <td class="num">¥494,440</td>
+          <td class="num rate is-plus">390.6%</td>
         </tr></tbody>
             </table>
           </div>
