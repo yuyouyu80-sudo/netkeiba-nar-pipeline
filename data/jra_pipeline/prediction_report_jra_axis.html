@@ -1,0 +1,1581 @@
+<title>JRA軸馬流し予想 回収率検証</title>
+<style>
+:root {
+  --bg: #ECEEEA; --bg-elev: #F7F8F5; --bg-card: #FFFFFF; --ink: #1A1C1B; --ink-muted: #5B5F5A;
+  --ink-faint: #656960; --rule: #D2D5CD; --rule-strong: #B7BBB1; --accent: #2C6E49; --accent-ink: #FFFFFF;
+  --accent-soft: #D9E9DE; --accent-soft-ink: #1E4A31; --score-track: #E2E4DD;
+  --shadow: 0 1px 2px rgba(20, 22, 18, 0.06), 0 6px 16px -10px rgba(20, 22, 18, 0.18);
+  --serif: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "Noto Serif JP", "Georgia", serif;
+  --sans: "Yu Gothic", "YuGothic", "Hiragino Sans", "Noto Sans JP", "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141815; --bg-elev: #1A1F1B; --bg-card: #1F2521; --ink: #E6E8E2; --ink-muted: #98A093;
+    --ink-faint: #9AA294; --rule: #2C332C; --rule-strong: #3B443A; --accent: #63C08A; --accent-ink: #0E1F15;
+    --accent-soft: #1E3A28; --accent-soft-ink: #A9E6BF; --score-track: #29302A;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 20px -12px rgba(0, 0, 0, 0.5);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141815; --bg-elev: #1A1F1B; --bg-card: #1F2521; --ink: #E6E8E2; --ink-muted: #98A093;
+  --ink-faint: #9AA294; --rule: #2C332C; --rule-strong: #3B443A; --accent: #63C08A; --accent-ink: #0E1F15;
+  --accent-soft: #1E3A28; --accent-soft-ink: #A9E6BF; --score-track: #29302A;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 20px -12px rgba(0,0,0,0.5);
+}
+:root[data-theme="light"] {
+  --bg: #ECEEEA; --bg-elev: #F7F8F5; --bg-card: #FFFFFF; --ink: #1A1C1B; --ink-muted: #5B5F5A;
+  --ink-faint: #656960; --rule: #D2D5CD; --rule-strong: #B7BBB1; --accent: #2C6E49; --accent-ink: #FFFFFF;
+  --accent-soft: #D9E9DE; --accent-soft-ink: #1E4A31; --score-track: #E2E4DD;
+  --shadow: 0 1px 2px rgba(20,22,18,0.06), 0 6px 16px -10px rgba(20,22,18,0.18);
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body {
+  margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans);
+  font-feature-settings: "palt"; line-height: 1.6; font-variant-numeric: tabular-nums;
+}
+main { max-width: 900px; margin: 0 auto; padding: 0 20px 64px; }
+.jumpnav {
+  position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule);
+}
+.jumpnav-inner {
+  max-width: 900px; margin: 0 auto; padding: 10px 20px;
+  display: flex; align-items: center; gap: 14px; overflow-x: auto; scrollbar-width: thin;
+}
+.jumpnav-label { font: 700 11px/1 var(--sans); letter-spacing: 0.12em; color: var(--ink-faint); flex: none; }
+.jumpnav a {
+  flex: none; font-size: 13px; color: var(--ink-muted); text-decoration: none;
+  padding: 5px 10px; border-radius: 999px; border: 1px solid var(--rule);
+  white-space: nowrap; transition: color .15s, border-color .15s, background .15s;
+}
+.jumpnav a:hover { color: var(--ink); border-color: var(--rule-strong); background: var(--bg-elev); }
+.jumpnav a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.masthead { padding: 40px 0 28px; border-bottom: 3px double var(--rule-strong); margin-bottom: 8px; }
+.eyebrow { font: 700 11px/1 var(--sans); letter-spacing: 0.16em; color: var(--accent); margin: 0 0 10px; }
+.title {
+  font-family: var(--serif); font-weight: 700; font-size: clamp(26px, 4.2vw, 38px);
+  margin: 0 0 14px; text-wrap: balance; letter-spacing: 0.01em;
+}
+.lede { font-size: 15px; color: var(--ink-muted); max-width: 66ch; margin: 0 0 18px; }
+.callout {
+  background: var(--accent-soft); color: var(--accent-soft-ink); border-radius: 10px;
+  padding: 14px 18px; font-size: 13.5px; max-width: 66ch; margin: 0 0 18px;
+}
+.callout b { font-weight: 700; }
+.box-section { margin: 32px 0 40px; padding: 20px 22px; background: var(--bg-elev);
+  border: 1px solid var(--rule); border-radius: 12px; scroll-margin-top: 80px; }
+.box-head { font-family: var(--serif); font-size: 20px; font-weight: 700; margin: 0 0 8px; cursor: pointer; }
+.box-lede { font-size: 13px; color: var(--ink-muted); max-width: 68ch; margin: 0 0 16px; }
+.box-table-wrap { overflow-x: auto; }
+.box-table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 460px; }
+.box-table th { text-align: left; font-weight: 500; font-size: 11px; color: var(--ink-faint);
+  letter-spacing: 0.04em; padding: 6px 10px; border-bottom: 1px solid var(--rule-strong); }
+.box-table td { padding: 7px 10px; border-bottom: 1px solid var(--rule); }
+.box-table .bt-name { font-weight: 700; }
+.box-table .num { text-align: right; }
+.box-sub { color: var(--ink-faint); font-size: 11px; margin-left: 4px; }
+.box-table .rate { font-weight: 700; font-family: var(--serif); }
+.box-table .rate.is-plus { color: var(--accent); }
+.box-table .rate.is-mid { color: var(--ink); }
+.box-table .rate.is-minus { color: var(--ink-faint); }
+.conf-tabs { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.conf-tab-input { position: absolute; opacity: 0; width: 1px; height: 1px; overflow: hidden; }
+.conf-tab-label { cursor: pointer; font-size: 12.5px; color: var(--ink-muted); user-select: none;
+  padding: 5px 12px; border-radius: 999px; border: 1px solid var(--rule);
+  transition: color .15s, border-color .15s, background .15s; }
+.conf-tab-label:hover { border-color: var(--rule-strong); color: var(--ink); }
+.conf-tab-input:checked + .conf-tab-label { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.conf-tab-input:focus-visible + .conf-tab-label { outline: 2px solid var(--accent); outline-offset: 2px; }
+.conf-tabs-panels { flex-basis: 100%; margin-top: 14px; }
+.conf-tab-panel { display: none; }
+.conf-scope-label { font-size: 12px; color: var(--ink-faint); margin: 0 0 8px; }
+.method { font-size: 13.5px; color: var(--ink-muted); }
+.method summary { cursor: pointer; color: var(--ink); font-weight: 600; padding: 6px 0; }
+.method-note { margin: 10px 0 0; max-width: 68ch; }
+.box-method { margin-top: 14px; }
+.box-method summary { font-size: 12.5px; }
+.pagefoot { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--rule); }
+.pagefoot p { font-size: 11.5px; color: var(--ink-faint); margin: 0; }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+#conf-tab-axis5-0:checked ~ .conf-tabs-panels #conf-panel-axis5-0 { display: block; }
+#conf-tab-axis5-1:checked ~ .conf-tabs-panels #conf-panel-axis5-1 { display: block; }
+#conf-tab-axis5-2:checked ~ .conf-tabs-panels #conf-panel-axis5-2 { display: block; }
+#conf-tab-axis5-3:checked ~ .conf-tabs-panels #conf-panel-axis5-3 { display: block; }
+#conf-tab-axis5-4:checked ~ .conf-tabs-panels #conf-panel-axis5-4 { display: block; }
+#conf-tab-axis5-5:checked ~ .conf-tabs-panels #conf-panel-axis5-5 { display: block; }
+#conf-tab-axis5-6:checked ~ .conf-tabs-panels #conf-panel-axis5-6 { display: block; }
+#conf-tab-axis4-0:checked ~ .conf-tabs-panels #conf-panel-axis4-0 { display: block; }
+#conf-tab-axis4-1:checked ~ .conf-tabs-panels #conf-panel-axis4-1 { display: block; }
+#conf-tab-axis4-2:checked ~ .conf-tabs-panels #conf-panel-axis4-2 { display: block; }
+#conf-tab-axis4-3:checked ~ .conf-tabs-panels #conf-panel-axis4-3 { display: block; }
+#conf-tab-axis4-4:checked ~ .conf-tabs-panels #conf-panel-axis4-4 { display: block; }
+#conf-tab-axis4-5:checked ~ .conf-tabs-panels #conf-panel-axis4-5 { display: block; }
+#conf-tab-axis4-6:checked ~ .conf-tabs-panels #conf-panel-axis4-6 { display: block; }
+#conf-tab-axis3-0:checked ~ .conf-tabs-panels #conf-panel-axis3-0 { display: block; }
+#conf-tab-axis3-1:checked ~ .conf-tabs-panels #conf-panel-axis3-1 { display: block; }
+#conf-tab-axis3-2:checked ~ .conf-tabs-panels #conf-panel-axis3-2 { display: block; }
+#conf-tab-axis3-3:checked ~ .conf-tabs-panels #conf-panel-axis3-3 { display: block; }
+#conf-tab-axis3-4:checked ~ .conf-tabs-panels #conf-panel-axis3-4 { display: block; }
+#conf-tab-axis3-5:checked ~ .conf-tabs-panels #conf-panel-axis3-5 { display: block; }
+#conf-tab-axis3-6:checked ~ .conf-tabs-panels #conf-panel-axis3-6 { display: block; }
+</style>
+<nav class="jumpnav">
+  <div class="jumpnav-inner">
+    <span class="jumpnav-label">JUMP</span>
+    <a href="#sec-axis5">軸+相手4頭</a><a href="#sec-axis4">軸+相手3頭</a><a href="#sec-axis3">軸+相手2頭</a>
+  </div>
+</nav>
+
+<main>
+  <header class="masthead">
+    <p class="eyebrow">NETKEIBA NEWSPAPER ANALYSIS - JRA AXIS NAGASHI</p>
+    <h1 class="title">JRA 1頭軸流し予想 回収率検証</h1>
+    <p class="lede">
+      予想スコア1位を軸馬、2位以降を相手馬にした「ながし」買い(馬連・ワイド・3連複・馬単・3連単)の
+      回収率検証レポートです。既存の「馬柱データ予想」(BOX買い版)とは別の独立レポートとして、
+      同じ馬柱データ・予想モデルを軸流し買いに転用した場合の成績を検証しています。
+    </p>
+    <p class="callout">
+      <b>お読みください:</b> 2026-08-21に軸流し専用の重みモデリング探索(500パターン)を実施しましたが、
+      統計的に有意な改善は見つからず不採用でした。現行box重みを軸流しに転用した場合の回収率も、
+      重み自体の決定に使ったデータを除いた公正な評価では市場超過が消えます。つまり
+      <b>「市場に対して優位性が統計的に実証されたモデル」は現時点ではありません。</b>
+      各セクションに詳細な検証結果を透明に記載しています。
+    </p>
+  </header>
+
+  
+    <section class="box-section" id="sec-axis5">
+      <details class="box-details" open>
+        <summary class="box-head">予想5頭軸流し(軸+相手4頭) 回収率検証</summary>
+        <p class="box-lede">各レースの予想スコア1位を軸、2〜5位(4頭)を相手にした「ながし」買いの、実際の払い戻しとの答え合わせです(全211レース、現行box5モデルの重みをそのまま軸流しに転用)。<br><br><b>2026-08-21の検証で判明した限界(必ずお読みください)</b>: 上表の回収率は、重み自体の決定に使われた105レース(6開催日)を含む全レースでの評価であり、選定に使ったデータで選定結果を評価する楽観を含みます。この重複を除いた106レースだけの公正な評価では市場超過が消え、点推定はむしろマイナスに転じました(詳細は下記「計算方法・前提条件」参照)。軸流し専用の新規500パターン重み探索も統計的に不採用でした。つまり「市場に対する優位性が統計的に実証されたモデル」は今回の検証では見つかっていません。上表はあくまで実用上の最有力候補(現行box重みの転用)の透明な検証記録として掲載しています。</p>
+        <div class="conf-tabs">
+          <input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-0" checked class="conf-tab-input"><label for="conf-tab-axis5-0" class="conf-tab-label">全211R</label><input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-1" class="conf-tab-input"><label for="conf-tab-axis5-1" class="conf-tab-label">5R/日</label><input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-2" class="conf-tab-input"><label for="conf-tab-axis5-2" class="conf-tab-label">6R/日</label><input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-3" class="conf-tab-input"><label for="conf-tab-axis5-3" class="conf-tab-label">7R/日</label><input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-4" class="conf-tab-input"><label for="conf-tab-axis5-4" class="conf-tab-label">8R/日</label><input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-5" class="conf-tab-input"><label for="conf-tab-axis5-5" class="conf-tab-label">9R/日</label><input type="radio" name="conf-tab-axis5" id="conf-tab-axis5-6" class="conf-tab-input"><label for="conf-tab-axis5-6" class="conf-tab-label">10R/日</label>
+          <div class="conf-tabs-panels"><div class="conf-tab-panel" id="conf-panel-axis5-0">
+          <p class="conf-scope-label">全211レース</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>49/211<span class="box-sub">(23.2%)</span></td>
+          <td class="num">¥84,400</td>
+          <td class="num">¥94,440</td>
+          <td class="num rate is-plus">111.9%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>80/211<span class="box-sub">(37.9%)</span></td>
+          <td class="num">¥84,400</td>
+          <td class="num">¥77,970</td>
+          <td class="num rate is-mid">92.4%</td>
+        </tr><tr>
+          <td class="bt-name">3連複</td>
+          <td>24/211<span class="box-sub">(11.4%)</span></td>
+          <td class="num">¥126,600</td>
+          <td class="num">¥99,790</td>
+          <td class="num rate is-minus">78.8%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>31/211<span class="box-sub">(14.7%)</span></td>
+          <td class="num">¥84,400</td>
+          <td class="num">¥129,670</td>
+          <td class="num rate is-plus">153.6%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>49/211<span class="box-sub">(23.2%)</span></td>
+          <td class="num">¥168,800</td>
+          <td class="num">¥186,340</td>
+          <td class="num rate is-plus">110.4%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し)</td>
+          <td>10/211<span class="box-sub">(4.7%)</span></td>
+          <td class="num">¥253,200</td>
+          <td class="num">¥207,720</td>
+          <td class="num rate is-mid">82.0%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ)</td>
+          <td>24/211<span class="box-sub">(11.4%)</span></td>
+          <td class="num">¥759,600</td>
+          <td class="num">¥658,170</td>
+          <td class="num rate is-mid">86.6%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div><div class="conf-tab-panel" id="conf-panel-axis5-1">
+          <p class="conf-scope-label">高確信度5レース/日(計60レース)</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>14/60<span class="box-sub">(23.3%)</span></td>
+          <td class="num">¥24,000</td>
+          <td class="num">¥23,720</td>
+          <td class="num rate is-mid">98.8%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>24/60<span class="box-sub">(40.0%)</span></td>
+          <td class="num">¥24,000</td>
+          <td class="num">¥18,670</td>
+          <td class="num rate is-minus">77.8%</td>
+        </tr><tr>
+          <td class="bt-name">3連複 <span class="box-sub">(参考値)</span></td>
+          <td>7/60<span class="box-sub">(11.7%)</span></td>
+          <td class="num">¥36,000</td>
+          <td class="num">¥13,530</td>
+          <td class="num rate is-minus">37.6%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>11/60<span class="box-sub">(18.3%)</span></td>
+          <td class="num">¥24,000</td>
+          <td class="num">¥25,860</td>
+          <td class="num rate is-plus">107.7%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>14/60<span class="box-sub">(23.3%)</span></td>
+          <td class="num">¥48,000</td>
+          <td class="num">¥41,940</td>
+          <td class="num rate is-mid">87.4%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>4/60<span class="box-sub">(6.7%)</span></td>
+          <td class="num">¥72,000</td>
+          <td class="num">¥34,440</td>
+          <td class="num rate is-minus">47.8%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ) <span class="box-sub">(参考値)</span></td>
+          <td>7/60<span class="box-sub">(11.7%)</span></td>
+          <td class="num">¥216,000</td>
+          <td class="num">¥58,230</td>
+          <td class="num rate is-minus">27.0%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div><div class="conf-tab-panel" id="conf-panel-axis5-2">
+          <p class="conf-scope-label">高確信度6レース/日(計72レース)</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>19/72<span class="box-sub">(26.4%)</span></td>
+          <td class="num">¥28,800</td>
+          <td class="num">¥29,860</td>
+          <td class="num rate is-plus">103.7%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>32/72<span class="box-sub">(44.4%)</span></td>
+          <td class="num">¥28,800</td>
+          <td class="num">¥24,730</td>
+          <td class="num rate is-mid">85.9%</td>
+        </tr><tr>
+          <td class="bt-name">3連複</td>
+          <td>10/72<span class="box-sub">(13.9%)</span></td>
+          <td class="num">¥43,200</td>
+          <td class="num">¥17,210</td>
+          <td class="num rate is-minus">39.8%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>15/72<span class="box-sub">(20.8%)</span></td>
+          <td class="num">¥28,800</td>
+          <td class="num">¥35,790</td>
+          <td class="num rate is-plus">124.3%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>19/72<span class="box-sub">(26.4%)</span></td>
+          <td class="num">¥57,600</td>
+          <td class="num">¥53,350</td>
+          <td class="num rate is-mid">92.6%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>5/72<span class="box-sub">(6.9%)</span></td>
+          <td class="num">¥86,400</td>
+          <td class="num">¥36,040</td>
+          <td class="num rate is-minus">41.7%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ)</td>
+          <td>10/72<span class="box-sub">(13.9%)</span></td>
+          <td class="num">¥259,200</td>
+          <td class="num">¥71,110</td>
+          <td class="num rate is-minus">27.4%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div><div class="conf-tab-panel" id="conf-panel-axis5-3">
+          <p class="conf-scope-label">高確信度7レース/日(計84レース)</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>22/84<span class="box-sub">(26.2%)</span></td>
+          <td class="num">¥33,600</td>
+          <td class="num">¥37,700</td>
+          <td class="num rate is-plus">112.2%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>36/84<span class="box-sub">(42.9%)</span></td>
+          <td class="num">¥33,600</td>
+          <td class="num">¥31,110</td>
+          <td class="num rate is-mid">92.6%</td>
+        </tr><tr>
+          <td class="bt-name">3連複</td>
+          <td>12/84<span class="box-sub">(14.3%)</span></td>
+          <td class="num">¥50,400</td>
+          <td class="num">¥22,140</td>
+          <td class="num rate is-minus">43.9%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>17/84<span class="box-sub">(20.2%)</span></td>
+          <td class="num">¥33,600</td>
+          <td class="num">¥50,310</td>
+          <td class="num rate is-plus">149.7%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>22/84<span class="box-sub">(26.2%)</span></td>
+          <td class="num">¥67,200</td>
+          <td class="num">¥68,100</td>
+          <td class="num rate is-plus">101.3%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>7/84<span class="box-sub">(8.3%)</span></td>
+          <td class="num">¥100,800</td>
+          <td class="num">¥82,020</td>
+          <td class="num rate is-mid">81.4%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ)</td>
+          <td>12/84<span class="box-sub">(14.3%)</span></td>
+          <td class="num">¥302,400</td>
+          <td class="num">¥117,090</td>
+          <td class="num rate is-minus">38.7%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div><div class="conf-tab-panel" id="conf-panel-axis5-4">
+          <p class="conf-scope-label">高確信度8レース/日(計96レース)</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>25/96<span class="box-sub">(26.0%)</span></td>
+          <td class="num">¥38,400</td>
+          <td class="num">¥47,040</td>
+          <td class="num rate is-plus">122.5%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>40/96<span class="box-sub">(41.7%)</span></td>
+          <td class="num">¥38,400</td>
+          <td class="num">¥41,070</td>
+          <td class="num rate is-plus">107.0%</td>
+        </tr><tr>
+          <td class="bt-name">3連複</td>
+          <td>14/96<span class="box-sub">(14.6%)</span></td>
+          <td class="num">¥57,600</td>
+          <td class="num">¥64,350</td>
+          <td class="num rate is-plus">111.7%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>18/96<span class="box-sub">(18.8%)</span></td>
+          <td class="num">¥38,400</td>
+          <td class="num">¥61,670</td>
+          <td class="num rate is-plus">160.6%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>25/96<span class="box-sub">(26.0%)</span></td>
+          <td class="num">¥76,800</td>
+          <td class="num">¥85,500</td>
+          <td class="num rate is-plus">111.3%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>7/96<span class="box-sub">(7.3%)</span></td>
+          <td class="num">¥115,200</td>
+          <td class="num">¥82,020</td>
+          <td class="num rate is-minus">71.2%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ)</td>
+          <td>14/96<span class="box-sub">(14.6%)</span></td>
+          <td class="num">¥345,600</td>
+          <td class="num">¥491,210</td>
+          <td class="num rate is-plus">142.1%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div><div class="conf-tab-panel" id="conf-panel-axis5-5">
+          <p class="conf-scope-label">高確信度9レース/日(計108レース)</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>29/108<span class="box-sub">(26.9%)</span></td>
+          <td class="num">¥43,200</td>
+          <td class="num">¥53,200</td>
+          <td class="num rate is-plus">123.1%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>47/108<span class="box-sub">(43.5%)</span></td>
+          <td class="num">¥43,200</td>
+          <td class="num">¥46,720</td>
+          <td class="num rate is-plus">108.1%</td>
+        </tr><tr>
+          <td class="bt-name">3連複</td>
+          <td>15/108<span class="box-sub">(13.9%)</span></td>
+          <td class="num">¥64,800</td>
+          <td class="num">¥68,280</td>
+          <td class="num rate is-plus">105.4%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>19/108<span class="box-sub">(17.6%)</span></td>
+          <td class="num">¥43,200</td>
+          <td class="num">¥64,250</td>
+          <td class="num rate is-plus">148.7%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>29/108<span class="box-sub">(26.9%)</span></td>
+          <td class="num">¥86,400</td>
+          <td class="num">¥96,800</td>
+          <td class="num rate is-plus">112.0%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>7/108<span class="box-sub">(6.5%)</span></td>
+          <td class="num">¥129,600</td>
+          <td class="num">¥82,020</td>
+          <td class="num rate is-minus">63.3%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ)</td>
+          <td>15/108<span class="box-sub">(13.9%)</span></td>
+          <td class="num">¥388,800</td>
+          <td class="num">¥505,840</td>
+          <td class="num rate is-plus">130.1%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div><div class="conf-tab-panel" id="conf-panel-axis5-6">
+          <p class="conf-scope-label">高確信度10レース/日(計120レース)</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>33/120<span class="box-sub">(27.5%)</span></td>
+          <td class="num">¥48,000</td>
+          <td class="num">¥57,160</td>
+          <td class="num rate is-plus">119.1%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>52/120<span class="box-sub">(43.3%)</span></td>
+          <td class="num">¥48,000</td>
+          <td class="num">¥54,240</td>
+          <td class="num rate is-plus">113.0%</td>
+        </tr><tr>
+          <td class="bt-name">3連複</td>
+          <td>17/120<span class="box-sub">(14.2%)</span></td>
+          <td class="num">¥72,000</td>
+          <td class="num">¥78,690</td>
+          <td class="num rate is-plus">109.3%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>22/120<span class="box-sub">(18.3%)</span></td>
+          <td class="num">¥48,000</td>
+          <td class="num">¥70,510</td>
+          <td class="num rate is-plus">146.9%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>33/120<span class="box-sub">(27.5%)</span></td>
+          <td class="num">¥96,000</td>
+          <td class="num">¥104,670</td>
+          <td class="num rate is-plus">109.0%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>8/120<span class="box-sub">(6.7%)</span></td>
+          <td class="num">¥144,000</td>
+          <td class="num">¥132,850</td>
+          <td class="num rate is-mid">92.3%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ)</td>
+          <td>17/120<span class="box-sub">(14.2%)</span></td>
+          <td class="num">¥432,000</td>
+          <td class="num">¥563,620</td>
+          <td class="num rate is-plus">130.5%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div></div>
+        </div>
+        <details class="method box-method">
+          <summary>計算方法・前提条件</summary>
+          <p class="method-note">1点100円換算。馬連・ワイドは相手の頭数分、3連複はC(相手,2)、馬単(軸流し)は相手の頭数分、馬単(マルチ)はその2倍、3連単(軸流し)はP(相手,2)、3連単(マルチ)はその6倍の点数です。重み自体のfit母集団(105レース)を除外した106レースだけで再評価した市場超過は-13.66pt(95%CI=[-36.58,+8.61]pt)で、95%信頼区間は0をまたぎ統計的に有意ではありません。「高確信度Nレース/日」はオッズ・人気を一切使わず、レース内で5位と6位のスコア差を(1位−最下位)の幅で正規化した比率が大きい順にレースを選んだものです。的中数が10未満の券種は「参考値」と注記しています(信頼区間が広く、回収率の解釈には注意が必要です)。詳細な統計検証プロセスはdata/jra_pipeline/jra_axis_search_2026_08_21_report.txt を参照してください。</p>
+        </details>
+        
+        <details class="method box-method">
+          <summary>参考: 市場ベンチマーク(軸=1番人気・相手=2〜5番人気)との比較、全211レース</summary>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>73/211<span class="box-sub">(34.6%)</span></td>
+          <td class="num">¥84,400</td>
+          <td class="num">¥54,290</td>
+          <td class="num rate is-minus">64.3%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>114/211<span class="box-sub">(54.0%)</span></td>
+          <td class="num">¥84,400</td>
+          <td class="num">¥59,880</td>
+          <td class="num rate is-minus">70.9%</td>
+        </tr><tr>
+          <td class="bt-name">3連複</td>
+          <td>52/211<span class="box-sub">(24.6%)</span></td>
+          <td class="num">¥126,600</td>
+          <td class="num">¥84,520</td>
+          <td class="num rate is-minus">66.8%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>45/211<span class="box-sub">(21.3%)</span></td>
+          <td class="num">¥84,400</td>
+          <td class="num">¥49,750</td>
+          <td class="num rate is-minus">58.9%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>73/211<span class="box-sub">(34.6%)</span></td>
+          <td class="num">¥168,800</td>
+          <td class="num">¥97,870</td>
+          <td class="num rate is-minus">58.0%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し)</td>
+          <td>26/211<span class="box-sub">(12.3%)</span></td>
+          <td class="num">¥253,200</td>
+          <td class="num">¥138,250</td>
+          <td class="num rate is-minus">54.6%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ)</td>
+          <td>52/211<span class="box-sub">(24.6%)</span></td>
+          <td class="num">¥759,600</td>
+          <td class="num">¥441,660</td>
+          <td class="num rate is-minus">58.1%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </details>
+        
+        <details class="method box-method">
+          <summary>参考・不採用: 軸流し専用探索候補(pattern#306・不採用/参考)、全211レース</summary>
+          <p class="method-note">
+            2026-08-21に軸流し専用として500パターンの重み配分を新規探索しましたが、選択バイアス
+            診断(ブロック半分割×200反復)のtrue_edge/sd比が採否ゲート(2.0以上)を全サイズで
+            大幅に下回り不採用としました。以下は探索結果の中で最良だった1パターン(in-sample選択、
+            楽観バイアスを含む参考値)の内訳です。
+          </p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>64/211<span class="box-sub">(30.3%)</span></td>
+          <td class="num">¥84,400</td>
+          <td class="num">¥112,360</td>
+          <td class="num rate is-plus">133.1%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>96/211<span class="box-sub">(45.5%)</span></td>
+          <td class="num">¥84,400</td>
+          <td class="num">¥82,880</td>
+          <td class="num rate is-mid">98.2%</td>
+        </tr><tr>
+          <td class="bt-name">3連複</td>
+          <td>41/211<span class="box-sub">(19.4%)</span></td>
+          <td class="num">¥126,600</td>
+          <td class="num">¥113,010</td>
+          <td class="num rate is-mid">89.3%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>46/211<span class="box-sub">(21.8%)</span></td>
+          <td class="num">¥84,400</td>
+          <td class="num">¥151,550</td>
+          <td class="num rate is-plus">179.6%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>64/211<span class="box-sub">(30.3%)</span></td>
+          <td class="num">¥168,800</td>
+          <td class="num">¥222,840</td>
+          <td class="num rate is-plus">132.0%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し)</td>
+          <td>25/211<span class="box-sub">(11.8%)</span></td>
+          <td class="num">¥253,200</td>
+          <td class="num">¥438,670</td>
+          <td class="num rate is-plus">173.3%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ)</td>
+          <td>41/211<span class="box-sub">(19.4%)</span></td>
+          <td class="num">¥759,600</td>
+          <td class="num">¥660,170</td>
+          <td class="num rate is-mid">86.9%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </details>
+      </details>
+    </section>
+    <section class="box-section" id="sec-axis4">
+      <details class="box-details" open>
+        <summary class="box-head">予想4頭軸流し(軸+相手3頭) 回収率検証</summary>
+        <p class="box-lede">各レースの予想スコア1位を軸、2〜4位(3頭)を相手にした「ながし」買いの、実際の払い戻しとの答え合わせです(全211レース、現行box4モデルの重みをそのまま軸流しに転用)。<br><br><b>2026-08-21の検証で判明した限界(必ずお読みください)</b>: 上表の回収率は、重み自体の決定に使われた105レース(6開催日)を含む全レースでの評価であり、選定に使ったデータで選定結果を評価する楽観を含みます。この重複を除いた106レースだけの公正な評価では市場超過が消え、点推定はむしろマイナスに転じました(詳細は下記「計算方法・前提条件」参照)。軸流し専用の新規500パターン重み探索も統計的に不採用でした。つまり「市場に対する優位性が統計的に実証されたモデル」は今回の検証では見つかっていません。上表はあくまで実用上の最有力候補(現行box重みの転用)の透明な検証記録として掲載しています。</p>
+        <div class="conf-tabs">
+          <input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-0" checked class="conf-tab-input"><label for="conf-tab-axis4-0" class="conf-tab-label">全211R</label><input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-1" class="conf-tab-input"><label for="conf-tab-axis4-1" class="conf-tab-label">5R/日</label><input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-2" class="conf-tab-input"><label for="conf-tab-axis4-2" class="conf-tab-label">6R/日</label><input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-3" class="conf-tab-input"><label for="conf-tab-axis4-3" class="conf-tab-label">7R/日</label><input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-4" class="conf-tab-input"><label for="conf-tab-axis4-4" class="conf-tab-label">8R/日</label><input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-5" class="conf-tab-input"><label for="conf-tab-axis4-5" class="conf-tab-label">9R/日</label><input type="radio" name="conf-tab-axis4" id="conf-tab-axis4-6" class="conf-tab-input"><label for="conf-tab-axis4-6" class="conf-tab-label">10R/日</label>
+          <div class="conf-tabs-panels"><div class="conf-tab-panel" id="conf-panel-axis4-0">
+          <p class="conf-scope-label">全211レース</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>37/211<span class="box-sub">(17.5%)</span></td>
+          <td class="num">¥63,300</td>
+          <td class="num">¥56,320</td>
+          <td class="num rate is-mid">89.0%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>68/211<span class="box-sub">(32.2%)</span></td>
+          <td class="num">¥63,300</td>
+          <td class="num">¥59,020</td>
+          <td class="num rate is-mid">93.2%</td>
+        </tr><tr>
+          <td class="bt-name">3連複</td>
+          <td>21/211<span class="box-sub">(10.0%)</span></td>
+          <td class="num">¥63,300</td>
+          <td class="num">¥148,840</td>
+          <td class="num rate is-plus">235.1%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>22/211<span class="box-sub">(10.4%)</span></td>
+          <td class="num">¥63,300</td>
+          <td class="num">¥46,380</td>
+          <td class="num rate is-minus">73.3%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>37/211<span class="box-sub">(17.5%)</span></td>
+          <td class="num">¥126,600</td>
+          <td class="num">¥110,470</td>
+          <td class="num rate is-mid">87.3%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>7/211<span class="box-sub">(3.3%)</span></td>
+          <td class="num">¥126,600</td>
+          <td class="num">¥141,180</td>
+          <td class="num rate is-plus">111.5%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ)</td>
+          <td>21/211<span class="box-sub">(10.0%)</span></td>
+          <td class="num">¥379,800</td>
+          <td class="num">¥857,640</td>
+          <td class="num rate is-plus">225.8%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div><div class="conf-tab-panel" id="conf-panel-axis4-1">
+          <p class="conf-scope-label">高確信度5レース/日(計60レース)</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>13/60<span class="box-sub">(21.7%)</span></td>
+          <td class="num">¥18,000</td>
+          <td class="num">¥13,100</td>
+          <td class="num rate is-minus">72.8%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>21/60<span class="box-sub">(35.0%)</span></td>
+          <td class="num">¥18,000</td>
+          <td class="num">¥21,000</td>
+          <td class="num rate is-plus">116.7%</td>
+        </tr><tr>
+          <td class="bt-name">3連複</td>
+          <td>10/60<span class="box-sub">(16.7%)</span></td>
+          <td class="num">¥18,000</td>
+          <td class="num">¥52,080</td>
+          <td class="num rate is-plus">289.3%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>8/60<span class="box-sub">(13.3%)</span></td>
+          <td class="num">¥18,000</td>
+          <td class="num">¥15,730</td>
+          <td class="num rate is-mid">87.4%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>13/60<span class="box-sub">(21.7%)</span></td>
+          <td class="num">¥36,000</td>
+          <td class="num">¥22,660</td>
+          <td class="num rate is-minus">62.9%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>3/60<span class="box-sub">(5.0%)</span></td>
+          <td class="num">¥36,000</td>
+          <td class="num">¥25,430</td>
+          <td class="num rate is-minus">70.6%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ)</td>
+          <td>10/60<span class="box-sub">(16.7%)</span></td>
+          <td class="num">¥108,000</td>
+          <td class="num">¥414,950</td>
+          <td class="num rate is-plus">384.2%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div><div class="conf-tab-panel" id="conf-panel-axis4-2">
+          <p class="conf-scope-label">高確信度6レース/日(計72レース)</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>15/72<span class="box-sub">(20.8%)</span></td>
+          <td class="num">¥21,600</td>
+          <td class="num">¥15,750</td>
+          <td class="num rate is-minus">72.9%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>25/72<span class="box-sub">(34.7%)</span></td>
+          <td class="num">¥21,600</td>
+          <td class="num">¥22,780</td>
+          <td class="num rate is-plus">105.5%</td>
+        </tr><tr>
+          <td class="bt-name">3連複</td>
+          <td>11/72<span class="box-sub">(15.3%)</span></td>
+          <td class="num">¥21,600</td>
+          <td class="num">¥53,120</td>
+          <td class="num rate is-plus">245.9%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>9/72<span class="box-sub">(12.5%)</span></td>
+          <td class="num">¥21,600</td>
+          <td class="num">¥20,030</td>
+          <td class="num rate is-mid">92.7%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>15/72<span class="box-sub">(20.8%)</span></td>
+          <td class="num">¥43,200</td>
+          <td class="num">¥27,690</td>
+          <td class="num rate is-minus">64.1%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>3/72<span class="box-sub">(4.2%)</span></td>
+          <td class="num">¥43,200</td>
+          <td class="num">¥25,430</td>
+          <td class="num rate is-minus">58.9%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ)</td>
+          <td>11/72<span class="box-sub">(15.3%)</span></td>
+          <td class="num">¥129,600</td>
+          <td class="num">¥419,160</td>
+          <td class="num rate is-plus">323.4%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div><div class="conf-tab-panel" id="conf-panel-axis4-3">
+          <p class="conf-scope-label">高確信度7レース/日(計84レース)</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>18/84<span class="box-sub">(21.4%)</span></td>
+          <td class="num">¥25,200</td>
+          <td class="num">¥19,030</td>
+          <td class="num rate is-minus">75.5%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>30/84<span class="box-sub">(35.7%)</span></td>
+          <td class="num">¥25,200</td>
+          <td class="num">¥25,940</td>
+          <td class="num rate is-plus">102.9%</td>
+        </tr><tr>
+          <td class="bt-name">3連複</td>
+          <td>13/84<span class="box-sub">(15.5%)</span></td>
+          <td class="num">¥25,200</td>
+          <td class="num">¥55,540</td>
+          <td class="num rate is-plus">220.4%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>11/84<span class="box-sub">(13.1%)</span></td>
+          <td class="num">¥25,200</td>
+          <td class="num">¥26,350</td>
+          <td class="num rate is-plus">104.6%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>18/84<span class="box-sub">(21.4%)</span></td>
+          <td class="num">¥50,400</td>
+          <td class="num">¥35,370</td>
+          <td class="num rate is-minus">70.2%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>5/84<span class="box-sub">(6.0%)</span></td>
+          <td class="num">¥50,400</td>
+          <td class="num">¥44,650</td>
+          <td class="num rate is-mid">88.6%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ)</td>
+          <td>13/84<span class="box-sub">(15.5%)</span></td>
+          <td class="num">¥151,200</td>
+          <td class="num">¥438,380</td>
+          <td class="num rate is-plus">289.9%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div><div class="conf-tab-panel" id="conf-panel-axis4-4">
+          <p class="conf-scope-label">高確信度8レース/日(計96レース)</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>20/96<span class="box-sub">(20.8%)</span></td>
+          <td class="num">¥28,800</td>
+          <td class="num">¥24,990</td>
+          <td class="num rate is-mid">86.8%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>32/96<span class="box-sub">(33.3%)</span></td>
+          <td class="num">¥28,800</td>
+          <td class="num">¥27,550</td>
+          <td class="num rate is-mid">95.7%</td>
+        </tr><tr>
+          <td class="bt-name">3連複</td>
+          <td>13/96<span class="box-sub">(13.5%)</span></td>
+          <td class="num">¥28,800</td>
+          <td class="num">¥55,540</td>
+          <td class="num rate is-plus">192.8%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>12/96<span class="box-sub">(12.5%)</span></td>
+          <td class="num">¥28,800</td>
+          <td class="num">¥28,930</td>
+          <td class="num rate is-plus">100.5%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>20/96<span class="box-sub">(20.8%)</span></td>
+          <td class="num">¥57,600</td>
+          <td class="num">¥49,840</td>
+          <td class="num rate is-mid">86.5%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>5/96<span class="box-sub">(5.2%)</span></td>
+          <td class="num">¥57,600</td>
+          <td class="num">¥44,650</td>
+          <td class="num rate is-minus">77.5%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ)</td>
+          <td>13/96<span class="box-sub">(13.5%)</span></td>
+          <td class="num">¥172,800</td>
+          <td class="num">¥438,380</td>
+          <td class="num rate is-plus">253.7%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div><div class="conf-tab-panel" id="conf-panel-axis4-5">
+          <p class="conf-scope-label">高確信度9レース/日(計108レース)</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>23/108<span class="box-sub">(21.3%)</span></td>
+          <td class="num">¥32,400</td>
+          <td class="num">¥28,110</td>
+          <td class="num rate is-mid">86.8%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>35/108<span class="box-sub">(32.4%)</span></td>
+          <td class="num">¥32,400</td>
+          <td class="num">¥28,960</td>
+          <td class="num rate is-mid">89.4%</td>
+        </tr><tr>
+          <td class="bt-name">3連複</td>
+          <td>13/108<span class="box-sub">(12.0%)</span></td>
+          <td class="num">¥32,400</td>
+          <td class="num">¥55,540</td>
+          <td class="num rate is-plus">171.4%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>14/108<span class="box-sub">(13.0%)</span></td>
+          <td class="num">¥32,400</td>
+          <td class="num">¥30,940</td>
+          <td class="num rate is-mid">95.5%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>23/108<span class="box-sub">(21.3%)</span></td>
+          <td class="num">¥64,800</td>
+          <td class="num">¥55,310</td>
+          <td class="num rate is-mid">85.4%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>5/108<span class="box-sub">(4.6%)</span></td>
+          <td class="num">¥64,800</td>
+          <td class="num">¥44,650</td>
+          <td class="num rate is-minus">68.9%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ)</td>
+          <td>13/108<span class="box-sub">(12.0%)</span></td>
+          <td class="num">¥194,400</td>
+          <td class="num">¥438,380</td>
+          <td class="num rate is-plus">225.5%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div><div class="conf-tab-panel" id="conf-panel-axis4-6">
+          <p class="conf-scope-label">高確信度10レース/日(計120レース)</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>26/120<span class="box-sub">(21.7%)</span></td>
+          <td class="num">¥36,000</td>
+          <td class="num">¥31,120</td>
+          <td class="num rate is-mid">86.4%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>41/120<span class="box-sub">(34.2%)</span></td>
+          <td class="num">¥36,000</td>
+          <td class="num">¥31,400</td>
+          <td class="num rate is-mid">87.2%</td>
+        </tr><tr>
+          <td class="bt-name">3連複</td>
+          <td>13/120<span class="box-sub">(10.8%)</span></td>
+          <td class="num">¥36,000</td>
+          <td class="num">¥55,540</td>
+          <td class="num rate is-plus">154.3%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>16/120<span class="box-sub">(13.3%)</span></td>
+          <td class="num">¥36,000</td>
+          <td class="num">¥33,260</td>
+          <td class="num rate is-mid">92.4%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>26/120<span class="box-sub">(21.7%)</span></td>
+          <td class="num">¥72,000</td>
+          <td class="num">¥61,490</td>
+          <td class="num rate is-mid">85.4%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>5/120<span class="box-sub">(4.2%)</span></td>
+          <td class="num">¥72,000</td>
+          <td class="num">¥44,650</td>
+          <td class="num rate is-minus">62.0%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ)</td>
+          <td>13/120<span class="box-sub">(10.8%)</span></td>
+          <td class="num">¥216,000</td>
+          <td class="num">¥438,380</td>
+          <td class="num rate is-plus">203.0%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div></div>
+        </div>
+        <details class="method box-method">
+          <summary>計算方法・前提条件</summary>
+          <p class="method-note">1点100円換算。馬連・ワイドは相手の頭数分、3連複はC(相手,2)、馬単(軸流し)は相手の頭数分、馬単(マルチ)はその2倍、3連単(軸流し)はP(相手,2)、3連単(マルチ)はその6倍の点数です。重み自体のfit母集団(105レース)を除外した106レースだけで再評価した市場超過は-19.50pt(95%CI=[-51.19,+18.52]pt)で、95%信頼区間は0をまたぎ統計的に有意ではありません。「高確信度Nレース/日」はオッズ・人気を一切使わず、レース内で4位と5位のスコア差を(1位−最下位)の幅で正規化した比率が大きい順にレースを選んだものです。的中数が10未満の券種は「参考値」と注記しています(信頼区間が広く、回収率の解釈には注意が必要です)。詳細な統計検証プロセスはdata/jra_pipeline/jra_axis_search_2026_08_21_report.txt を参照してください。</p>
+        </details>
+        
+        <details class="method box-method">
+          <summary>参考: 市場ベンチマーク(軸=1番人気・相手=2〜4番人気)との比較、全211レース</summary>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>65/211<span class="box-sub">(30.8%)</span></td>
+          <td class="num">¥63,300</td>
+          <td class="num">¥44,540</td>
+          <td class="num rate is-minus">70.4%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>106/211<span class="box-sub">(50.2%)</span></td>
+          <td class="num">¥63,300</td>
+          <td class="num">¥44,240</td>
+          <td class="num rate is-minus">69.9%</td>
+        </tr><tr>
+          <td class="bt-name">3連複</td>
+          <td>30/211<span class="box-sub">(14.2%)</span></td>
+          <td class="num">¥63,300</td>
+          <td class="num">¥40,040</td>
+          <td class="num rate is-minus">63.3%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>38/211<span class="box-sub">(18.0%)</span></td>
+          <td class="num">¥63,300</td>
+          <td class="num">¥37,970</td>
+          <td class="num rate is-minus">60.0%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>65/211<span class="box-sub">(30.8%)</span></td>
+          <td class="num">¥126,600</td>
+          <td class="num">¥82,660</td>
+          <td class="num rate is-minus">65.3%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し)</td>
+          <td>16/211<span class="box-sub">(7.6%)</span></td>
+          <td class="num">¥126,600</td>
+          <td class="num">¥80,270</td>
+          <td class="num rate is-minus">63.4%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ)</td>
+          <td>30/211<span class="box-sub">(14.2%)</span></td>
+          <td class="num">¥379,800</td>
+          <td class="num">¥182,190</td>
+          <td class="num rate is-minus">48.0%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </details>
+        
+        <details class="method box-method">
+          <summary>参考・不採用: 軸流し専用探索候補(pattern#194・不採用/参考)、全211レース</summary>
+          <p class="method-note">
+            2026-08-21に軸流し専用として500パターンの重み配分を新規探索しましたが、選択バイアス
+            診断(ブロック半分割×200反復)のtrue_edge/sd比が採否ゲート(2.0以上)を全サイズで
+            大幅に下回り不採用としました。以下は探索結果の中で最良だった1パターン(in-sample選択、
+            楽観バイアスを含む参考値)の内訳です。
+          </p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>52/211<span class="box-sub">(24.6%)</span></td>
+          <td class="num">¥63,300</td>
+          <td class="num">¥92,470</td>
+          <td class="num rate is-plus">146.1%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>84/211<span class="box-sub">(39.8%)</span></td>
+          <td class="num">¥63,300</td>
+          <td class="num">¥62,340</td>
+          <td class="num rate is-mid">98.5%</td>
+        </tr><tr>
+          <td class="bt-name">3連複</td>
+          <td>25/211<span class="box-sub">(11.8%)</span></td>
+          <td class="num">¥63,300</td>
+          <td class="num">¥67,810</td>
+          <td class="num rate is-plus">107.1%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>35/211<span class="box-sub">(16.6%)</span></td>
+          <td class="num">¥63,300</td>
+          <td class="num">¥102,050</td>
+          <td class="num rate is-plus">161.2%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>52/211<span class="box-sub">(24.6%)</span></td>
+          <td class="num">¥126,600</td>
+          <td class="num">¥186,300</td>
+          <td class="num rate is-plus">147.2%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し)</td>
+          <td>12/211<span class="box-sub">(5.7%)</span></td>
+          <td class="num">¥126,600</td>
+          <td class="num">¥275,870</td>
+          <td class="num rate is-plus">217.9%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ)</td>
+          <td>25/211<span class="box-sub">(11.8%)</span></td>
+          <td class="num">¥379,800</td>
+          <td class="num">¥439,160</td>
+          <td class="num rate is-plus">115.6%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </details>
+      </details>
+    </section>
+    <section class="box-section" id="sec-axis3">
+      <details class="box-details" open>
+        <summary class="box-head">予想3頭軸流し(軸+相手2頭) 回収率検証</summary>
+        <p class="box-lede">各レースの予想スコア1位を軸、2〜3位(2頭)を相手にした「ながし」買いの、実際の払い戻しとの答え合わせです(全211レース、現行box3モデルの重みをそのまま軸流しに転用)。<br><br><b>2026-08-21の検証で判明した限界(必ずお読みください)</b>: 上表の回収率は、重み自体の決定に使われた105レース(6開催日)を含む全レースでの評価であり、選定に使ったデータで選定結果を評価する楽観を含みます。この重複を除いた106レースだけの公正な評価では市場超過が消え、点推定はむしろマイナスに転じました(詳細は下記「計算方法・前提条件」参照)。軸流し専用の新規500パターン重み探索も統計的に不採用でした。つまり「市場に対する優位性が統計的に実証されたモデル」は今回の検証では見つかっていません。上表はあくまで実用上の最有力候補(現行box重みの転用)の透明な検証記録として掲載しています。</p>
+        <div class="conf-tabs">
+          <input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-0" checked class="conf-tab-input"><label for="conf-tab-axis3-0" class="conf-tab-label">全211R</label><input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-1" class="conf-tab-input"><label for="conf-tab-axis3-1" class="conf-tab-label">5R/日</label><input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-2" class="conf-tab-input"><label for="conf-tab-axis3-2" class="conf-tab-label">6R/日</label><input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-3" class="conf-tab-input"><label for="conf-tab-axis3-3" class="conf-tab-label">7R/日</label><input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-4" class="conf-tab-input"><label for="conf-tab-axis3-4" class="conf-tab-label">8R/日</label><input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-5" class="conf-tab-input"><label for="conf-tab-axis3-5" class="conf-tab-label">9R/日</label><input type="radio" name="conf-tab-axis3" id="conf-tab-axis3-6" class="conf-tab-input"><label for="conf-tab-axis3-6" class="conf-tab-label">10R/日</label>
+          <div class="conf-tabs-panels"><div class="conf-tab-panel" id="conf-panel-axis3-0">
+          <p class="conf-scope-label">全211レース</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>26/211<span class="box-sub">(12.3%)</span></td>
+          <td class="num">¥42,200</td>
+          <td class="num">¥53,060</td>
+          <td class="num rate is-plus">125.7%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>54/211<span class="box-sub">(25.6%)</span></td>
+          <td class="num">¥42,200</td>
+          <td class="num">¥40,510</td>
+          <td class="num rate is-mid">96.0%</td>
+        </tr><tr>
+          <td class="bt-name">3連複 <span class="box-sub">(参考値)</span></td>
+          <td>6/211<span class="box-sub">(2.8%)</span></td>
+          <td class="num">¥21,100</td>
+          <td class="num">¥55,890</td>
+          <td class="num rate is-plus">264.9%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>14/211<span class="box-sub">(6.6%)</span></td>
+          <td class="num">¥42,200</td>
+          <td class="num">¥53,610</td>
+          <td class="num rate is-plus">127.0%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>26/211<span class="box-sub">(12.3%)</span></td>
+          <td class="num">¥84,400</td>
+          <td class="num">¥108,810</td>
+          <td class="num rate is-plus">128.9%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>2/211<span class="box-sub">(0.9%)</span></td>
+          <td class="num">¥42,200</td>
+          <td class="num">¥6,000</td>
+          <td class="num rate is-minus">14.2%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ) <span class="box-sub">(参考値)</span></td>
+          <td>6/211<span class="box-sub">(2.8%)</span></td>
+          <td class="num">¥126,600</td>
+          <td class="num">¥381,750</td>
+          <td class="num rate is-plus">301.5%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div><div class="conf-tab-panel" id="conf-panel-axis3-1">
+          <p class="conf-scope-label">高確信度5レース/日(計60レース)</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連 <span class="box-sub">(参考値)</span></td>
+          <td>8/60<span class="box-sub">(13.3%)</span></td>
+          <td class="num">¥12,000</td>
+          <td class="num">¥15,270</td>
+          <td class="num rate is-plus">127.2%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>16/60<span class="box-sub">(26.7%)</span></td>
+          <td class="num">¥12,000</td>
+          <td class="num">¥14,690</td>
+          <td class="num rate is-plus">122.4%</td>
+        </tr><tr>
+          <td class="bt-name">3連複 <span class="box-sub">(参考値)</span></td>
+          <td>2/60<span class="box-sub">(3.3%)</span></td>
+          <td class="num">¥6,000</td>
+          <td class="num">¥49,920</td>
+          <td class="num rate is-plus">832.0%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>4/60<span class="box-sub">(6.7%)</span></td>
+          <td class="num">¥12,000</td>
+          <td class="num">¥11,540</td>
+          <td class="num rate is-mid">96.2%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ) <span class="box-sub">(参考値)</span></td>
+          <td>8/60<span class="box-sub">(13.3%)</span></td>
+          <td class="num">¥24,000</td>
+          <td class="num">¥35,450</td>
+          <td class="num rate is-plus">147.7%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>0/60<span class="box-sub">(0.0%)</span></td>
+          <td class="num">¥12,000</td>
+          <td class="num">¥0</td>
+          <td class="num rate is-minus">0.0%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ) <span class="box-sub">(参考値)</span></td>
+          <td>2/60<span class="box-sub">(3.3%)</span></td>
+          <td class="num">¥36,000</td>
+          <td class="num">¥363,200</td>
+          <td class="num rate is-plus">1008.9%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div><div class="conf-tab-panel" id="conf-panel-axis3-2">
+          <p class="conf-scope-label">高確信度6レース/日(計72レース)</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>10/72<span class="box-sub">(13.9%)</span></td>
+          <td class="num">¥14,400</td>
+          <td class="num">¥17,000</td>
+          <td class="num rate is-plus">118.1%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>20/72<span class="box-sub">(27.8%)</span></td>
+          <td class="num">¥14,400</td>
+          <td class="num">¥16,060</td>
+          <td class="num rate is-plus">111.5%</td>
+        </tr><tr>
+          <td class="bt-name">3連複 <span class="box-sub">(参考値)</span></td>
+          <td>3/72<span class="box-sub">(4.2%)</span></td>
+          <td class="num">¥7,200</td>
+          <td class="num">¥50,670</td>
+          <td class="num rate is-plus">703.8%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>6/72<span class="box-sub">(8.3%)</span></td>
+          <td class="num">¥14,400</td>
+          <td class="num">¥14,090</td>
+          <td class="num rate is-mid">97.8%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>10/72<span class="box-sub">(13.9%)</span></td>
+          <td class="num">¥28,800</td>
+          <td class="num">¥38,000</td>
+          <td class="num rate is-plus">131.9%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>1/72<span class="box-sub">(1.4%)</span></td>
+          <td class="num">¥14,400</td>
+          <td class="num">¥2,780</td>
+          <td class="num rate is-minus">19.3%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ) <span class="box-sub">(参考値)</span></td>
+          <td>3/72<span class="box-sub">(4.2%)</span></td>
+          <td class="num">¥43,200</td>
+          <td class="num">¥365,980</td>
+          <td class="num rate is-plus">847.2%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div><div class="conf-tab-panel" id="conf-panel-axis3-3">
+          <p class="conf-scope-label">高確信度7レース/日(計84レース)</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>11/84<span class="box-sub">(13.1%)</span></td>
+          <td class="num">¥16,800</td>
+          <td class="num">¥17,890</td>
+          <td class="num rate is-plus">106.5%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>23/84<span class="box-sub">(27.4%)</span></td>
+          <td class="num">¥16,800</td>
+          <td class="num">¥17,750</td>
+          <td class="num rate is-plus">105.7%</td>
+        </tr><tr>
+          <td class="bt-name">3連複 <span class="box-sub">(参考値)</span></td>
+          <td>4/84<span class="box-sub">(4.8%)</span></td>
+          <td class="num">¥8,400</td>
+          <td class="num">¥53,220</td>
+          <td class="num rate is-plus">633.6%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>6/84<span class="box-sub">(7.1%)</span></td>
+          <td class="num">¥16,800</td>
+          <td class="num">¥14,090</td>
+          <td class="num rate is-mid">83.9%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>11/84<span class="box-sub">(13.1%)</span></td>
+          <td class="num">¥33,600</td>
+          <td class="num">¥39,930</td>
+          <td class="num rate is-plus">118.8%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>1/84<span class="box-sub">(1.2%)</span></td>
+          <td class="num">¥16,800</td>
+          <td class="num">¥2,780</td>
+          <td class="num rate is-minus">16.5%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ) <span class="box-sub">(参考値)</span></td>
+          <td>4/84<span class="box-sub">(4.8%)</span></td>
+          <td class="num">¥50,400</td>
+          <td class="num">¥374,040</td>
+          <td class="num rate is-plus">742.1%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div><div class="conf-tab-panel" id="conf-panel-axis3-4">
+          <p class="conf-scope-label">高確信度8レース/日(計96レース)</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>14/96<span class="box-sub">(14.6%)</span></td>
+          <td class="num">¥19,200</td>
+          <td class="num">¥32,740</td>
+          <td class="num rate is-plus">170.5%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>26/96<span class="box-sub">(27.1%)</span></td>
+          <td class="num">¥19,200</td>
+          <td class="num">¥22,040</td>
+          <td class="num rate is-plus">114.8%</td>
+        </tr><tr>
+          <td class="bt-name">3連複 <span class="box-sub">(参考値)</span></td>
+          <td>4/96<span class="box-sub">(4.2%)</span></td>
+          <td class="num">¥9,600</td>
+          <td class="num">¥53,220</td>
+          <td class="num rate is-plus">554.4%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>7/96<span class="box-sub">(7.3%)</span></td>
+          <td class="num">¥19,200</td>
+          <td class="num">¥42,270</td>
+          <td class="num rate is-plus">220.2%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>14/96<span class="box-sub">(14.6%)</span></td>
+          <td class="num">¥38,400</td>
+          <td class="num">¥73,010</td>
+          <td class="num rate is-plus">190.1%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>1/96<span class="box-sub">(1.0%)</span></td>
+          <td class="num">¥19,200</td>
+          <td class="num">¥2,780</td>
+          <td class="num rate is-minus">14.5%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ) <span class="box-sub">(参考値)</span></td>
+          <td>4/96<span class="box-sub">(4.2%)</span></td>
+          <td class="num">¥57,600</td>
+          <td class="num">¥374,040</td>
+          <td class="num rate is-plus">649.4%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div><div class="conf-tab-panel" id="conf-panel-axis3-5">
+          <p class="conf-scope-label">高確信度9レース/日(計108レース)</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>14/108<span class="box-sub">(13.0%)</span></td>
+          <td class="num">¥21,600</td>
+          <td class="num">¥32,740</td>
+          <td class="num rate is-plus">151.6%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>26/108<span class="box-sub">(24.1%)</span></td>
+          <td class="num">¥21,600</td>
+          <td class="num">¥22,040</td>
+          <td class="num rate is-plus">102.0%</td>
+        </tr><tr>
+          <td class="bt-name">3連複 <span class="box-sub">(参考値)</span></td>
+          <td>4/108<span class="box-sub">(3.7%)</span></td>
+          <td class="num">¥10,800</td>
+          <td class="num">¥53,220</td>
+          <td class="num rate is-plus">492.8%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>7/108<span class="box-sub">(6.5%)</span></td>
+          <td class="num">¥21,600</td>
+          <td class="num">¥42,270</td>
+          <td class="num rate is-plus">195.7%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>14/108<span class="box-sub">(13.0%)</span></td>
+          <td class="num">¥43,200</td>
+          <td class="num">¥73,010</td>
+          <td class="num rate is-plus">169.0%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>1/108<span class="box-sub">(0.9%)</span></td>
+          <td class="num">¥21,600</td>
+          <td class="num">¥2,780</td>
+          <td class="num rate is-minus">12.9%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ) <span class="box-sub">(参考値)</span></td>
+          <td>4/108<span class="box-sub">(3.7%)</span></td>
+          <td class="num">¥64,800</td>
+          <td class="num">¥374,040</td>
+          <td class="num rate is-plus">577.2%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div><div class="conf-tab-panel" id="conf-panel-axis3-6">
+          <p class="conf-scope-label">高確信度10レース/日(計120レース)</p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>15/120<span class="box-sub">(12.5%)</span></td>
+          <td class="num">¥24,000</td>
+          <td class="num">¥36,450</td>
+          <td class="num rate is-plus">151.9%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>30/120<span class="box-sub">(25.0%)</span></td>
+          <td class="num">¥24,000</td>
+          <td class="num">¥25,230</td>
+          <td class="num rate is-plus">105.1%</td>
+        </tr><tr>
+          <td class="bt-name">3連複 <span class="box-sub">(参考値)</span></td>
+          <td>4/120<span class="box-sub">(3.3%)</span></td>
+          <td class="num">¥12,000</td>
+          <td class="num">¥53,220</td>
+          <td class="num rate is-plus">443.5%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>8/120<span class="box-sub">(6.7%)</span></td>
+          <td class="num">¥24,000</td>
+          <td class="num">¥46,160</td>
+          <td class="num rate is-plus">192.3%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>15/120<span class="box-sub">(12.5%)</span></td>
+          <td class="num">¥48,000</td>
+          <td class="num">¥76,900</td>
+          <td class="num rate is-plus">160.2%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>1/120<span class="box-sub">(0.8%)</span></td>
+          <td class="num">¥24,000</td>
+          <td class="num">¥2,780</td>
+          <td class="num rate is-minus">11.6%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ) <span class="box-sub">(参考値)</span></td>
+          <td>4/120<span class="box-sub">(3.3%)</span></td>
+          <td class="num">¥72,000</td>
+          <td class="num">¥374,040</td>
+          <td class="num rate is-plus">519.5%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </div></div>
+        </div>
+        <details class="method box-method">
+          <summary>計算方法・前提条件</summary>
+          <p class="method-note">1点100円換算。馬連・ワイドは相手の頭数分、3連複はC(相手,2)、馬単(軸流し)は相手の頭数分、馬単(マルチ)はその2倍、3連単(軸流し)はP(相手,2)、3連単(マルチ)はその6倍の点数です。重み自体のfit母集団(105レース)を除外した106レースだけで再評価した市場超過は-13.63pt(95%CI=[-45.10,+21.93]pt)で、95%信頼区間は0をまたぎ統計的に有意ではありません。「高確信度Nレース/日」はオッズ・人気を一切使わず、レース内で3位と4位のスコア差を(1位−最下位)の幅で正規化した比率が大きい順にレースを選んだものです。的中数が10未満の券種は「参考値」と注記しています(信頼区間が広く、回収率の解釈には注意が必要です)。詳細な統計検証プロセスはdata/jra_pipeline/jra_axis_search_2026_08_21_report.txt を参照してください。</p>
+        </details>
+        
+        <details class="method box-method">
+          <summary>参考: 市場ベンチマーク(軸=1番人気・相手=2〜3番人気)との比較、全211レース</summary>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>57/211<span class="box-sub">(27.0%)</span></td>
+          <td class="num">¥42,200</td>
+          <td class="num">¥36,460</td>
+          <td class="num rate is-mid">86.4%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>99/211<span class="box-sub">(46.9%)</span></td>
+          <td class="num">¥42,200</td>
+          <td class="num">¥32,770</td>
+          <td class="num rate is-minus">77.7%</td>
+        </tr><tr>
+          <td class="bt-name">3連複 <span class="box-sub">(参考値)</span></td>
+          <td>9/211<span class="box-sub">(4.3%)</span></td>
+          <td class="num">¥21,100</td>
+          <td class="num">¥10,320</td>
+          <td class="num rate is-minus">48.9%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>32/211<span class="box-sub">(15.2%)</span></td>
+          <td class="num">¥42,200</td>
+          <td class="num">¥29,880</td>
+          <td class="num rate is-minus">70.8%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>57/211<span class="box-sub">(27.0%)</span></td>
+          <td class="num">¥84,400</td>
+          <td class="num">¥68,740</td>
+          <td class="num rate is-mid">81.4%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>4/211<span class="box-sub">(1.9%)</span></td>
+          <td class="num">¥42,200</td>
+          <td class="num">¥14,390</td>
+          <td class="num rate is-minus">34.1%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ) <span class="box-sub">(参考値)</span></td>
+          <td>9/211<span class="box-sub">(4.3%)</span></td>
+          <td class="num">¥126,600</td>
+          <td class="num">¥51,150</td>
+          <td class="num rate is-minus">40.4%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </details>
+        
+        <details class="method box-method">
+          <summary>参考・不採用: 軸流し専用探索候補(pattern#461・不採用/参考)、全211レース</summary>
+          <p class="method-note">
+            2026-08-21に軸流し専用として500パターンの重み配分を新規探索しましたが、選択バイアス
+            診断(ブロック半分割×200反復)のtrue_edge/sd比が採否ゲート(2.0以上)を全サイズで
+            大幅に下回り不採用としました。以下は探索結果の中で最良だった1パターン(in-sample選択、
+            楽観バイアスを含む参考値)の内訳です。
+          </p>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody><tr>
+          <td class="bt-name">馬連</td>
+          <td>31/211<span class="box-sub">(14.7%)</span></td>
+          <td class="num">¥42,200</td>
+          <td class="num">¥103,870</td>
+          <td class="num rate is-plus">246.1%</td>
+        </tr><tr>
+          <td class="bt-name">ワイド</td>
+          <td>52/211<span class="box-sub">(24.6%)</span></td>
+          <td class="num">¥42,200</td>
+          <td class="num">¥45,200</td>
+          <td class="num rate is-plus">107.1%</td>
+        </tr><tr>
+          <td class="bt-name">3連複 <span class="box-sub">(参考値)</span></td>
+          <td>4/211<span class="box-sub">(1.9%)</span></td>
+          <td class="num">¥21,100</td>
+          <td class="num">¥21,240</td>
+          <td class="num rate is-plus">100.7%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(軸流し)</td>
+          <td>13/211<span class="box-sub">(6.2%)</span></td>
+          <td class="num">¥42,200</td>
+          <td class="num">¥37,850</td>
+          <td class="num rate is-mid">89.7%</td>
+        </tr><tr>
+          <td class="bt-name">馬単(マルチ)</td>
+          <td>31/211<span class="box-sub">(14.7%)</span></td>
+          <td class="num">¥84,400</td>
+          <td class="num">¥177,680</td>
+          <td class="num rate is-plus">210.5%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(軸流し) <span class="box-sub">(参考値)</span></td>
+          <td>1/211<span class="box-sub">(0.5%)</span></td>
+          <td class="num">¥42,200</td>
+          <td class="num">¥7,470</td>
+          <td class="num rate is-minus">17.7%</td>
+        </tr><tr>
+          <td class="bt-name">3連単(マルチ) <span class="box-sub">(参考値)</span></td>
+          <td>4/211<span class="box-sub">(1.9%)</span></td>
+          <td class="num">¥126,600</td>
+          <td class="num">¥206,480</td>
+          <td class="num rate is-plus">163.1%</td>
+        </tr></tbody>
+            </table>
+          </div>
+        </details>
+      </details>
+    </section>
+
+  <footer class="pagefoot">
+    <p>
+      あくまで公開データに基づく統計的な検証記録であり、的中や利益を保証するものではありません。
+      検証・重み探索の詳細は scripts/jra_model/jra_axis_search_2026_08_21.py および
+      data/jra_pipeline/jra_axis_search_2026_08_21_report.txt を参照してください。
+    </p>
+  </footer>
+</main>
