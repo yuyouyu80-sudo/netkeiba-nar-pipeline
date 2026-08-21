@@ -20,6 +20,9 @@ predict_box3.pyが既にwinner_box4.json/winner_box3.jsonという独立した�
 いることをコード確認して訂正した)。よってbox_n=5/4/3はNARのnar_search300_2026_08_01.pyと
 同じく、それぞれ独立にEvaluatorを作り独立に最良パターンを探索する。
 """
+import itertools
+import math
+
 import numpy as np
 import pandas as pd
 
@@ -28,10 +31,45 @@ import jra_backtest as JB
 OBJ_BETS = ["複勝", "ワイド"]
 UNIT = JB.UNIT
 
+# JRA公式の券種別控除率(%)。BET_TYPES(単勝/複勝/枠連/馬連/ワイド/馬単/3連複/3連単)の順。
+# 2026-08-22追加(Step0: 評価基盤の是正)。breakeven_pct()の計算に使う。
+TAKEOUT_RATES = {
+    "単勝": 20.0, "複勝": 20.0, "枠連": 22.5, "馬連": 22.5,
+    "ワイド": 22.5, "馬単": 25.0, "3連複": 25.0, "3連単": 27.5,
+}
+
 
 def blocks_of(races: list) -> np.ndarray:
     """開催日×競馬場のブロックIDを返す。"""
     return np.array([f'{r["kaisai_date"]}_{r["racecourse"]}' for r in races])
+
+
+def breakeven_pct(box_n: int, bets=OBJ_BETS) -> float:
+    """box_nでbets(既定=複勝+ワイド)を買ったときの理論ブレークイーブン回収率(%)。
+    2026-08-22追加(Step0)。1レースあたりの点数(複勝=box_n、ワイド=C(box_n,2)、
+    枠連/馬連/3連複も同型のC(box_n,2)、馬単/3連単は順列)でTAKEOUT_RATESを加重平均する。
+    「市場差+Npt」が理論ブレークイーブンをまだ下回っているか超えているかを判定する基準線。"""
+    n_points = {
+        "単勝": box_n, "複勝": box_n,
+        "枠連": math.comb(box_n, 2), "馬連": math.comb(box_n, 2), "ワイド": math.comb(box_n, 2),
+        "馬単": box_n * (box_n - 1),
+        "3連複": math.comb(box_n, 3) if box_n >= 3 else 0,
+        "3連単": box_n * (box_n - 1) * (box_n - 2) if box_n >= 3 else 0,
+    }
+    total_pts = sum(n_points[b] for b in bets)
+    if total_pts == 0:
+        return 0.0
+    weighted = sum(n_points[b] * (100.0 - TAKEOUT_RATES[b]) for b in bets)
+    return weighted / total_pts
+
+
+def held_out_block_subset(fitted_on: dict, races: list) -> list:
+    """fitted_on(winner_*.jsonの'fitted_on'辞書、search_dates/holdout_datesを含む)に
+    含まれるkaisai_dateのブロックを除いた、真に未見のブロックID一覧を返す。
+    2026-08-22追加(Step0)。Evaluator.block_bootstrap(..., block_subset=...)にそのまま渡せる。"""
+    fit_dates = set(fitted_on.get("search_dates", [])) | set(fitted_on.get("holdout_dates", []))
+    blocks = blocks_of(races)
+    return sorted({b for b in blocks if b.split("_", 1)[0] not in fit_dates})
 
 
 def market_picks(races: list, box_n: int = 5) -> list:

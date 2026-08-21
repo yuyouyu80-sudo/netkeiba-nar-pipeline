@@ -1,0 +1,102 @@
+{
+  "n_races": 211,
+  "note": "Step0(2026-08-22): BOX側レポートのヘッドライン値(全211レース直接評価)は約半分がin-sample(現行重みのfit母集団と重複)。held_out_onlyが公正な比較対象。既存5本の探索レポートのREJECTED判定自体は覆らない(current modelとのblock_bootstrap_diffに基づくため)が、今後はこちらを現状認識の基準とする。",
+  "results_by_box": {
+    "5": {
+      "model_file": "winner_v3.json",
+      "fitted_on_dates": [
+        "20260711",
+        "20260712",
+        "20260718",
+        "20260719",
+        "20260725",
+        "20260726"
+      ],
+      "fitted_on_n_races": 105,
+      "n_held_out_blocks": 18,
+      "n_held_out_races": 106,
+      "breakeven_pct": 78.33333333333333,
+      "all_211_races": {
+        "model": 92.55924170616113,
+        "market": 75.97788309636651,
+        "excess": 16.58135860979462
+      },
+      "held_out_only": {
+        "model": 80.17610062893081,
+        "market": 75.77358490566037,
+        "excess": 4.40251572327044,
+        "bootstrap_ci": {
+          "mean": 79.93337865199832,
+          "lo": 60.31256067961166,
+          "hi": 107.79957118353344,
+          "n_blocks": 18
+        },
+        "above_breakeven": true
+      }
+    },
+    "4": {
+      "model_file": "winner_box4.json",
+      "fitted_on_dates": [
+        "20260711",
+        "20260712",
+        "20260718",
+        "20260719",
+        "20260725",
+        "20260726"
+      ],
+      "fitted_on_n_races": 105,
+      "n_held_out_blocks": 18,
+      "n_held_out_races": 106,
+      "breakeven_pct": 78.5,
+      "all_211_races": {
+        "model": 106.97156398104266,
+        "market": 76.00473933649289,
+        "excess": 30.966824644549774
+      },
+      "held_out_only": {
+        "model": 70.68867924528301,
+        "market": 77.54716981132076,
+        "excess": -6.858490566037744,
+        "bootstrap_ci": {
+          "mean": 70.98454637520757,
+          "lo": 47.582638888888894,
+          "hi": 99.9726889471385,
+          "n_blocks": 18
+        },
+        "above_breakeven": false
+      }
+    },
+    "3": {
+      "model_file": "winner_box3.json",
+      "fitted_on_dates": [
+        "20260711",
+        "20260712",
+        "20260718",
+        "20260719",
+        "20260725",
+        "20260726"
+      ],
+      "fitted_on_n_races": 105,
+      "n_held_out_blocks": 18,
+      "n_held_out_races": 106,
+      "breakeven_pct": 78.75,
+      "all_211_races": {
+        "model": 86.79304897314375,
+        "market": 77.4960505529226,
+        "excess": 9.296998420221158
+      },
+      "held_out_only": {
+        "model": 68.01886792452831,
+        "market": 74.55974842767296,
+        "excess": -6.540880503144649,
+        "bootstrap_ci": {
+          "mean": 67.85914169005788,
+          "lo": 54.465305571437646,
+          "hi": 81.90634920634919,
+          "n_blocks": 18
+        },
+        "above_breakeven": false
+      }
+    }
+  }
+}

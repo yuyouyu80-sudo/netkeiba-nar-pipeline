@@ -1,0 +1,136 @@
+{
+  "n_races": 211,
+  "ev_threshold": 1.2,
+  "odds_cap": 20.0,
+  "recent_form_signals": [
+    "timediff",
+    "form",
+    "margin",
+    "agari"
+  ],
+  "aptitude_signals": [
+    "interval",
+    "apt",
+    "concerned",
+    "bms",
+    "course",
+    "sire"
+  ],
+  "note": "Step1(2026-08-22): 市場アンカー型条件付きロジット+期待値ベッティングの検証。5ゲート全て満たして初めて採用候補、1つでも未達なら不採用として結果を透明に記録する。",
+  "in_sample_reference": {
+    "beta_full": [
+      1.0824212996280829,
+      -0.2896531379330684,
+      0.25209931771365957
+    ],
+    "beta_market_only": [
+      1.0056625366210938,
+      0.0,
+      0.0
+    ],
+    "nll_full": 1.925061471856385,
+    "nll_market_only": 1.9761203609294105
+  },
+  "gate1_nll": {
+    "n_unique_patterns": 36,
+    "n_folds": 36,
+    "oof_mean_nll_model": 1.938865162275254,
+    "oof_mean_nll_market_only": 1.9816612919281686,
+    "bootstrap_diff_ci": {
+      "mean": 0.042484250907171915,
+      "lo": 0.0021787805070991977,
+      "hi": 0.08207713703513646
+    },
+    "pass": true
+  },
+  "gate2_return_ci": {
+    "n_bet_races": 99,
+    "model_return_pct": 158.34782608695653,
+    "market_return_pct": 75.68720379146919,
+    "bootstrap_ci": {
+      "mean": 158.5701294655443,
+      "lo": 98.91618404118404,
+      "hi": 228.43072493224932,
+      "n_blocks": 36
+    },
+    "full_table": [
+      {
+        "bet_type": "単勝",
+        "races": 211,
+        "hit_races": 23,
+        "hit_rate_pct": 10.9,
+        "stake": 11500.0,
+        "return": 18210.0,
+        "return_rate_pct": 158.3
+      },
+      {
+        "bet_type": "複勝",
+        "races": 211,
+        "hit_races": 46,
+        "hit_rate_pct": 21.8,
+        "stake": 11500.0,
+        "return": 11860.0,
+        "return_rate_pct": 103.1
+      }
+    ],
+    "pass": false
+  },
+  "gate3_selection_bias": {
+    "selected_side": 285.6176862447121,
+    "unseen_side": 133.25167654429956,
+    "unseen_all_mean": 170.36602280359136,
+    "optimism_pt": 152.36600970041255,
+    "true_edge_pt": -37.1143462592918,
+    "true_edge_sd": 29.328019902518523,
+    "win_rate": 0.08,
+    "edge_ratio": -1.2654910349438433,
+    "pass": false
+  },
+  "gate4_chronological": {
+    "forward_fit_first_half": {
+      "beta": [
+        1.021547920037637,
+        -0.1931581840449111,
+        0.3778750527257134
+      ],
+      "excess": 31.899928349653678,
+      "model": 97.0886075949367
+    },
+    "backward_fit_second_half": {
+      "beta": [
+        1.1478814063156608,
+        -0.40071871252940716,
+        0.12167462353880029
+      ],
+      "excess": 84.04215456674471,
+      "model": 170.327868852459
+    },
+    "expanding_window": {
+      "n_folds": 9,
+      "n_bet_races": 88,
+      "model": 140.57692307692307,
+      "excess": 62.28578383641674
+    },
+    "oof_excess": 82.66062229548734,
+    "pass": true
+  },
+  "gate5_permutation": {
+    "real_rate": 158.34782608695653,
+    "n_bet_races": 99,
+    "sim_mean": 71.66826086956522,
+    "sim_median": 66.82608695652175,
+    "sim_p95": 134.0086956521739,
+    "p_value_ge_real": 0.0175,
+    "n_perm": 2000,
+    "pass": true
+  },
+  "gates_summary": {
+    "gate1_nll": true,
+    "gate2_return_ci": false,
+    "gate3_selection_bias": false,
+    "gate4_chronological": true,
+    "gate5_permutation": true
+  },
+  "n_gates_passed": 3,
+  "decision": "不採用(5ゲート中3個のみ通過)"
+}
