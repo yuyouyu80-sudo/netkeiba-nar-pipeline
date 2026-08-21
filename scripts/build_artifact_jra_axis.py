@@ -20,6 +20,13 @@ axis4(軸+相手3頭)・axis3(軸+相手2頭)の3サイズ。
 主表として示しつつ、上記の限界を明記した透明な記録として構築する
 ([[project_nar_search500_v4_signals_2026_08_20_finding]]と同じ方針: 統計的に無効な
 「おすすめパターン」を本番同格で見せない)。
+
+**追記(2026-08-21同日、ユーザー追加依頼)**: 「軸(スコア1位)が3着以内(複勝圏内)に来る
+確率を最大化する」重み探索(scripts/jra_model/jra_axis_top3_search_2026_08_21.py、目的関数を
+ワイド回収率から複勝的中率へ差し替え)も実施。統計学者・競馬予想家の2専門家レビュー済み。
+市場(1番人気を軸)の複勝的中率57.82%に対し、500パターン探索の最良でも54.03%止まりで、
+選択バイアス診断は再びREJECTED(true_edge/sd比0.336)。3つ目の独立した目的関数でも
+「市場を統計的に上回るモデルは見つからない」という同一結論に達した。
 """
 import json
 import re
@@ -202,9 +209,105 @@ def build_axis_section(box_n: int) -> tuple[str, str]:
     return "\n".join(tab_css_rules), section_html
 
 
+def build_top3_section() -> str:
+    """2026-08-21追加検証: 軸(スコア1位)の複勝的中率を目的関数にした重み探索の結果セクション。
+    jra_axis_top3_search_2026_08_21.pyの出力(result.json)を読み込んで描画する。"""
+    result = json.loads((DATA_DIR / "jra_axis_top3_search_2026_08_21_result.json").read_text(encoding="utf-8"))
+    n_races = result["n_races"]
+    mkt_rate = result["market_axis_hit_rate"]
+    cur = result["current_box_weight_axis_hit_rate"]
+    eq_rate = result["equal_weight_axis_hit_rate"]
+    best = result["best_full_population"]
+    oof = result["nested_lobo_oof"]
+    opt = result["selection_optimism"]
+    gate = result["decision_gate_ratio"]
+    decision = result["decision"]
+    rc = result["return_check"]
+    fs = rc["fukusho_single_axis"]
+    fsm = rc["fukusho_single_axis_market_comparison"]
+
+    baseline_rows = "".join(f"""<tr>
+          <td class="bt-name">現行box{k}重み転用</td>
+          <td class="num">{v:.2f}%</td>
+        </tr>""" for k, v in sorted(cur.items(), key=lambda kv: -int(kv[0])))
+
+    nagashi_details = []
+    for box_n_str, entry in sorted(rc["nagashi_by_box_n"].items(), key=lambda kv: -int(kv[0])):
+        box_n = int(box_n_str)
+        rows = "".join(f"""<tr>
+          <td class="bt-name">{esc(BET_LABEL.get(row['bet_type'], row['bet_type']))}"""
+          f"""{' <span class="box-sub">(参考値)</span>' if row['low_sample'] else ''}</td>
+          <td>{row['hit_races']}/{row['races']}<span class="box-sub">({row['hit_rate_pct']:.1f}%)</span></td>
+          <td class="num">¥{row['stake']:,}</td>
+          <td class="num">¥{row['return']:,}</td>
+          <td class="num rate {rate_cls(row['return_rate_pct'])}">{row['return_rate_pct']:.1f}%</td>
+        </tr>""" for row in entry["rows"])
+        nagashi_details.append(f"""
+        <details class="method box-method">
+          <summary>参考: axis{box_n}(軸+相手{box_n - 1}頭)ナガシの回収率、この重みを使った場合</summary>
+          <div class="box-table-wrap">
+            <table class="box-table">
+              <thead><tr><th>券種</th><th>的中レース</th><th>投資額</th><th>払戻額</th><th>回収率</th></tr></thead>
+              <tbody>{rows}</tbody>
+            </table>
+          </div>
+        </details>""")
+
+    return f"""
+    <section class="box-section" id="sec-top3">
+      <details class="box-details">
+        <summary class="box-head">追加検証: 軸の複勝的中率を最大化する重み探索(2026-08-21)</summary>
+        <p class="box-lede">
+          「軸(予想スコア1位)が3着以内(複勝圏内)に来る確率」を直接の目的関数にして、
+          {result['n_patterns']}パターンの重み配分を再探索しました({n_races}レース、
+          box買い用の重みが「集合としての的中力」を最適化したものであり「単騎で馬券圏内に
+          入る確率」を直接最適化したものではない、という専門家レビュー指摘を受けた追加検証です)。
+          軸(スコア1位)自体はbox_nに依存しないため、探索はaxis5/4/3共通で1回だけ行っています。
+        </p>
+        <div class="box-table-wrap">
+          <table class="box-table">
+            <thead><tr><th>候補</th><th>軸の複勝的中率</th></tr></thead>
+            <tbody>
+              <tr><td class="bt-name">市場(1番人気を軸)</td><td class="num rate is-plus">{mkt_rate:.2f}%</td></tr>
+              {baseline_rows}
+              <tr><td class="bt-name">25本等重み(参考)</td><td class="num">{eq_rate:.2f}%</td></tr>
+              <tr><td class="bt-name">500パターン探索・最良(in-sample、参考値)</td><td class="num">{best['hit_rate']:.2f}%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="box-lede" style="margin-top:14px;">
+          <b>結論: 探索は不採用(REJECTED)。</b>選択バイアス診断(ブロック半分割×200反復)の
+          「選ぶことの真の価値」はtrue_edge_pt={opt['true_edge_pt']:+.2f}pt(sd{opt['true_edge_sd']:.2f})、
+          採否ゲート(2.0以上)に対する比は{gate:.3f}で大幅未達でした。
+          Nested LOBO OOFはfold毎の選択パターンが{oof['n_unique_patterns']}/{oof['n_folds']}
+          (全fold同一パターン)というLOBO退化を起こしており、この数値({oof['hit_rate']:.2f}%)は
+          in-sample評価として扱い、統計的検定には使っていません(2026-08-20/21にNAR側で発見した
+          落とし穴と同型)。<b>市場(1番人気、複勝的中率{mkt_rate:.2f}%)を統計的に上回る重みは
+          見つかりませんでした。</b>これはオッズに織り込まれた情報の強さを裏付ける結果と
+          解釈しています。
+        </p>
+        <details class="method box-method">
+          <summary>参考: この探索最良パターンを使った場合の回収率(不採用候補、参考値)</summary>
+          <p class="method-note">
+            軸単体・複勝1点買い: 的中率{fs['hit_rate_pct']:.2f}%、投資額{fs['stake']:,}円、
+            払戻額{fs['return']:,}円、回収率{fs['return_rate_pct']:.1f}%
+            (95%CI=[{fs['bootstrap_ci']['lo']:.1f}, {fs['bootstrap_ci']['hi']:.1f}])。
+            同条件の市場(1番人気)は回収率{fsm['market_return_rate_pct']:.1f}%
+            (95%CI=[{fsm['market_bootstrap_ci']['lo']:.1f}, {fsm['market_bootstrap_ci']['hi']:.1f}])で、
+            差は{fsm['diff_model_minus_market_pt']:+.1f}pt
+            (95%CI=[{fsm['diff_bootstrap_ci']['lo']:+.1f}, {fsm['diff_bootstrap_ci']['hi']:+.1f}]pt)と
+            {'統計的に有意でした' if fsm['significant'] else '0をまたぐため統計的に有意差はありません'}。
+            これらの数値はすべて不採用候補(in-sample選択パターン)を使った参考値です。
+          </p>
+          {''.join(nagashi_details)}
+        </details>
+      </details>
+    </section>"""
+
+
 all_css_rules = []
-all_sections = []
-jump_items = []
+all_sections = [build_top3_section()]
+jump_items = ['<a href="#sec-top3">軸の複勝的中率探索</a>']
 for box_n in BOX_SIZES:
     css_rules, section_html = build_axis_section(box_n)
     all_css_rules.append(css_rules)
