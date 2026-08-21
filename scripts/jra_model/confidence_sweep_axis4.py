@@ -142,7 +142,7 @@ def analyze_model_continuous(model_name: str, w: np.ndarray) -> pd.DataFrame:
         hits = int((rt[:, j] > 0).sum())
         rows.append({
             "model": model_name,
-            "scope": f"連続乗数(gap_pct順位→[{SW.DEFAULT_LO},{SW.DEFAULT_HI}]、全{n_races}レース)",
+            "scope": f"連続乗数(スコア差順位→[{SW.DEFAULT_LO},{SW.DEFAULT_HI}]、全{n_races}レース)",
             "bet_type": bt, "races": n_races, "hit_races": hits,
             "hit_rate_pct": round(hits / n_races * 100, 1) if n_races else 0.0,
             "total_stake": s, "total_return": r_,

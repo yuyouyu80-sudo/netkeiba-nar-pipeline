@@ -54,6 +54,13 @@ def esc(s) -> str:
     return html.escape(str(s), quote=True)
 
 
+DECISION_LABEL_JA = {"REJECTED": "不採用", "ADOPT_CANDIDATE": "採用"}
+
+
+def decision_ja(decision: str) -> str:
+    return DECISION_LABEL_JA.get(decision, decision)
+
+
 def short_scope_label(scope: str) -> str:
     m = re.match(r"^全(\d+)レース$", scope)
     if m:
@@ -276,7 +283,7 @@ def build_top3_section() -> str:
           </table>
         </div>
         <p class="box-lede" style="margin-top:14px;">
-          <b>結論: 探索は不採用(REJECTED)。</b>選択バイアス診断(ブロック半分割×200反復)の
+          <b>結論: 探索は不採用。</b>選択バイアス診断(ブロック半分割×200反復)の
           「選ぶことの真の価値」はtrue_edge_pt={opt['true_edge_pt']:+.2f}pt(sd{opt['true_edge_sd']:.2f})、
           採否ゲート(2.0以上)に対する比は{gate:.3f}で大幅未達でした。
           Nested LOBO OOFはfold毎の選択パターンが{oof['n_unique_patterns']}/{oof['n_folds']}
@@ -324,7 +331,7 @@ def build_front123_section() -> str:
           <td class="num">{r['nested_lobo_oof']['n_unique_patterns']}/{r['nested_lobo_oof']['n_folds']}</td>
           <td class="num">{r['selection_optimism']['true_edge_pt']:+.2f}(sd{r['selection_optimism']['true_edge_sd']:.1f})</td>
           <td class="num">[{ci['lo']:+.1f}, {ci['hi']:+.1f}]pt</td>
-          <td class="num rate is-minus">{r['decision']}</td>
+          <td class="num rate is-minus">{decision_ja(r['decision'])}</td>
         </tr>"""
 
     f1_rows = "".join([
@@ -344,7 +351,7 @@ def build_front123_section() -> str:
           <td class="num">{r['nested_lobo_oof_ensemble']['n_unique_patterns']}/{r['nested_lobo_oof_ensemble']['n_folds']}</td>
           <td class="num">{r['nested_lobo_oof_ensemble']['excess']:+.2f}pt</td>
           <td class="num">[{ci['lo']:+.1f}, {ci['hi']:+.1f}]pt</td>
-          <td class="num rate is-minus">{r['decision']}</td>
+          <td class="num rate is-minus">{decision_ja(r['decision'])}</td>
         </tr>"""
 
     f2_rows = "".join([
@@ -395,7 +402,7 @@ def build_front123_section() -> str:
           </table>
         </div>
         <p class="method-note">
-          6本すべてREJECTED。box4は現行モデルとの差の95%CIが完全にマイナス側
+          6本すべて不採用。box4は現行モデルとの差の95%CIが完全にマイナス側
           ([-58.87,-6.83]pt)で、統計的に有意に劣る結果でした。的中率はほぼ同水準
           (単勝59.2%対60.2%)なのに全券種で回収率が下がっており(単勝99.0%→84.7%、
           3連単196.8%→30.0%等)、より人気馬寄りの選択に偏り配当妙味が落ちたためと
@@ -417,7 +424,7 @@ def build_front123_section() -> str:
           </table>
         </div>
         <p class="method-note">
-          6本すべてREJECTED。ただしブレンドはfold間で選ばれる組み合わせの安定性を単一ベスト選択
+          6本すべて不採用。ただしブレンドはfold間で選ばれる組み合わせの安定性を単一ベスト選択
           (2〜4/36ブロックでしか変わらない)より明確に改善しました(最大24/36)。「選択の不安定さを
           均す」という狙い通りの効果はあったものの、それ自体が回収率の統計的な優位性には
           直結しませんでした。
@@ -425,7 +432,7 @@ def build_front123_section() -> str:
 
         <h3 class="box-subhead">③ 確信度に応じたステーク配分</h3>
         <p class="method-note">
-          レース内のスコア差(gap_pct)の日次パーセンタイル順位に応じて、賭け金を0.5〜1.5倍の
+          レース内のスコア差の日次パーセンタイル順位に応じて、賭け金を0.5〜1.5倍の
           範囲で連続的に増減させた場合の回収率を、均等ステークと比較しました(box5/4/3、現行
           本番モデル)。
         </p>
@@ -585,14 +592,14 @@ html_out = f"""<title>JRA軸馬流し予想 回収率検証</title>
 </style>
 <nav class="jumpnav">
   <div class="jumpnav-inner">
-    <span class="jumpnav-label">JUMP</span>
+    <span class="jumpnav-label">目次</span>
     {''.join(jump_items)}
   </div>
 </nav>
 
 <main>
   <header class="masthead">
-    <p class="eyebrow">NETKEIBA NEWSPAPER ANALYSIS - JRA AXIS NAGASHI</p>
+    <p class="eyebrow">馬柱データ分析・JRA軸流し買い</p>
     <h1 class="title">JRA 1頭軸流し予想 回収率検証</h1>
     <p class="lede">
       予想スコア1位を軸馬、2位以降を相手馬にした「ながし」買い(馬連・ワイド・3連複・馬単・3連単)の

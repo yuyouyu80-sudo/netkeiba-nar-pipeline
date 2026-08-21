@@ -143,7 +143,7 @@ for BOX_N in BOX_NS:
     cont_mult = SW.multiplier_from_rank(conf_df, lo=LO, hi=HI)
     tbl_cont = ev.full_table(picks, multipliers=cont_mult)
     all_rows += rows_from_table(
-        tbl_cont, model_label, f"連続乗数(gap_pct順位→[{LO},{HI}]、全{len(races)}レース)")
+        tbl_cont, model_label, f"連続乗数(スコア差順位→[{LO},{HI}]、全{len(races)}レース)")
     r_cont = ev.evaluate(picks, multipliers=cont_mult)
     print(f"  連続乗数: 複勝+ワイド={r_cont['model']:.2f}%  市場差={r_cont['excess']:+.2f}pt")
 
