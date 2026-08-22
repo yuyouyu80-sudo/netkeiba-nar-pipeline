@@ -1,0 +1,129 @@
+{
+  "model_start": "2025-04-01",
+  "model_end": "2026-02-28",
+  "holdout_start": "2026-03-01",
+  "holdout_end": "2026-06-30",
+  "n_races": 1696,
+  "n_dates": 100,
+  "beta_full_train_insample": [
+    1.0521831896132583,
+    -0.12853736671697488,
+    0.0
+  ],
+  "gate1": {
+    "mean_nll_model": 2.0752622591040777,
+    "mean_nll_market_only": 2.0808683157694032,
+    "diff_ci": {
+      "mean": 0.00567267349283291,
+      "lo": 0.0005643773291938972,
+      "hi": 0.010634146044549028
+    },
+    "n_folds": 5,
+    "pass": true
+  },
+  "gate2": {
+    "strata": {
+      "temporal_chunk1": {
+        "n": 607,
+        "beta1": -0.1029053831567884
+      },
+      "temporal_chunk2": {
+        "n": 540,
+        "beta1": -0.08663929973022524
+      },
+      "temporal_chunk3": {
+        "n": 549,
+        "beta1": -0.20482336068240842
+      },
+      "central4": {
+        "n": 1025,
+        "beta1": -0.10188018478137324
+      },
+      "local6": {
+        "n": 671,
+        "beta1": -0.1646804168484185
+      }
+    },
+    "same_sign": true,
+    "max_min_abs_ratio": 2.364092984594532,
+    "pass": true
+  },
+  "gate3": {
+    "place_return_pct": 75.62893081761007,
+    "place_boot": {
+      "mean": 75.71015572507956,
+      "lo": 59.8278791704928,
+      "hi": 92.80158898868042,
+      "n_blocks": 263
+    },
+    "n_bet_races": 636,
+    "pass": false
+  },
+  "gate4": {
+    "win_return_pct": 84.32389937106917,
+    "win_boot": {
+      "mean": 84.38791205049505,
+      "lo": 55.600098121764546,
+      "hi": 116.47734627831713,
+      "n_blocks": 263
+    },
+    "pass": false
+  },
+  "gate5": {
+    "real_rate": 75.62893081761007,
+    "n_bet_races": 636,
+    "sim_mean": 70.7454245283019,
+    "sim_median": 70.58962264150944,
+    "sim_p95": 79.70283018867924,
+    "p_value_ge_real": 0.177,
+    "n_perm": 2000,
+    "tol_log": 0.15,
+    "pass": false
+  },
+  "gate6": {
+    "grid": {
+      "1.0": {
+        "place_return_pct": 73.48542458808619,
+        "n_bet_races": 789
+      },
+      "1.05": {
+        "place_return_pct": 73.78590078328982,
+        "n_bet_races": 766
+      },
+      "1.1": {
+        "place_return_pct": 75.62893081761007,
+        "n_bet_races": 636
+      },
+      "1.15": {
+        "place_return_pct": 69.04328018223235,
+        "n_bet_races": 439
+      },
+      "1.2": {
+        "place_return_pct": 64.77366255144032,
+        "n_bet_races": 243
+      }
+    },
+    "monotonic_nondecreasing_approx": false,
+    "pass": false
+  },
+  "n_holdout_races": 650,
+  "gate7": {
+    "beta_used": [
+      1.0521831896132583,
+      -0.12853736671697488,
+      0.0
+    ],
+    "place_return_pct": 70.6656346749226,
+    "place_boot": {
+      "mean": 70.6511594076706,
+      "lo": 49.756369396921144,
+      "hi": 96.46212267801855,
+      "n_blocks": 97
+    },
+    "n_bet_races": 646,
+    "pass": false
+  },
+  "n_gates_passed": 2,
+  "n_gates_total": 7,
+  "decision": "不採用(7ゲート中2個のみ通過)"
+}

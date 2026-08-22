@@ -24,13 +24,14 @@ while d <= end:
     if d.weekday() in (5, 6):  # Sat=5, Sun=6
         print(d.strftime('%Y%m%d'))
     d += datetime.timedelta(days=1)
-" > "$DATES_FILE"
+" | tr -d '\r' > "$DATES_FILE"
 
 total=$(wc -l < "$DATES_FILE")
 echo "対象候補日数(2024-08-22〜2026-08-21の土日): $total"
 
 n=0
 while IFS= read -r d; do
+  d="${d%$'\r'}"
   n=$((n + 1))
   echo "=== [$n/$total] $d ==="
   python scripts/run_pilot.py --date "$d" --circuit jra

@@ -44,12 +44,20 @@ def normalized_implied_prob(odds: np.ndarray) -> np.ndarray:
     return inv / s
 
 
-def _zscore_in_race(x: np.ndarray) -> np.ndarray:
+DEFAULT_MIN_VALID_Z = 4  # z標準化に必要な最小有効頭数(2026-08-23、選択肢B Phase4で追加)。
+# 2026-08-22のOpus 5サブエージェント調査: 有効馬が2〜3頭しかないレースはSDが不安定に
+# 推定されzが極端な値になりうる。既存呼び出し(_zscore_in_race(x)、min_valid省略)は
+# 従来通りmin_valid=2で数値結果を変えない。新規のarchiveベース評価ではmin_valid=4を
+# 明示的に渡す。
+
+
+def _zscore_in_race(x: np.ndarray, min_valid: int = 2) -> np.ndarray:
     """レース内zscore標準化。欠損値は中立(0)扱い(combine_signalsの重み再配分と同じ思想、
-    欠損馬をモデルから除外せず「市場情報+ゼロ寄与の合成特徴量」として扱う)。"""
+    欠損馬をモデルから除外せず「市場情報+ゼロ寄与の合成特徴量」として扱う)。
+    有効頭数がmin_valid未満のレースは全馬0(=市場のみで扱う、2026-08-23追加)。"""
     x = np.asarray(x, dtype=float)
     valid = ~np.isnan(x)
-    if valid.sum() < 2:
+    if valid.sum() < min_valid:
         return np.zeros_like(x)
     mu, sd = np.nanmean(x), np.nanstd(x)
     if sd <= 1e-12:
@@ -71,8 +79,12 @@ def extract_winner_idx(races: list, actual: dict) -> list:
     return out
 
 
-def build_composite_features(races: list, actual: dict, priors: dict, class_ordinal_map=None) -> list:
-    """レースごとに odds/q/log_q/z_recent/z_apt/winner_idx を辞書で返す。"""
+def build_composite_features(races: list, actual: dict, priors: dict, class_ordinal_map=None,
+                             odds_col: str = "bias_win_odds", min_valid_z: int = 2) -> list:
+    """レースごとに odds/q/log_q/z_recent/z_apt/winner_idx を辞書で返す。
+    odds_col: オッズ列名(既定"bias_win_odds"=馬柱由来。archiveベース評価では"odds_final"を渡す、
+    2026-08-23追加)。min_valid_z: _zscore_in_raceの最小有効頭数(既定2=従来と同一、
+    archiveベース評価ではDEFAULT_MIN_VALID_Z=4を渡す)。"""
     class_map = class_ordinal_map if class_ordinal_map is not None else JS.CLASS_ORDINAL
     winner_idx_list = extract_winner_idx(races, actual)
     out = []
@@ -84,13 +96,14 @@ def build_composite_features(races: list, actual: dict, priors: dict, class_ordi
             np.column_stack([sig[n].to_numpy(dtype=float) for n in RECENT_FORM_SIGNALS]), axis=1)
         apt = np.nanmean(
             np.column_stack([sig[n].to_numpy(dtype=float) for n in APTITUDE_SIGNALS]), axis=1)
-        odds = pd.to_numeric(df["bias_win_odds"], errors="coerce").to_numpy(dtype=float)
+        odds = pd.to_numeric(df[odds_col], errors="coerce").to_numpy(dtype=float)
         q = normalized_implied_prob(odds)
         with np.errstate(divide="ignore", invalid="ignore"):
             log_q = np.log(np.where(q > 0, q, np.nan))
         out.append({
             "odds": odds, "q": q, "log_q": log_q,
-            "z_recent": _zscore_in_race(recent), "z_apt": _zscore_in_race(apt),
+            "z_recent": _zscore_in_race(recent, min_valid=min_valid_z),
+            "z_apt": _zscore_in_race(apt, min_valid=min_valid_z),
             "winner_idx": winner_idx,
         })
     return out
@@ -169,4 +182,56 @@ def ev_picks(params: np.ndarray, feats: list, ev_threshold: float = DEFAULT_EV_T
             ev = p * f["odds"]
             sel_mask = (ev >= ev_threshold) & (f["odds"] <= odds_cap) & ~np.isnan(ev)
         picks.append(np.where(sel_mask)[0])
+    return picks
+
+
+# --------------------------------------------------------------------------- 2026-08-23追加分
+# (選択肢B Phase4: race_resultsアーカイブ拡張データでの再検証用。既存の3パラメータ版
+# (fit_conditional_logit/ev_picks等)は一切変更していない。)
+DEFAULT_PQ_THRESHOLD = 1.10
+
+
+def fit_2param(feats: list, idx=None, x0=None) -> np.ndarray:
+    """u=beta0・log(q)+beta1・z_近走 の2パラメータ版(z_適性を含めない)。
+    2026-08-22のOpus 5サブエージェント調査: z_適性は馬柱がある211レースにしか値を持たない
+    ため、3パラメータのまま欠損時0で拡張母集団に混ぜるとbeta2が実質211レースだけから
+    推定される(foldごとに別モデルを検証することになる)。z_近走は自馬の過去走のみに依存し
+    リーク疑いが無いため、主モデルは2パラメータに限定する。"""
+    def nll2(params):
+        b0, b1 = params
+        return race_nll(np.array([b0, b1, 0.0]), feats, idx)
+    x0 = np.array([1.0, 0.0]) if x0 is None else np.asarray(x0, dtype=float)
+    res = minimize(nll2, x0, method="Nelder-Mead",
+                   options={"xatol": 1e-6, "fatol": 1e-9, "maxiter": 2000, "maxfev": 2000})
+    return np.array([res.x[0], res.x[1], 0.0])
+
+
+def predict_pq(params: np.ndarray, feats: list) -> list:
+    """モデル勝率pと市場インプライド確率qの比(p/q、市場との不一致度)をレースごとに返す。
+    EV(=p×odds)は券種の控除率(オーバーラウンド)に依存しレース間で意味が揃わないが、
+    p/qは控除率に不変なため賭け条件の主変数として採用する(2026-08-22のOpus調査による)。"""
+    p_list = predict_p(params, feats)
+    out = []
+    for f, p in zip(feats, p_list):
+        with np.errstate(invalid="ignore", divide="ignore"):
+            pq = p / f["q"]
+        out.append(pq)
+    return out
+
+
+def pq_picks(params: np.ndarray, feats: list, pq_threshold: float = DEFAULT_PQ_THRESHOLD,
+            odds_cap: float = np.inf, top1_only: bool = True) -> list:
+    """p/qがpq_threshold以上かつodds<=odds_capの馬の行indexを返す。top1_only=True(既定)なら
+    レース内でp/q最大の1頭のみに絞る(単勝/複勝を1点固定で賭ける設計、閾値グリッド選択は
+    しない)。"""
+    pq_list = predict_pq(params, feats)
+    picks = []
+    for f, pq in zip(feats, pq_list):
+        with np.errstate(invalid="ignore"):
+            mask = (pq >= pq_threshold) & (f["odds"] <= odds_cap) & ~np.isnan(pq)
+        idx = np.where(mask)[0]
+        if top1_only and len(idx) > 1:
+            best = idx[np.argmax(pq[idx])]
+            idx = np.array([best])
+        picks.append(idx)
     return picks

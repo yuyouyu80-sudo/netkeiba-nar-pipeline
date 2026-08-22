@@ -83,6 +83,7 @@
     "true_edge_pt": -37.1143462592918,
     "true_edge_sd": 29.328019902518523,
     "win_rate": 0.08,
+    "refit_beta_per_split": false,
     "edge_ratio": -1.2654910349438433,
     "pass": false
   },
@@ -117,20 +118,21 @@
   "gate5_permutation": {
     "real_rate": 158.34782608695653,
     "n_bet_races": 99,
-    "sim_mean": 71.66826086956522,
-    "sim_median": 66.82608695652175,
-    "sim_p95": 134.0086956521739,
-    "p_value_ge_real": 0.0175,
+    "sim_mean": 160.0646956521739,
+    "sim_median": 160.26086956521738,
+    "sim_p95": 201.75217391304346,
+    "p_value_ge_real": 0.53,
     "n_perm": 2000,
-    "pass": true
+    "tol_log": 0.15,
+    "pass": false
   },
   "gates_summary": {
     "gate1_nll": true,
     "gate2_return_ci": false,
     "gate3_selection_bias": false,
     "gate4_chronological": true,
-    "gate5_permutation": true
+    "gate5_permutation": false
   },
-  "n_gates_passed": 3,
-  "decision": "不採用(5ゲート中3個のみ通過)"
+  "n_gates_passed": 2,
+  "decision": "不採用(5ゲート中2個のみ通過)"
 }

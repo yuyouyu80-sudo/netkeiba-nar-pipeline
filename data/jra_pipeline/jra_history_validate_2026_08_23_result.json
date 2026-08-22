@@ -1,0 +1,59 @@
+{
+  "n_races": 211,
+  "V6_exact_match_horse_rate": 0.679182156133829,
+  "V6_n": 2690,
+  "V1_beaten_by_sec_corr_all": 0.9999999999999998,
+  "V1_n_pairs_all": 11712,
+  "V1_beaten_by_sec_corr": 0.9999999999999998,
+  "V1_beaten_by_max_abs_diff": 0.0,
+  "V1_n_pairs": 11712,
+  "V2_finish_match_rate_all": 1.0,
+  "V2_finish_match_rate": 1.0,
+  "V2_n": 11778,
+  "V3_agari_match_rate": 1.0,
+  "V3_agari_n": 11712,
+  "V3_corner_match_rate": 1.0,
+  "V3_corner_n": 11728,
+  "V4_composite_z_recent_corr": 0.939009969391857,
+  "V5_per_signal_corr": {
+    "timediff": 0.922587457791656,
+    "form": 0.926264111208766,
+    "margin": 0.9188896556469062,
+    "agari": 0.8869206351657636
+  },
+  "V7_starter_set_match_rate": 0.995260663507109,
+  "V7_n": 211,
+  "V8_log_odds_corr": 0.9877847785498424,
+  "V8_n": 2689,
+  "V9_payout_consistency_rate": 0.9953810623556582,
+  "V9_n": 433,
+  "V10_favorite_match_rate": 0.9478672985781991,
+  "V10_n": 211,
+  "V11_margin_len_vs_sec_corr": 0.821573767998137,
+  "V12_beta_newspaper": [
+    1.145380177935488,
+    -0.29712681602081364
+  ],
+  "V12_beta_archive": [
+    1.1740765760083285,
+    -0.34092445140153543
+  ],
+  "V12_beta1_same_sign": true,
+  "V12_beta1_ratio": 1.1474038458301044,
+  "V13_duplicate_same_day_starts": 0,
+  "V13_min_gap_days": 5.0,
+  "gates": {
+    "V1": true,
+    "V2": true,
+    "V3": true,
+    "V4": true,
+    "V5": true,
+    "V7": true,
+    "V8": true,
+    "V9": true,
+    "V10": true,
+    "V12": true,
+    "V13": true
+  },
+  "all_pass": true
+}
