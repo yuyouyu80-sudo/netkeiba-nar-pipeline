@@ -1,0 +1,133 @@
+{
+  "model_start": "2025-04-01",
+  "model_end": "2026-02-28",
+  "holdout_start": "2026-03-01",
+  "holdout_end": "2026-06-30",
+  "max_payout_cap": 20000,
+  "n_races": 1696,
+  "n_dates": 100,
+  "beta_full_train_insample": [
+    1.0521831896132583,
+    -0.12853736671697488,
+    0.0
+  ],
+  "gate1": {
+    "mean_nll_model": 2.0752622591040777,
+    "mean_nll_market_only": 2.0808683157694032,
+    "diff_ci": {
+      "mean": 0.00567267349283291,
+      "lo": 0.0005643773291938972,
+      "hi": 0.010634146044549028
+    },
+    "n_folds": 5,
+    "pass": true
+  },
+  "gate2": {
+    "strata": {
+      "temporal_chunk1": {
+        "n": 607,
+        "beta1": -0.1029053831567884
+      },
+      "temporal_chunk2": {
+        "n": 540,
+        "beta1": -0.08663929973022524
+      },
+      "temporal_chunk3": {
+        "n": 549,
+        "beta1": -0.20482336068240842
+      },
+      "central4": {
+        "n": 1025,
+        "beta1": -0.10188018478137324
+      },
+      "local6": {
+        "n": 671,
+        "beta1": -0.1646804168484185
+      }
+    },
+    "same_sign": true,
+    "max_min_abs_ratio": 2.364092984594532,
+    "pass": true
+  },
+  "gate3": {
+    "umaren_return_pct": 46.70157068062827,
+    "umaren_boot": {
+      "mean": 46.46584402549974,
+      "lo": 21.92584151656777,
+      "hi": 77.61320131155867,
+      "n_blocks": 263
+    },
+    "n_bet_races": 764,
+    "n_races_excluded_by_cap": 0,
+    "pass": false
+  },
+  "gate4": {
+    "umaren_return_pct_nocap": 46.70157068062827,
+    "umaren_boot_nocap": {
+      "mean": 46.46584402549974,
+      "lo": 21.92584151656777,
+      "hi": 77.61320131155867,
+      "n_blocks": 263
+    },
+    "pass": false
+  },
+  "gate5": {
+    "real_rate": 46.70157068062827,
+    "n_bet_races": 764,
+    "sim_mean": 20.877472132255562,
+    "sim_median": 18.099606815203146,
+    "sim_p95": 30.392670157068064,
+    "p_value_ge_real": 0.0,
+    "n_perm": 2000,
+    "tol_log": 0.15,
+    "max_payout": 20000,
+    "pass": true
+  },
+  "gate6": {
+    "grid": {
+      "1.0": {
+        "umaren_return_pct": 47.52851711026616,
+        "n_bet_races": 789
+      },
+      "1.05": {
+        "umaren_return_pct": 47.13197969543147,
+        "n_bet_races": 788
+      },
+      "1.1": {
+        "umaren_return_pct": 46.70157068062827,
+        "n_bet_races": 764
+      },
+      "1.15": {
+        "umaren_return_pct": 32.58720930232558,
+        "n_bet_races": 688
+      },
+      "1.2": {
+        "umaren_return_pct": 29.916943521594686,
+        "n_bet_races": 602
+      }
+    },
+    "monotonic_nondecreasing_approx": false,
+    "pass": false
+  },
+  "n_holdout_races": 650,
+  "gate7": {
+    "beta_used": [
+      1.0521831896132583,
+      -0.12853736671697488,
+      0.0
+    ],
+    "umaren_return_pct": 3.8461538461538463,
+    "umaren_boot": {
+      "mean": 3.751457668703059,
+      "lo": 0.0,
+      "hi": 11.645962732919255,
+      "n_blocks": 97
+    },
+    "n_bet_races": 650,
+    "n_races_excluded_by_cap": 0,
+    "pass": false
+  },
+  "n_gates_passed": 3,
+  "n_gates_total": 7,
+  "decision": "不採用(7ゲート中3個のみ通過)"
+}

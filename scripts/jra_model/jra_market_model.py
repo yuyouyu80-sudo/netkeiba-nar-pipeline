@@ -235,3 +235,67 @@ def pq_picks(params: np.ndarray, feats: list, pq_threshold: float = DEFAULT_PQ_T
             idx = np.array([best])
         picks.append(idx)
     return picks
+
+
+# --------------------------------------------------------------------------- 2026-08-22追加分
+# (馬連特化モデリング: Harville式で単勝確率からペア確率を導出する。勝率モデル本体
+# [fit_2param/predict_p等]は無改造、賭け目選択レイヤーのみを追加する。)
+
+
+def pair_probs_harville(p: np.ndarray) -> dict:
+    """レース内の単勝確率配列(NaN含んでよい)から、Harville式で全ペアの馬連確率を返す
+    {(i,j): prob}(i<j、有効な馬同士のみ。p<=0またはp>=1の馬は数値的に不安定なため除外)。
+
+    P({i,j}) = p_i*p_j/(1-p_i) + p_j*p_i/(1-p_j)
+    (i,jのどちらが1着でももう一方が2着になる2通りの排反事象の和)。"""
+    p = np.asarray(p, dtype=float)
+    valid = ~np.isnan(p) & (p > 0) & (p < 1)
+    idxs = np.where(valid)[0]
+    out = {}
+    for a in range(len(idxs)):
+        i = idxs[a]
+        pi = p[i]
+        for b in range(a + 1, len(idxs)):
+            j = idxs[b]
+            pj = p[j]
+            out[(int(i), int(j))] = pi * pj / (1 - pi) + pj * pi / (1 - pj)
+    return out
+
+
+def predict_pair_pq(params: np.ndarray, feats: list) -> list:
+    """レースごとに、モデル勝率p・市場インプライド確率qの両方にHarville式を適用し、
+    ペア(i,j)ごとの p_pair/q_pair(市場との不一致度)を返す({(i,j): pq, ...}のリスト)。
+    q側は市場オッズ由来の単勝確率をそのままHarville式に通した近似値であり、実際の馬連
+    オッズそのものではない(馬連オッズは未取得。既知の近似)。"""
+    p_list = predict_p(params, feats)
+    out = []
+    for f, p in zip(feats, p_list):
+        p_pairs = pair_probs_harville(p)
+        q_pairs = pair_probs_harville(f["q"])
+        pq = {}
+        for key, pp in p_pairs.items():
+            qp = q_pairs.get(key)
+            if qp is not None and qp > 0:
+                pq[key] = pp / qp
+        out.append(pq)
+    return out
+
+
+def umaren_pq_picks(params: np.ndarray, feats: list, pq_threshold: float = DEFAULT_PQ_THRESHOLD,
+                    top1_only: bool = True) -> list:
+    """p_pair/q_pairがpq_threshold以上のペアのうち最良1組(top1_only、既定)を(i,j)タプルで
+    返す(該当なしはNone)。既存pq_picks(単頭)と同じ設計思想(top1固定、閾値グリッド選択は
+    Gate6の記述的診断のみで使う)。"""
+    pq_list = predict_pair_pq(params, feats)
+    picks = []
+    for pq in pq_list:
+        candidates = {k: v for k, v in pq.items() if v >= pq_threshold}
+        if not candidates:
+            picks.append(None)
+            continue
+        if top1_only:
+            best = max(candidates, key=candidates.get)
+            picks.append(best)
+        else:
+            picks.append(candidates)
+    return picks
