@@ -19,7 +19,7 @@ import json
 import math
 import re
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import pandas as pd
@@ -90,6 +90,17 @@ pending_predictable_dates = [
     e["date"] for e in DATE_MANIFEST
     if e["status"] == "pending" and e["newspaper"] and (DATA_DIR / f"predictions_nar_{e['date']}.csv").exists()
 ]
+
+# --- 各レースの結果表示は直近1週間分のみに絞る(ユーザー依頼、2026-08-23) ---
+# 「取得状況」ボード(DATE_MANIFEST全体を参照)と、BOX回収率検証(confidence_sweep_*.csvを
+# 別途全期間で読む)は本フィルタの対象外(このブロックより後段のverified_dates/
+# pending_predictable_datesを使う箇所すべてが対象になる)。
+DISPLAY_WINDOW_DAYS = 7
+_all_display_dates = sorted(set(verified_dates) | set(pending_predictable_dates))
+if _all_display_dates:
+    _display_cutoff = datetime.strptime(_all_display_dates[-1], "%Y%m%d") - timedelta(days=DISPLAY_WINDOW_DAYS - 1)
+    verified_dates = [d for d in verified_dates if datetime.strptime(d, "%Y%m%d") >= _display_cutoff]
+    pending_predictable_dates = [d for d in pending_predictable_dates if datetime.strptime(d, "%Y%m%d") >= _display_cutoff]
 
 
 def _load_pred(path: Path, model: str) -> pd.DataFrame:
@@ -680,6 +691,11 @@ if pending_predictable_dates:
         "同じモデル体制で予想済みですが、結果・払戻データが未取得のため回収率検証はまだ"
         "できていません(該当セクションに表示)。"
     )
+lede_html += (
+    f" 各レースの結果表示は直近{DISPLAY_WINDOW_DAYS}日分に絞っています"
+    "(それより前の日付の取得状況は下部の「データ取得状況」、回収率検証は取得済み全期間を"
+    "対象にした「BOX回収率検証」で確認できます)。"
+)
 
 # --- methodセクション: winner_shinba.json を正本にする ---
 # 通常戦モデル(予想5頭)は2026-08-01よりwinner_box5_nar.jsonを正本にする。

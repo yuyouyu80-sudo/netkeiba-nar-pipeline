@@ -9,7 +9,7 @@ from pathlib import Path
 
 import numpy as np
 
-LIB_DIR = Path(r"c:\Users\yuyou\Desktop\新しい作業場所\scripts\jra_model")
+LIB_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = LIB_DIR.parent.parent
 DATA_DIR = PROJECT_ROOT / "data" / "jra_pipeline"
 sys.path.insert(0, str(LIB_DIR))
