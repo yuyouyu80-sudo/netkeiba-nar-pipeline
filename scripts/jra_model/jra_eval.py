@@ -114,19 +114,23 @@ class Evaluator:
         self.block_ids = sorted(set(self.blocks))
         self.mkt_stake, self.mkt_ret = self.settler.returns_for(market_picks(races, box_n))
 
-    def evaluate(self, picks: list, idx: np.ndarray = None, multipliers: np.ndarray = None) -> dict:
+    def evaluate(self, picks: list, idx: np.ndarray = None, multipliers: np.ndarray = None,
+                bets=None) -> dict:
         """picks に対する目的関数値と、市場ベンチマークとの差を返す。
         multipliers: レースごとのステーク乗数(長さ=len(picks))。指定時はmodel・market双方の
         stake/returnに同じ乗数を適用してから比推定量(Σreturn/Σstake)を取る(2026-08-21、
-        Front3ステーク配分最適化用に追加。Noneなら従来と数値的に完全に同一)。"""
+        Front3ステーク配分最適化用に追加。Noneなら従来と数値的に完全に同一)。
+        bets: 目的券種のリスト(既定None時はOBJ_BETS=複勝+ワイド、既存呼び出しと数値完全一致)。
+        2026-08-23、box2馬連探索用に追加(馬連を目的関数に指定できるように)。"""
+        bets = OBJ_BETS if bets is None else bets
         st, rt = self.settler.returns_for(picks)
         mkt_st, mkt_rt = self.mkt_stake, self.mkt_ret
         if multipliers is not None:
             m = np.asarray(multipliers, dtype=float)[:, None]
             st, rt = st * m, rt * m
             mkt_st, mkt_rt = mkt_st * m, mkt_rt * m
-        model = cost_weighted_rate(st, rt, idx=idx)
-        market = cost_weighted_rate(mkt_st, mkt_rt, idx=idx)
+        model = cost_weighted_rate(st, rt, bets=bets, idx=idx)
+        market = cost_weighted_rate(mkt_st, mkt_rt, bets=bets, idx=idx)
         return {"model": model, "market": market, "excess": model - market,
                 "stake": st, "return": rt}
 
@@ -154,11 +158,12 @@ class Evaluator:
         return pd.DataFrame(rows)
 
     # --------------------------------------------------------------- CV
-    def lobo_oof(self, fit_fn, mats_all: list) -> dict:
+    def lobo_oof(self, fit_fn, mats_all: list, bets=None) -> dict:
         """Leave-one-block-out の out-of-fold 評価。戻り値に fold ごとの選択パターンindex
         (chosen_pattern_idx)を含める — LOBO退化チェック(全foldで同一パターンしか
         選ばれていないか)に使う。fit_fn(train_idx) は (w, pattern_idx) のタプルを返すこと
         (2026-08-21、jra_axis_eval.pyと契約を統一)。
+        bets: evaluate()に渡す目的券種(既定None=OBJ_BETS、2026-08-23追加)。
         """
         picks = [None] * len(self.races)
         chosen_pattern_idx = {}
@@ -172,13 +177,15 @@ class Evaluator:
                 num, den = m["S"] @ w, m["A"] @ w
                 score = np.where(den > 0, num / den, -1e18)
                 picks[i] = np.argsort(-score, kind="stable")[:self.box_n]
-        result = {"picks": picks, "chosen_pattern_idx": chosen_pattern_idx, **self.evaluate(picks)}
+        result = {"picks": picks, "chosen_pattern_idx": chosen_pattern_idx,
+                 **self.evaluate(picks, bets=bets)}
         result["n_unique_patterns"] = len(set(chosen_pattern_idx.values()))
         result["n_folds"] = len(chosen_pattern_idx)
         return result
 
     # --------------------------------------------------------------- CV(時系列)
-    def chronological_oof(self, fit_fn, mats_all: list, min_train_blocks: int = 3) -> dict:
+    def chronological_oof(self, fit_fn, mats_all: list, min_train_blocks: int = 3,
+                          bets=None) -> dict:
         """開催日昇順のexpanding-window walk-forward評価(2026-08-21新設)。
         blocks_of()が返す"{kaisai_date}_{racecourse}"の日付部分でグループ化し、
         train=それより前の全開催日・test=対象開催日、という分割を日付昇順に繰り返す。
@@ -219,7 +226,7 @@ class Evaluator:
         safe_picks = [p if p is not None else np.arange(self.box_n) for p in picks]
         result = {"picks": picks, "tested_race_idx": tested_race_idx,
                  "chosen_pattern_idx": chosen_pattern_idx,
-                 **self.evaluate(safe_picks, idx=tested_race_idx)}
+                 **self.evaluate(safe_picks, idx=tested_race_idx, bets=bets)}
         result["n_unique_patterns"] = len(set(chosen_pattern_idx.values()))
         result["n_folds"] = len(chosen_pattern_idx)
         return result
@@ -281,14 +288,16 @@ class Evaluator:
 
 
 def selection_optimism(ev: Evaluator, mats: list, W: np.ndarray, n_rep: int = 200,
-                       seed: int = 99) -> dict:
+                       seed: int = 99, bets=None) -> dict:
     """「重みを選ぶ」という行為から得られる真の利得を測る。
 
     ブロックを半分に割り、片側で最良の重みを選び、もう片側でその重みを評価する。
     未使用側の全パターン平均も同時に出すことで、
       (未使用側での選抜値) - (未使用側での全パターン平均)
     = 選抜の真の価値、が読める。
+    bets: 目的券種(既定None=OBJ_BETS、2026-08-23追加)。
     """
+    bets = OBJ_BETS if bets is None else bets
     ids = list(ev.block_ids)
     by_block = {b: np.where(ev.blocks == b)[0] for b in ids}
     all_picks = [score_picks(mats, W[:, j], ev.box_n) for j in range(W.shape[1])]
@@ -303,8 +312,8 @@ def selection_optimism(ev: Evaluator, mats: list, W: np.ndarray, n_rep: int = 20
         perm = rng.permutation(len(ids))
         a = np.concatenate([by_block[ids[i]] for i in perm[: len(ids) // 2]])
         b = np.concatenate([by_block[ids[i]] for i in perm[len(ids) // 2:]])
-        va = np.array([cost_weighted_rate(all_st[j], all_rt[j], idx=a) for j in range(W.shape[1])])
-        vb = np.array([cost_weighted_rate(all_st[j], all_rt[j], idx=b) for j in range(W.shape[1])])
+        va = np.array([cost_weighted_rate(all_st[j], all_rt[j], bets=bets, idx=a) for j in range(W.shape[1])])
+        vb = np.array([cost_weighted_rate(all_st[j], all_rt[j], bets=bets, idx=b) for j in range(W.shape[1])])
         best = int(np.argmax(va))
         sel.append(va[best])
         unseen.append(vb[best])

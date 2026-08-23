@@ -1,0 +1,129 @@
+{
+  "n_races": 211,
+  "dates": [
+    "20260711",
+    "20260712",
+    "20260718",
+    "20260719",
+    "20260725",
+    "20260726",
+    "20260801",
+    "20260802",
+    "20260808",
+    "20260809",
+    "20260815",
+    "20260816"
+  ],
+  "pool": [
+    "speed",
+    "form",
+    "style",
+    "jt",
+    "waku",
+    "apt",
+    "train",
+    "distance",
+    "sire",
+    "bms",
+    "course",
+    "concerned",
+    "interval",
+    "kinryo",
+    "nige",
+    "margin",
+    "timediff",
+    "agari",
+    "holdtime",
+    "ketto_training",
+    "ketto_comment",
+    "odds_jockey",
+    "surf_jt",
+    "jockey_owner",
+    "prevjockey",
+    "hold_just",
+    "hold_wide",
+    "jockey_change",
+    "class_drop",
+    "weight_trend"
+  ],
+  "n_patterns": 1000,
+  "seed": 2308,
+  "box_n": 2,
+  "bets": [
+    "馬連"
+  ],
+  "breakeven_pct": 77.5,
+  "note_population_reuse": "この母集団はbox5/4/3・Step1の複数回の探索で既に使い切られている",
+  "market": 91.4691943127962,
+  "equal_weight": {
+    "model": 73.74407582938389,
+    "excess": -17.725118483412317,
+    "percentile_among_1000": 49.2
+  },
+  "best_full_population": {
+    "pattern_index": 940,
+    "model": 369.1943127962085,
+    "excess": 277.7251184834123,
+    "weights": {
+      "form": 0.08761476508622039,
+      "style": 0.06802006607165133,
+      "jt": 0.012509172695898454,
+      "waku": 0.119940762429237,
+      "apt": 0.014038964400654497,
+      "train": 0.029974417911547504,
+      "sire": 0.06933730014434294,
+      "bms": 0.007588785495345897,
+      "concerned": 0.01580134002832302,
+      "interval": 0.03180746642455858,
+      "nige": 0.08174560364887065,
+      "margin": 0.029584928594073696,
+      "agari": 0.03754063581807388,
+      "holdtime": 0.00571811141747645,
+      "ketto_comment": 0.027059130630298595,
+      "odds_jockey": 0.011551160633270496,
+      "surf_jt": 0.016396460418682555,
+      "jockey_owner": 0.03521861351390637,
+      "hold_just": 0.013855494433945605,
+      "hold_wide": 0.028949870670122772,
+      "jockey_change": 0.026222399831885117,
+      "class_drop": 0.0085451934533831,
+      "weight_trend": 0.20271345785929223
+    },
+    "candidate_signal_weight_share": 0.2119814501872403,
+    "candidate_v2_signal_weight_share": 0.09588804429965016,
+    "note": "全211レースで選んだ重みなのでin-sample最適化の楽観を含む"
+  },
+  "nested_lobo_oof": {
+    "model": 64.92890995260665,
+    "excess": -26.54028436018956
+  },
+  "selection_optimism": {
+    "selected_side": 470.8077268279108,
+    "unseen_side": 67.24940821821698,
+    "unseen_all_mean": 79.9401533392319,
+    "optimism_pt": 403.55831860969386,
+    "true_edge_pt": -12.690745121014915,
+    "true_edge_sd": 31.914759226052844,
+    "win_rate": 0.295
+  },
+  "tansho_check_in_sample": {
+    "equal_return_rate_pct": 98.4,
+    "equal_hit_rate_pct": 45.5,
+    "best_return_rate_pct": 78.8,
+    "best_hit_rate_pct": 31.8
+  },
+  "bootstrap_full_population": {
+    "mean": 352.76005323191464,
+    "lo": 37.83945965512702,
+    "hi": 993.0860627177698,
+    "n_blocks": 36
+  },
+  "gates": {
+    "nested_positive": false,
+    "true_edge_positive": false,
+    "boot_ci_lo_above_breakeven": false,
+    "n_gates_passed": 0,
+    "n_gates_total": 3
+  },
+  "decision": "不採用(参考ゲート0/3のみ通過、主判定のNested LOBO OOFが基準未達)"
+}
