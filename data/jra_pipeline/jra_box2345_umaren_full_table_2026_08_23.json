@@ -1,0 +1,378 @@
+{
+  "2": {
+    "base_label": "市場(上位2人気BOX)",
+    "cand_label": "馬連探索候補(pattern#470・不採用/参考)",
+    "rows": [
+      {
+        "bet_type": "単勝",
+        "base_hits": 110,
+        "base_races": 211,
+        "base_hit_pct": 52.1,
+        "base_return_pct": 80.4,
+        "cand_hits": 91,
+        "cand_races": 211,
+        "cand_hit_pct": 43.1,
+        "cand_return_pct": 109.2
+      },
+      {
+        "bet_type": "複勝",
+        "base_hits": 172,
+        "base_races": 211,
+        "base_hit_pct": 81.5,
+        "base_return_pct": 82.8,
+        "cand_hits": 160,
+        "cand_races": 211,
+        "cand_hit_pct": 75.8,
+        "cand_return_pct": 87.2
+      },
+      {
+        "bet_type": "枠連",
+        "base_hits": 37,
+        "base_races": 211,
+        "base_hit_pct": 17.5,
+        "base_return_pct": 77.5,
+        "cand_hits": 20,
+        "cand_races": 211,
+        "cand_hit_pct": 9.5,
+        "cand_return_pct": 147.5
+      },
+      {
+        "bet_type": "馬連",
+        "base_hits": 37,
+        "base_races": 211,
+        "base_hit_pct": 17.5,
+        "base_return_pct": 91.5,
+        "cand_hits": 22,
+        "cand_races": 211,
+        "cand_hit_pct": 10.4,
+        "cand_return_pct": 198.8
+      },
+      {
+        "bet_type": "ワイド",
+        "base_hits": 62,
+        "base_races": 211,
+        "base_hit_pct": 29.4,
+        "base_return_pct": 77.8,
+        "cand_hits": 41,
+        "cand_races": 211,
+        "cand_hit_pct": 19.4,
+        "cand_return_pct": 115.1
+      },
+      {
+        "bet_type": "馬単",
+        "base_hits": 37,
+        "base_races": 211,
+        "base_hit_pct": 17.5,
+        "base_return_pct": 82.0,
+        "cand_hits": 22,
+        "cand_races": 211,
+        "cand_hit_pct": 10.4,
+        "cand_return_pct": 206.1
+      },
+      {
+        "bet_type": "3連複",
+        "base_hits": 0,
+        "base_races": 211,
+        "base_hit_pct": 0.0,
+        "base_return_pct": 0.0,
+        "cand_hits": 0,
+        "cand_races": 211,
+        "cand_hit_pct": 0.0,
+        "cand_return_pct": 0.0
+      },
+      {
+        "bet_type": "3連単",
+        "base_hits": 0,
+        "base_races": 211,
+        "base_hit_pct": 0.0,
+        "base_return_pct": 0.0,
+        "cand_hits": 0,
+        "cand_races": 211,
+        "cand_hit_pct": 0.0,
+        "cand_return_pct": 0.0
+      }
+    ]
+  },
+  "3": {
+    "base_label": "現行モデル(BOX3, pattern95)",
+    "cand_label": "馬連探索候補(pattern#577・不採用/参考)",
+    "rows": [
+      {
+        "bet_type": "単勝",
+        "base_hits": 102,
+        "base_races": 211,
+        "base_hit_pct": 48.3,
+        "base_return_pct": 83.0,
+        "cand_hits": 112,
+        "cand_races": 211,
+        "cand_hit_pct": 53.1,
+        "cand_return_pct": 102.4
+      },
+      {
+        "bet_type": "複勝",
+        "base_hits": 171,
+        "base_races": 211,
+        "base_hit_pct": 81.0,
+        "base_return_pct": 83.1,
+        "cand_hits": 177,
+        "cand_races": 211,
+        "cand_hit_pct": 83.9,
+        "cand_return_pct": 84.2
+      },
+      {
+        "bet_type": "枠連",
+        "base_hits": 32,
+        "base_races": 211,
+        "base_hit_pct": 15.2,
+        "base_return_pct": 65.5,
+        "cand_hits": 43,
+        "cand_races": 211,
+        "cand_hit_pct": 20.4,
+        "cand_return_pct": 97.4
+      },
+      {
+        "bet_type": "馬連",
+        "base_hits": 36,
+        "base_races": 211,
+        "base_hit_pct": 17.1,
+        "base_return_pct": 107.4,
+        "cand_hits": 42,
+        "cand_races": 211,
+        "cand_hit_pct": 19.9,
+        "cand_return_pct": 140.3
+      },
+      {
+        "bet_type": "ワイド",
+        "base_hits": 73,
+        "base_races": 211,
+        "base_hit_pct": 34.6,
+        "base_return_pct": 90.5,
+        "cand_hits": 79,
+        "cand_races": 211,
+        "cand_hit_pct": 37.4,
+        "cand_return_pct": 93.3
+      },
+      {
+        "bet_type": "馬単",
+        "base_hits": 36,
+        "base_races": 211,
+        "base_hit_pct": 17.1,
+        "base_return_pct": 105.4,
+        "cand_hits": 42,
+        "cand_races": 211,
+        "cand_hit_pct": 19.9,
+        "cand_return_pct": 148.1
+      },
+      {
+        "bet_type": "3連複",
+        "base_hits": 6,
+        "base_races": 211,
+        "base_hit_pct": 2.8,
+        "base_return_pct": 264.9,
+        "cand_hits": 9,
+        "cand_races": 211,
+        "cand_hit_pct": 4.3,
+        "cand_return_pct": 88.4
+      },
+      {
+        "bet_type": "3連単",
+        "base_hits": 6,
+        "base_races": 211,
+        "base_hit_pct": 2.8,
+        "base_return_pct": 301.5,
+        "cand_hits": 9,
+        "cand_races": 211,
+        "cand_hit_pct": 4.3,
+        "cand_return_pct": 80.5
+      }
+    ]
+  },
+  "4": {
+    "base_label": "現行モデル(BOX4, pattern19)",
+    "cand_label": "馬連探索候補(pattern#181・不採用/参考)",
+    "rows": [
+      {
+        "bet_type": "単勝",
+        "base_hits": 127,
+        "base_races": 211,
+        "base_hit_pct": 60.2,
+        "base_return_pct": 99.0,
+        "cand_hits": 125,
+        "cand_races": 211,
+        "cand_hit_pct": 59.2,
+        "cand_return_pct": 99.9
+      },
+      {
+        "bet_type": "複勝",
+        "base_hits": 186,
+        "base_races": 211,
+        "base_hit_pct": 88.2,
+        "base_return_pct": 90.9,
+        "cand_hits": 186,
+        "cand_races": 211,
+        "cand_hit_pct": 88.2,
+        "cand_return_pct": 85.5
+      },
+      {
+        "bet_type": "枠連",
+        "base_hits": 69,
+        "base_races": 211,
+        "base_hit_pct": 32.7,
+        "base_return_pct": 116.6,
+        "cand_hits": 64,
+        "cand_races": 211,
+        "cand_hit_pct": 30.3,
+        "cand_return_pct": 93.2
+      },
+      {
+        "bet_type": "馬連",
+        "base_hits": 67,
+        "base_races": 211,
+        "base_hit_pct": 31.8,
+        "base_return_pct": 190.5,
+        "cand_hits": 68,
+        "cand_races": 211,
+        "cand_hit_pct": 32.2,
+        "cand_return_pct": 120.9
+      },
+      {
+        "bet_type": "ワイド",
+        "base_hits": 103,
+        "base_races": 211,
+        "base_hit_pct": 48.8,
+        "base_return_pct": 117.7,
+        "cand_hits": 120,
+        "cand_races": 211,
+        "cand_hit_pct": 56.9,
+        "cand_return_pct": 86.7
+      },
+      {
+        "bet_type": "馬単",
+        "base_hits": 67,
+        "base_races": 211,
+        "base_hit_pct": 31.8,
+        "base_return_pct": 165.2,
+        "cand_hits": 68,
+        "cand_races": 211,
+        "cand_hit_pct": 32.2,
+        "cand_return_pct": 126.4
+      },
+      {
+        "bet_type": "3連複",
+        "base_hits": 26,
+        "base_races": 211,
+        "base_hit_pct": 12.3,
+        "base_return_pct": 207.8,
+        "cand_hits": 17,
+        "cand_races": 211,
+        "cand_hit_pct": 8.1,
+        "cand_return_pct": 36.7
+      },
+      {
+        "bet_type": "3連単",
+        "base_hits": 26,
+        "base_races": 211,
+        "base_hit_pct": 12.3,
+        "base_return_pct": 196.8,
+        "cand_hits": 17,
+        "cand_races": 211,
+        "cand_hit_pct": 8.1,
+        "cand_return_pct": 30.3
+      }
+    ]
+  },
+  "5": {
+    "base_label": "現行モデル(BOX5, pattern83)",
+    "cand_label": "馬連探索候補(pattern#323・不採用/参考)",
+    "rows": [
+      {
+        "bet_type": "単勝",
+        "base_hits": 147,
+        "base_races": 211,
+        "base_hit_pct": 69.7,
+        "base_return_pct": 89.4,
+        "cand_hits": 149,
+        "cand_races": 211,
+        "cand_hit_pct": 70.6,
+        "cand_return_pct": 84.0
+      },
+      {
+        "bet_type": "複勝",
+        "base_hits": 203,
+        "base_races": 211,
+        "base_hit_pct": 96.2,
+        "base_return_pct": 88.9,
+        "cand_hits": 198,
+        "cand_races": 211,
+        "cand_hit_pct": 93.8,
+        "cand_return_pct": 82.9
+      },
+      {
+        "bet_type": "枠連",
+        "base_hits": 96,
+        "base_races": 211,
+        "base_hit_pct": 45.5,
+        "base_return_pct": 82.6,
+        "cand_hits": 98,
+        "cand_races": 211,
+        "cand_hit_pct": 46.4,
+        "cand_return_pct": 73.7
+      },
+      {
+        "bet_type": "馬連",
+        "base_hits": 93,
+        "base_races": 211,
+        "base_hit_pct": 44.1,
+        "base_return_pct": 119.9,
+        "cand_hits": 96,
+        "cand_races": 211,
+        "cand_hit_pct": 45.5,
+        "cand_return_pct": 128.9
+      },
+      {
+        "bet_type": "ワイド",
+        "base_hits": 146,
+        "base_races": 211,
+        "base_hit_pct": 69.2,
+        "base_return_pct": 94.4,
+        "cand_hits": 153,
+        "cand_races": 211,
+        "cand_hit_pct": 72.5,
+        "cand_return_pct": 86.3
+      },
+      {
+        "bet_type": "馬単",
+        "base_hits": 93,
+        "base_races": 211,
+        "base_hit_pct": 44.1,
+        "base_return_pct": 115.0,
+        "cand_hits": 96,
+        "cand_races": 211,
+        "cand_hit_pct": 45.5,
+        "cand_return_pct": 118.9
+      },
+      {
+        "bet_type": "3連複",
+        "base_hits": 38,
+        "base_races": 211,
+        "base_hit_pct": 18.0,
+        "base_return_pct": 95.3,
+        "cand_hits": 36,
+        "cand_races": 211,
+        "cand_hit_pct": 17.1,
+        "cand_return_pct": 84.9
+      },
+      {
+        "bet_type": "3連単",
+        "base_hits": 38,
+        "base_races": 211,
+        "base_hit_pct": 18.0,
+        "base_return_pct": 104.5,
+        "cand_hits": 36,
+        "cand_races": 211,
+        "cand_hit_pct": 17.1,
+        "cand_return_pct": 95.9
+      }
+    ]
+  }
+}
