@@ -1,0 +1,409 @@
+{
+  "n_races": 211,
+  "dates": [
+    "20260711",
+    "20260712",
+    "20260718",
+    "20260719",
+    "20260725",
+    "20260726",
+    "20260801",
+    "20260802",
+    "20260808",
+    "20260809",
+    "20260815",
+    "20260816"
+  ],
+  "pool": [
+    "speed",
+    "form",
+    "style",
+    "jt",
+    "waku",
+    "apt",
+    "train",
+    "distance",
+    "sire",
+    "bms",
+    "course",
+    "concerned",
+    "interval",
+    "kinryo",
+    "nige",
+    "margin",
+    "timediff",
+    "agari",
+    "holdtime",
+    "ketto_training",
+    "ketto_comment",
+    "odds_jockey",
+    "surf_jt",
+    "jockey_owner",
+    "prevjockey",
+    "hold_just",
+    "hold_wide",
+    "jockey_change",
+    "class_drop",
+    "weight_trend"
+  ],
+  "n_patterns": 1000,
+  "seed_base": 2309,
+  "box_ns": [
+    2,
+    3,
+    4
+  ],
+  "max_payout_cap": 20000.0,
+  "priors_fresh": {
+    "style_win": 10.097026022304833,
+    "style_place3": 29.50371747211896,
+    "jockey_win": 7.649814126394052,
+    "trainer_win": 8.077695167286246,
+    "waku_win": 6.8988847583643125,
+    "apt_win": 7.613237639553429,
+    "distance_win": 15.64837121212121,
+    "distance_place3": 34.890795454545454,
+    "distance_return": 148.17378787878786,
+    "sire_win": 7.97732342007435,
+    "sire_place3": 23.34275092936803,
+    "sire_return": 80.21672862453532,
+    "bms_win": 8.446096654275093,
+    "bms_place3": 22.984014869888476,
+    "bms_return": 76.79553903345725,
+    "course_win": 12.100334572490707,
+    "course_place3": 26.158996282527884,
+    "course_return": 116.67944237918216,
+    "concerned_win": 10.059851301115241,
+    "concerned_place3": 22.425650557620816,
+    "concerned_return": 92.75390334572491,
+    "interval_win": 8.027026022304833,
+    "interval_place3": 18.273420074349442,
+    "interval_return": 79.74710037174721,
+    "kinryo_win": 9.010185873605947,
+    "kinryo_place3": 24.349702602230483,
+    "kinryo_return": 72.13312267657992,
+    "ketto_training_win": 15.23440603893524,
+    "ketto_training_place3": 35.632499006754074,
+    "ketto_training_return": 137.39253079062377,
+    "ketto_comment_win": 16.857777777777777,
+    "ketto_comment_place3": 38.53111111111111,
+    "ketto_comment_return": 150.94074074074075,
+    "odds_jockey_win": 7.672601384767557,
+    "odds_jockey_place3": 24.24381800197824,
+    "odds_jockey_return": 77.09545004945599,
+    "surf_jt_win": 8.56702302631579,
+    "surf_jt_place3": 24.069901315789473,
+    "surf_jt_return": 95.14638157894737,
+    "jockey_owner_win": 11.154823529411765,
+    "jockey_owner_place3": 28.012235294117648,
+    "jockey_owner_return": 131.68282352941176,
+    "prevjockey_win": 7.5503300330033,
+    "prevjockey_place3": 22.428630363036305,
+    "prevjockey_return": 70.79084158415841
+  },
+  "results_by_box": {
+    "2": {
+      "n_signals": 30,
+      "max_payout_cap": 20000.0,
+      "market": {
+        "cap": 91.4691943127962,
+        "nocap": 91.4691943127962
+      },
+      "equal_weight": {
+        "cap": {
+          "model": 73.74407582938389,
+          "excess": -17.725118483412317
+        },
+        "nocap": {
+          "model": 73.74407582938389,
+          "excess": -17.725118483412317
+        }
+      },
+      "best_full_population": {
+        "pattern_index": 470,
+        "cap": {
+          "model": 200.521327014218,
+          "excess": 109.0521327014218
+        },
+        "nocap": {
+          "model": 200.521327014218,
+          "excess": 109.0521327014218
+        },
+        "weights": {
+          "speed": 0.026871795902692217,
+          "style": 0.06098842935175839,
+          "jt": 0.007756040097968448,
+          "waku": 0.031319900399111776,
+          "apt": 0.07535029333974924,
+          "train": 0.07784154466741697,
+          "sire": 0.013099824688027928,
+          "bms": 0.020137743464257576,
+          "course": 0.06593674228823566,
+          "concerned": 0.041159691119498326,
+          "interval": 0.05015482477334394,
+          "kinryo": 0.008587173882248592,
+          "nige": 0.07512774760181226,
+          "margin": 0.057691065227130724,
+          "timediff": 0.035730487307447,
+          "agari": 0.0443417933313021,
+          "holdtime": 0.01832676562333512,
+          "ketto_training": 0.0070410060171316015,
+          "ketto_comment": 0.005167987853253191,
+          "odds_jockey": 0.011459318974553179,
+          "surf_jt": 0.04110534480140082,
+          "jockey_owner": 0.034470116273749296,
+          "prevjockey": 0.04642056721662584,
+          "hold_just": 0.05252385059311537,
+          "hold_wide": 0.006568613523088848,
+          "class_drop": 0.06394418999033244,
+          "weight_trend": 0.011001214770216181
+        },
+        "candidate_signal_weight_share": 0.39705629115435376,
+        "candidate_v2_signal_weight_share": 0.14566434113671395,
+        "note": "全211レースで選んだ重みなのでin-sample最適化の楽観を含む(選定基準=cap後)"
+      },
+      "nested_lobo_oof": {
+        "cap": {
+          "model": 75.92417061611374,
+          "excess": -15.545023696682463
+        },
+        "nocap": {
+          "model": 75.92417061611374,
+          "excess": -15.545023696682463
+        }
+      },
+      "selection_optimism_cap": {
+        "selected_side": 280.5998521416208,
+        "unseen_side": 58.03818295407977,
+        "unseen_all_mean": 77.57493564863927,
+        "optimism_pt": 222.56166918754099,
+        "true_edge_pt": -19.536752694559492,
+        "true_edge_sd": 24.267025834632786,
+        "win_rate": 0.225
+      },
+      "bootstrap_full_population": {
+        "cap": {
+          "mean": 205.1833937790434,
+          "lo": 64.0983134920635,
+          "hi": 393.5315086782376,
+          "n_blocks": 36
+        },
+        "nocap": {
+          "mean": 205.1833937790434,
+          "lo": 64.0983134920635,
+          "hi": 393.5315086782376,
+          "n_blocks": 36
+        }
+      },
+      "gates": {
+        "nested_positive": false,
+        "true_edge_positive": false,
+        "boot_ci_lo_above_breakeven": false,
+        "n_gates_passed": 0,
+        "n_gates_total": 3
+      },
+      "decision": "不採用(参考ゲート0/3のみ通過、主判定のNested LOBO OOFが基準未達)"
+    },
+    "3": {
+      "n_signals": 30,
+      "max_payout_cap": 20000.0,
+      "market": {
+        "cap": 68.73617693522907,
+        "nocap": 68.73617693522907
+      },
+      "equal_weight": {
+        "cap": {
+          "model": 82.3696682464455,
+          "excess": 13.633491311216432
+        },
+        "nocap": {
+          "model": 82.3696682464455,
+          "excess": 13.633491311216432
+        }
+      },
+      "best_full_population": {
+        "pattern_index": 577,
+        "cap": {
+          "model": 138.21484992101105,
+          "excess": 69.47867298578198
+        },
+        "nocap": {
+          "model": 138.21484992101105,
+          "excess": 69.47867298578198
+        },
+        "weights": {
+          "speed": 0.058399339099632824,
+          "form": 0.008164290307188413,
+          "style": 0.025872854707834625,
+          "jt": 0.005559591164421729,
+          "train": 0.024983425489646268,
+          "distance": 0.0867686792057209,
+          "sire": 0.016032590266084914,
+          "bms": 0.1250289389861503,
+          "course": 0.1454302111105532,
+          "interval": 0.008716497198344414,
+          "kinryo": 0.023861926235408146,
+          "margin": 0.01030743132665327,
+          "agari": 0.07517243123424353,
+          "ketto_training": 0.011244355293367836,
+          "ketto_comment": 0.007249758707088731,
+          "odds_jockey": 0.05665765546236854,
+          "surf_jt": 0.12592513116572437,
+          "jockey_owner": 0.031760789601665895,
+          "prevjockey": 0.01612740409020049,
+          "hold_just": 0.032628599479464115,
+          "jockey_change": 0.03977751589642133,
+          "class_drop": 0.030398041294438675,
+          "weight_trend": 0.018810842314405454
+        },
+        "candidate_signal_weight_share": 0.27352717042742564,
+        "candidate_v2_signal_weight_share": 0.2489650943204159,
+        "note": "全211レースで選んだ重みなのでin-sample最適化の楽観を含む(選定基準=cap後)"
+      },
+      "nested_lobo_oof": {
+        "cap": {
+          "model": 47.867298578199055,
+          "excess": -20.868878357030013
+        },
+        "nocap": {
+          "model": 74.4391785150079,
+          "excess": 5.703001579778828
+        }
+      },
+      "selection_optimism_cap": {
+        "selected_side": 177.50073522600832,
+        "unseen_side": 66.58838002806931,
+        "unseen_all_mean": 80.31195812546225,
+        "optimism_pt": 110.91235519793901,
+        "true_edge_pt": -13.723578097392949,
+        "true_edge_sd": 17.923565767919467,
+        "win_rate": 0.205
+      },
+      "bootstrap_full_population": {
+        "cap": {
+          "mean": 138.16574598802907,
+          "lo": 73.47612372051624,
+          "hi": 215.20598705501612,
+          "n_blocks": 36
+        },
+        "nocap": {
+          "mean": 138.16574598802907,
+          "lo": 73.47612372051624,
+          "hi": 215.20598705501612,
+          "n_blocks": 36
+        }
+      },
+      "gates": {
+        "nested_positive": false,
+        "true_edge_positive": false,
+        "boot_ci_lo_above_breakeven": false,
+        "n_gates_passed": 0,
+        "n_gates_total": 3
+      },
+      "decision": "不採用(参考ゲート0/3のみ通過、主判定のNested LOBO OOFが基準未達)"
+    },
+    "4": {
+      "n_signals": 30,
+      "max_payout_cap": 20000.0,
+      "market": {
+        "cap": 67.1169036334913,
+        "nocap": 67.1169036334913
+      },
+      "equal_weight": {
+        "cap": {
+          "model": 78.94944707740916,
+          "excess": 11.832543443917857
+        },
+        "nocap": {
+          "model": 78.94944707740916,
+          "excess": 11.832543443917857
+        }
+      },
+      "best_full_population": {
+        "pattern_index": 181,
+        "cap": {
+          "model": 119.54186413902053,
+          "excess": 52.42496050552923
+        },
+        "nocap": {
+          "model": 119.54186413902053,
+          "excess": 52.42496050552923
+        },
+        "weights": {
+          "speed": 0.0058190658304965595,
+          "form": 0.028583467355985107,
+          "style": 0.07351491770693691,
+          "jt": 0.035372628801680635,
+          "waku": 0.02836649877027226,
+          "train": 0.04246140127795718,
+          "distance": 0.008059518122082885,
+          "sire": 0.019430855103892506,
+          "bms": 0.0055745988380687585,
+          "course": 0.14156280074481303,
+          "concerned": 0.007144798016683935,
+          "kinryo": 0.012385191211719642,
+          "nige": 0.0783239742669733,
+          "margin": 0.010745291348237375,
+          "timediff": 0.024409760316600887,
+          "agari": 0.014780877311593079,
+          "holdtime": 0.149502653915421,
+          "ketto_training": 0.005964171903290658,
+          "ketto_comment": 0.007032368386715268,
+          "odds_jockey": 0.027773914541353487,
+          "surf_jt": 0.03842748641648347,
+          "jockey_owner": 0.055845349923152106,
+          "prevjockey": 0.023970803688759434,
+          "hold_just": 0.008521293176372602,
+          "hold_wide": 0.05714924659907788,
+          "jockey_change": 0.012828378613603785,
+          "class_drop": 0.031294243579360156,
+          "weight_trend": 0.040659769095963874
+        },
+        "candidate_signal_weight_share": 0.44326570949077554,
+        "candidate_v2_signal_weight_share": 0.1590140948597544,
+        "note": "全211レースで選んだ重みなのでin-sample最適化の楽観を含む(選定基準=cap後)"
+      },
+      "nested_lobo_oof": {
+        "cap": {
+          "model": 75.18957345971565,
+          "excess": 8.072669826224342
+        },
+        "nocap": {
+          "model": 128.42812006319116,
+          "excess": 61.311216429699854
+        }
+      },
+      "selection_optimism_cap": {
+        "selected_side": 141.29967883392544,
+        "unseen_side": 74.86629954661487,
+        "unseen_all_mean": 78.01258765512922,
+        "optimism_pt": 66.43337928731057,
+        "true_edge_pt": -3.1462881085143524,
+        "true_edge_sd": 14.178315498722153,
+        "win_rate": 0.4
+      },
+      "bootstrap_full_population": {
+        "cap": {
+          "mean": 120.1667585775111,
+          "lo": 79.62694986836331,
+          "hi": 167.54801829268285,
+          "n_blocks": 36
+        },
+        "nocap": {
+          "mean": 120.1667585775111,
+          "lo": 79.62694986836331,
+          "hi": 167.54801829268285,
+          "n_blocks": 36
+        }
+      },
+      "gates": {
+        "nested_positive": true,
+        "true_edge_positive": false,
+        "boot_ci_lo_above_breakeven": false,
+        "n_gates_passed": 1,
+        "n_gates_total": 3
+      },
+      "decision": "不採用(参考ゲート1/3のみ通過、主判定のNested LOBO OOFが基準未達)"
+    }
+  }
+}
