@@ -281,15 +281,46 @@ def predict_pair_pq(params: np.ndarray, feats: list) -> list:
     return out
 
 
+TAKEOUT_UMAREN = 0.225  # jra_eval.TAKEOUT_RATES["馬連"]と同一(22.5%)
+
+
+def estimated_umaren_payout(pair, q: np.ndarray) -> float:
+    """ペア(i,j)の市場インプライド想定払戻(円、100円賭け・控除後近似)。賭ける**時点**で
+    分かる情報(市場オッズ由来のq、Harville式で導出したq_pair)だけを使う(ex-ante)。
+    2026-08-23修正: 旧cap(apply_payout_cap、jra_umaren_eval.py)は実現後の払戻で判定していた
+    ため(a)実運用不能、(b)回収率推定量が下方バイアス、(c)順列検定の帰無分布だけを非対称に
+    切り詰める、という不具合があった(Opus 5サブエージェントのレビューで指摘)。想定払戻は
+    100 * (1-控除率) / q_pair(控除後の理論払戻に近似)。"""
+    if pair is None:
+        return 0.0
+    i, j = pair
+    q = np.asarray(q, dtype=float)
+    if not (i < len(q) and j < len(q)):
+        return np.inf
+    qi, qj = q[i], q[j]
+    if not (0 < qi < 1) or not (0 < qj < 1):
+        return np.inf
+    q_pair = qi * qj / (1 - qi) + qj * qi / (1 - qj)
+    if q_pair <= 0:
+        return np.inf
+    return 100.0 * (1 - TAKEOUT_UMAREN) / q_pair
+
+
 def umaren_pq_picks(params: np.ndarray, feats: list, pq_threshold: float = DEFAULT_PQ_THRESHOLD,
-                    top1_only: bool = True) -> list:
+                    top1_only: bool = True, max_payout: float = None) -> list:
     """p_pair/q_pairがpq_threshold以上のペアのうち最良1組(top1_only、既定)を(i,j)タプルで
     返す(該当なしはNone)。既存pq_picks(単頭)と同じ設計思想(top1固定、閾値グリッド選択は
-    Gate6の記述的診断のみで使う)。"""
+    Gate6の記述的診断のみで使う)。
+    max_payout指定時: 想定払戻(estimated_umaren_payout、ex-ante)がmax_payoutを超える候補は
+    そもそも賭けない(候補から除外してから最良1組を選ぶ)。旧cap(実現後に無効化する方式)の
+    修正版で、選択と決済の両方で一貫してこの基準を使う設計(2026-08-23)。"""
     pq_list = predict_pair_pq(params, feats)
     picks = []
-    for pq in pq_list:
+    for f, pq in zip(feats, pq_list):
         candidates = {k: v for k, v in pq.items() if v >= pq_threshold}
+        if max_payout is not None:
+            candidates = {k: v for k, v in candidates.items()
+                         if estimated_umaren_payout(k, f["q"]) <= max_payout}
         if not candidates:
             picks.append(None)
             continue

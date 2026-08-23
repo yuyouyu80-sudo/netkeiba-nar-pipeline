@@ -12,14 +12,22 @@
   勝率モデル  : u = beta0・log(q) + beta1・z_近走(2パラメータ、MM.fit_2param、単勝/複勝版と
                 完全同一の推定手続き)
   賭け目      : 馬連1点(Harville式p_pair/q_pair >= 1.10、レース内最良1組、100円固定)
-  払戻cap     : 1点の払戻が20,000円以上のレースは検証から除外する(ユーザー指定)。
-                回収率計算・ブートストラップCI・順列検定の全てで一貫して適用する。
+  払戻cap     : 想定払戻(市場インプライド確率から導出、ex-ante)が20,000円以上のペアは
+                そもそも賭けない(ユーザー指定)。選抜の時点で一貫して適用する。
   CV          : walk_forward_oof(月次リフィット、burn_in=6ヶ月)が主判定
   ロックホールドアウト: 2026-03-01〜2026-06-30(単勝/複勝版と同一期間)
 
 Gate1(NLL改善)・Gate2(beta1層別安定性)は勝率モデル自体の性質であり馬連/単勝で変わらない
 ため独立に再計算する(既存jra_market_model_archive_2026_08_23_result.jsonと数値一致するはず
 =モデル無改造の裏付け・セルフチェック)。
+
+2026-08-23 Opus 5サブエージェントのレビューを受けた修正: 初版は払戻capを実現後(realized)
+基準で実装しており、(a)実運用不能、(b)Gate5の順列検定で帰無分布だけが非対称に切り詰められ
+「p=0.000でPASS」という偽陽性を生む、という不具合があった(cap無しで同一picks・同一seedで
+再実行するとp=0.455でFAILに反転することを確認)。本版はcapをex-ante基準
+(MM.estimated_umaren_payout、市場インプライド確率由来の想定払戻)に修正し、Gate5では
+cap適用版・cap無し版の両方を出力する。また市場ベンチマーク(人気1-2位の馬連)との差
+(excess)を全ゲートで出力する(初版は計算済みなのにレポートしていなかった)。
 
 実行方法: python scripts/jra_model/jra_umaren_archive_2026_08_23.py
 出力: data/jra_pipeline/jra_umaren_archive_2026_08_23_result.json
@@ -97,14 +105,21 @@ def main():
     wf_nll_model = ev_single.walk_forward_oof_nll(fit_fn, feats, burn_in_months=6)
     wf_nll_mkt = ev_single.walk_forward_oof_nll(fit_fn_mkt, feats, burn_in_months=6)
     diff_nll = ev_single.block_bootstrap_diff_nll(wf_nll_model["nll_per_race"], wf_nll_mkt["nll_per_race"])
+    # NLL改善を対数成長率(%)に変換し、馬連の控除率(22.5%)と桁で比較できるようにする
+    # (Opus 5レビュー指摘: 0.0057 nats/レースという絶対値だけでは「控除を超えられるか」の
+    # 判断材料にならない。exp(diff)-1が「市場のみモデルに対して何%良く賭けられるか」の目安)。
+    nll_improvement_pct = (float(np.exp(diff_nll["mean"])) - 1) * 100
     result["gate1"] = {
         "mean_nll_model": wf_nll_model["mean_nll"], "mean_nll_market_only": wf_nll_mkt["mean_nll"],
         "diff_ci": diff_nll, "n_folds": len(wf_nll_model["chosen_params"]),
+        "nll_improvement_pct_vs_takeout": {"value": nll_improvement_pct, "umaren_takeout_pct": 22.5},
         "pass": diff_nll["lo"] > 0,
     }
     print(f"  model_nll={wf_nll_model['mean_nll']:.5f} market_only_nll={wf_nll_mkt['mean_nll']:.5f} "
           f"diff_ci=[{diff_nll['lo']:.5f},{diff_nll['hi']:.5f}] -> "
           f"{'PASS' if result['gate1']['pass'] else 'FAIL'}")
+    print(f"  NLL改善を成長率換算: 約{nll_improvement_pct:.2f}%(馬連の控除率22.5%と比較すると"
+          f"2桁小さい水準)")
 
     # ============================================================ Gate2: beta1の層別安定性(単勝/複勝版と同一)
     print("\n=== Gate2: beta1の層別安定性(勝率モデル、単勝/複勝版と同一のはず) ===")
@@ -136,53 +151,62 @@ def main():
     print(f"  strata={strata}")
     print(f"  same_sign={len(signs)<=1} ratio={ratio} -> {'PASS' if result['gate2']['pass'] else 'FAIL'}")
 
-    # ============================================================ Gate3/4: walk_forward 馬連回収率(cap有/無)
-    print("\n=== Gate3/4: walk_forward OOF 馬連回収率(cap適用/参考=cap無し) ===")
-    wf = ev_umaren.walk_forward_oof(fit_fn, feats, burn_in_months=6, pq_threshold=PQ_THRESHOLD)
+    # ============================================================ Gate3/4: walk_forward 馬連回収率(ex-ante cap有/無)
+    # 2026-08-23修正(Opus 5レビュー): 払戻capを実現後(realized)から事前(ex-ante)基準に
+    # 変更。MM.umaren_pq_picksのmax_payout引数で「想定払戻が上限を超えるペアはそもそも
+    # 賭けない」を選抜の時点で適用する。picks自体が既にcap済みなので、決済・ブートストラップ
+    # は事後フィルタ不要(旧UE.apply_payout_capは廃止)。
+    print("\n=== Gate3/4: walk_forward OOF 馬連回収率(ex-ante cap適用/参考=cap無し) ===")
+    wf = ev_umaren.walk_forward_oof(fit_fn, feats, burn_in_months=6, pq_threshold=PQ_THRESHOLD,
+                                    max_payout=MAX_PAYOUT)
+    wf_nocap = ev_umaren.walk_forward_oof(fit_fn, feats, burn_in_months=6, pq_threshold=PQ_THRESHOLD,
+                                          max_payout=None)
     tested_idx = wf["tested_race_idx"]
     picks = wf["picks"]
-    n_bet_races = int(sum(1 for p in picks if p is not None))
 
-    st_raw, rt_raw = ev_umaren.settler.returns_for(picks)
-    st_capped, rt_capped = UE.apply_payout_cap(st_raw, rt_raw, MAX_PAYOUT)
-    rate_capped = UE.cost_weighted_rate(st_capped, rt_capped, idx=tested_idx)
-    boot_capped = ev_umaren.block_bootstrap(picks, max_payout=MAX_PAYOUT)
+    boot_capped = ev_umaren.block_bootstrap(picks)
+    boot_uncapped = ev_umaren.block_bootstrap(wf_nocap["picks"])
 
-    rate_uncapped = UE.cost_weighted_rate(st_raw, rt_raw, idx=tested_idx)
-    boot_uncapped = ev_umaren.block_bootstrap(picks, max_payout=None)
-    n_capped_out = int(np.sum(rt_raw[tested_idx, 0] >= MAX_PAYOUT))
-
-    result["gate3"] = {"umaren_return_pct": rate_capped, "umaren_boot": boot_capped,
-                       "n_bet_races": n_bet_races, "n_races_excluded_by_cap": n_capped_out,
-                       "pass": boot_capped["lo"] > 100.0 and n_bet_races >= 50}
-    result["gate4"] = {"umaren_return_pct_nocap": rate_uncapped, "umaren_boot_nocap": boot_uncapped,
-                       "pass": rate_uncapped > 100.0}
-    print(f"  馬連回収率(cap適用)={rate_capped:.2f}% CI=[{boot_capped['lo']:.2f},{boot_capped['hi']:.2f}] "
-          f"n_bet_races={n_bet_races} cap除外レース数={n_capped_out} -> "
-          f"{'PASS' if result['gate3']['pass'] else 'FAIL'}")
-    print(f"  馬連回収率(cap無し・参考)={rate_uncapped:.2f}% "
-          f"CI=[{boot_uncapped['lo']:.2f},{boot_uncapped['hi']:.2f}] -> "
+    result["gate3"] = {"umaren_return_pct": wf["model"], "market_return_pct": wf["market"],
+                       "excess_pt": wf["excess"], "umaren_boot": boot_capped,
+                       "n_bet_races": wf["n_bet_races"],
+                       "pass": boot_capped["lo"] > 100.0 and wf["n_bet_races"] >= 50}
+    result["gate4"] = {"umaren_return_pct_nocap": wf_nocap["model"],
+                       "market_return_pct_nocap": wf_nocap["market"],
+                       "excess_pt_nocap": wf_nocap["excess"],
+                       "umaren_boot_nocap": boot_uncapped, "n_bet_races_nocap": wf_nocap["n_bet_races"],
+                       "pass": wf_nocap["model"] > 100.0}
+    print(f"  馬連回収率(ex-ante cap適用)={wf['model']:.2f}% 市場(人気1-2)={wf['market']:.2f}% "
+          f"市場差={wf['excess']:+.2f}pt CI=[{boot_capped['lo']:.2f},{boot_capped['hi']:.2f}] "
+          f"n_bet_races={wf['n_bet_races']} -> {'PASS' if result['gate3']['pass'] else 'FAIL'}")
+    print(f"  馬連回収率(cap無し・参考)={wf_nocap['model']:.2f}% 市場={wf_nocap['market']:.2f}% "
+          f"市場差={wf_nocap['excess']:+.2f}pt CI=[{boot_uncapped['lo']:.2f},{boot_uncapped['hi']:.2f}] -> "
           f"{'PASS' if result['gate4']['pass'] else 'FAIL'}")
 
-    # ============================================================ Gate5: オッズマッチ順列検定(ペア版)
-    print("\n=== Gate5: オッズマッチ順列検定(馬連ペア版、cap適用) ===")
+    # ============================================================ Gate5: オッズマッチ順列検定(ペア版、ex-ante cap対称適用)
+    print("\n=== Gate5: オッズマッチ順列検定(馬連ペア版) ===")
     perm = UE.odds_matched_permutation_test(ev_umaren, races, picks, n_perm=2000, seed=77,
                                             odds_col=ODDS_COL, tol_log=0.15, max_payout=MAX_PAYOUT)
-    result["gate5"] = {**perm, "pass": perm["p_value_ge_real"] < 0.05}
-    print(f"  real_rate={perm['real_rate']:.2f}% sim_mean={perm['sim_mean']:.2f}% "
+    perm_nocap = UE.odds_matched_permutation_test(ev_umaren, races, wf_nocap["picks"], n_perm=2000,
+                                                  seed=77, odds_col=ODDS_COL, tol_log=0.15,
+                                                  max_payout=None)
+    result["gate5"] = {**perm, "pass": perm["p_value_ge_real"] < 0.05,
+                       "nocap_reference": perm_nocap}
+    print(f"  [cap適用/主判定] real_rate={perm['real_rate']:.2f}% sim_mean={perm['sim_mean']:.2f}% "
           f"p={perm['p_value_ge_real']:.4f} -> {'PASS' if result['gate5']['pass'] else 'FAIL'}")
+    print(f"  [cap無し/参考]   real_rate={perm_nocap['real_rate']:.2f}% "
+          f"sim_mean={perm_nocap['sim_mean']:.2f}% p={perm_nocap['p_value_ge_real']:.4f}")
 
-    # ============================================================ Gate6: 閾値単調性(記述的、cap適用)
-    print("\n=== Gate6: p/q閾値グリッドの単調性(記述的診断、cap適用) ===")
+    # ============================================================ Gate6: 閾値単調性(記述的、ex-ante cap適用)
+    print("\n=== Gate6: p/q閾値グリッドの単調性(記述的診断、ex-ante cap適用) ===")
     grid_rates = {}
     for t in (1.00, 1.05, 1.10, 1.15, 1.20):
-        wf_t = ev_umaren.walk_forward_oof(fit_fn, feats, burn_in_months=6, pq_threshold=t)
-        st_t, rt_t = ev_umaren.settler.returns_for(wf_t["picks"])
-        st_t, rt_t = UE.apply_payout_cap(st_t, rt_t, MAX_PAYOUT)
-        r = UE.cost_weighted_rate(st_t, rt_t, idx=wf_t["tested_race_idx"])
-        n_bet_t = int(sum(1 for p in wf_t["picks"] if p is not None))
-        grid_rates[t] = {"umaren_return_pct": r, "n_bet_races": n_bet_t}
-        print(f"  pq>={t}: 馬連回収率={r:.2f}%  n_bet_races={n_bet_t}")
+        wf_t = ev_umaren.walk_forward_oof(fit_fn, feats, burn_in_months=6, pq_threshold=t,
+                                          max_payout=MAX_PAYOUT)
+        grid_rates[t] = {"umaren_return_pct": wf_t["model"], "market_return_pct": wf_t["market"],
+                         "n_bet_races": wf_t["n_bet_races"]}
+        print(f"  pq>={t}: 馬連回収率={wf_t['model']:.2f}%  市場={wf_t['market']:.2f}%  "
+              f"n_bet_races={wf_t['n_bet_races']}")
     vals = [grid_rates[t]["umaren_return_pct"] for t in sorted(grid_rates)]
     non_decreasing = all(vals[i] <= vals[i+1] + 5.0 for i in range(len(vals) - 1))  # 5pt許容
     result["gate6"] = {"grid": grid_rates, "monotonic_nondecreasing_approx": non_decreasing,
@@ -198,19 +222,17 @@ def main():
         hfeats = build_feats(hraces, hactual)
         hev = UE.UmarenEvaluator(hraces, hactual, ninki_col=NINKI_COL)
         beta_final = MM.fit_2param(feats)  # 学習母集団全体でfit、ホールドアウトは一切参照しない
-        h_picks = MM.umaren_pq_picks(beta_final, hfeats, pq_threshold=PQ_THRESHOLD)
-        h_st, h_rt = hev.settler.returns_for(h_picks)
-        h_st_c, h_rt_c = UE.apply_payout_cap(h_st, h_rt, MAX_PAYOUT)
-        h_rate = UE.cost_weighted_rate(h_st_c, h_rt_c)
-        h_boot = hev.block_bootstrap(h_picks, max_payout=MAX_PAYOUT)
-        n_bet_h = int(sum(1 for p in h_picks if p is not None))
-        n_capped_out_h = int(np.sum(h_rt[:, 0] >= MAX_PAYOUT))
-        result["gate7"] = {"beta_used": beta_final.tolist(), "umaren_return_pct": h_rate,
-                           "umaren_boot": h_boot, "n_bet_races": n_bet_h,
-                           "n_races_excluded_by_cap": n_capped_out_h,
-                           "pass": h_rate > 100.0 and h_boot["lo"] > 90.0}
-        print(f"  馬連回収率(cap適用)={h_rate:.2f}% CI=[{h_boot['lo']:.2f},{h_boot['hi']:.2f}] "
-              f"n_bet_races={n_bet_h} cap除外レース数={n_capped_out_h} -> "
+        h_picks = MM.umaren_pq_picks(beta_final, hfeats, pq_threshold=PQ_THRESHOLD,
+                                     max_payout=MAX_PAYOUT)
+        h_eval = hev.evaluate(h_picks)
+        h_boot = hev.block_bootstrap(h_picks)
+        result["gate7"] = {"beta_used": beta_final.tolist(), "umaren_return_pct": h_eval["model"],
+                           "market_return_pct": h_eval["market"], "excess_pt": h_eval["excess"],
+                           "umaren_boot": h_boot, "n_bet_races": h_eval["n_bet_races"],
+                           "pass": h_eval["model"] > 100.0 and h_boot["lo"] > 90.0}
+        print(f"  馬連回収率(ex-ante cap適用)={h_eval['model']:.2f}% "
+              f"市場(人気1-2)={h_eval['market']:.2f}% 市場差={h_eval['excess']:+.2f}pt "
+              f"CI=[{h_boot['lo']:.2f},{h_boot['hi']:.2f}] n_bet_races={h_eval['n_bet_races']} -> "
               f"{'PASS' if result['gate7']['pass'] else 'FAIL'}")
     else:
         result["gate7"] = {"pass": False, "note": "ホールドアウト母集団が空"}
