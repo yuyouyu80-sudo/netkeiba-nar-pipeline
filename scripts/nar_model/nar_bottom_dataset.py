@@ -11,6 +11,16 @@
 共有キャッシュ(nar_dataset_cache.pkl)は汚染しない: nar_dataset.load()/load(rebuild=True)は
 使わず、nar_dataset.build(verbose=False)を直接呼び、結果は本モジュール専用の
 nar_bottom_dataset_cache.pkl にのみ保存する。
+
+後方互換拡張(2026-08-25、K=3〜8スイープ対応):
+  - build(min_field_size=5): 引数化。デフォルト値は旧来の固定値5と同じなので、
+    既存呼び出し(nar_search_bottom_2026_08_24.py等)は無改造で従来どおり動く。
+  - df["finish_pos_numeric"] を追加出力(label_bottomはそのまま残す)。DNF正例
+    (中止/失格)は999.0センチネル(実測でfinish_pos実値1〜16と衝突しないことを確認済み)、
+    DNF除外/欠損はNaN、それ以外は数値。K=3〜8いずれのしきい値でも同じdf1回のbuildで
+    ラベルを再構成できるようにするためのもの。
+  - キャッシュにschema_versionを埋め込み、load()はバージョン不一致(旧キャッシュ含む)なら
+    自動的にbuild()で再生成する(ファイル名は変えない)。
 """
 import pickle
 import sys
@@ -24,6 +34,13 @@ PROJECT_ROOT = LIB_DIR.parent.parent
 DATA_DIR = PROJECT_ROOT / "data" / "nar_pipeline"
 CACHE = DATA_DIR / "nar_bottom_dataset_cache.pkl"
 RESULTS_DIR = PROJECT_ROOT / "data" / "race_results" / "nar" / "2026"
+
+# キャッシュペイロードのスキーマバージョン。finish_pos_numeric追加(2026-08-25)でv2に。
+SCHEMA_VERSION = 2
+
+# DNF正例(中止/失格)のfinish_pos_numericセンチネル値。実測(全16805行走査)でfinish_pos
+# 実値(1〜16)と衝突しないことを確認済み。
+DNF_SENTINEL = 999.0
 
 sys.path.insert(0, str(LIB_DIR))
 import nar_dataset  # noqa: E402  既存モジュール、無改造・呼ぶだけ
@@ -65,7 +82,24 @@ def _label_row(raw) -> float:
         return np.nan  # 未知コード、安全側で除外
 
 
-def build(verbose: bool = True) -> dict:
+def _finish_pos_numeric_row(raw) -> float:
+    """1頭分の finish_pos 生値から数値着順を返す(K=3〜8スイープで任意のしきい値の
+    ラベルを再構成するための土台)。DNF正例(中止/失格)はDNF_SENTINEL、DNF除外
+    (取消/除外)・欠損はNaN、それ以外は数値そのもの。"""
+    if pd.isna(raw) or str(raw).strip() == "":
+        return np.nan
+    s = str(raw).strip()
+    if s in DNF_EXCLUDE:
+        return np.nan
+    if s in DNF_POSITIVE:
+        return DNF_SENTINEL
+    try:
+        return float(int(s))
+    except ValueError:
+        return np.nan
+
+
+def build(verbose: bool = True, min_field_size: int = 5) -> dict:
     base = nar_dataset.build(verbose=False)  # 母集団定義(新馬+未勝利除外等)は既存のまま流用
     finish = _load_finish_pos()
 
@@ -81,11 +115,12 @@ def build(verbose: bool = True) -> dict:
             skipped.append((r["race_id"], "finish_pos_merge_row_mismatch"))
             continue
         merged["label_bottom"] = merged["finish_pos"].map(_label_row)
+        merged["finish_pos_numeric"] = merged["finish_pos"].map(_finish_pos_numeric_row)
         merged = merged[merged["label_bottom"].notna()].reset_index(drop=True)
-        if len(merged) < 5:
-            # 4頭立て以下(5位以下が原理的に存在しない)、またはラベル除外後に頭数が
-            # 5未満まで減ったレース。field_size>=5フィルタをここで機械的に適用する。
-            skipped.append((r["race_id"], "field_size_lt_5_after_label_cleanup"))
+        if len(merged) < min_field_size:
+            # min_field_size未満(既定5)まで頭数が減ったレース。field_size>=min_field_size
+            # フィルタをここで機械的に適用する。
+            skipped.append((r["race_id"], f"field_size_lt_{min_field_size}_after_label_cleanup"))
             continue
         races.append({
             "race_id": r["race_id"], "kaisai_date": r["kaisai_date"],
@@ -98,6 +133,7 @@ def build(verbose: bool = True) -> dict:
         "races": races,
         "dates": sorted({r["kaisai_date"] for r in races}),
         "skipped": skipped,
+        "schema_version": SCHEMA_VERSION,
     }
     if verbose:
         n_a = len(races)
@@ -125,7 +161,11 @@ def track_b(data: dict) -> list:
 def load(rebuild: bool = False) -> dict:
     if CACHE.exists() and not rebuild:
         with CACHE.open("rb") as f:
-            return pickle.load(f)
+            data = pickle.load(f)
+        if data.get("schema_version") == SCHEMA_VERSION:
+            return data
+        # 旧形式(schema_versionキー無し、または旧バージョン)のキャッシュは自動再生成する。
+        # ファイル名は変えない(_v2.pklのような枝分かれを避ける)。
     data = build(verbose=False)
     with CACHE.open("wb") as f:
         pickle.dump(data, f)

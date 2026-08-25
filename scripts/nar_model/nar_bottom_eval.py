@@ -16,6 +16,17 @@
   * ブロック間比較(市場・系統間)はペア差分ブロックブートストラップにする
     (nar_eval.block_bootstrapの非ペア設計を踏襲しない。同一レース上の対比較にすることで
     共通ノイズを相殺し検出力を上げる)。
+
+後方互換拡張(2026-08-25、K=3〜8スイープ対応):
+  * Evaluator(labels=None, label_col="label_bottom"): labelsを渡せばdfを読まず直接使う
+    (K別ラベルをdfに書き込まないための経路)。省略時は従来どおりdf[label_col]を読み、
+    既存呼び出しの挙動は完全に維持される。
+  * signal_label_correlation(..., labels=None, label_col="label_bottom")も同じパターン。
+  * label_and_filter(races, k, box_n): field_size > max(k, box_n) でレースを絞り、
+    (サブレースリスト, ラベル配列のリスト) を返す(dfへの列追加はしない)。
+  * Evaluator.group_kfold_oof: 既存lobo_oof(leave-one-block-out、ブロック数が多いと
+    学習集合がほぼ変わらずargmaxが実質固定される構造的欠陥が判明)とは別に追加する、
+    held-out比率が有意に大きいグループK分割OOF。lobo_oofは無改造のまま残す。
 """
 import numpy as np
 import pandas as pd
@@ -53,13 +64,47 @@ def score_picks_bottom(mats: list, w: np.ndarray, box_n: int) -> list:
     return picks
 
 
+def label_and_filter(races: list, k: int, box_n: int) -> tuple:
+    """K=3〜8スイープ用: finish_pos_numericからKしきい値のラベルをその場で作り、
+    field_size > max(k, box_n) でレースを絞る(box_n<=Kなレースで「全馬選出=市場と
+    機械的に同値」という無情報行が混じる問題を、Kだけでなくbox_nも考慮して防ぐ)。
+
+    dfへの列書き込みは行わない(K別ラベルを共有dfオブジェクトに書き込むと、複数のKパスが
+    同じdfを参照している場合に上書き事故が起きるリスクがあるため)。ラベル配列は
+    Evaluator(races, box_n, labels=...) に直接渡すこと。
+
+    戻り値: (サブレースのリスト, 各レースに対応するラベルnp.ndarrayのリスト,
+    元のracesリストにおけるインデックスのリスト)。3番目の要素は、Kに依存しない
+    build_matrices()の結果(元のracesと1:1対応)をこのサブ集合にスライスするために使う
+    (build_matricesの再利用最適化、Kごとに再計算しないための橋渡し)。
+    """
+    min_size = max(k, box_n)
+    sub_races, sub_labels, sub_idx = [], [], []
+    for i, r in enumerate(races):
+        if r["field_size"] <= min_size:
+            continue
+        fp = r["df"]["finish_pos_numeric"].to_numpy(dtype=float)
+        label = np.where(np.isnan(fp), np.nan, (fp >= k).astype(float))
+        if np.isnan(label).all():
+            continue
+        sub_races.append(r)
+        sub_labels.append(label)
+        sub_idx.append(i)
+    return sub_races, sub_labels, sub_idx
+
+
 class Evaluator:
     """1つのレース集合に対する評価器。ラベル行列と市場ベンチマークを一度だけ作る。"""
 
-    def __init__(self, races: list, box_n: int):
+    def __init__(self, races: list, box_n: int, labels: list = None,
+                 label_col: str = "label_bottom"):
         self.races = races
         self.box_n = box_n
-        self.labels = [r["df"]["label_bottom"].to_numpy(dtype=float) for r in races]
+        if labels is not None:
+            # K別ラベルを直接渡す経路(dfへの列追加を避ける、label_and_filter用)。
+            self.labels = [np.asarray(l, dtype=float) for l in labels]
+        else:
+            self.labels = [r["df"][label_col].to_numpy(dtype=float) for r in races]
         self.field_sizes = np.array([len(l) for l in self.labels])
         self.blocks = blocks_of(races)
         self.block_ids = sorted(set(self.blocks))
@@ -123,6 +168,41 @@ class Evaluator:
         result = {"picks": picks, **self.evaluate(picks)}
         result["fold_argmax_choices"] = choices
         result["fold_argmax_unique"] = len(set(choices))
+        return result
+
+    def group_kfold_oof(self, fit_fn, mats_all: list, n_folds: int = 8, seed: int = 13) -> dict:
+        """ブロックをn_foldsグループに乱数分割するK分割out-of-fold評価(lobo_oofとは別に
+        追加、lobo_oof自体は無改造のまま残す)。
+
+        leave-one-block-outはブロック数が多い(NARは94〜138ブロック)と1ブロック抜いても
+        学習集合がほぼ変わらず、fit_fnのargmaxが実質固定されてしまう構造的な欠陥がある
+        (fold_argmax_uniqueが1〜2に張り付く)。ここではheld-out比率を意図的に大きくして
+        (既定n_folds=8なら1/8=12.5%)、argmaxが実際に変動しうるようにする。
+        """
+        rng = np.random.default_rng(seed)
+        ids = list(self.block_ids)
+        order = rng.permutation(len(ids))
+        folds = [order[i::n_folds] for i in range(n_folds)]
+        picks = [None] * len(self.races)
+        choices = []
+        for fold in folds:
+            test_blocks = {ids[i] for i in fold}
+            test_idx = np.array([i for i, b in enumerate(self.blocks) if b in test_blocks])
+            train_idx = np.array([i for i, b in enumerate(self.blocks) if b not in test_blocks])
+            if len(test_idx) == 0 or len(train_idx) == 0:
+                continue
+            w, chosen = fit_fn(train_idx)
+            choices.append(chosen)
+            for i in test_idx:
+                m = mats_all[i]
+                num, den = m["S"] @ w, m["A"] @ w
+                score = np.where(den > 0, num / den, np.inf)
+                k = min(self.box_n, len(score))
+                picks[i] = np.argsort(score, kind="stable")[:k]
+        result = {"picks": picks, **self.evaluate(picks)}
+        result["fold_argmax_choices"] = choices
+        result["fold_argmax_unique"] = len(set(choices))
+        result["n_folds"] = len(folds)
         return result
 
     # --------------------------------------------------------------- bootstrap
@@ -263,16 +343,20 @@ def horse_group_split(races: list, seed: int = 7):
 
 
 # --------------------------------------------------------------------- diagnostics
-def signal_label_correlation(entries: list, mats: list, names: list) -> dict:
-    """各シグナルとlabel_bottomのspearman相関を実測する(符号規約チェック用、Phase 0)。
-    規約「高いほど4着以内で終わりやすい」が正しければ、label_bottom(1=5位以下)との
-    相関は負になるはず。正の相関が出たシグナルは符号が意図と逆の可能性がある。"""
+def signal_label_correlation(entries: list, mats: list, names: list, labels: list = None,
+                             label_col: str = "label_bottom") -> dict:
+    """各シグナルとラベルのspearman相関を実測する(符号規約チェック用、Phase 0)。
+    規約「高いほど4着以内で終わりやすい」が正しければ、ラベル(1=しきい値より下位)との
+    相関は負になるはず。正の相関が出たシグナルは符号が意図と逆の可能性がある。
+
+    labelsを渡せばK別ラベル配列を直接使う(dfを読まない)。省略時は従来どおり
+    df[label_col]を読む(デフォルトlabel_col="label_bottom"で旧来の挙動を維持)。"""
     rows = []
-    for e, m in zip(entries, mats):
+    label_source = labels if labels is not None else [e["df"][label_col].to_numpy(dtype=float) for e in entries]
+    for e, m, lab in zip(entries, mats, label_source):
         S, A = m["S"], m["A"]
-        labels = e["df"]["label_bottom"].to_numpy(dtype=float)
-        for i in range(len(labels)):
-            row = {"label_bottom": labels[i]}
+        for i in range(len(lab)):
+            row = {"label_bottom": lab[i]}
             for j, n in enumerate(names):
                 row[n] = S[i, j] if A[i, j] > 0 else np.nan
             rows.append(row)
