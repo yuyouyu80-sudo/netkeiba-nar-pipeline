@@ -5,3 +5,4 @@ pandas
 python-dotenv
 tqdm
 pytest
+playwright~=1.62

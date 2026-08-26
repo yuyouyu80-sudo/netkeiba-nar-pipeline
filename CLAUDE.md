@@ -22,7 +22,9 @@ netKeibaから生データを取得・蓄積するだけの会話。JRA・NAR両
 - `scripts/watch_odds.py --date` — 発走前オッズの継続監視・取得(要: 事前に`predict_pattern29.py`で
   `race_names_{date}.csv`が生成済みであること)
 - `scripts/refresh_bias.py --date/--race-id` — オッズ・人気・馬体重の再取得
-- 関連スキル: `netkeiba-fetch-date`、`netkeiba-fetch-newspaper`
+- `scripts/fetch_marks.py --date/--race-id [--circuit jra|nar]` — 予想印(本紙・CP・その他)取得。
+  Playwright使用、事前に`fetch_newspaper.py`でCSVが生成済みであることが前提
+- 関連スキル: `netkeiba-fetch-date`、`netkeiba-fetch-newspaper`、`netkeiba-fetch-marks`
 
 ### データ予想用セッション
 

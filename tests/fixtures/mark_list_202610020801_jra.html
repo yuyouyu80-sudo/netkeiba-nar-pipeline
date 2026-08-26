@@ -1,0 +1,2422 @@
+<!DOCTYPE html><html><head><style type="text/css">.swal-icon--error{border-color:#f27474;-webkit-animation:animateErrorIcon .5s;animation:animateErrorIcon .5s}.swal-icon--error__x-mark{position:relative;display:block;-webkit-animation:animateXMark .5s;animation:animateXMark .5s}.swal-icon--error__line{position:absolute;height:5px;width:47px;background-color:#f27474;display:block;top:37px;border-radius:2px}.swal-icon--error__line--left{-webkit-transform:rotate(45deg);transform:rotate(45deg);left:17px}.swal-icon--error__line--right{-webkit-transform:rotate(-45deg);transform:rotate(-45deg);right:16px}@-webkit-keyframes animateErrorIcon{0%{-webkit-transform:rotateX(100deg);transform:rotateX(100deg);opacity:0}to{-webkit-transform:rotateX(0deg);transform:rotateX(0deg);opacity:1}}@keyframes animateErrorIcon{0%{-webkit-transform:rotateX(100deg);transform:rotateX(100deg);opacity:0}to{-webkit-transform:rotateX(0deg);transform:rotateX(0deg);opacity:1}}@-webkit-keyframes animateXMark{0%{-webkit-transform:scale(.4);transform:scale(.4);margin-top:26px;opacity:0}50%{-webkit-transform:scale(.4);transform:scale(.4);margin-top:26px;opacity:0}80%{-webkit-transform:scale(1.15);transform:scale(1.15);margin-top:-6px}to{-webkit-transform:scale(1);transform:scale(1);margin-top:0;opacity:1}}@keyframes animateXMark{0%{-webkit-transform:scale(.4);transform:scale(.4);margin-top:26px;opacity:0}50%{-webkit-transform:scale(.4);transform:scale(.4);margin-top:26px;opacity:0}80%{-webkit-transform:scale(1.15);transform:scale(1.15);margin-top:-6px}to{-webkit-transform:scale(1);transform:scale(1);margin-top:0;opacity:1}}.swal-icon--warning{border-color:#f8bb86;-webkit-animation:pulseWarning .75s infinite alternate;animation:pulseWarning .75s infinite alternate}.swal-icon--warning__body{width:5px;height:47px;top:10px;border-radius:2px;margin-left:-2px}.swal-icon--warning__body,.swal-icon--warning__dot{position:absolute;left:50%;background-color:#f8bb86}.swal-icon--warning__dot{width:7px;height:7px;border-radius:50%;margin-left:-4px;bottom:-11px}@-webkit-keyframes pulseWarning{0%{border-color:#f8d486}to{border-color:#f8bb86}}@keyframes pulseWarning{0%{border-color:#f8d486}to{border-color:#f8bb86}}.swal-icon--success{border-color:#a5dc86}.swal-icon--success:after,.swal-icon--success:before{content:"";border-radius:50%;position:absolute;width:60px;height:120px;background:#fff;-webkit-transform:rotate(45deg);transform:rotate(45deg)}.swal-icon--success:before{border-radius:120px 0 0 120px;top:-7px;left:-33px;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-transform-origin:60px 60px;transform-origin:60px 60px}.swal-icon--success:after{border-radius:0 120px 120px 0;top:-11px;left:30px;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-transform-origin:0 60px;transform-origin:0 60px;-webkit-animation:rotatePlaceholder 4.25s ease-in;animation:rotatePlaceholder 4.25s ease-in}.swal-icon--success__ring{width:80px;height:80px;border:4px solid hsla(98,55%,69%,.2);border-radius:50%;box-sizing:content-box;position:absolute;left:-4px;top:-4px;z-index:2}.swal-icon--success__hide-corners{width:5px;height:90px;background-color:#fff;padding:1px;position:absolute;left:28px;top:8px;z-index:1;-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}.swal-icon--success__line{height:5px;background-color:#a5dc86;display:block;border-radius:2px;position:absolute;z-index:2}.swal-icon--success__line--tip{width:25px;left:14px;top:46px;-webkit-transform:rotate(45deg);transform:rotate(45deg);-webkit-animation:animateSuccessTip .75s;animation:animateSuccessTip .75s}.swal-icon--success__line--long{width:47px;right:8px;top:38px;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-animation:animateSuccessLong .75s;animation:animateSuccessLong .75s}@-webkit-keyframes rotatePlaceholder{0%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}5%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}12%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}to{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}}@keyframes rotatePlaceholder{0%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}5%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}12%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}to{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}}@-webkit-keyframes animateSuccessTip{0%{width:0;left:1px;top:19px}54%{width:0;left:1px;top:19px}70%{width:50px;left:-8px;top:37px}84%{width:17px;left:21px;top:48px}to{width:25px;left:14px;top:45px}}@keyframes animateSuccessTip{0%{width:0;left:1px;top:19px}54%{width:0;left:1px;top:19px}70%{width:50px;left:-8px;top:37px}84%{width:17px;left:21px;top:48px}to{width:25px;left:14px;top:45px}}@-webkit-keyframes animateSuccessLong{0%{width:0;right:46px;top:54px}65%{width:0;right:46px;top:54px}84%{width:55px;right:0;top:35px}to{width:47px;right:8px;top:38px}}@keyframes animateSuccessLong{0%{width:0;right:46px;top:54px}65%{width:0;right:46px;top:54px}84%{width:55px;right:0;top:35px}to{width:47px;right:8px;top:38px}}.swal-icon--info{border-color:#c9dae1}.swal-icon--info:before{width:5px;height:29px;bottom:17px;border-radius:2px;margin-left:-2px}.swal-icon--info:after,.swal-icon--info:before{content:"";position:absolute;left:50%;background-color:#c9dae1}.swal-icon--info:after{width:7px;height:7px;border-radius:50%;margin-left:-3px;top:19px}.swal-icon{width:80px;height:80px;border-width:4px;border-style:solid;border-radius:50%;padding:0;position:relative;box-sizing:content-box;margin:20px auto}.swal-icon:first-child{margin-top:32px}.swal-icon--custom{width:auto;height:auto;max-width:100%;border:none;border-radius:0}.swal-icon img{max-width:100%;max-height:100%}.swal-title{color:rgba(0,0,0,.65);font-weight:600;text-transform:none;position:relative;display:block;padding:13px 16px;font-size:27px;line-height:normal;text-align:center;margin-bottom:0}.swal-title:first-child{margin-top:26px}.swal-title:not(:first-child){padding-bottom:0}.swal-title:not(:last-child){margin-bottom:13px}.swal-text{font-size:16px;position:relative;float:none;line-height:normal;vertical-align:top;text-align:left;display:inline-block;margin:0;padding:0 10px;font-weight:400;color:rgba(0,0,0,.64);max-width:calc(100% - 20px);overflow-wrap:break-word;box-sizing:border-box}.swal-text:first-child{margin-top:45px}.swal-text:last-child{margin-bottom:45px}.swal-footer{text-align:right;padding-top:13px;margin-top:13px;padding:13px 16px;border-radius:inherit;border-top-left-radius:0;border-top-right-radius:0}.swal-button-container{margin:5px;display:inline-block;position:relative}.swal-button{background-color:#7cd1f9;color:#fff;border:none;box-shadow:none;border-radius:5px;font-weight:600;font-size:14px;padding:10px 24px;margin:0;cursor:pointer}.swal-button:not([disabled]):hover{background-color:#78cbf2}.swal-button:active{background-color:#70bce0}.swal-button:focus{outline:none;box-shadow:0 0 0 1px #fff,0 0 0 3px rgba(43,114,165,.29)}.swal-button[disabled]{opacity:.5;cursor:default}.swal-button::-moz-focus-inner{border:0}.swal-button--cancel{color:#555;background-color:#efefef}.swal-button--cancel:not([disabled]):hover{background-color:#e8e8e8}.swal-button--cancel:active{background-color:#d7d7d7}.swal-button--cancel:focus{box-shadow:0 0 0 1px #fff,0 0 0 3px rgba(116,136,150,.29)}.swal-button--danger{background-color:#e64942}.swal-button--danger:not([disabled]):hover{background-color:#df4740}.swal-button--danger:active{background-color:#cf423b}.swal-button--danger:focus{box-shadow:0 0 0 1px #fff,0 0 0 3px rgba(165,43,43,.29)}.swal-content{padding:0 20px;margin-top:20px;font-size:medium}.swal-content:last-child{margin-bottom:20px}.swal-content__input,.swal-content__textarea{-webkit-appearance:none;background-color:#fff;border:none;font-size:14px;display:block;box-sizing:border-box;width:100%;border:1px solid rgba(0,0,0,.14);padding:10px 13px;border-radius:2px;transition:border-color .2s}.swal-content__input:focus,.swal-content__textarea:focus{outline:none;border-color:#6db8ff}.swal-content__textarea{resize:vertical}.swal-button--loading{color:transparent}.swal-button--loading~.swal-button__loader{opacity:1}.swal-button__loader{position:absolute;height:auto;width:43px;z-index:2;left:50%;top:50%;-webkit-transform:translateX(-50%) translateY(-50%);transform:translateX(-50%) translateY(-50%);text-align:center;pointer-events:none;opacity:0}.swal-button__loader div{display:inline-block;float:none;vertical-align:baseline;width:9px;height:9px;padding:0;border:none;margin:2px;opacity:.4;border-radius:7px;background-color:hsla(0,0%,100%,.9);transition:background .2s;-webkit-animation:swal-loading-anim 1s infinite;animation:swal-loading-anim 1s infinite}.swal-button__loader div:nth-child(3n+2){-webkit-animation-delay:.15s;animation-delay:.15s}.swal-button__loader div:nth-child(3n+3){-webkit-animation-delay:.3s;animation-delay:.3s}@-webkit-keyframes swal-loading-anim{0%{opacity:.4}20%{opacity:.4}50%{opacity:1}to{opacity:.4}}@keyframes swal-loading-anim{0%{opacity:.4}20%{opacity:.4}50%{opacity:1}to{opacity:.4}}.swal-overlay{position:fixed;top:0;bottom:0;left:0;right:0;text-align:center;font-size:0;overflow-y:auto;background-color:rgba(0,0,0,.4);z-index:10000;pointer-events:none;opacity:0;transition:opacity .3s}.swal-overlay:before{content:" ";display:inline-block;vertical-align:middle;height:100%}.swal-overlay--show-modal{opacity:1;pointer-events:auto}.swal-overlay--show-modal .swal-modal{opacity:1;pointer-events:auto;box-sizing:border-box;-webkit-animation:showSweetAlert .3s;animation:showSweetAlert .3s;will-change:transform}.swal-modal{width:478px;opacity:0;pointer-events:none;background-color:#fff;text-align:center;border-radius:5px;position:static;margin:20px auto;display:inline-block;vertical-align:middle;-webkit-transform:scale(1);transform:scale(1);-webkit-transform-origin:50% 50%;transform-origin:50% 50%;z-index:10001;transition:opacity .2s,-webkit-transform .3s;transition:transform .3s,opacity .2s;transition:transform .3s,opacity .2s,-webkit-transform .3s}@media (max-width:500px){.swal-modal{width:calc(100% - 20px)}}@-webkit-keyframes showSweetAlert{0%{-webkit-transform:scale(1);transform:scale(1)}1%{-webkit-transform:scale(.5);transform:scale(.5)}45%{-webkit-transform:scale(1.05);transform:scale(1.05)}80%{-webkit-transform:scale(.95);transform:scale(.95)}to{-webkit-transform:scale(1);transform:scale(1)}}@keyframes showSweetAlert{0%{-webkit-transform:scale(1);transform:scale(1)}1%{-webkit-transform:scale(.5);transform:scale(.5)}45%{-webkit-transform:scale(1.05);transform:scale(1.05)}80%{-webkit-transform:scale(.95);transform:scale(.95)}to{-webkit-transform:scale(1);transform:scale(1)}}</style>
+<meta charset="utf-8">
+
+<!-- block=common__meta_tag_each_race (cp) -->
+<meta http-equiv="content-language" content="ja">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=1000">
+<meta name="format-detection" content="telephone=no">
+<meta name="description" content="2026年7月19日 小倉1R ３歳以上障害未勝利の予想 | 予想印・プロ予想家・見解/買い目です。JRA開催レースの出馬表や最新オッズ、レース結果速報、払戻情報をはじめ、競馬予想やデータ分析など予想に役立つ情報も満載です。">
+<meta name="keywords" content="競馬,keiba,出馬表,オッズ,予想,レース結果,払戻し,結果R報,競馬?想,ネット競馬,netkeiba">
+<meta name="thumbnail" content="https://www.netkeiba.com/style/netkeiba.ja/image/netkeiba.png">
+<!-- ogp用 -->
+<meta property="og:site_name" content="netkeiba">
+<meta property="og:type" content="article">
+<meta property="og:title" content="３歳以上障害未勝利 予想 | 予想印・プロ予想家・見解/買い目 | 2026年7月19日 小倉1R レース情報(JRA) - netkeiba">
+<meta property="og:url" content="https://race.netkeiba.com/yoso/mark_list.html?race_id=202610020801">
+<meta property="og:description" content="2026年7月19日 小倉1R ３歳以上障害未勝利の予想 | 予想印・プロ予想家・見解/買い目です。JRA開催レースの出馬表や最新オッズ、レース結果速報、払戻情報をはじめ、競馬予想やデータ分析など予想に役立つ情報も満載です。">
+<meta property="og:image" content="https://www.netkeiba.com/style/netkeiba.ja/image/netkeiba.png">
+<!-- Twitter用 -->
+<meta property="twitter:card" content="summary">
+<meta property="twitter:site" content="@netkeiba">
+<link rel="canonical" href="https://race.netkeiba.com/yoso/mark_list.html?race_id=202610020801">
+<link rel="alternate" media="only screen and (max-width: 640px)" href="https://race.sp.netkeiba.com/yoso/mark_list.html?race_id=202610020801">
+<link rel="alternate" type="application/rss+xml" href="https://rss.netkeiba.com?pid=rss_netkeiba&amp;site=netkeiba">
+<!-- アノテーション -->
+<title>３歳以上障害未勝利 予想 | 予想印・プロ予想家・見解/買い目 | 2026年7月19日 小倉1R レース情報(JRA) - netkeiba</title>
+<script async="" src="https://scripts.clarity.ms/0.8.69/clarity.js"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-BQDXGQBP6X&amp;cx=c&amp;gtm=4e68p0h2"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-B2L5N4JT6V&amp;cx=c&amp;gtm=4e68p0h2"></script><script async="" src="https://www.clarity.ms/tag/dfos4lrrd0"></script><script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script async="" src="//www.googletagmanager.com/gtm.js?id=GTM-K6PJT6"></script><script type="application/ld+json">
+[
+{
+"@context": "http://schema.org",
+"@type": "BreadcrumbList",
+"itemListElement": [
+{
+"@type": "ListItem",
+"position": 1,
+"item": {
+"@id": "https://www.netkeiba.com/",
+"name": "netkeiba"
+}
+},
+{
+"@type": "ListItem",
+"position": 2,
+"item": {
+"@id": "https://race.netkeiba.com/top/",
+"name": "レース情報(JRA) "
+}
+},
+{
+"@type": "ListItem",
+"position": 3,
+"item": {
+"@id": "https://race.netkeiba.com/yoso/mark_list.html?race_id=202610020801",
+"name": "３歳以上障害未勝利 予想 | 予想印・プロ予想家・見解/買い目 | 2026年7月19日 小倉1R"
+}
+}
+]
+},
+{
+"@context": "http://schema.org",
+"@type": "WebSite",
+"name": "netkeiba",
+"url": "https://www.netkeiba.com/"
+}
+]
+</script>
+<!-- 共通css include -->
+<!-- block=common__css (d) -->
+<link rel="stylesheet" href="https://cdnv2.netkeiba.com/img.race/common/css/race_pc_new.css?20260819" type="text/css" media="all">
+<link rel="stylesheet" href="https://cdnv2.netkeiba.com/img.race/common/css/note_pc.css?20251217" type="text/css" media="all">
+<link rel="stylesheet" href="https://cdnv2.netkeiba.com/img.race/common/css/colorbox.css" type="text/css" media="all">
+<!-- 共通js include -->
+<!-- block=common__js (d) -->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnv2.netkeiba.com/img.race/common/js/slick.min.js?2019080501"></script>
+<script type="text/javascript" src="https://cdnv2.netkeiba.com/img.race/common/js/raceapi.action.js?2019073001"></script>
+<script type="text/javascript" src="https://cdnv2.netkeiba.com/img.yoso/common/js/yoso/YosoJraNar.js?20251003"></script>
+<script type="text/javascript" src="https://cdnv2.netkeiba.com/img.race/common/js/sweetalert.min.js?2019073001"></script>
+<script type="text/javascript" src="https://cdnv2.netkeiba.com/img.race/common/js/jquery.colorbox.js?2019073001"></script>
+<script type="text/javascript" src="https://cdnv2.netkeiba.com/img.regist.sp/common/js/monthly_goods_link.js?2019101001"></script>
+<script type="text/javascript" src="https://cdnv2.netkeiba.com/img.race/common/js/common_pc_new.js?2019073001"></script>
+<script type="text/javascript">
+// $Id: race_common_js.html 20040 2019-02-28 07:05:48Z m-ashizawa $
+//window.console = {};
+//window.console.log = function(i){return;};
+</script>
+<script type="text/javascript" src="https://cdnv2.netkeiba.com/img.race/common/js/jquery.lazyscript.js"></script>
+<!-- その他 include -->
+<!-- block=race_common_other (d) -->
+
+<!-- block=ad_gam_header (d) -->
+<script async="" src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+
+<script>
+window.googletag = window.googletag || {cmd: []};
+googletag.cmd.push(function() {
+
+googletag.defineSlot("/21246805/pc_netkeiba_race_sidebar-rectangle-01_paid", [[300,250]], "div-gpt-ad-23331091861-0").addService(googletag.pubads());
+googletag.pubads().collapseEmptyDivs();
+googletag.pubads().enableSingleRequest();
+googletag.enableServices();
+});
+</script>
+<style>
+.gam_ad,.gam_ad_side01,.gam_ad_side02,.gam_ad_raceside01{display:block;text-align:center}
+.gam_ad{padding:15px 0 20px}
+.gam_ad_side01{margin-bottom:20px}
+.gam_ad_side02{margin:30px 0 20px}
+</style>
+<!-- Google Tag Manager -->
+<script>
+window.dataLayer = window.dataLayer || [];
+dataLayer.push({
+'itemInfo': '430_120','memberRank': 'SuperPremium','memberId': '6393768'
+});
+</script>
+
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K6PJT6');</script>
+<!-- End Google Tag Manager -->
+<meta http-equiv="origin-trial" content="AlK2UR5SkAlj8jjdEc9p3F3xuFYlF6LYjAML3EOqw1g26eCwWPjdmecULvBH5MVPoqKYrOfPhYVL71xAXI1IBQoAAAB8eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3NTgwNjcxOTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="Amm8/NmvvQfhwCib6I7ZsmUxiSCfOxWxHayJwyU1r3gRIItzr7bNQid6O8ZYaE1GSQTa69WwhPC9flq/oYkRBwsAAACCeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3NTgwNjcxOTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="A9nrunKdU5m96PSN1XsSGr3qOP0lvPFUB2AiAylCDlN5DTl17uDFkpQuHj1AFtgWLxpLaiBZuhrtb2WOu7ofHwEAAACKeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A93bovR+QVXNx2/38qDbmeYYf1wdte9EO37K9eMq3r+541qo0byhYU899BhPB7Cv9QqD7wIbR1B6OAc9kEfYCA4AAACQeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A1S5fojrAunSDrFbD8OfGmFHdRFZymSM/1ss3G+NEttCLfHkXvlcF6LGLH8Mo5PakLO1sCASXU1/gQf6XGuTBgwAAACQeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><script src="https://securepubads.g.doubleclick.net/pagead/managed/js/gpt/m202608180101/pubads_impl.js" async=""></script><link href="https://securepubads.g.doubleclick.net/pagead/managed/dict/m202608250101/gpt" rel="compression-dictionary"><script async="" src="https://fundingchoicesmessages.google.com/i/83555300?ers=3"></script><script async="" src="https://fundingchoicesmessages.google.com/f/AGSKWxXjiz9bj-h8RYCT05291-W0_GQBsRErzLx7jMAvy-EjPhMiuSOUNN8x6Jp2sjgSq5rE29CidHRRNFCACGhQMBFroHTYEWoJtcHSn8Xigwv7K1jGLl0xvWw6GRtDf0VYHsGJbb_cEA==?fccs=W251bGwsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLFsxNzg3NzM4Mzk0LDg4OTAwMDAwMF0sbnVsbCxudWxsLG51bGwsW251bGwsWzddXSwiaHR0cHM6Ly9yYWNlLm5ldGtlaWJhLmNvbS95b3NvL21hcmtfbGlzdC5odG1sIixudWxsLFtbOCwiTy12dDBxaXlFUmMiXSxbOSwiZW4tVVMiXSxbMTgsIltbW251bGwsODk3MF1dXSJdLFszNSwiMTc4NzczODM5NCJdLFsxOSwiMiJdLFsxNywiWzBdIl0sWzI0LCIiXSxbMjksImZhbHNlIl1dXQ"></script><script esp-signal="true" src="https://static.criteo.net/js/ld/publishertag.ids.js"></script><script esp-signal="true" src="https://invstatic101.creativecdn.com/encrypted-signals/encrypted-tag-g.js"></script><script async="" src="https://fundingchoicesmessages.google.com/f/AGSKWxUvivLARiyvZPuFtjFtQAfKteJULHScHZ7PZlVd11GKGvMn2JLfKE0N4D1IKi6b0jmE5QsdrcVTBwCqA6akXwgnDISjRqhaPcMUXiAUw-2Vu1-mlB6vA1FZc3GS8IdmmOSy9gk90A==?fccs=W251bGwsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLFsxNzg3NzM4Mzk1LDEyMTAwMDAwMF0sbnVsbCxudWxsLG51bGwsW251bGwsWzcsOV0sbnVsbCwyLG51bGwsImVuIl0sImh0dHBzOi8vcmFjZS5uZXRrZWliYS5jb20veW9zby9tYXJrX2xpc3QuaHRtbCIsbnVsbCxbWzgsIk8tdnQwcWl5RVJjIl0sWzksImVuLVVTIl0sWzE4LCJbW1tudWxsLDg5NzBdXV0iXSxbMzUsIjE3ODc3MzgzOTQiXSxbMTksIjIiXSxbMTcsIlswXSJdLFsyNCwiIl0sWzI5LCJmYWxzZSJdXV0"></script><script async="" src="https://fundingchoicesmessages.google.com/f/AGSKWxXy3uUwl0I59sIRVB_x19UBZBTOYVTvFzhCyIxU2XYNEaTSwB7Cdiq3e78-O_xbuMBIPy-ppxKFMOb2_xKdCG3NiqV8VBpaOr7sOGzMsoGxLJmEcFHB4BmTD3JFdKp_1wcJTJJMFQ==?fccs=W251bGwsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLFsxNzg3NzM4Mzk2LDQxNTAwMDAwMF0sbnVsbCxudWxsLG51bGwsW251bGwsWzcsOSw2XSxudWxsLDIsbnVsbCwiZW4iLG51bGwsbnVsbCxudWxsLG51bGwsbnVsbCwxXSwiaHR0cHM6Ly9yYWNlLm5ldGtlaWJhLmNvbS95b3NvL21hcmtfbGlzdC5odG1sIixudWxsLFtbOCwiTy12dDBxaXlFUmMiXSxbOSwiZW4tVVMiXSxbMTgsIltbW251bGwsODk3MF1dXSJdLFszNSwiMTc4NzczODM5NCJdLFsxOSwiMiJdLFsxNywiWzBdIl0sWzI0LCIiXSxbMjksImZhbHNlIl1dXQ"></script></head>
+<body class="race" id="Netkeiba_Race_Yoso">
+<div id="page">
+<noscript>
+お客様のブラウザはジャバスクリプト（JavaScript）に対応していないか無効になっています。
+</noscript>
+<!-- block=common__race_header (d) -->
+<link rel="stylesheet" href="https://cdnv2.netkeiba.com/img.www/style/netkeiba.ja/css/pc_header.css?20260616" type="text/css" media="all">
+
+<header class="Header_Area fc">
+<div class="Header_Inner">
+<h1>
+<a href="https://www.netkeiba.com/?rf=logo" title="netkeiba">
+<img src="https://cdnv2.netkeiba.com/img.www/style/netkeiba.ja/image/common/netkeiba_logo02.png?20231003" alt="netkeiba">
+</a>
+</h1>
+<div class="DB_Search_Input">
+<!-- なんでも検索リニューアル -->
+<span id="gnavi_search_form">
+<div class="DB_Search_Input">
+    <form class="Search_Box" action="https://db.netkeiba.com//horse/search_all.html" method="POST">
+	<input type="hidden" name="match" value="p">
+	<div class="InputTxt_Form_Box">
+	    <input class="Txt_Form" placeholder="キーワードで検索" value="" type="text" name="word" id="keywords">
+	</div><!-- / .InputTxt_Form -->
+	<div class="Submit_Btn_Box">
+	    <svg xmlns="http://www.w3.org/2000/svg" width="41.05" height="41.05" viewBox="0 0 41.05 41.05" class="IconInput01">
+		<g id="icon_search" transform="translate(-234.6 -459.7)">
+		    <circle cx="15.6" cy="15.6" r="15.6" transform="translate(236.1 461.2)" class="st0"></circle>
+		    <g>
+			<path d="M275.2,498.2a1.335,1.335,0,0,1,0,2l-.1.1a1.335,1.335,0,0,1-2,0l-11.2-11.2a1.335,1.335,0,0,1,0-2l.1-.1a1.335,1.335,0,0,1,2,0Z" class="st1"></path>
+		    </g>
+		</g>
+	    </svg>
+	    <input class="Submit_Btn" type="submit" name="submit" value="検 索">
+	</div><!-- / .Submit_Btn_Box -->
+    </form>
+</div><!-- / .DB_Search_Input -->
+</span>
+<script>
+$(function(){
+const param = {input: 'UTF-8',output: 'jsonp',};
+$.ajax({type: 'GET',
+url: 'https://cdnv2.netkeiba.com/img.db/ajax_gnavi_search.html',
+data: param,
+dataType: param.output,
+success: function(data){
+if('OK' == data.status){
+$('#gnavi_search_form').html(data.data);
+}
+}
+});
+});
+</script>
+</div><!-- / .DB_Search_Input -->
+<div class="MyMenuWrap">
+<ul class="UserMyMenu fc">
+<li>
+<a href="https://user.sp.netkeiba.com?rf=navi" class="Icon_Header Icon_Mypage Alert">
+<img class="header_user_img" src="https://cdnv2.findfriends.jp/img/1844/18447889/avatar_1_0_s.gif?254"><span class="header_nickname">ゆうさん</span>
+<div class="Alert_New disp_none" style="display: block;">
+<span id="alert_count">new</span>
+</div>
+</a>
+</li>
+<li>
+<a href="https://race.netkeiba.com/bookmark/bookmark.html?rf=navi" class="Icon_Header Icon_MyfavHorse">
+<span>お気に入り馬</span>
+</a>
+</li>
+<li>
+<a href="https://race.netkeiba.com/notes/schedule.html?rf=navi" class="Icon_Header Icon_Note">
+<span>メモ</span>
+</a>
+</li>
+<li>
+<a href="https://regist.netkeiba.com?rf=navi" class="Icon_Header Icon_Account">
+<span>アカウント</span>
+</a>
+</li>
+
+
+
+</ul>
+<div class="SiteToggleBtn01 Keirin">
+<a href="https://keirin.netkeiba.com/?rf=nk_pc_header">
+<span class="LiveRace">LIVE</span>
+<img src="https://cdnv2.netkeiba.com/img.www/style/netkeiba.ja/image/common/icon_keirin01.png" alt="" width="21" height="16" class="KeirinLogoMark01">競輪
+</a>
+</div><!-- /.SiteToggleBtn01 -->
+</div>
+</div><!-- /.Header_Inner -->
+</header>
+<nav class="ContentNavi01">
+<ul class="fc">
+<li class="Top">
+<a href="https://www.netkeiba.com/?rf=navi" title="トップ" id="navi_link_top">トップ</a>
+</li>
+<li class="News">
+<a href="https://news.netkeiba.com?rf=navi" title="ニュース" id="navi_link_news">ニュース</a>
+</li>
+<li class="Race">
+<a href="../top/" title="レース" id="navi_link_race">レース</a>
+</li>
+<li class="AI New">
+<a href="../AI/AI.html?rf=navi" title="AI" id="navi_link_AI">A I</a>
+</li>
+<!-- <li class="Special">
+<a href="https://race.netkeiba.com/special/index.html?id=0059&rf=navi" title="日本ダービー" id="navi_link_Special">日本ダービー</a>
+</li> -->
+<li class="Yoso">
+<a href="https://yoso.netkeiba.com?access=init&amp;rf=navi" title="予想" id="navi_link_yoso">予想</a>
+</li>
+<li>
+<a href="https://builder.netkeiba.com/?rf=navi" title="UMAIビルダー" id="navi_link_builder">UMAIビルダー</a>
+</li>
+<li class="Column">
+<a href="https://news.netkeiba.com?pid=column_top&amp;rf=navi" title="コラム" id="navi_link_column">コラム</a>
+</li>
+<li class="Tv">
+<a href="https://tv.netkeiba.com/?rf=navi" title="netkeibaTV" id="navi_link_tv">netkeibaTV</a>
+</li>
+<li class="Local">
+<a href="https://nar.netkeiba.com/top/?rf=navi" title="地方競馬" id="navi_link_nar">地方競馬</a>
+</li>
+<li class="Db">
+<a href="https://db.netkeiba.com?rf=navi" title="データベース" id="navi_link_db">データベース</a>
+</li>
+<li class="Shop New">
+<a href="https://shop.netkeiba.com/?utm_source=netkeiba&amp;utm_medium=+referral&amp;utm_campaign=pcgnavi_20240425" title="ショップ" id="navi_link_shop" target="_blank">ショップ</a>
+</li>
+<li class="Paper">
+<a href="https://yoso.netkeiba.com/senmonshi/?rf=navi" title="競馬新聞" id="navi_link_senmonshi">競馬新聞</a>
+</li>
+<li class="YosoCS">
+<a href="https://orepro.netkeiba.com?rf=navi" title="俺プロ" id="navi_link_orepro">俺プロ</a>
+</li>
+<li class="Owner">
+<a href="https://own.netkeiba.com/?rf=nknabi" title="一口馬主" id="navi_link_owner" target="_blank">一口馬主</a>
+</li>
+<li class="Pog">
+<a href="https://pog.netkeiba.com?rf=navi" title="POG" id="navi_link_pog">POG</a>
+</li>
+<li class="Matome">
+<a href="https://dir.netkeiba.com/keibamatome/index.html?rf=navi" title="まとめ" id="navi_link_keibamatome">まとめ</a>
+</li>
+<li class="Event">
+<a href="https://dir.netkeiba.com/event/?rf=navi" title="イベント" id="navi_link_event">イベント</a>
+</li>
+<!--<li class="AI">
+<a href="https://race.netkeiba.com/AI/AI.html?rf=navi" class="navi_link_AI">A&thinsp;I</a>
+</li>-->
+</ul>
+</nav><!-- /.ContentNavi01 -->
+<!-- 広告配信用 -->
+<script>
+var googletag = googletag || {};
+googletag.cmd = googletag.cmd || [];
+</script>
+<!-- /広告配信用 -->
+<script async="" src="https://cdnv2.netkeiba.com/img.racev4.sp/common/js/nd_util.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+show_user();
+});
+function show_user(){
+var is_stage = '';
+var is_user  = '1';
+var is_alert = '1';
+var is_sp    = '';
+var nickname = 'ゆう';
+var user_img = 'https://cdnv2.findfriends.jp/img/1844/18447889/avatar_1_0_s.gif?254';
+if(is_sp) {
+$('.sp_nk_btn').show();
+}
+if(! is_stage) {
+$('.header_stage_area').remove();
+}
+if(is_user){
+//ログイン中
+$('.login_show').show();
+if(is_alert) {
+$('.Alert_New').show();
+}
+} else {
+//未ログイン
+$('.no_login_show').show();
+$('.login_show').remove();
+}
+}
+</script>
+<!-- block=shutuba__race_title (cp) -->
+<div class="RaceChange_BtnArea">
+<div class="RaceList_Date clearfix">
+<div class="RaceDayPrev">
+<a href="../top/race_list.html?kaisai_date=20260712#racelist_top_a" class="Active">前</a>
+</div>
+
+<dl id="RaceList_DateList">
+
+<dd><a href="../top/race_list.html?kaisai_date=20260711&amp;kaisai_id=2026100205&amp;current_group=1020260718#racelist_top_a" title="7月11日(土)" class="">7月11日<span class="Sat">(土)</span></a></dd>
+<dd><a href="../top/race_list.html?kaisai_date=20260712&amp;kaisai_id=2026100206&amp;current_group=1020260718#racelist_top_a" title="7月12日(日)" class="">7月12日<span class="Sun">(日)</span></a></dd>
+<dd><a href="../top/race_list.html?kaisai_date=20260718&amp;kaisai_id=2026100207&amp;current_group=1020260718#racelist_top_a" title="7月18日(土)" class="">7月18日<span class="Sat">(土)</span></a></dd><dd class="Active"><a href="../top/race_list.html?kaisai_date=20260719&amp;kaisai_id=2026100208&amp;current_group=1020260718#racelist_top_a" title="7月19日(日)">7月19日<span class="Sun">(日)</span></a></dd>
+
+</dl>
+<div class="RaceDayNext">
+<a href="../top/race_list.html?kaisai_date=20260725#racelist_top_a" class="Active">次</a>
+</div>
+
+
+</div><!-- /.RaceDayWrap -->
+</div>
+<div class="RaceColumn01">
+<div class="RaceColumnWrap fc">
+<div class="RaceMainColumn">
+<!-- block=shutuba__race_kaisai_navi (cp) -->
+<script>
+$(function() {
+$('body').append('<div id="modal_overlay_menu"></div>');
+var overlay = $('#modal_overlay_menu');
+var content = $('#modal_content_menu');
+$('.RaceUseful_Btn').click(function() {
+overlay.show().html($('#modal_content_menu').html());
+});
+overlay.click(function() {
+$(this).hide();
+});
+$('.Close').click(function() {
+overlay.hide();
+});
+});
+</script>
+<div class="RaceKaisaiWrap">
+<ul class="Col Col3">
+
+<li><a href="?race_id=202603020801">福島</a></li>
+<li class="Active"><a href="?race_id=202610020801">小倉</a></li>
+
+<li><a href="?race_id=202602011201">函館</a></li>
+
+</ul>
+</div>
+<!-- /.RaceKaisaiWrap -->
+<!-- block=shutuba__race_kaisai_wrap (d) -->
+<div class="RaceNumWrap">
+<ul class="fc">
+<li class="Active">
+<a href="?race_id=202610020801" title="3歳以上障害未勝利">
+1R
+</a>
+</li><li class="">
+<a href="?race_id=202610020802" title="3歳未勝利">
+2R
+</a>
+</li><li class="">
+<a href="?race_id=202610020803" title="3歳未勝利">
+3R
+</a>
+</li><li class="">
+<a href="?race_id=202610020804" title="3歳未勝利">
+4R
+</a>
+</li><li class="">
+<a href="?race_id=202610020805" title="2歳新馬">
+5R
+</a>
+</li><li class="">
+<a href="?race_id=202610020806" title="3歳未勝利">
+6R
+</a>
+</li><li class="">
+<a href="?race_id=202610020807" title="3歳以上1勝クラス">
+7R
+</a>
+</li><li class="">
+<a href="?race_id=202610020808" title="3歳以上1勝クラス">
+8R
+</a>
+</li><li class="">
+<a href="?race_id=202610020809" title="不知火特別">
+9R
+</a>
+</li><li class="">
+<a href="?race_id=202610020810" title="宮崎S">
+10R
+</a>
+</li><li class="">
+<a href="?race_id=202610020811" title="小倉記念">
+11R
+</a>
+</li><li class="">
+<a href="?race_id=202610020812" title="筑紫特別">
+12R
+</a>
+</li>
+</ul>
+</div><!-- /.RaceNumWrap -->
+<!-- block=shutuba__race_main_column (cp) -->
+<div class="RaceList_NameBox">
+<div class="RaceList_Item01">
+<span class="RaceNum">
+<span class="MyRace_Item MyRace-Item-202610020801"></span>
+1R
+</span>
+</div><!-- /.RaceList_Item01 -->
+<div class="RaceList_Item02">
+<h1 class="RaceName">3歳以上障害未勝利
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</h1>
+<div class="RaceData01">
+10:05発走 /<!-- <span class="Turf"> --><span> 障2860m</span> (芝)
+/ 天候:晴<span class="Icon_Weather Weather01"></span>
+<span class="Item03">/ 馬場:良</span>
+
+</div>
+<div class="RaceData02">
+<span>2回</span>
+<span>小倉</span>
+<span>8日目</span>
+<span>障害３歳以上</span>
+<span>未勝利</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span> </span>
+<span>定量</span>
+<span>11頭</span>
+<br>
+<span>本賞金:840,340,210,130,84万円</span>
+</div>
+</div><!-- /.RaceList_Item02 -->
+<div class="RaceList_Item03">
+<div class="Refundlink">
+<a href="../top/payback_list.html?kaisai_date=20260719&amp;kaisai_id=2026100208" class="LinkMore">小倉 払戻一覧</a>
+</div>
+<ul class="RaceHeadBtnArea">
+<li>
+<a href="https://cdnv2.netkeiba.com/img.race/common/img/course/10_s2860.png?2019073001" class="Popup_Img MapRaceBtn cboxElement">
+<span><img src="https://cdnv2.netkeiba.com/img.race/common/img/course/thumb_62/10_s2860.png?2019073001" onerror="replaceDefaultNoImage()" alt="Course"></span>
+コース詳細
+</a>
+<script>
+function replaceDefaultNoImage() {
+var baseurl = "https://cdnv2.netkeiba.com/img.race/common/img/course/";
+$("a.Popup_Img").attr("href", baseurl + "soon.png");
+$("a.Popup_Img img").attr("src", baseurl + "soon.png");
+}
+</script>
+</li>
+<li>
+<a href="/ipat/dispatch.html?race_id=202610020801" target="_blank" class="IpatBtn01">
+<img disabled="false" src="https://cdnv2.netkeiba.com/img.race/common/img/icon/icon_ipat01.png?2019073001" alt="IPAT"><span>連携</span>
+</a>
+
+</li>
+</ul>
+<div class="OreproLink">
+<a class="LinkMore SpecialGo" href="../special/index.html?race_id=202610020801">特集へ</a>
+<a class="LinkMore" href="https://orepro.netkeiba.com/bet/shutuba.html?race_id=202610020801&amp;mode=init"><span>俺プロへ</span></a></div>
+</div><!-- /.RaceList_Item03 -->
+</div><!-- /.RaceList_NameBox -->
+<script>
+$(function() {
+$('.RaceList_NameBox > a').append('<span class="Icon_ArrowB"></span>');
+$('.RaceList_NameBox > a').click(function() {
+$('.RaceList_NameBox a > span').toggleClass('Icon_ArrowT').toggleClass('Icon_ArrowB')
+$('.RaceData_Hide').slideToggle('fast');
+return false;
+});
+if ($("a.Popup_Img").length) {
+$("a.Popup_Img").colorbox();
+}
+var _action_api_url = window.location.origin + '/api/api_get_my_race.html';
+var _data = { pid : 'api_get_my_race' };
+_data.input       = 'UTF-8';
+_data.output      = 'json';
+_data.race_id     = 202610020801;
+$.ajax( { type     : 'GET',
+url      : _action_api_url,
+data     : _data,
+dataType : _data.output,
+cache: false,
+success  : function( json )
+{
+if (json.status == 'NG') {
+console.log('status:NG reason:'+ json.reason);
+} else {
+for (var race_id in json.ary_my_race) {
+var myrace_id = 'MyRace-Item-'+race_id;
+var mybtn_id = 'MyRace-Registration-Btn-'+race_id;
+$("."+myrace_id).addClass("Active");
+$("."+mybtn_id).text("Myレースを解除する");
+}
+}
+},
+error  : function(XMLHttpRequest, textStatus, errorThrown)
+{
+console.log('XMLHttpRequest: %O',XMLHttpRequest);
+console.log('textStatus: %s',textStatus);
+}
+});
+});
+</script>
+</div><!-- /.RaceMainColumn -->
+<div class="RaceSideColumn">
+
+<!-- block=ad_gam_body_rectangle (d) -->
+
+
+<!-- block=ad_gam_body_rectangle (d) -->
+<div id="div-gpt-ad-23331091861-0" class="gam_ad_raceside01" style="min-width: 300px; min-height: 250px; display: none;" data-google-query-id="CL7mu8CEvpYDFUFvwwYdIN0jAg">
+<script>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-23331091861-0'); });
+</script>
+<div id="google_ads_iframe_/21246805/pc_netkeiba_race_sidebar-rectangle-01_paid_0__container__" style="border: 0pt; width: 300px; height: 0px;"></div></div>
+</div>
+</div><!-- /.RaceColumnWrap -->
+</div><!-- /.RaceColumn01 -->
+<div class="RaceColumn02">
+<!-- block=shutuba__race_menu (d) -->
+<div class="RaceMenuArea">
+<ul class="RaceMainMenu">
+<li id="navi_shutuba" class="race_navi_shutuba"><a href="../race/shutuba.html?race_id=202610020801&amp;rf=race_submenu" class="" title="出馬表"><span class="IconRaceMenu01 IconShutuba"></span>出馬表</a></li>
+<li id="navi_odds_view" class="race_navi_odds"><a href="../odds/index.html?race_id=202610020801&amp;rf=race_submenu" title="オッズ・購入" class=""><span class="IconRaceMenu01 IconOdds"></span>オッズ・購入</a></li>
+<li id="navi_yoso_mark_list" class="race_navi_yoso"><a href="../yoso/mark_list.html?race_id=202610020801&amp;rf=race_submenu" class="Active" title="予想"><span class="IconRaceMenu01 IconYoso"></span>予想</a></li>
+<li class="race_navi_chokyo"><a href="../race/oikiri.html?race_id=202610020801&amp;rf=race_submenu" class="" title="調教"><span class="IconRaceMenu01 IconTraining"></span>調教</a></li>
+<li class="race_navi_comment"><a href="../race/comment.html?race_id=202610020801&amp;rf=race_submenu" class="" title="厩舎コメント"><span class="IconRaceMenu01 IconComment"></span>厩舎コメント</a></li>
+<li class="race_navi_data"><a href="../race/data_top.html?race_id=202610020801&amp;rf=race_submenu" class="" title="データ分析"><span class="IconRaceMenu01 IconData"></span>データ分析</a></li>
+<li class="race_navi_result"><a href="../race/result.html?race_id=202610020801&amp;rf=race_submenu" class="" title="結果・払戻"><span class="IconRaceMenu01 IconResult"></span>結果・払戻</a></li>
+<li class="race_navi_movie"><a href="../race/movie.html?race_id=202610020801&amp;rf=race_submenu" class="" title="レース映像"><span class="IconRaceMenu01 IconMovie"></span>レース映像</a></li>
+<li class="race_navi_bbs"><a href="../race/bbs.html?race_id=202610020801&amp;rf=race_submenu" title="掲示板" class=""><span class="IconRaceMenu01 IconBBS"></span>掲示板</a></li>
+</ul>
+<div id="AllRaceSubMenu">
+
+
+
+<ul class="RaceSubMenu">
+<li><a href="../yoso/mark_list.html?race_id=202610020801&amp;rf=shutuba_submenu" class="Active">予想・印</a></li>
+<li><a href="../yoso/yoso_pro_opinion_list.html?race_id=202610020801&amp;rf=shutuba_submenu" class="">プロの見解/買い目</a></li>
+<!-- <li><a href="../yoso/yoso_cp.html?race_id=202610020801&rf=shutuba_submenu" class="">CP予想</a></li> -->
+<li><a href="../yoso/yoso_movie.html?race_id=202610020801&amp;rf=shutuba_submenu" class="">予想動画</a></li>
+</ul>
+
+
+
+
+</div>
+</div><!-- /.RaceMenuArea -->
+<script>
+function newspaper_link()
+{
+window.location.href = 'https://rapl.netkeiba.com/race/newspaper.html?race_id=202610020801';
+}
+</script>
+<script type="text/javascript">
+function getDataOdds(baken_kind, housiki) {
+if (typeof housiki == 'undefined') {
+housiki = '';
+}
+$("#odds_view_result").html('');
+if (housiki != '') {
+var url = "../odds/odds_get_form.html?type="+baken_kind+"&race_id=202610020801&housiki="+housiki+"&rf=shutuba_submenu";
+} else {
+var url = "../odds/odds_get_form.html?type="+baken_kind+"&race_id=202610020801&rf=shutuba_submenu";
+}
+$("[id^=odds_navi_] a").each ( function() { $(this).removeClass("Active"); } )
+$.ajax({
+type: "GET",
+cache: false,
+url: url,
+data: null,
+success: function(data)
+{
+$('#odds_navi_' + baken_kind + ' a').addClass('Active');
+window.history.pushState(null,null, url.replace('odds_get_form','index'));
+$("#odds_view_form").empty().append(data);
+}
+});
+}
+</script>
+<div class="MarklistWrap clearfix">
+<!-- block=yoso__mark_umai_link (d) -->
+<div class="Yoso_Table_Bar">
+<div class="UmaibakenLinkArea">
+<a href="https://yoso.netkeiba.com/?pid=race_yoso_list&amp;race_id=202610020801&amp;rf=raceyoso">
+<div class="MyPonitBox_Item02">
+<p class="Umai_MyPoint"><span class="Umai_MyPoint_text1">厳選予想 ウマい馬券</span></p>
+</div><!-- /.MyPonitBox_Item02 -->
+<div class="MyPonitBox_Item03">
+<p class="Umai_MyPoint_text2">所有ポイント <br class="Umai_breakpoint"><span id="useable_point_01">2000pt</span>
+</p>
+</div><!-- /.MyPonitBox_Item03 -->
+<div class="MyPonitBox_Item01">
+<div class="YosoCount"><p><strong id="gv_01_202610020801">45</strong>人予想中</p> 予想を見る</div>
+<!-- /.YosoCount -->
+</div><!-- /.MyPonitBox_Item01 -->
+</a>
+</div>
+<button class="PaperSetBtn" id="YosokaOrderSetting" style="" type="button"><span>設定</span></button>
+<a href="#PopupRegist" class="PaperSetBtn cboxElement" id="RegistPopBtn" style="display:none;"><span>設定</span></a>
+</div>
+<script type="text/javascript">
+$(function(){
+var yoso_jra_nar = new YosoJraNar('https://yoso.netkeiba.com');
+refresh_umai_link();
+var ary_race_id = [];
+$('[id^="gv_01"]').each(function(){
+var race_id = $(this).prop('id').replace(/gv_01_/,'');
+ary_race_id.push(race_id);
+});
+yoso_jra_nar.countGoodsByRace(ary_race_id, cb_race_goods_count_01);
+// iframeからメッセージ受信
+$(window).off('message.umai_link');
+$(window).on('message.umai_link', function(e) {
+console.log('message catch umai_link');
+// console.log('--- origin[' + e.originalEvent.origin + ']');
+// console.log('--- data  [' + e.originalEvent.data + ']');
+if (e.originalEvent.origin == window.location.protocol + '//' + window.location.host) {
+if (e.originalEvent.data == 'refresh_umai_info') {
+// ウマい馬券の予想購入ポップアップ閉じる
+console.log("--- refresh_umai_info");
+refresh_umai_link();
+}
+}
+});
+//------------------------------------------------------------
+function refresh_umai_link()
+{
+console.log('refresh_umai_link');
+yoso_jra_nar.GetUserPoint(cb_set_yoso_point_01);
+}
+//------------------------------------------------------------
+function cb_race_goods_count_01( json )
+{
+console.log('cb_race_goods_count_01(%O)',json);
+for(var race_id in json){
+console.log('race_id: %s count: %d',race_id,json[race_id]['count']);
+var view_id = 'gv_01_'+race_id;
+if(json[race_id]['count']>0)
+{
+$('#'+view_id).text( json[race_id]['count'] );
+}
+}
+}
+//------------------------------------------------------------
+function cb_set_yoso_point_01( json )
+{
+console.log('cb_set_yoso_point_01(%O)',json);
+var point = json.total_point;
+$('#useable_point_01').text(point+"pt");
+}
+});
+</script>
+
+<!-- block=yoso_mark_list__content3 (cp) -->
+<!-- raceドメイン内　ウマいブロック　専用css -->
+<link rel="stylesheet" href="https://cdnv2.netkeiba.com/img.race/common/css/race_pc_umai_new.css?20200205" type="text/css" media="all">
+
+<div class="Title_Sec TitleHeading mb20">
+<h2><span>予想・印</span></h2>
+</div>
+<div class="Race_YosoArea01">
+<dl class="Umaban">
+<dt class="Vertical">枠</dt>
+<dd>
+<ul>
+<li class="Num Waku1">1</li><li class="Num Waku2">2</li><li class="Num Waku3">3</li><li class="Num Waku4">4</li><li class="Num Waku5">5</li><li class="Num Waku6">6</li><li class="Num Waku6">6</li><li class="Num Waku7">7</li><li class="Num Waku7">7</li><li class="Num Waku8">8</li><li class="Num Waku8">8</li>
+</ul>
+</dd>
+</dl>
+<dl class="Umaban">
+<dt class="Vertical">馬番</dt>
+<dd>
+<ul>
+<li class="Num">1</li><li class="Num">2</li><li class="Num">3</li><li class="Num">4</li><li class="Num">5</li><li class="Num">6</li><li class="Num">7</li><li class="Num">8</li><li class="Num">9</li><li class="Num">10</li><li class="Num">11</li>
+</ul>
+</dd>
+</dl>
+<!--非会員時ポップアップ ここから-->
+<div class="RegistPopNoWrap">
+<div id="PopupRegist" class="">
+<div class="PopupRegistHead">
+無料ID登録が必要です
+</div>
+<div class="PopupRegistBody">
+無料ID(netkeibaID)を登録すると予想の並び替えをご利用いただけます。
+<div class="RegistBtnArea">
+<div class="RegistBtn01">
+<a href="https://regist.netkeiba.com/?pid=user_add_form&amp;payment=nk_user&amp;goods_cd=310409">詳しくはこちら</a>
+</div>
+</div>
+<div class="RegisteredArea">
+<a href="https://regist.netkeiba.com/account/?pid=login">無料ID登録済みの方 &gt;</a>
+</div>
+</div>
+</div><!-- /#PopupCustomRegist -->
+</div><!-- / .CustomRegistPopNoWrap -->
+<!--非会員時ポップアップ ここまで-->
+<!-- ★自分の予想印追加 -->
+<script>
+var _action_api_url = window.location.origin+'/api/api_post_social_cart.html';
+var _action_api_url_myhorse = window.location.origin+'/api/api_get_myhorse_entry.html';
+var _race_location_url = window.location.origin;
+var _shutuba_cart_group = 'horse_202610020801';
+var _shutuba_race_id = '202610020801';
+var _race_cookie_domain_ = '.netkeiba.com';
+</script>
+<script type="text/javascript" src="https://cdnv2.netkeiba.com/img.race/common/js/jquery-ui-1.12.1.js?2019102501"></script>
+<script type="text/javascript" src="https://cdnv2.netkeiba.com/img.race/common/js/social_cart.js?2019073001"></script>
+<script type="text/javascript" src="https://cdnv2.netkeiba.com/img.race/common/js/race/shutuba.js?20240404"></script>
+<script type="text/javascript" src="https://cdnv2.netkeiba.com/img.race/common/js/ndcommon.min.js?2019073001"></script>
+<script type="text/javascript" src="https://cdnv2.netkeiba.com/img.race/common/js/race/api_myhorse.action.js?2019083101"></script>
+<dl class="Shirushi">
+<dt class="">
+印
+<div class="ChangeMarkBtn">
+
+<div class="BtnInput BtnInputTick">
+<input type="button" value="切替" class="BtnInputLabel" onclick="change_mark_mode('','202610020801', _race_cookie_domain_);">
+</div>
+</div><!-- /.ChangeMarkBtn -->
+</dt>
+<style>
+.Race_YosoArea01 dl.Shirushi dt {
+flex-direction: column;
+padding: 3px 1px;
+}
+.Race_YosoArea01 .tzSelect li{
+display: inline-block;
+border-bottom: none;
+}
+.Race_YosoArea01 dl.Shirushi .CheckMark {
+width: 37px;
+font-weight: 700;
+text-align: center;
+}
+.tzSelect .dropDown{
+width: 220px;
+}
+.MarklistWrap dd ul li.Selected {
+background: #fff0f0 !important;
+}
+/* ドロップダウンは常に白（Yoso_hoverが付いても白に戻す） */
+.MarklistWrap .tzSelect .dropDown,
+.MarklistWrap .tzSelect .dropDown li,
+.MarklistWrap .tzSelect .dropDown li.Yoso_hover { background:#fff !important; }
+</style>
+<dd class="CheckMark">
+<ul>
+<!-- BEGIN __mymark__-->
+<li id="tr_5" class="HorseList "><select class="makeMeFancy_5" name="5" id="mark_5" style="display: none;"><option data-html-text="--" value="1_0">--</option><option data-html-text="◎" value="1_1">◎</option><option data-html-text="◯" value="1_2">◯</option><option data-html-text="▲" value="1_3">▲</option><option data-html-text="△" value="1_4">△</option><option data-html-text="☆" value="1_5">☆</option><option data-html-text="✓" value="1_98">✓</option><option data-html-text="消" value="1_99">消</option></select><div class="tzSelect" style="width: 40px;"><div class="selectBox">--</div><ul class="dropDown" style="display: none;"><li><span>--</span></li><li><span>◎</span></li><li><span>◯</span></li><li><span>▲</span></li><li><span>△</span></li><li><span>☆</span></li><li><span>✓</span></li><li><span>消</span></li></ul></div></li><li id="tr_4" class="HorseList "><select class="makeMeFancy_4" name="4" id="mark_4" style="display: none;"><option data-html-text="--" value="2_0">--</option><option data-html-text="◎" value="2_1">◎</option><option data-html-text="◯" value="2_2">◯</option><option data-html-text="▲" value="2_3">▲</option><option data-html-text="△" value="2_4">△</option><option data-html-text="☆" value="2_5">☆</option><option data-html-text="✓" value="2_98">✓</option><option data-html-text="消" value="2_99">消</option></select><div class="tzSelect" style="width: 40px;"><div class="selectBox">--</div><ul class="dropDown" style="display: none;"><li><span>--</span></li><li><span>◎</span></li><li><span>◯</span></li><li><span>▲</span></li><li><span>△</span></li><li><span>☆</span></li><li><span>✓</span></li><li><span>消</span></li></ul></div></li><li id="tr_12" class="HorseList "><select class="makeMeFancy_12" name="12" id="mark_12" style="display: none;"><option data-html-text="--" value="3_0">--</option><option data-html-text="◎" value="3_1">◎</option><option data-html-text="◯" value="3_2">◯</option><option data-html-text="▲" value="3_3">▲</option><option data-html-text="△" value="3_4">△</option><option data-html-text="☆" value="3_5">☆</option><option data-html-text="✓" value="3_98">✓</option><option data-html-text="消" value="3_99">消</option></select><div class="tzSelect" style="width: 40px;"><div class="selectBox">--</div><ul class="dropDown" style="display: none;"><li><span>--</span></li><li><span>◎</span></li><li><span>◯</span></li><li><span>▲</span></li><li><span>△</span></li><li><span>☆</span></li><li><span>✓</span></li><li><span>消</span></li></ul></div></li><li id="tr_11" class="HorseList "><select class="makeMeFancy_11" name="11" id="mark_11" style="display: none;"><option data-html-text="--" value="4_0">--</option><option data-html-text="◎" value="4_1">◎</option><option data-html-text="◯" value="4_2">◯</option><option data-html-text="▲" value="4_3">▲</option><option data-html-text="△" value="4_4">△</option><option data-html-text="☆" value="4_5">☆</option><option data-html-text="✓" value="4_98">✓</option><option data-html-text="消" value="4_99">消</option></select><div class="tzSelect" style="width: 40px;"><div class="selectBox">--</div><ul class="dropDown" style="display: none;"><li><span>--</span></li><li><span>◎</span></li><li><span>◯</span></li><li><span>▲</span></li><li><span>△</span></li><li><span>☆</span></li><li><span>✓</span></li><li><span>消</span></li></ul></div></li><li id="tr_8" class="HorseList "><select class="makeMeFancy_8" name="8" id="mark_8" style="display: none;"><option data-html-text="--" value="5_0">--</option><option data-html-text="◎" value="5_1">◎</option><option data-html-text="◯" value="5_2">◯</option><option data-html-text="▲" value="5_3">▲</option><option data-html-text="△" value="5_4">△</option><option data-html-text="☆" value="5_5">☆</option><option data-html-text="✓" value="5_98">✓</option><option data-html-text="消" value="5_99">消</option></select><div class="tzSelect" style="width: 40px;"><div class="selectBox">--</div><ul class="dropDown" style="display: none;"><li><span>--</span></li><li><span>◎</span></li><li><span>◯</span></li><li><span>▲</span></li><li><span>△</span></li><li><span>☆</span></li><li><span>✓</span></li><li><span>消</span></li></ul></div></li><li id="tr_7" class="HorseList "><select class="makeMeFancy_7" name="7" id="mark_7" style="display: none;"><option data-html-text="--" value="6_0">--</option><option data-html-text="◎" value="6_1">◎</option><option data-html-text="◯" value="6_2">◯</option><option data-html-text="▲" value="6_3">▲</option><option data-html-text="△" value="6_4">△</option><option data-html-text="☆" value="6_5">☆</option><option data-html-text="✓" value="6_98">✓</option><option data-html-text="消" value="6_99">消</option></select><div class="tzSelect" style="width: 40px;"><div class="selectBox">--</div><ul class="dropDown" style="display: none;"><li><span>--</span></li><li><span>◎</span></li><li><span>◯</span></li><li><span>▲</span></li><li><span>△</span></li><li><span>☆</span></li><li><span>✓</span></li><li><span>消</span></li></ul></div></li><li id="tr_3" class="HorseList "><select class="makeMeFancy_3" name="3" id="mark_3" style="display: none;"><option data-html-text="--" value="7_0">--</option><option data-html-text="◎" value="7_1">◎</option><option data-html-text="◯" value="7_2">◯</option><option data-html-text="▲" value="7_3">▲</option><option data-html-text="△" value="7_4">△</option><option data-html-text="☆" value="7_5">☆</option><option data-html-text="✓" value="7_98">✓</option><option data-html-text="消" value="7_99">消</option></select><div class="tzSelect" style="width: 40px;"><div class="selectBox">--</div><ul class="dropDown" style="display: none;"><li><span>--</span></li><li><span>◎</span></li><li><span>◯</span></li><li><span>▲</span></li><li><span>△</span></li><li><span>☆</span></li><li><span>✓</span></li><li><span>消</span></li></ul></div></li><li id="tr_9" class="HorseList "><select class="makeMeFancy_9" name="9" id="mark_9" style="display: none;"><option data-html-text="--" value="8_0">--</option><option data-html-text="◎" value="8_1">◎</option><option data-html-text="◯" value="8_2">◯</option><option data-html-text="▲" value="8_3">▲</option><option data-html-text="△" value="8_4">△</option><option data-html-text="☆" value="8_5">☆</option><option data-html-text="✓" value="8_98">✓</option><option data-html-text="消" value="8_99">消</option></select><div class="tzSelect" style="width: 40px;"><div class="selectBox">--</div><ul class="dropDown" style="display: none;"><li><span>--</span></li><li><span>◎</span></li><li><span>◯</span></li><li><span>▲</span></li><li><span>△</span></li><li><span>☆</span></li><li><span>✓</span></li><li><span>消</span></li></ul></div></li><li id="tr_1" class="HorseList "><select class="makeMeFancy_1" name="1" id="mark_1" style="display: none;"><option data-html-text="--" value="9_0">--</option><option data-html-text="◎" value="9_1">◎</option><option data-html-text="◯" value="9_2">◯</option><option data-html-text="▲" value="9_3">▲</option><option data-html-text="△" value="9_4">△</option><option data-html-text="☆" value="9_5">☆</option><option data-html-text="✓" value="9_98">✓</option><option data-html-text="消" value="9_99">消</option></select><div class="tzSelect" style="width: 40px;"><div class="selectBox">--</div><ul class="dropDown" style="display: none;"><li><span>--</span></li><li><span>◎</span></li><li><span>◯</span></li><li><span>▲</span></li><li><span>△</span></li><li><span>☆</span></li><li><span>✓</span></li><li><span>消</span></li></ul></div></li><li id="tr_6" class="HorseList "><select class="makeMeFancy_6" name="6" id="mark_6" style="display: none;"><option data-html-text="--" value="10_0">--</option><option data-html-text="◎" value="10_1">◎</option><option data-html-text="◯" value="10_2">◯</option><option data-html-text="▲" value="10_3">▲</option><option data-html-text="△" value="10_4">△</option><option data-html-text="☆" value="10_5">☆</option><option data-html-text="✓" value="10_98">✓</option><option data-html-text="消" value="10_99">消</option></select><div class="tzSelect" style="width: 40px;"><div class="selectBox">--</div><ul class="dropDown" style="display: none;"><li><span>--</span></li><li><span>◎</span></li><li><span>◯</span></li><li><span>▲</span></li><li><span>△</span></li><li><span>☆</span></li><li><span>✓</span></li><li><span>消</span></li></ul></div></li><li id="tr_10" class="HorseList "><select class="makeMeFancy_10" name="10" id="mark_10" style="display: none;"><option data-html-text="--" value="11_0">--</option><option data-html-text="◎" value="11_1">◎</option><option data-html-text="◯" value="11_2">◯</option><option data-html-text="▲" value="11_3">▲</option><option data-html-text="△" value="11_4">△</option><option data-html-text="☆" value="11_5">☆</option><option data-html-text="✓" value="11_98">✓</option><option data-html-text="消" value="11_99">消</option></select><div class="tzSelect" style="width: 40px;"><div class="selectBox">--</div><ul class="dropDown" style="display: none;"><li><span>--</span></li><li><span>◎</span></li><li><span>◯</span></li><li><span>▲</span></li><li><span>△</span></li><li><span>☆</span></li><li><span>✓</span></li><li><span>消</span></li></ul></div></li>
+
+
+<!-- END   __mymark__-->
+</ul>
+</dd>
+</dl>
+<script>
+$(function(){
+// 横に付ける先（予想家カラム＋馬番+枠）
+function getTargets(){
+return $('.YosoTableWrap dl dd > ul')
+.add($('.Race_YosoArea01 dl.Umaban').eq(1).find('dd > ul'))
+.add($('.Race_YosoArea01 dl.Umaban').eq(0).find('dd > ul')); // ←枠番も追加
+}
+// 同期本体：行indexで横一括、判定は li.Selected（shutuba.jsが付ける）
+function syncSelectedRows(){
+var $uls = getTargets();
+$uls.children('li').removeClass('Selected');
+$('dl.Shirushi dd ul > li.HorseList').each(function(i){
+var on = $(this).hasClass('Selected');
+// 念のため値ベースの保険
+if (!on) {
+var v = $(this).find('select[id^="mark_"]').val();
+if (v != null) {
+var code = parseInt(String(v).split('_')[1]||'0',10); // 0=--,99=消
+on = (code !== 0 && code !== 99);
+} else {
+on = $(this).find('.HorseCheck_Select').prop('checked');
+}
+}
+if (on){
+$uls.each(function(){ $(this).children().eq(i).addClass('Selected'); });
+}
+});
+}
+window.syncSelectedRows = syncSelectedRows;
+// 初期（即時）
+syncSelectedRows();
+// クラス変化を監視（shutuba.js が Selected を付けた瞬間に同期）
+var $src = $('dl.Shirushi dd ul');
+if ($src[0]) {
+var ticking = false;
+var rerun = function(){
+if (ticking) return;
+ticking = true;
+requestAnimationFrame(function(){ ticking=false; syncSelectedRows(); });
+};
+new MutationObserver(rerun).observe($src[0], {
+subtree: true, childList: true, attributes: true, attributeFilter: ['class']
+});
+}
+// 予想家側の再構築も監視（DOM作り直し後に再同期）
+var $dst = $('.YosoTableWrap');
+if ($dst[0]) {
+new MutationObserver(function(){ syncSelectedRows(); })
+.observe($dst[0], { subtree: true, childList: true });
+}
+});
+</script>
+<div class="YosoTableWrap">
+<div id="YosoShirushiAll" style="display:none;"></div><dl class="Yosoka" id="yoso_goods_seq_0">
+<dt>
+<a href="../yoso/yoso_pro_opinion_detail.html?race_id=202610020801&amp;yosoka_id=266993">
+<span class="YosoLabel"></span>
+<p class="yosoka_name">本<br>紙<br></p>
+<img src="https://cdnv2.netkeiba.com/img.race/common/img/yosoka/yosotab_266993.gif">
+</a>
+</dt>
+<dd>
+<ul>
+<li class="Mark_Pro mark_5"><span class="Icon_Shirushi Icon_Osae"></span></li><li class="Mark_Pro mark_4"><span class=""></span></li><li class="Mark_Pro mark_12"><span class=""></span></li><li class="Mark_Pro mark_11"><span class="Icon_Shirushi Icon_Osae"></span></li><li class="Mark_Pro mark_8"><span class="Icon_Shirushi Icon_Kurosan"></span></li><li class="Mark_Pro mark_7"><span class="Icon_Shirushi Icon_Osae"></span></li><li class="Mark_Pro mark_3"><span class=""></span></li><li class="Mark_Pro mark_9"><span class="Icon_Shirushi Icon_Taikou"></span></li><li class="Mark_Pro mark_1"><span class="Icon_Shirushi Icon_Honmei"></span></li><li class="Mark_Pro mark_6"><span class="Icon_Shirushi Icon_Hoshi"></span></li><li class="Mark_Pro mark_10"><span class=""></span></li>
+</ul>
+<div class="KaishuDataBox yoso_recovery" style="display:none;">
+<span>
+<span class="Vertical">小倉回収率</span>
+<span class="Recovery Num">0</span>％
+</span>
+<a href="../yoso/yoso_pro_opinion_detail.html?race_id=202610020801&amp;yosoka_id=266993" class="BuyBtn01">
+<span class="paid" style="display:none;">有償</span><span class="Point Num">0</span>pt
+</a>
+</div><!-- /.KaishuDataBox -->
+<div class="KaishuDataBox yoso_sotei" style="display:none;">
+<span class="Vertical">この条件で好成績</span>
+<a href="../yoso/yoso_pro_opinion_detail.html?race_id=202610020801&amp;yosoka_id=266993" class="BuyBtn01">
+<span class="paid" style="display:none;">有償</span><span class="Num Point">0</span>pt
+</a>
+</div><!-- /.KaishuDataBox -->
+<div class="KaishuDataBox yoso_nomal" style="display:none;">
+<span class="Vertical"></span>
+<a href="../yoso/yoso_pro_opinion_detail.html?race_id=202610020801&amp;yosoka_id=266993" class="BuyBtn01">
+<span class="paid" style="display:none;">有償</span><span class="Num Point">0</span>pt
+</a>
+</div><!-- /.KaishuDataBox -->
+</dd>
+</dl><dl class="Yosoka" id="yoso_goods_seq_1">
+<dt>
+<a href="../yoso/yoso_pro_opinion_detail.html?race_id=202610020801&amp;yosoka_id=655184">
+<span class="YosoLabel"></span>
+<p class="yosoka_name">小<br>林<br></p>
+<img src="https://cdnv2.netkeiba.com/img.race/common/img/yosoka/yosotab_655184.gif">
+</a>
+</dt>
+<dd>
+<ul>
+<li class="Mark_Pro mark_5"><span class="Icon_Shirushi Icon_Osae"></span></li><li class="Mark_Pro mark_4"><span class="Icon_Shirushi Icon_Osae"></span></li><li class="Mark_Pro mark_12"><span class=""></span></li><li class="Mark_Pro mark_11"><span class="Icon_Shirushi Icon_Osae"></span></li><li class="Mark_Pro mark_8"><span class="Icon_Shirushi Icon_Kurosan"></span></li><li class="Mark_Pro mark_7"><span class=""></span></li><li class="Mark_Pro mark_3"><span class=""></span></li><li class="Mark_Pro mark_9"><span class="Icon_Shirushi Icon_Taikou"></span></li><li class="Mark_Pro mark_1"><span class="Icon_Shirushi Icon_Honmei"></span></li><li class="Mark_Pro mark_6"><span class="Icon_Shirushi Icon_Hoshi"></span></li><li class="Mark_Pro mark_10"><span class=""></span></li>
+</ul>
+<div class="KaishuDataBox yoso_recovery" style="display:none;">
+<span>
+<span class="Vertical">小倉回収率</span>
+<span class="Recovery Num">0</span>％
+</span>
+<a href="../yoso/yoso_pro_opinion_detail.html?race_id=202610020801&amp;yosoka_id=655184" class="BuyBtn01">
+<span class="paid" style="display:none;">有償</span><span class="Point Num">0</span>pt
+</a>
+</div><!-- /.KaishuDataBox -->
+<div class="KaishuDataBox yoso_sotei" style="display:none;">
+<span class="Vertical">この条件で好成績</span>
+<a href="../yoso/yoso_pro_opinion_detail.html?race_id=202610020801&amp;yosoka_id=655184" class="BuyBtn01">
+<span class="paid" style="display:none;">有償</span><span class="Num Point">0</span>pt
+</a>
+</div><!-- /.KaishuDataBox -->
+<div class="KaishuDataBox yoso_nomal" style="display:none;">
+<span class="Vertical"></span>
+<a href="../yoso/yoso_pro_opinion_detail.html?race_id=202610020801&amp;yosoka_id=655184" class="BuyBtn01">
+<span class="paid" style="display:none;">有償</span><span class="Num Point">0</span>pt
+</a>
+</div><!-- /.KaishuDataBox -->
+</dd>
+</dl><dl class="Yosoka Gensen05" id="yoso_goods_seq_builder">
+<dt>
+<a href="https://builder.netkeiba.com/?rf=pc_yoso_mark_list">
+<span class="YosoLabel">AI</span>
+<p class="yosoka_name">予U<br>想M<br>ビA<br>ル<span class="text_i">I</span><br>ダ&nbsp;&nbsp;<br><span class="rotate">ー</span>&nbsp;&nbsp;</p>
+</a>
+</dt>
+<dd class="Kaishu">
+<ul>
+</ul>
+<div class="KaishuDataBox">
+<a href="https://builder.netkeiba.com/?rf=pc_yoso_mark_list" class="BuyBtn01">
+<span class="Vertical">自作AIをつくって予想</span>
+</a>
+</div><!-- /.KaishuDataBox -->
+</dd>
+</dl><dl class="Yosoka" id="yoso_goods_seq_2">
+<dt>
+<a href="../yoso/yoso_pro_opinion_detail.html?race_id=202610020801&amp;yosoka_id=655192">
+<span class="YosoLabel"></span>
+<p class="yosoka_name">藤<br>村<br></p>
+<img src="https://cdnv2.netkeiba.com/img.race/common/img/yosoka/yosotab_655192.gif">
+</a>
+</dt>
+<dd>
+<ul>
+<li class="Mark_Pro mark_5"><span class=""></span></li><li class="Mark_Pro mark_4"><span class=""></span></li><li class="Mark_Pro mark_12"><span class="Icon_Shirushi Icon_Kurosan"></span></li><li class="Mark_Pro mark_11"><span class=""></span></li><li class="Mark_Pro mark_8"><span class="Icon_Shirushi Icon_Hoshi"></span></li><li class="Mark_Pro mark_7"><span class="Icon_Shirushi Icon_Osae"></span></li><li class="Mark_Pro mark_3"><span class=""></span></li><li class="Mark_Pro mark_9"><span class="Icon_Shirushi Icon_Osae"></span></li><li class="Mark_Pro mark_1"><span class="Icon_Shirushi Icon_Honmei"></span></li><li class="Mark_Pro mark_6"><span class="Icon_Shirushi Icon_Taikou"></span></li><li class="Mark_Pro mark_10"><span class="Icon_Shirushi Icon_Osae"></span></li>
+</ul>
+<div class="KaishuDataBox yoso_recovery" style="display:none;">
+<span>
+<span class="Vertical">小倉回収率</span>
+<span class="Recovery Num">0</span>％
+</span>
+<a href="../yoso/yoso_pro_opinion_detail.html?race_id=202610020801&amp;yosoka_id=655192" class="BuyBtn01">
+<span class="paid" style="display:none;">有償</span><span class="Point Num">0</span>pt
+</a>
+</div><!-- /.KaishuDataBox -->
+<div class="KaishuDataBox yoso_sotei" style="display:none;">
+<span class="Vertical">この条件で好成績</span>
+<a href="../yoso/yoso_pro_opinion_detail.html?race_id=202610020801&amp;yosoka_id=655192" class="BuyBtn01">
+<span class="paid" style="display:none;">有償</span><span class="Num Point">0</span>pt
+</a>
+</div><!-- /.KaishuDataBox -->
+<div class="KaishuDataBox yoso_nomal" style="display:none;">
+<span class="Vertical"></span>
+<a href="../yoso/yoso_pro_opinion_detail.html?race_id=202610020801&amp;yosoka_id=655192" class="BuyBtn01">
+<span class="paid" style="display:none;">有償</span><span class="Num Point">0</span>pt
+</a>
+</div><!-- /.KaishuDataBox -->
+</dd>
+</dl><dl class="Yosoka" id="yoso_goods_seq_3">
+<dt>
+<a href="../yoso/yoso_pro_opinion_detail.html?race_id=202610020801&amp;yosoka_id=706416">
+<span class="YosoLabel"></span>
+<p class="yosoka_name">大<br>石<br>川<br></p>
+<img src="https://cdnv2.netkeiba.com/img.race/common/img/yosoka/yosotab_706416.gif">
+</a>
+</dt>
+<dd>
+<ul>
+<li class="Mark_Pro mark_5"><span class="Icon_Shirushi Icon_Osae"></span></li><li class="Mark_Pro mark_4"><span class=""></span></li><li class="Mark_Pro mark_12"><span class="Icon_Shirushi Icon_Osae"></span></li><li class="Mark_Pro mark_11"><span class=""></span></li><li class="Mark_Pro mark_8"><span class="Icon_Shirushi Icon_Hoshi"></span></li><li class="Mark_Pro mark_7"><span class="Icon_Shirushi Icon_Osae"></span></li><li class="Mark_Pro mark_3"><span class=""></span></li><li class="Mark_Pro mark_9"><span class="Icon_Shirushi Icon_Taikou"></span></li><li class="Mark_Pro mark_1"><span class="Icon_Shirushi Icon_Honmei"></span></li><li class="Mark_Pro mark_6"><span class="Icon_Shirushi Icon_Kurosan"></span></li><li class="Mark_Pro mark_10"><span class=""></span></li>
+</ul>
+<div class="KaishuDataBox yoso_recovery" style="display:none;">
+<span>
+<span class="Vertical">小倉回収率</span>
+<span class="Recovery Num">0</span>％
+</span>
+<a href="../yoso/yoso_pro_opinion_detail.html?race_id=202610020801&amp;yosoka_id=706416" class="BuyBtn01">
+<span class="paid" style="display:none;">有償</span><span class="Point Num">0</span>pt
+</a>
+</div><!-- /.KaishuDataBox -->
+<div class="KaishuDataBox yoso_sotei" style="display:none;">
+<span class="Vertical">この条件で好成績</span>
+<a href="../yoso/yoso_pro_opinion_detail.html?race_id=202610020801&amp;yosoka_id=706416" class="BuyBtn01">
+<span class="paid" style="display:none;">有償</span><span class="Num Point">0</span>pt
+</a>
+</div><!-- /.KaishuDataBox -->
+<div class="KaishuDataBox yoso_nomal" style="display:none;">
+<span class="Vertical"></span>
+<a href="../yoso/yoso_pro_opinion_detail.html?race_id=202610020801&amp;yosoka_id=706416" class="BuyBtn01">
+<span class="paid" style="display:none;">有償</span><span class="Num Point">0</span>pt
+</a>
+</div><!-- /.KaishuDataBox -->
+</dd>
+</dl><dl class="Yosoka" id="yoso_goods_seq_4">
+<dt>
+<a href="../yoso/yoso_pro_opinion_detail.html?race_id=202610020801&amp;yosoka_id=266992">
+<span class="YosoLabel"></span>
+<p class="yosoka_name">C<br>P<br>予<br>想<br></p>
+<img src="https://cdnv2.netkeiba.com/img.race/common/img/yosoka/yosotab_266992.gif">
+</a>
+</dt>
+<dd>
+<ul>
+<li class="Mark_Pro mark_5"><span class=""></span></li><li class="Mark_Pro mark_4"><span class=""></span></li><li class="Mark_Pro mark_12"><span class=""></span></li><li class="Mark_Pro mark_11"><span class=""></span></li><li class="Mark_Pro mark_8"><span class="Icon_Shirushi Icon_Osae"></span></li><li class="Mark_Pro mark_7"><span class=""></span></li><li class="Mark_Pro mark_3"><span class="Icon_Shirushi Icon_Kurosan"></span></li><li class="Mark_Pro mark_9"><span class=""></span></li><li class="Mark_Pro mark_1"><span class="Icon_Shirushi Icon_Honmei"></span></li><li class="Mark_Pro mark_6"><span class="Icon_Shirushi Icon_Taikou"></span></li><li class="Mark_Pro mark_10"><span class=""></span></li>
+</ul>
+<div class="KaishuDataBox yoso_recovery" style="display:none;">
+<span>
+<span class="Vertical">小倉回収率</span>
+<span class="Recovery Num">0</span>％
+</span>
+<a href="../yoso/yoso_pro_opinion_detail.html?race_id=202610020801&amp;yosoka_id=266992" class="BuyBtn01">
+<span class="paid" style="display:none;">有償</span><span class="Point Num">0</span>pt
+</a>
+</div><!-- /.KaishuDataBox -->
+<div class="KaishuDataBox yoso_sotei" style="display:none;">
+<span class="Vertical">この条件で好成績</span>
+<a href="../yoso/yoso_pro_opinion_detail.html?race_id=202610020801&amp;yosoka_id=266992" class="BuyBtn01">
+<span class="paid" style="display:none;">有償</span><span class="Num Point">0</span>pt
+</a>
+</div><!-- /.KaishuDataBox -->
+<div class="KaishuDataBox yoso_nomal" style="display:none;">
+<span class="Vertical"></span>
+<a href="../yoso/yoso_pro_opinion_detail.html?race_id=202610020801&amp;yosoka_id=266992" class="BuyBtn01">
+<span class="paid" style="display:none;">有償</span><span class="Num Point">0</span>pt
+</a>
+</div><!-- /.KaishuDataBox -->
+</dd>
+</dl>
+<!-- 初期表示時の枠用 -->
+
+<dl class="Horse_Info">
+<dt>
+馬名
+</dt>
+<dd>
+<ul>
+<li class=""><a href="https://db.netkeiba.com/horse/2022106999" target="_blank" title="ニシノクードクール">ニシノクードクール</a></li>
+<li class=""><a href="https://db.netkeiba.com/horse/2022103884" target="_blank" title="スティルシャイニン">スティルシャイニン</a></li>
+<li class=""><a href="https://db.netkeiba.com/horse/2022102325" target="_blank" title="ブルーセルリアン">ブルーセルリアン</a></li>
+<li class=""><a href="https://db.netkeiba.com/horse/2022101587" target="_blank" title="クリアクォーツ">クリアクォーツ</a></li>
+<li class=""><a href="https://db.netkeiba.com/horse/2022100527" target="_blank" title="ブランフォルテ">ブランフォルテ</a></li>
+<li class=""><a href="https://db.netkeiba.com/horse/2021104910" target="_blank" title="フラムリンガム">フラムリンガム</a></li>
+<li class=""><a href="https://db.netkeiba.com/horse/2022103517" target="_blank" title="シュエットアムール">シュエットアムール</a></li>
+<li class=""><a href="https://db.netkeiba.com/horse/2022103255" target="_blank" title="メイショウソウセキ">メイショウソウセキ</a></li>
+<li class=""><a href="https://db.netkeiba.com/horse/2018101010" target="_blank" title="アウスヴァール">アウスヴァール</a></li>
+<li class=""><a href="https://db.netkeiba.com/horse/2022104929" target="_blank" title="バニーラビット">バニーラビット</a></li>
+<li class=""><a href="https://db.netkeiba.com/horse/2021105298" target="_blank" title="エイカイボクサー">エイカイボクサー</a></li>
+
+</ul>
+</dd>
+</dl>
+<dl>
+<dt class="Popular">性齢</dt>
+<dd>
+<ul>
+<li class="Txt_C">牝4</li><li class="Txt_C">牡4</li><li class="Txt_C">牡4</li><li class="Txt_C">牡4</li><li class="Txt_C">牡4</li><li class="Txt_C">セ5</li><li class="Txt_C">牝4</li><li class="Txt_C">牡4</li><li class="Txt_C">セ8</li><li class="Txt_C">牡4</li><li class="Txt_C">牡5</li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt class="Mark_Pro">斤量</dt>
+<dd>
+<ul>
+<li class="Txt_C">57.0</li><li class="Txt_C">60.0</li><li class="Txt_C">57.0</li><li class="Txt_C">60.0</li><li class="Txt_C">57.0</li><li class="Txt_C">60.0</li><li class="Txt_C">57.0</li><li class="Txt_C">60.0</li><li class="Txt_C">60.0</li><li class="Txt_C">60.0</li><li class="Txt_C">60.0</li>
+</ul>
+</dd>
+</dl>
+<dl class="LeftAlignBlock">
+<dt class="Mark_Pro">騎手</dt>
+<dd>
+<ul>
+<li class=""><a href="https://db.netkeiba.com/jockey/result/recent/01211" target="_blank">坂口</a></li>
+<li class=""><a href="https://db.netkeiba.com/jockey/result/recent/01087" target="_blank">上野</a></li>
+<li class=""><a href="https://db.netkeiba.com/jockey/result/recent/01151" target="_blank">井上</a></li>
+<li class=""><a href="https://db.netkeiba.com/jockey/result/recent/01120" target="_blank">大江圭</a></li>
+<li class=""><a href="https://db.netkeiba.com/jockey/result/recent/01201" target="_blank">水沼</a></li>
+<li class=""><a href="https://db.netkeiba.com/jockey/result/recent/01149" target="_blank">伴</a></li>
+<li class=""><a href="https://db.netkeiba.com/jockey/result/recent/01198" target="_blank">土田</a></li>
+<li class=""><a href="https://db.netkeiba.com/jockey/result/recent/01066" target="_blank">難波</a></li>
+<li class=""><a href="https://db.netkeiba.com/jockey/result/recent/01139" target="_blank">森一</a></li>
+<li class=""><a href="https://db.netkeiba.com/jockey/result/recent/01196" target="_blank">小牧加</a></li>
+<li class=""><a href="https://db.netkeiba.com/jockey/result/recent/01113" target="_blank">草野</a></li>
+
+</ul>
+</dd>
+</dl>
+<dl class="LeftAlignBlock">
+<dt class="Mark_Pro">厩舎</dt>
+<dd>
+<ul>
+<li class=""><span class="Label1">美浦</span><a href="https://db.netkeiba.com/trainer/result/recent/01064/" target="_blank">武藤</a></li><li class=""><span class="Label1">美浦</span><a href="https://db.netkeiba.com/trainer/result/recent/01090/" target="_blank">天間</a></li><li class=""><span class="Label2">栗東</span><a href="https://db.netkeiba.com/trainer/result/recent/01018/" target="_blank">宮</a></li><li class=""><span class="Label1">美浦</span><a href="https://db.netkeiba.com/trainer/result/recent/01063/" target="_blank">的場</a></li><li class=""><span class="Label1">美浦</span><a href="https://db.netkeiba.com/trainer/result/recent/01182/" target="_blank">辻</a></li><li class=""><span class="Label1">美浦</span><a href="https://db.netkeiba.com/trainer/result/recent/01208/" target="_blank">柄崎</a></li><li class=""><span class="Label1">美浦</span><a href="https://db.netkeiba.com/trainer/result/recent/01077/" target="_blank">加藤和</a></li><li class=""><span class="Label2">栗東</span><a href="https://db.netkeiba.com/trainer/result/recent/01092/" target="_blank">松永幹</a></li><li class=""><span class="Label2">栗東</span><a href="https://db.netkeiba.com/trainer/result/recent/01044/" target="_blank">昆</a></li><li class=""><span class="Label2">栗東</span><a href="https://db.netkeiba.com/trainer/result/recent/01160/" target="_blank">武幸</a></li><li class=""><span class="Label1">美浦</span><a href="https://db.netkeiba.com/trainer/result/recent/01067/" target="_blank">久保田</a></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt class="Weight">馬体重<br><span>(増減)</span></dt>
+<dd>
+<ul>
+<li class="Weight">448kg<span>(-4)</span></li><li class="Weight">454kg<span>(-16)</span></li><li class="Weight">482kg<span>(+2)</span></li><li class="Weight">478kg<span>(0)</span></li><li class="Weight">486kg<span>(+8)</span></li><li class="Weight">470kg<span>(+2)</span></li><li class="Weight">414kg<span>(-4)</span></li><li class="Weight">506kg<span>(0)</span></li><li class="Weight">492kg<span>(-2)</span></li><li class="Weight">490kg<span>(+4)</span></li><li class="Weight">490kg<span>(-6)</span></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt class="Popular Txt_C">単勝<br>オッズ</dt>
+<dd>
+<ul>
+<li class="Popular">18.6</li><li class="Popular">49.5</li><li class="Popular">121.9</li><li class="Popular">31.2</li><li class="Popular">15.6</li><li class="Popular">18.6</li><li class="Popular">156.2</li><li class="Popular"><span class="Odds_Ninki">3.0</span></li><li class="Popular"><span class="Odds_Ninki">1.7</span></li><li class="Popular"><span class="Odds_Ninki">9.8</span></li><li class="Popular">47.0</li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt class="Popular">人気</dt>
+<dd>
+<ul>
+<li class="Txt_C">5</li><li class="Txt_C">9</li><li class="Txt_C">10</li><li class="Txt_C">7</li><li class="Txt_C">4</li><li class="Txt_C">6</li><li class="Txt_C">11</li><li class="Txt_C">2</li><li class="Txt_C">1</li><li class="Txt_C">3</li><li class="Txt_C">8</li>
+</ul>
+</dd>
+</dl>
+<!-- ぼかし -->
+<div class="YosoShirushi_Info01"></div>
+</div><!-- /.YosoTableWrap -->
+<div class="Premium_Regist_Box02 Yoso_PremiumInfo01" style="display:none;">
+<div class="Premium_Regist_MsgArea01">
+<p class="Premium_Regist_Msg01">プレミアムサービスなら</p>
+<p class="Premium_Regist_Msg02">全レースの予想が見放題</p>
+</div><!-- /.Premium_Regist_MsgArea01 -->
+<p class="Premium_Regist_Msg_Campaign01">今なら<em>14日間無料</em>でお試し</p>
+<a class="Premium_Regist_Btn" id="a_monthly_goods_link_01" data-theme="01012" href="https://regist.netkeiba.com/?pid=premium&amp;service=&amp;return_url=http%3A%2F%2Frace.netkeiba.com%2Fyoso%2Fmark_list.html%3Frace_id%3D202610020801%26rf%3Drace_submenu">プロ予想を見る</a>
+<p class="Premium_Regist_Txt02"><a href="https://regist.netkeiba.com/account/?pid=login">登録済みの方はこちらから</a></p>
+</div><!-- /.Premium_Regist_Box02 Yoso_PremiumInfo01 -->
+</div><!-- /.Race_YosoArea01 -->
+<script>
+$(function(){
+//hover yoso
+$(".MarklistWrap  dd > ul > li").mouseover(function(){
+var idx = $(this).index();
+$(".MarklistWrap dl dd").each (function() {
+$(this).find("ul li:nth-child(" + (idx+1) + ")").addClass("Yoso_hover");
+});
+}).mouseout(function(){
+var idx = $(this).index();
+$(".MarklistWrap dl dd").each (function() {
+$(this).find("ul li:nth-child(" + (idx+1) + ")").removeClass("Yoso_hover");
+});
+});
+});
+</script>
+<div id="YosoShirushiTemplate" style="display:none">
+<dl class="Yosoka">
+<dt>
+<a href="javascript:void(0)">
+<span class="YosoLabel"></span>
+<p class="yosoka_name"></p>
+<img src="">
+</a>
+</dt>
+<dd>
+<ul>
+<li class="Mark_Pro mark_5"><span class=""></span></li><li class="Mark_Pro mark_4"><span class=""></span></li><li class="Mark_Pro mark_12"><span class=""></span></li><li class="Mark_Pro mark_11"><span class=""></span></li><li class="Mark_Pro mark_8"><span class=""></span></li><li class="Mark_Pro mark_7"><span class=""></span></li><li class="Mark_Pro mark_3"><span class=""></span></li><li class="Mark_Pro mark_9"><span class=""></span></li><li class="Mark_Pro mark_1"><span class=""></span></li><li class="Mark_Pro mark_6"><span class=""></span></li><li class="Mark_Pro mark_10"><span class=""></span></li>
+</ul>
+<div class="KaishuDataBox yoso_recovery" style="display:none;">
+<span>
+<span class="Vertical">小倉回収率</span>
+<span class="Recovery Num">0</span>％
+</span>
+<a href="javascript:void(0)" class="BuyBtn01">
+<span class="paid" style="display:none;">有償</span><span class="Point Num">0</span>pt
+</a>
+</div><!-- /.KaishuDataBox -->
+<div class="KaishuDataBox yoso_sotei" style="display:none;">
+<span class="Vertical">この条件で好成績</span>
+<a href="javascript:void(0)" class="BuyBtn01">
+<span class="paid" style="display:none;">有償</span><span class="Num Point">0</span>pt
+</a>
+</div><!-- /.KaishuDataBox -->
+<div class="KaishuDataBox yoso_nomal" style="display:none;">
+<span class="Vertical"></span>
+<a href="javascript:void(0)" class="BuyBtn01">
+<span class="paid" style="display:none;">有償</span><span class="Num Point">0</span>pt
+</a>
+</div><!-- /.KaishuDataBox -->
+</dd>
+</dl>
+</div>
+<div id="YosoShirushiBuilderTemplate" style="display:none">
+<dl class="Yosoka Gensen05">
+<dt>
+<a href="https://builder.netkeiba.com/?rf=pc_yoso_mark_list">
+<span class="YosoLabel">AI</span>
+<p class="yosoka_name">予U<br>想M<br>ビA<br>ル<span class="text_i">I</span><br>ダ&nbsp;&nbsp;<br><span class="rotate">ー</span>&nbsp;&nbsp;</p>
+</a>
+</dt>
+<dd class="Kaishu">
+<ul>
+</ul>
+<div class="KaishuDataBox">
+<a href="https://builder.netkeiba.com/?rf=pc_yoso_mark_list" class="BuyBtn01">
+<span class="Vertical">自作AIをつくって予想</span>
+</a>
+</div><!-- /.KaishuDataBox -->
+</dd>
+</dl>
+</div>
+<span style="display:none;" id="show_popup"><!-- not delete --></span>
+<script src="https://cdnv2.netkeiba.com/img.yoso/common/js/jquery.colorbox.js?2019073001" type="text/javascript"></script>
+<link href="https://cdnv2.netkeiba.com/img.yoso/common/css/colorbox.css?2019073001" type="text/css" rel="stylesheet" media="all">
+<script>
+$(function(){
+"use strict";
+var _cart_group_yoso = 'yoso';
+var _page_race_id = '202610020801';
+var _yoso_img_path = 'https://cdnv2.netkeiba.com/img.yoso/yoso_image.php?width=92&id=';
+var _url_buy_yoso_confirm = 'https://yoso.netkeiba.com/?pid=buy_yoso_confirm';
+var _url_yoso_detail = 'https://yoso.netkeiba.com/?pid=yoso_detail&id=';
+var _return_url = encodeURIComponent(window.location.protocol + '//' + window.location.host); // ドメインを指定する
+var _popup_buy_yoso_confirm = 'https://yoso.netkeiba.com/shop/buy_yoso_confirm.html?mode=sendmsg&return_url='+_return_url;
+var yoso_jra_nar = new YosoJraNar('https://yoso.netkeiba.com');
+//うまい馬券は注意マークがあるが、no1にはないので定義しない
+var mark_class_list = {
+1 : 'Honmei'
+,2 : 'Taikou'
+,3 : 'Kurosan'
+,4 :  'Osae'
+,5 :  'Hoshi'
+}
+refresh_umai_yosotab();
+$(document).off("click", '[class*="buy_yosotab_"]');
+$(document).on("click", '[class*="buy_yosotab_"]', function(){
+var tmp_item_id_point = $(this).prop('class').replace(/BuyBtn01 /,'');
+var item_id_point = tmp_item_id_point.replace(/buy_yosotab_/,'').split('_');
+var item_id = item_id_point[0];
+var point = item_id_point[1];
+//---- 購入元 --------------
+var href_host = $(location).attr('host');
+var href_search = $(location).attr('search');
+var href_pathname = $(location).attr('pathname');
+var href_val = "["+href_host+"]["+href_search+"]["+href_pathname+"][yoso_marklist3]";
+//---- 購入元 --------------
+yoso_jra_nar.cart_clear_item_sync( _cart_group_yoso ).done(function(){
+yoso_jra_nar.cart_add_item( _cart_group_yoso, item_id, 1, point, href_val, cb_buy_unit)
+});
+});
+// 予想を見る(レース結果後)未購入
+$(document).off("click", '[class^="show_yosotab_"]');
+$(document).on("click", '[class^="show_yosotab_"]', function(){
+var item_id = $(this).prop('class').replace(/show_yosotab_/,'');
+var location_utl = _url_yoso_detail + item_id;
+window.location.href = location_utl;
+});
+// iframeからメッセージ受信
+$(window).off('message.umai_mark_list3');
+$(window).on('message.umai_mark_list3', function(e) {
+console.log('message catch umai_mark_list3');
+// console.log('--- origin[' + e.originalEvent.origin + ']');
+// console.log('--- data  [' + e.originalEvent.data + ']');
+if (e.originalEvent.origin == 'https://yoso.netkeiba.com') {
+if (e.originalEvent.data == 'buy_yoso_close') {
+// ウマい馬券のもっと予想を購入ボタン押下
+console.log("--- buy_yoso_close");
+if ($.colorbox.length) {
+$.colorbox.close();
+}
+}
+} else if (e.originalEvent.origin == window.location.protocol + '//' + window.location.host) {
+if (e.originalEvent.data == 'refresh_umai_info') {
+// ウマい馬券の予想購入ポップアップ閉じる
+console.log("--- refresh_umai_info");
+refresh_umai_yosotab();
+}
+}
+});
+// 予想家設定
+$(document).off("click", '[id="YosokaOrderSetting"]');
+$(document).on("click", '[id="YosokaOrderSetting"]', function(){
+console.log('show_popup_yosoka_setting');
+window.location.href = '../yoso/customize.html?mode=init&return_url=' + encodeURIComponent(location.href);
+});
+// 会員登録colorbox
+$('#RegistPopBtn').colorbox({
+onOpen:function(){
+$("#cboxWrapper").addClass("CustomPreviewModal CustomMarkList");
+},
+height: 270,
+width: 500,
+inline: true,
+opacity : 0.35,
+overlayClose: true
+});
+//------------------------------------------------------------
+function show_popup (){
+console.log('show_popup');
+$('#show_popup').colorbox({
+iframe:true,
+width: "94%",
+height:"450px",
+maxWidth:"360px",
+speed:'200',
+open:true,
+fixed: true,
+href: _popup_buy_yoso_confirm,
+//20200205 制作追記　ikegami
+onOpen: function(){
+$('#colorbox').addClass('buy_yoso_modal');
+},
+onClosed:function(){
+postMessage('refresh_umai_info', window.location.protocol + '//' + window.location.host);
+//20200205 制作追記　ikegami
+$("#colorbox").removeClass("buy_yoso_modal");
+}
+});
+}
+//------------------------------------------------------------
+function cb_buy_unit( json )
+{
+console.log('cb_buy_unit(%O)',json);
+// ↓遷移型をやめてポップアップ方式へ
+//window.location.href = _url_buy_yoso_confirm;
+show_popup(_popup_buy_yoso_confirm);
+}
+//------------------------------------------------------------
+function get_proyoso_v2(_race_id, _callback) {
+console.log('get_proyoso_v2');
+var _data = {};
+_data.input       = 'UTF-8';
+_data.output      = 'jsonp';
+_data.race_id   = _race_id;
+_data.ref_type   = '2';
+$.ajax({type     : 'GET',
+url      : window.location.origin + '/api/api_get_pro_yoso_list_v2.html',
+data     : _data,
+dataType : _data.output,
+success:function( json ){
+if(json.status == 'NG'){
+if(self.debug) console.log('status:NG reason:'+ json.reason);
+}else if(undefined != _callback){
+_callback( json.data );
+}
+},
+error: function( XMLHttpRequest, textStatus, errorThrown)
+{
+if(self.debug) console.log('XMLHttpRequest: %O',XMLHttpRequest);
+if(self.debug) console.log('textStatus: %O',textStatus);
+}
+});
+}
+//------------------------------------------------------------
+function refresh_umai_yosotab(){
+console.log('refresh_umai_yosotab');
+get_proyoso_v2( _page_race_id, function( data ){
+// console.log('〇〇〇〇〇〇〇〇〇〇〇〇〇〇');
+// console.log(data);
+var ary_item = data.ary_item;
+var base_info = data.base_info;
+$('#YosokaOrderSetting').css('display', 'none');
+$('#RegistPopBtn').css('display', 'none');
+if (base_info.is_login == '0') {
+$('#RegistPopBtn').css('display', 'block');
+} else {
+$('#YosokaOrderSetting').show();
+}
+// 初期化
+$("#yoso_goods_seq_builder").remove(); // umaiビルダー削除
+var len_current = $('.YosoTableWrap .Yosoka[id^="yoso_goods_seq_"]').length;
+var len_item = ary_item.length;
+for (var i=0; i < len_current; i++) {
+if (i < len_item) {
+var el = $("#YosoShirushiTemplate .Yosoka").clone(true);
+var default_el = $("#yoso_goods_seq_" + i);
+if (default_el.length) {
+default_el.attr('class', el.attr('class'));
+default_el.html(el.html());
+}
+} else {
+$("#yoso_goods_seq_" + i).remove();
+}
+}
+if(ary_item.length !== 0) {
+// umaiビルダー表示位置
+var builder_index = 2;
+for(var i = 0; i < ary_item.length; i++) {
+// if (ary_item[i].goods_kbn == 'umai_buy' || (ary_item[i].goods_kbn == 'umai_free' && base_info.is_sales == '1')) {
+if (ary_item[i].goods_kbn == 'umai_buy') {
+builder_index++;
+}
+}
+var list_index = 0;
+for(var i = 0; i < ary_item.length; i++) {
+if (i == builder_index) {
+var el = $("#YosoShirushiBuilderTemplate .Yosoka").clone(true);
+el.attr('id', "yoso_goods_seq_builder");
+el.insertAfter($(".YosoTableWrap .Yosoka").eq(list_index-1));
+list_index++;
+}
+var el = $("#YosoShirushiTemplate .Yosoka").clone(true);
+el.attr('id', "yoso_goods_seq_" + i);
+var yosoka_id = ary_item[i].yosoka_id;
+var goods_kbn = ary_item[i].goods_kbn;
+var yosoka_name = ary_item[i].yosoka_name;
+el.find('.yosoka_name').html(yosoka_name);
+// 購入済み・ウマい無料・ウマい有料で販売中
+if (goods_kbn == 'umai_buy' || goods_kbn == 'umai_free' || (goods_kbn == 'umai_sell' && base_info.is_sales == '0')) {
+var picture2 = ary_item[i].picture2;
+var yoso_id = ary_item[i].yoso_id;
+for(var seq in ary_item[i].mark) {
+var mark_class = mark_class_list[ary_item[i].mark[seq]];
+if(mark_class !== undefined) {
+el.find('.mark_'+seq + ' span').addClass('Icon_Shirushi Icon_' + mark_class);
+}
+}
+el.find('a').addClass('show_yosotab_' + yoso_id);
+el.find('img').attr('src',_yoso_img_path + picture2);//画像設定
+// ウマい有料で販売中でない
+} else if (goods_kbn == 'umai_sell') {
+var picture2 = ary_item[i].picture2;
+var yoso_id = ary_item[i].yoso_id;
+var yoso_point = ary_item[i].yoso_point;
+el.find('dd').addClass('Kaishu');
+el.find('ul').hide();
+if ( ary_item[i].is_paid_only == '1') {
+el.find('.BuyBtn01 .paid').css("display", "block");
+}
+el.find('a').addClass('buy_yosotab_' + yoso_id + '_' + yoso_point);
+el.find('img').attr('src', _yoso_img_path + picture2);//画像設定
+if ( ary_item[i].select_kbn == 'recovery') {
+//回収率
+el.addClass('Gensen01');
+el.find('.YosoLabel').html('好調');
+el.find('.yoso_recovery .Recovery').html(ary_item[i].recovery_rate);
+el.find('.yoso_recovery .Point').html(yoso_point);
+el.find('.yoso_recovery').show();
+} else if ( ary_item[i].select_kbn == 'osusume') {
+// オススメ
+el.addClass('Gensen01');
+el.find('.YosoLabel').html('注目');
+el.find('.yoso_sotei .Point').html(yoso_point);
+el.find('.yoso_sotei').show();
+} else {
+// ユーザ設定
+el.addClass('Gensen01');
+el.find('.YosoLabel').html('　');
+el.find('.yoso_nomal .Point').html(yoso_point);
+el.find('.yoso_nomal').show();
+}
+// No1予想
+} else if (goods_kbn == 'no1_free' || goods_kbn == 'no1_premium') {
+var yosoka_id = ary_item[i].yosoka_id;
+for(var seq in ary_item[i].mark) {
+var mark_class = mark_class_list[ary_item[i].mark[seq]];
+if(mark_class !== undefined) {
+el.find('.mark_'+seq + ' span').addClass('Icon_Shirushi Icon_' + mark_class);
+}
+}
+var set_url = '../yoso/yoso_pro_opinion_detail.html?race_id=' + _page_race_id + '&yosoka_id=' + yosoka_id;
+if (base_info.is_basic == '0' && base_info.is_payback == '0') {
+if (goods_kbn == 'no1_premium') {
+set_url =  'https://regist.netkeiba.com/?pid=premium&service=&return_url=' + encodeURIComponent(location.href);
+el.addClass('Premium01');
+el.find('.YosoLabel').html('');
+el.find('dd').addClass('Kaishu');
+el.find('ul').hide();
+} else if (goods_kbn == 'no1_free') {
+el.addClass('Free01');
+el.find('.YosoLabel').html('無料');
+el.find('dd').addClass('Kaishu');
+el.find('ul').hide();
+}
+}
+el.find('a').attr('href', set_url);
+el.find('img').attr('src', 'https://cdnv2.netkeiba.com/img.race/common/img/yosoka/yosotab_' + yosoka_id + '.gif');
+}
+var default_el = $("#yoso_goods_seq_" + i);
+if (default_el.length) {
+default_el.attr('class', el.attr('class'));
+default_el.html(el.html());
+} else {
+if (list_index > 0) {
+el.insertAfter($(".YosoTableWrap .Yosoka").eq(list_index-1));
+} else {
+el.insertAfter("#YosoShirushiAll");
+}
+}
+list_index++;
+}
+}
+for(var key2 in mark_class_list) {
+for(var i = 0; i < $('[class^="total_'+key2+'_"]').length; i++) {
+var seq = $('[class^="total_'+key2+'_"]').eq(i).prop('class').replace('total_'+key2+'_', '');
+var mark_count = $('.mark_' + seq).find('.Icon_'+mark_class_list[key2]).length;
+$('.total_'+key2+'_'+seq).html('');
+if(mark_count !== 0) {
+$('.total_'+key2+'_'+seq).html(mark_count);
+}
+}
+}
+// ぼかしと登録画面
+if (base_info.is_basic == '0' && base_info.is_payback == '0') {
+// $('.Premium_Regist_Box').show();
+$('.Premium_Regist_Box02').show();
+var MarkWidth = $("dl.Yosoka").outerWidth();
+var MarkHeight = $(".Horse_Info li").outerHeight();
+var TrLength = $("dl.Yosoka:first-child dd ul li").length;
+var MarkLength = $('[id^="yoso_goods_seq_"]').length;
+$(".YosoShirushi_Info01").css({
+"height": MarkHeight * TrLength,
+"width": MarkWidth * MarkLength
+});
+}
+});
+}
+});
+</script>
+</div>
+<!-- block=shutuba__race_surf (d) -->
+<div class="RaceHeadlineAll">
+<div class="RaceHeadline" id="race_message_box"><div class="ListHeadlineWrapper">
+<ul class="ListHeadline clearfix">
+
+
+
+</ul>
+</div>
+<p class="RightCaretDown"><span class="NewsNumber" style="display: none;">0</span></p>
+<div class="DetailsHeadline">
+
+<ul id="point_info_list" style="display:none" class="ListHeadlineDetails">
+</ul>
+
+
+</div>
+<script type="text/javascript">
+//function message slide
+function FadeInHeader(obj,width) {
+$("." + obj).animate(
+{
+left: "-=50"
+},
+2000,'linear',
+function() {
+var widthAll = Math.abs($("."+obj).position().left);
+var widthRelative = $("."+obj).position().left;
+if(widthAll >= width && widthRelative < 0) {
+console.log('Ew, it sucks')
+$("."+obj).css("opacity", 0);
+$("." +obj).animate(
+{
+left: "850",
+opacity: "0"
+},
+1000,
+function() {
+$("."+obj).css("opacity", "1");
+}
+);
+}
+FadeInHeader(obj,width)
+}
+);
+}
+$(document).ready(function() {
+var width = 0;
+if ($(".ListTopHeadline").length) {
+$(".ListTopHeadline li").each(function() {
+width += $(this).width();
+});
+$(".ListTopHeadline").css("width", width + "px");
+FadeInHeader("ListTopHeadline",width);
+$(".ListTopHeadline").hover(function(){
+$(this).stop()
+},function(){
+FadeInHeader("ListTopHeadline",width)
+})
+}
+if ($(".ListHeadline > li").length) {
+$(".ListHeadline li").each(function() {
+width += $(this).width();
+});
+$(".ListHeadline").css("width", width + "px");
+FadeInHeader("ListHeadline",width);
+$(".ListHeadline").hover(function(){
+$(this).stop()
+},function(){
+FadeInHeader("ListHeadline",width)
+})
+$(".RightCaretDown").click(function() {
+$(this).toggleClass("CaretUp");
+$(".DetailsHeadline").toggle();
+$(".ListHeadline").toggle();
+});
+}
+});
+</script>
+<script>
+(function($) {
+var HorseCountAll = $(".RightCaretDown span").text();
+if ( HorseCountAll == "0"){
+$(".NewsNumber").hide();
+}
+})(jQuery);
+</script></div>
+</div>
+<!--<script type="text/javascript" src="https://cdnv2.netkeiba.com/img.race/common/js/raceapi.action.js?2019073001"></script>-->
+<script type="text/javascript">
+var _raceapi_action_api_url = window.location.origin+'/api/api_get_racev3_surf.html';
+$( document ).ready( function() {
+showRaceV3Surf( "race_message_box", "202610020801" );
+} );
+/**
+* 空であるかどうか
+*
+* @param  mixd    _var 変数
+* @return boolean      true=空である false=空ではない
+*/
+function _empty( _var )
+{
+if ( undefined == _var || null == _var || '' == _var )
+{
+return true;
+}
+return false;
+}
+</script>
+
+<!-- block=ad_gam_body_rectangle (d) -->
+
+
+<!-- block=live_commerce_link (d) -->
+<div id="live_commerce_link" style="display:none"></div>
+<script>
+$(document).ready( function(){
+console.log("api_get_live_commerce_link");
+var _data = { pid : 'api_get_live_commerce_link' };
+_data.input     = 'UTF-8';
+_data.output    = 'jsonp';
+_data.syusai = "jra";
+_data.device = "pc";
+_data.mode = "video_banner";
+_data.ref  = 'race_pc_mark_list';
+jQuery.ajax( {type  :'GET',
+url      : "https://yoso.sp.netkeiba.com",
+data     : _data,
+dataType : _data.output,
+success  : function( data )
+{
+$("#live_commerce_link").html(data);
+$("#live_commerce_link").show();
+},
+error  : function(XMLHttpRequest, textStatus, errorThrown)
+{
+console.log("view data not exiest");
+}
+});
+});
+</script>
+<!-- block=shutuba__race_yos_gensen_list_box (d) -->
+<!-- raceドメイン内　ウマいブロック　専用css -->
+<link rel="stylesheet" href="https://cdnv2.netkeiba.com/img.race/common/css/race_pc_umai_new.css?20200205" type="text/css" media="all">
+<div class="Contents_Box YosoGensenListBox padd_bottom">
+<link href="https://cdnv2.netkeiba.com/img.yoso/common/css/umai_area01.css?2019073001" rel="stylesheet" type="text/css" media="all">
+<div class="GensenYosoTitle">
+<h2 class="TitleHeading  CardBackground"><span>厳選予想 ウマい馬券</span></h2>
+</div><!-- /.GensenYosoTitle -->
+<div id="ow_bunner_view" style="display: none; text-align: center; margin: 10px 0;"></div>
+<div id="delay_umai_baken">
+<div id="goods_view">
+<div class="FileLoader"><img src="https://cdnv2.netkeiba.com/img.race/common/img/common/gif-load.gif?2019073001"></div>
+</div>
+</div>
+</div><!-- /.Contents_Box.YosoGensenListBox -->
+<script src="https://cdnv2.netkeiba.com/img.yoso/common/js/social_cart.js?2019073001" type="text/javascript"></script>
+<script src="https://cdnv2.netkeiba.com/img.yoso/common/js/yoso/YosoJraNar.js?2025112101" type="text/javascript"></script>
+<script src="https://cdnv2.netkeiba.com/img.race/common/js/jquery.lazyscript.js?2019073001" type="text/javascript"></script>
+<script type="text/javascript">
+var gv_umai_first_trial_state = '';
+$(document).ready( function(){
+var yoso_jra_nar = new YosoJraNar('https://yoso.netkeiba.com');
+var _show_id = 'goods_view';
+var _race_id = '202610020801';
+var _yosoka_id = ''; // defualt
+var options = {
+type: "visible",
+id: "delay_umai_baken",
+scripts: [
+],
+success: function () {
+// OW広告
+var _ow_view = 'ow_bunner_view';
+var _ow_rf = 'yoso';
+if (location.href.indexOf('shutuba.html') !== -1) {
+_ow_rf =  'shutuba';
+} else if (location.href.indexOf('odds/') !== -1){
+_ow_rf =  'odds';
+} else if (location.href.indexOf('mark_list.html') !== -1){
+_ow_rf =  'yoso';
+}
+var _data = {
+output  : 'jsonp',
+input   : 'UTF-8',
+ow_rf   : _ow_rf
+}
+$.ajax({
+type     : 'GET',
+url      : 'https://yoso.netkeiba.com/shop/api_get_ow_link.html',
+data     : _data,
+dataType : _data.output,
+success  : function(json) {
+console.log(json.length);
+if (json.length > 100) {
+$('#' + _ow_view).html(json).show();
+}
+}
+});
+yoso_jra_nar.GetYosoTrial(function(json_trial) {
+gv_umai_first_trial_state = String(json_trial.first_trial_state);
+yoso_jra_nar.ShowGoodsListRace(_race_id, _yosoka_id, function(data){
+$("#" + _show_id).html( data.html );
+});
+});
+}
+};
+if(isNaN(_race_id*1)){
+options.success() // 海外は遅延なし
+} else {
+$.lazyscript(options);
+}
+});
+</script>
+<!-- block=yoso__senmonshi (d) -->
+<div id="delay_umai_yosoka_f">
+<div id="umai_yosoka_f_view">
+<div class="FileLoader"><img src="https://cdnv2.netkeiba.com/img.race/common/img/common/gif-load.gif?20190116" alt=""></div>
+</div>
+</div>
+<script src="https://cdnv2.netkeiba.com/img.race/common/js/jquery.lazyscript.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+var _title  = '';
+var _syusai = '10';
+var _show_id = 'umai_yosoka_f_view';
+var options = {
+type: "visible",
+id: "delay_umai_yosoka_f",
+scripts: [
+],
+success: function () {
+get_umai_yosoka_f_data(_syusai, _show_id, function(data) {
+// console.log(data);
+if (data.status == 'OK') {
+$("#sec_umai_goods_f").css("display", "block");
+if(undefined != _title && 0 < _title.length ){
+data.html = data.html.replace("<span>競馬専門紙</span>","<span>" + _title + " 競馬専門紙</span>");
+}
+$("#" + _show_id).html( data.html );
+}
+});
+}
+};
+$.lazyscript(options);
+// ------------------------------------------------------------------------
+function get_umai_yosoka_f_data(_syusai, _show_id, _callback)
+{
+console.log('get_umai_goods_f_data');
+var _data = {};
+_data.input       = 'UTF-8';
+_data.output      = 'jsonp';
+_data.syusai      = _syusai;
+_data.show_id     = _show_id;
+_data.rf_param    = 'pc_racespecial';
+$.ajax({
+type     : 'GET',
+url      : 'https://yoso.netkeiba.com/senmonshi/api/api_get_yosoka_sales_special.html',
+data     : _data,
+dataType : _data.output,
+success  : function( data ){
+if (undefined != _callback) {
+_callback( data );
+}
+},
+error    : function(XMLHttpRequest, textStatus, errorThrown) {
+console.log('XMLHttpRequest: %O',XMLHttpRequest);
+console.log('textStatus: %O',textStatus);
+}
+});
+}
+});
+</script>
+</div><!-- / .RaceColumn02 -->
+<div class="Contents RaceSpecialArea" style="min-height: auto;">
+<section class="Contents_Box ReferenceRace">
+<!-- block=special_step_new (cp) -->
+
+<span id="expected_reference_video"></span>
+<!-- block=special__previous_run_paddock (cp) -->
+
+<script src="https://cdnv2.netkeiba.com/img.race/race_api/common/js/race_api_indexdb.min.js"></script>
+<!-- block=special__training_movie (cp) -->
+
+<div class="Description_Box Flow mt18" id="expected_reference_video_info" style="display: none;">
+<dl>
+<dt>予想参考映像の公開時間について<span class="Icon_ArrowB"></span></dt>
+<dd style="display: none;">
+<div class="Baken_Flow">
+<div class="Baken_Flow_Title"><strong>前走パドック</strong>
+<br>気になる出走馬の前走の状態を確認できます。</div>
+<div class="Inner">
+<div class="Step">
+<p class="Step_Title fwB">1.公開時間について</p>
+<div class="YosoMovieInfoTxt">GⅠレースは開催前々週の月曜12時頃に公開予定。
+<br>GⅡ/GⅢレースは開催前週の月曜12時頃に公開予定。</div>
+</div>
+<!-- /.Step -->
+<div class="Step">
+<p class="Step_Title fwB">2.映像が無い出走馬について</p>
+<div class="YosoMovieInfoTxt">情報提供元の都合により、配信を見送らせていただく場合がございます。</div>
+</div>
+<!-- /.Step -->
+</div>
+<!-- /.Inner -->
+</div>
+<!-- /.Baken_Flow -->
+<!-- /.Baken_Flow -->
+</dd>
+</dl>
+</div>
+<!-- /.Description_Box -->
+<script>
+$(document).ready(function() {
+$('.Description_Box > dl > dt').click(function() {
+$('.Description_Box > dl > dt > span').toggleClass('Icon_ArrowT').toggleClass('Icon_ArrowB');
+$('+ dd', this).slideToggle('fast');
+});
+if($('#expected_reference_video').length){
+$("#expected_reference_video_info").css("display", "none");
+}
+});
+</script>
+</section>
+<script type="text/javascript">
+$( document ).ready( function() {
+$("#special_playback").insertAfter("#target_playback");
+});
+</script>
+<div id="special_playback">
+<!-- block=special_playback_movie (cp) -->
+
+</div>
+</div>
+<div class="RaceColumn02 mt20">
+<!-- block=yoso__column_list (d) -->
+<div class="Title_Sec TitleHeading Special_Step_New" id="yoso_column_block" style="display:none;">
+<h2><span> 予想コラム</span></h2>
+</div>
+<section class="Contents_Box Sec_ProYosoka race_yoso">
+<div id="yoso_view" class="ColumnList yoso_column_list" style="display:none;">
+<div class="FileLoader"><img src="__CDN_IMG_NETKEIBA__/common/img/common/gif-load.gif?20190116" alt=""></div>
+</div>
+</section>
+<script type="text/javascript">
+$(function() {
+const queryString = window.location.search;
+const params = new URLSearchParams(queryString);
+const race_id = params.get('race_id');
+showColumnRanking( race_id, 'yoso_view', '1', '', '18', '5', '1', 'more_inner-5-5-5', 'https://news.netkeiba.com/?pid=column_new_list');
+});
+function showColumnRanking( _race_id, _show_id, _rank_type, _category_id, _subcategory_id, _limit, _page, _pager_type, _pager_url, _pid_suffix, _id_list )
+{
+var _data = { pid : 'api_get_yosotab_column' };
+_data.input             = 'UTF-8';
+_data.output            = 'jsonp';
+_data.race_id           = _race_id;
+_data.show_id           = _show_id;
+_data.rank_type         = _rank_type;
+_data.category_id       = _category_id;
+_data.subcategory_id    = _subcategory_id;
+_data.limit             = _limit;
+_data.page              = _page;
+_data.pager_type        = _pager_type;
+_data.pager_url         = _pager_url;
+_data.device            = "pc";
+console.log(_data);
+if( _id_list )
+{
+_data.id_list       = _id_list;
+}
+if ( undefined != _pid_suffix ){
+_data._pid_suffix = _pid_suffix;
+}
+$.ajax( { type     : 'GET',
+url      : 'https://yoso.sp.netkeiba.com',
+data     : _data,
+dataType : _data.output,
+success  : function( data )
+{
+console.log( "data.count=" + data.count );
+if(data.status == 'NG'){
+$( '#' + _show_id ).html("");
+console.log('status:NG reason:'+ data.reason);
+}else{
+console.log(data);
+if( data.count > 0 ){
+$( "#yoso_column_block" ).show();
+$( '#' + _show_id ).show();
+$( '#' + _show_id ).html( data.html );
+}
+}
+}
+} );
+}
+</script>
+<!-- BEGIN _b_shutuba__race_info_notice01 -->
+
+<!-- END _b_shutuba__race_info_notice -->
+<!-- block=shutuba__race_info_notice02 (d) -->
+
+
+<!-- block=ad_gam_body_rectangle (d) -->
+
+</div><!-- / .RaceColumn02 -->
+</div><!-- / #page -->
+<!-- block=lazyload_js (d) -->
+<script>
+/* Disable minification (remove `.min` from URL path) for more info */
+(function(undefined) {}).call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
+(function (root, factory) {
+if (typeof exports === "object") {
+module.exports = factory(root);
+} else if (typeof define === "function" && define.amd) {
+define([], factory(root));
+} else {
+root.LazyLoad = factory(root);
+}
+}) (typeof global !== "undefined" ? global : this.window || this.global, function (root) {
+"use strict";
+const defaults = {
+src: "data-src",
+srcset: "data-srcset",
+selector: ".lazyload"
+};
+/**
+* Merge two or more objects. Returns a new object.
+* @private
+* @param   deep     If true, do a deep (or recursive) merge [optional]
+* @param    objects  The objects to merge together
+* @returns           Merged values of defaults and options
+*/
+const extend = function ()  {
+let extended = {};
+let deep = false;
+let i = 0;
+let length = arguments.length;
+/* Check if a deep merge */
+if (Object.prototype.toString.call(arguments[0]) === "[object Boolean]") {
+deep = arguments[0];
+i++;
+}
+/* Merge the object into the extended object */
+let merge = function (obj) {
+for (let prop in obj) {
+if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+/* If deep merge and property is an object, merge properties */
+if (deep && Object.prototype.toString.call(obj[prop]) === "[object Object]") {
+extended[prop] = extend(true, extended[prop], obj[prop]);
+} else {
+extended[prop] = obj[prop];
+}
+}
+}
+};
+/* Loop through each object and conduct a merge */
+for (; i < length; i++) {
+let obj = arguments[i];
+merge(obj);
+}
+return extended;
+};
+function LazyLoad(images, options) {
+this.settings = extend(defaults, options || {});
+this.images = images || document.querySelectorAll(this.settings.selector);
+this.observer = null;
+this.init();
+}
+LazyLoad.prototype = {
+init: function() {
+/* Without observers load everything and bail out early. */
+if (!root.IntersectionObserver) {
+this.loadImages();
+return;
+}
+let self = this;
+let observerConfig = {
+root: null,
+rootMargin: "0px",
+threshold: [0, 0.5, 1.0]
+};
+this.observer = new IntersectionObserver(function(entries) {
+entries.forEach(function (entry) {
+if (entry.intersectionRatio > 0) {
+self.observer.unobserve(entry.target);
+let src = entry.target.getAttribute(self.settings.src);
+let srcset = entry.target.getAttribute(self.settings.srcset);
+if ("img" === entry.target.tagName.toLowerCase()) {
+if (src) {
+entry.target.src = src;
+}
+if (srcset) {
+entry.target.srcset = srcset;
+}
+} else {
+entry.target.style.backgroundImage = "url(" + src + ")";
+}
+entry.target.classList.remove("lazyload");
+}
+});
+}, observerConfig);
+this.images.forEach(function (image) {
+self.observer.observe(image);
+});
+},
+loadAndDestroy: function () {
+if (!this.settings) { return; }
+this.loadImages();
+this.destroy();
+},
+loadImages: function () {
+if (!this.settings) { return; }
+let self = this;
+this.images.forEach(function (image) {
+let src = image.getAttribute(self.settings.src);
+let srcset = image.getAttribute(self.settings.srcset);
+if ("img" === image.tagName.toLowerCase()) {
+if (src) {
+image.src = src;
+}
+if (srcset) {
+image.srcset = srcset;
+}
+} else {
+image.style.backgroundImage = "url(" + src + ")";
+}
+});
+},
+destroy: function () {
+if (!this.settings) { return; }
+this.observer.disconnect();
+this.settings = null;
+}
+};
+root.lazyload = function(images, options) {
+return new LazyLoad(images, options);
+};
+if (root.jQuery) {
+const $ = root.jQuery;
+$.fn.lazyload = function (options) {
+options = options || {};
+options.attribute = options.attribute || "data-src";
+new LazyLoad($.makeArray(this), options);
+return this;
+};
+}
+return LazyLoad;
+});
+</script>
+<script>
+$(function() {
+if (typeof lazyload === 'function') {
+$('.lazyload').lazyload();
+} else {
+var lazyImages = [].slice.call(document.querySelectorAll(".lazyload"));
+lazyImages.forEach(function(lazyImage) {
+console.log(lazyImage.tagName);
+if (lazyImage.tagName == 'DIV') {
+lazyImage.style.backgroundImage = "url(" + lazyImage.dataset.src + ")";
+} else {
+lazyImage.src = lazyImage.dataset.src;
+}
+lazyImage.classList.remove("lazyload");
+});
+}
+});
+</script>
+<footer>
+<!-- block=common__race_footer (cg) -->
+<div class="NkFooterArea">
+<div class="BtnPagetop">
+<a href="javascript:void(0)" title="ページトップへ"></a>
+</div><!-- /.BtnPagetop -->
+<script type="text/javascript">
+$(function() {
+$('.BtnPagetop a').click(function () {
+$('body,html').animate({
+scrollTop: 0
+}, 400);
+return false;
+});
+});
+</script>
+<div class="KeirinLink01">
+<a href="//keirin.netkeiba.com/?rf=nk_pc_footer" title="netkeirin"><img src="https://cdnv2.netkeiba.com/img.www/style/netkeiba.ja/image/common/PC_footer_bnr01.png" alt="いま競輪が熱い！nerkeirinで競輪を気軽に楽しもう"></a>
+</div><!-- /.KeirinLink01 -->
+<dl class="FootSiteTitle fc">
+<dt>
+<a href="https://www.netkeiba.com/?rf=footer" title="netkeiba">
+<img src="https://cdnv2.netkeiba.com/img.www/style/netkeiba.ja/image/common/netkeiba_logo01.png?2019073001" alt="netkeiba">
+</a>
+</dt>
+<dd>
+<p>利用者数<strong>1700</strong>万人突破！<strong>No.1</strong>競馬サイト</p>
+</dd>
+</dl>
+<div class="FootWrap">
+<dl class="NkFoot01 NkFootCateLink">
+<dt>カテゴリ</dt>
+<dd class="fc">
+<ul>
+<li>
+<a href="https://news.netkeiba.com?rf=footer" title="ニュース">ニュース</a>
+</li>
+<li>
+<a href="https://race.netkeiba.com/top/?rf=footer" title="レース">レース</a>
+</li>
+<li>
+<a href="https://yoso.netkeiba.com?rf=footer" title="ウマい馬券">ウマい馬券</a>
+</li>
+<li>
+<a href="https://news.netkeiba.com?pid=column_top&amp;rf=footer" title="コラム">コラム</a>
+</li>
+<li>
+<a href="https://tv.netkeiba.com/?rf=footer" title="netkeibaTV">netkeibaTV</a>
+</li>
+<li>
+<a href="https://nar.netkeiba.com/top/?rf=footer" title="地方競馬">地方競馬</a>
+</li>
+<li>
+<a href="https://db.netkeiba.com?rf=footer" title="データベース">データベース</a>
+</li>
+<li>
+<a href="https://orepro.netkeiba.com?rf=footer" title="俺プロ">俺プロ</a>
+</li>
+</ul>
+<ul>
+<li>
+<a href="https://own.netkeiba.com/?rf=nknabi" title="一口馬主" target="_blank">一口馬主</a>
+</li>
+<li>
+<a href="https://pog.netkeiba.com?rf=footer" title="POG">POG</a>
+</li>
+<li>
+<a href="https://bbs.pc.keiba.findfriends.jp?rf=footer" title="競馬広場">競馬広場</a>
+</li>
+<li>
+<a href="https://dir.netkeiba.com/keibamatome/index.html?rf=footer" title="まとめ">まとめ</a>
+</li>
+<li>
+<a href="https://yoso.netkeiba.com/senmonshi/?rf=footer" title="競馬新聞">競馬新聞</a>
+</li>
+<li>
+<a href="https://race.netkeiba.com/bookmark/bookmark.html?rf=footer" title="お気に入り馬">お気に入り馬</a>
+</li>
+<li>
+<a href="https://regist.netkeiba.com?rf=footer" title="アカウント">アカウント</a>
+</li>
+</ul>
+</dd>
+</dl>
+<dl class="NkFoot01">
+<dt>ヘルプ＆ガイド</dt>
+<dd>
+<ul>
+<li>
+<a href="https://info.netkeiba.com/?rf=footer" title="お知らせ">お知らせ</a>
+</li>
+<li>
+<a href="https://regist.netkeiba.com?pid=premium&amp;rf=footer" title="プレミアムサービスのご案内">プレミアムサービスのご案内</a>
+</li>
+<li>
+<a href="https://regist.netkeiba.com?pid=help&amp;rf=footer" title="よくある質問・お問い合わせ">よくある質問・お問い合わせ</a>
+</li>
+<li>
+<a href="https://info.netkeiba.com/?pid=info_detail&amp;id=1172" title="のめり込む不安のある方へ">のめり込む不安のある方へ</a>
+</li>
+</ul>
+</dd>
+</dl>
+<dl class="NkFoot01">
+<dt>netkeibaについて</dt>
+<dd>
+<ul>
+<li>
+<a href="https://www.netkeiba.com/recruit/?rf=footer" title="採用情報">採用情報</a>
+</li>
+<li>
+<a href="https://www.netkeiba.com/info/ad/?rf=footer" title="広告掲載について">広告掲載について</a>
+</li>
+<li>
+<a href="https://www.netkeiba.com/info/kiyaku.html?rf=footer" title="利用規約">利用規約</a>
+</li>
+<li>
+<a href="https://www.netdreamers.co.jp/company/about/privacy.html?rf=footer" title="プライバシーポリシー">プライバシーポリシー</a>
+</li>
+<li>
+<a href="https://www.netkeiba.com/info/guide.html?rf=footer" title="投稿ガイドライン">投稿ガイドライン</a>
+</li>
+<li>
+<a href="https://www.netkeiba.com/info/tokusyo.html?rf=footer" title="特定商取引法に基づく表記">特定商取引法に基づく表記</a>
+</li>
+<li>
+<a href="https://www.netkeiba.com/info/license.html?rf=footer">ライセンス</a>
+</li>
+<li>
+<a href="https://www.netdreamers.co.jp/?rf=footer" title="運営会社">運営会社</a>
+</li>
+</ul>
+</dd>
+</dl>
+<dl class="NkFoot01">
+<dt>スマホでnetkeiba</dt>
+<dd class="SpNkInfoImg">
+<img src="https://cdnv2.netkeiba.com/img.www/style/netkeiba.ja/image/common/img_nk_searchimg01.png?2019073001" alt="検索" class="SearchImg01">
+<img src="https://cdnv2.netkeiba.com/img.www/style/netkeiba.ja/image/common/img_nk_qr01.png?2019073001" alt="バーコード" class="QrImg01">
+</dd>
+<dt>アプリでサクサクnetkeiba</dt>
+<dd>
+<ul class="AprStoreList fc">
+<li>
+<a href="https://itunes.apple.com/jp/app/id464562684/" title="Appstore"><img src="https://cdnv2.netkeiba.com/img.www/style/netkeiba.ja/image/common/bnr_appstore_01.png?2019073001" alt="Appstore" class=""></a>
+</li>
+<li>
+<a href="https://play.google.com/store/apps/details?id=jp.co.netdreamers.netkeiba" title="googleplay"><img src="https://cdnv2.netkeiba.com/img.www/style/netkeiba.ja/image/common/bnr_googleplay_01.png?20210728" alt="googleplay" class=""></a>
+</li>
+</ul>
+</dd>
+<dt>みんなで一緒に競馬を楽しもう!</dt>
+<dd>
+<div class="Sns_Icon_List_Container">
+<div class="Sns_Icon_List_Text">
+<span>netkeibaを</span>おすすめする
+</div>
+<ul class="Sns_Icon_List">
+<li class="Sns_Icon_List_Item">
+<a href="https://twitter.com/intent/tweet?text=%E3%80%8C%E3%83%8D%E3%83%83%E3%83%88%E3%82%B1%E3%82%A4%E3%83%90%E3%80%8D%E3%82%A2%E3%83%97%E3%83%AA%E3%81%A7%E7%AB%B6%E9%A6%AC%E3%82%92%E6%A5%BD%E3%81%97%E3%82%82%E3%81%86%EF%BC%81%0A%E3%83%8B%E3%83%A5%E3%83%BC%E3%82%B9%E3%82%84%E3%83%AC%E3%83%BC%E3%82%B9%E3%81%AE%E6%83%85%E5%A0%B1%E3%81%AA%E3%81%A9%E7%84%A1%E6%96%99%E3%81%A7%E4%BD%BF%E3%81%88%E3%82%8B%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%E3%81%8C%E7%9B%9B%E3%82%8A%E3%81%A0%E3%81%8F%E3%81%95%E3%82%93%EF%BC%81%0A%0A%E3%82%A2%E3%83%97%E3%83%AA%E3%81%AE%E3%83%80%E3%82%A6%E3%83%B3%E3%83%AD%E3%83%BC%E3%83%89%E3%81%AF%E2%86%93%E3%81%93%E3%81%A1%E3%82%89%E3%81%8B%E3%82%89%0Ahttps%3A%2F%2Fnetkeiba.onelink.me%2Fcexk%2Fyj5ftwq9" class="icon_x">
+<img src="https://cdnv2.netkeiba.com/img.sp/common/img/footer_twitter.png" style="width: 45px;height: 45px;">
+</a>
+</li>
+<li class="Sns_Icon_List_Item">
+<a href="https://line.me/R/share?text=netkeiba%E3%82%A2%E3%83%97%E3%83%AA%E3%82%92%E3%83%80%E3%82%A6%E3%83%B3%E3%83%AD%E3%83%BC%E3%83%89%E3%81%97%E3%81%A6%E7%AB%B6%E9%A6%AC%E3%82%92%E3%82%82%E3%81%A3%E3%81%A8%E6%A5%BD%E3%81%97%E3%82%82%E3%81%86%EF%BC%81%0D%0Ahttps%3A%2F%2Fnetkeiba.onelink.me%2Fcexk%2Fki89eacp" class="icon_line">
+<img src="https://cdnv2.netkeiba.com/img.sp/common/img/footer_line.png" style="width: 45px;height: 45px;">
+</a>
+</li>
+<li class="Sns_Icon_List_Item">
+<a href="#" class="icon_sharelink" data-url="https://netkeiba.onelink.me/cexk/kt8klqcy">
+<img src="https://cdnv2.netkeiba.com/img.sp/common/img/footer_share.png" style="width: 45px;height: 45px;">
+</a>
+</li>
+</ul>
+<div id="ToastMessage" class="Toast">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="12.742" height="12.742" viewBox="0 0 12.742 12.742">
+<defs>
+<clipPath id="clip-path">
+<rect width="12.742" height="12.742" fill="#fff"></rect>
+</clipPath>
+</defs>
+<g clip-path="url(#clip-path)">
+<path d="M387.991,1a3.418,3.418,0,0,0-4.833,0l-1.9,1.9a.544.544,0,0,0,.769.769l1.9-1.9a2.33,2.33,0,0,1,3.3,3.3l-1.9,1.9a2.331,2.331,0,0,1-3.913-1.1.544.544,0,1,0-1.057.254,3.418,3.418,0,0,0,5.739,1.614l1.9-1.9a3.418,3.418,0,0,0,0-4.833" transform="translate(-376.25 0.001)" fill="#fff"></path>
+<path d="M6.97,377.961l-1.9,1.9a2.33,2.33,0,0,1-3.3-3.3l1.9-1.9a2.331,2.331,0,0,1,3.913,1.1.544.544,0,1,0,1.057-.254A3.418,3.418,0,0,0,2.9,373.9L1,375.8a3.418,3.418,0,1,0,4.833,4.833l1.9-1.9a.544.544,0,0,0-.769-.769" transform="translate(0 -368.893)" fill="#fff"></path>
+</g>
+</svg>
+URLリンクをコピーしました
+</div>
+<script>
+document.querySelectorAll(".icon_sharelink").forEach(link => {
+link.addEventListener("click", function(event) {
+event.preventDefault();
+const url = this.getAttribute("data-url");
+navigator.clipboard.writeText(url)
+.then(() => {
+const toast = document.getElementById("ToastMessage");
+toast.classList.add("show");
+setTimeout(() => {
+toast.classList.remove("show");
+}, 3000);
+})
+.catch(err => console.error("コピーに失敗しました", err));
+});
+});
+</script>
+</div>
+</dd>
+<dt>netkeiba公式SNS!</dt>
+<dd class="Nk_Sns_List">
+<ul>
+<li>
+<a href="https://twitter.com/netkeiba" title="公式 X">
+<svg xmlns="http://www.w3.org/2000/svg" width="17.947" height="18.341" viewBox="0 0 17.947 18.341">
+<path d="M8.512,10.287h0L7.8,9.272,2.154,1.192H4.586L9.144,7.713l.71,1.015L15.78,17.2H13.348ZM15.779,0l-5.8,6.743L5.344,0H0L7.007,10.2,0,18.341H1.583L7.71,11.22,12.6,18.341h5.344L10.681,7.766h0L17.362,0Z"></path>
+</svg>
+</a>
+</li>
+<li>
+<a href="https://ja-jp.facebook.com/netkeiba" title="公式 Facebook">
+<svg xmlns="http://www.w3.org/2000/svg" width="13.46" height="26.921" viewBox="0 0 13.46 26.921">
+<path d="M8.738,26.921V14.642H12.7l.6-4.787H8.738V6.8c0-1.385.369-2.33,2.284-2.33H13.46V.187A31.852,31.852,0,0,0,9.906,0C6.388,0,3.979,2.23,3.979,6.325v3.53H0v4.787H3.979V26.921Z"></path>
+</svg>
+</a>
+</li>
+<li>
+<a href="https://line.me/R/ti/p/%40oa-netkeiba" title="LINE">
+<svg xmlns="http://www.w3.org/2000/svg" width="24.014" height="22.715" viewBox="0 0 24.014 22.715">
+<g>
+<path d="M23.911,10.763a6.012,6.012,0,0,0,.095-.726,9.136,9.136,0,0,0-.011-.933C23.7,4.037,18.446,0,12,0,5.374,0,0,4.275,0,9.548c0,4.847,4.54,8.85,10.422,9.466a.652.652,0,0,1,.579.722l-.25,2.254a.654.654,0,0,0,.936.66c4.97-2.4,7.941-4.866,9.716-7,.323-.389,1.376-1.864,1.591-2.252A8.036,8.036,0,0,0,23.911,10.763Z"></path>
+<path d="M1.228,4.636V.614A.614.614,0,1,0,0,.614V5.25a.614.614,0,0,0,.614.614H3.07a.614.614,0,0,0,0-1.228Z" transform="translate(4.175 6.846)" fill="#d1d1d1"></path>
+<path d="M.748,5.864H.48A.48.48,0,0,1,0,5.384V.48A.48.48,0,0,1,.48,0H.748a.48.48,0,0,1,.48.48v4.9A.48.48,0,0,1,.748,5.864Z" transform="translate(8.442 6.846)" fill="#d1d1d1"></path>
+<path d="M3.561.614V3.446S1.109.248,1.072.206A.611.611,0,0,0,.59,0,.631.631,0,0,0,0,.639V5.25a.614.614,0,1,0,1.228,0V2.435S3.717,5.661,3.754,5.7a.61.61,0,0,0,.415.168.637.637,0,0,0,.62-.64V.614a.614.614,0,1,0-1.228,0Z" transform="translate(10.591 6.846)" fill="#d1d1d1"></path>
+<path d="M3.684.614A.614.614,0,0,0,3.07,0H.614A.614.614,0,0,0,0,.614V5.25a.614.614,0,0,0,.614.614H3.07a.614.614,0,0,0,0-1.228H1.228V3.546H3.07a.614.614,0,0,0,0-1.228H1.228V1.228H3.07A.614.614,0,0,0,3.684.614Z" transform="translate(16.301 6.846)" fill="#d1d1d1"></path>
+</g>
+</svg>
+</a>
+</li>
+<li>
+<a href="http://www.youtube.com/user/netkeibaTV" title="netkeibaチャンネル">
+<svg xmlns="http://www.w3.org/2000/svg" width="22.714" height="15.904" viewBox="0 0 22.714 15.904">
+<path d="M22.246,2.489a2.846,2.846,0,0,0-2-2C18.467,0,11.357,0,11.357,0S4.247,0,2.47.468a2.9,2.9,0,0,0-2,2.021A29.987,29.987,0,0,0,0,7.952a29.877,29.877,0,0,0,.468,5.463,2.846,2.846,0,0,0,2,2c1.8.486,8.887.486,8.887.486s7.11,0,8.887-.468a2.846,2.846,0,0,0,2-2,29.988,29.988,0,0,0,.468-5.463A28.463,28.463,0,0,0,22.246,2.489Z" transform="translate(0 0)"></path>
+<path d="M0,6.811,5.912,3.405,0,0Z" transform="translate(9.093 4.547)" fill="#d1d1d1"></path>
+</svg>
+</a>
+</li>
+<li>
+<a href="https://www.instagram.com/netkeiba/" title="Instagram">
+<svg xmlns="http://www.w3.org/2000/svg" width="25.238" height="25.238" viewBox="0 0 25.238 25.238">
+<path d="M17.72,0H7.519A7.527,7.527,0,0,0,0,7.519v10.2a7.527,7.527,0,0,0,7.519,7.519h10.2a7.527,7.527,0,0,0,7.519-7.519V7.519A7.527,7.527,0,0,0,17.72,0ZM22.7,17.72a4.98,4.98,0,0,1-4.98,4.98H7.519a4.98,4.98,0,0,1-4.98-4.98V7.519a4.98,4.98,0,0,1,4.98-4.98h10.2a4.98,4.98,0,0,1,4.98,4.98Z"></path>
+<path d="M6.527,0a6.527,6.527,0,1,0,6.527,6.527A6.535,6.535,0,0,0,6.527,0Zm0,10.516a3.989,3.989,0,1,1,3.989-3.989A3.988,3.988,0,0,1,6.527,10.516Z" transform="translate(6.092 6.091)"></path>
+<path d="M3.128,1.564A1.564,1.564,0,1,1,1.564,0,1.564,1.564,0,0,1,3.128,1.564Z" transform="translate(17.595 4.577)"></path>
+</svg>
+</a>
+</li>
+<li>
+<a href="https://www.netkeiba.com/?pid=rss" title="RSS">
+<svg xmlns="http://www.w3.org/2000/svg" width="20.191" height="20.191" viewBox="0 0 20.191 20.191">
+<path d="M20.191,18.568a1.622,1.622,0,0,1-3.243,0A15.342,15.342,0,0,0,1.622,3.243,1.622,1.622,0,1,1,1.622,0,18.588,18.588,0,0,1,20.191,18.568ZM1.622,7.588a1.622,1.622,0,1,0,0,3.243,7.748,7.748,0,0,1,7.738,7.738,1.622,1.622,0,0,0,3.243,0A11,11,0,0,0,1.622,7.588Zm1.288,7.27a2.422,2.422,0,1,0,2.422,2.422A2.422,2.422,0,0,0,2.91,14.858Z"></path>
+</svg>
+</a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><!-- /.FootWrap -->
+</div><!-- /.NkFooterArea -->
+<div class="GlobalFooterArea">
+<div class="FootWrap">
+<dl class="NkFoot02">
+<dt class="GfootIcon01 IconGame01">netkeiba 公式競馬ゲーム</dt>
+<dd>
+<ul>
+<li>
+<a href="https://www.netkeiba.com/game/umasta.html?rf=footer" target="_blank" title="うまいるスタジアム">みんなの愛馬とバトル！ <strong>うまいるスタジアム</strong></a>
+</li>
+</ul>
+</dd>
+<dt class="GfootIcon01 IconSisterSite01">netkeiba 姉妹サイト</dt>
+<dd>
+<ul>
+<li>
+<a href="//own.netkeiba.com/?rf=footer" target="_blank">愛馬の管理はお任せ！ <strong>netkeibaオーナーズ</strong></a>
+</li>
+<li>
+<a href="//keirin.netkeiba.com/?rf=footer" target="_blank">競輪総合メディア <strong>netkeirin(ネットケイリン)</strong></a>
+</li>
+</ul>
+</dd>
+</dl>
+<dl class="NkFoot02">
+<dt class="GfootIcon01 IconMedia01">関連メディア</dt>
+<dd>
+<ul>
+<li>
+<a href="https://sp.baseball.findfriends.jp/?rf=footer" target="_blank" title="週刊ベースボールONLINE">徹底取材！野球情報は <strong>週刊ベースボールONLINE</strong></a>
+</li>
+<li>
+<a href="https://sp.golf.findfriends.jp/?rf=footer" target="_blank" title="ワッグルオンライン">ゴルフレッスン情報サイト <strong>ワッグルオンライン</strong></a>
+</li>
+<li>
+<a href="https://recipe.sp.findfriends.jp/?rf=footer" target="_blank" title="KATSUYOレシピ">小林カツ代直伝！ <strong>KATSUYOレシピ</strong></a>
+</li>
+</ul>
+</dd>
+</dl>
+<dl class="NkFoot02">
+<dt class="GfootIcon01 IconSoftware01">ソフトウェア・プロダクト</dt>
+<dd>
+<ul>
+<li>
+<a href="https://smart.lets-ktai.jp/?rf=footer" target="_blank" title="SMART会員証">もっともセキュアな店舗売上向上アプリ <strong>SMART会員証</strong></a>
+</li>
+<li>
+<a href="https://webspiral.jp/?rf=footer" target="_blank" title="WEB SPIRAL">サイト運営を劇的に効率化するCMS <strong>WEB SPIRAL</strong></a>
+</li>
+</ul>
+</dd>
+</dl>
+</div><!-- /.FootWrap -->
+<p class="CopyRight">
+<small>© NET DREAMERS, Co., Ltd. All Rights Reserved.</small>
+</p>
+</div><!-- /.GlobalFooterArea -->
+<!-- Google Tag Manager -->
+<!-- remove gtm_20220924 -->
+<!-- End Google Tag Manager -->
+
+<!-- block=ad_gam_body_overlay (d) -->
+
+</footer>
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-K6PJT6"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager -->
+
+<div id="cboxOverlay" style="display: none;"></div><div id="colorbox" class="" role="dialog" tabindex="-1" style="display: none;"><div id="cboxWrapper"><div><div id="cboxTopLeft" style="float: left;"></div><div id="cboxTopCenter" style="float: left;"></div><div id="cboxTopRight" style="float: left;"></div></div><div style="clear: left;"><div id="cboxMiddleLeft" style="float: left;"></div><div id="cboxContent" style="float: left;"><div id="cboxTitle" style="float: left;"></div><div id="cboxCurrent" style="float: left;"></div><button type="button" id="cboxPrevious"></button><button type="button" id="cboxNext"></button><button id="cboxSlideshow"></button><div id="cboxLoadingOverlay" style="float: left;"></div><div id="cboxLoadingGraphic" style="float: left;"></div></div><div id="cboxMiddleRight" style="float: left;"></div></div><div style="clear: left;"><div id="cboxBottomLeft" style="float: left;"></div><div id="cboxBottomCenter" style="float: left;"></div><div id="cboxBottomRight" style="float: left;"></div></div></div><div style="position: absolute; width: 9999px; visibility: hidden; display: none; max-width: none;"></div></div><div id="modal_overlay_menu"></div><script type="text/javascript" id="" charset="">(function(a,e,b,f,g,c,d){a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)};c=e.createElement(f);c.async=1;c.src="https://www.clarity.ms/tag/"+g;d=e.getElementsByTagName(f)[0];d.parentNode.insertBefore(c,d)})(window,document,"clarity","script","dfos4lrrd0");</script><iframe name="googlefcPresent" style="display: none; width: 0px; height: 0px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; z-index: -1000; left: -1000px; top: -1000px;"></iframe><iframe name="__tcfapiLocator" src="about:blank" style="display: none; width: 0px; height: 0px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; z-index: -1000; left: -1000px; top: -1000px;"></iframe><iframe name="googlefcInactive" src="about:blank" style="display: none; width: 0px; height: 0px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; z-index: -1000; left: -1000px; top: -1000px;"></iframe><iframe name="googlefcLoaded" src="about:blank" style="display: none; width: 0px; height: 0px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; z-index: -1000; left: -1000px; top: -1000px;"></iframe><iframe src="https://gum.criteo.com/syncframe?origin=publishertagids&amp;topUrl=race.netkeiba.com&amp;gdpr=0&amp;gdpr_consent=#{&quot;bundle&quot;:{&quot;origin&quot;:0},&quot;optout&quot;:{&quot;value&quot;:false,&quot;origin&quot;:0},&quot;tld&quot;:&quot;netkeiba.com&quot;,&quot;topUrl&quot;:&quot;race.netkeiba.com&quot;,&quot;version&quot;:108763,&quot;origin&quot;:&quot;publishertagids&quot;,&quot;requestId&quot;:&quot;0.5893490925858443&quot;}" width="0" height="0" frameborder="0" sandbox="allow-scripts allow-same-origin" aria-hidden="true" tabindex="-1" title="Criteo GUM iframe" style="border-width: 0px; margin: 0px; display: none;"></iframe><iframe src="https://www.google.com/recaptcha/api2/aframe" width="0" height="0" style="display: none;"></iframe></body><iframe id="goog_plcm_frame" src="https://cm.g.doubleclick.net/partnerpixels?gdpr=0&amp;url=https%3A%2F%2Frace.netkeiba.com%2Fyoso%2Fmark_list.html%3Frace_id%3D202610020801%26rf%3Drace_submenu" style="display: none;"></iframe></html>
