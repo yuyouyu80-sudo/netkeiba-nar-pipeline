@@ -90,7 +90,9 @@ def test_summarize_marks_scoring_and_ranking():
     - umaban10: 0.5/4/2点=6.5点、単独3位 → ▲
     - umaban1,6: ともに6点でタイ、4位タイ → 両方△
     - umaban3: 5点、5位(上位4段階に入らない) → 無印
-    - umaban7: 小林/藤村/大石川いずれも無印 → 0点 → ★
+    - umaban7: 小林/藤村/大石川いずれも無印 → 0点だが、CP予想が△(無印でない)を付けている
+      ため★にはならず無印(2026-08-26のユーザー指示: ★は0点かつ本紙・CP予想も両方無印の
+      場合のみ)
     """
     html = _load("mark_list_202610020801_jra.html")
     raw = parse_mark_list(html, race_id="202610020801")
@@ -102,24 +104,45 @@ def test_summarize_marks_scoring_and_ranking():
     assert summary.loc["1", "mark_other"] == "△"
     assert summary.loc["6", "mark_other"] == "△"
     assert summary.loc["3", "mark_other"] == ""
-    assert summary.loc["7", "mark_other"] == "★"
+    assert summary.loc["7", "mark_other"] == ""
+    assert summary.loc["7", "mark_cp"] == "△"
 
     assert summary.loc["9", "mark_honshi"] == "◎"
     assert summary.loc["9", "mark_cp"] == "◎"
 
 
-def test_summarize_marks_no_other_experts_all_stars():
-    """本紙・CP予想以外の専門家が1人もいない場合、全馬が★になる。"""
+def test_summarize_marks_zero_score_and_honshi_cp_both_blank_gets_star():
+    """0点(その他の専門家が1人もいない、または誰も印を付けていない)かつ本紙・CP予想も
+    両方無印の場合だけ★になる。"""
     raw = pd.DataFrame(
         {
             "umaban": ["1", "2"],
-            "mark_raw_本紙": ["◎", "○"],
-            "mark_raw_CP予想": ["○", "◎"],
+            "mark_raw_本紙": ["", ""],
+            "mark_raw_CP予想": ["", ""],
         }
     )
     summary = summarize_marks(raw).set_index("umaban")
     assert summary.loc["1", "mark_other"] == "★"
     assert summary.loc["2", "mark_other"] == "★"
+
+
+def test_summarize_marks_zero_score_but_honshi_or_cp_marked_no_star():
+    """その他の専門家からのスコアが0点でも、本紙かCP予想のどちらかに印が付いていれば
+    ★にはせず無印(空文字)にする(2026-08-26のユーザー指示による仕様変更)。"""
+    raw = pd.DataFrame(
+        {
+            "umaban": ["1", "2", "3"],
+            "mark_raw_本紙": ["◎", "", ""],
+            "mark_raw_CP予想": ["", "○", ""],
+        }
+    )
+    summary = summarize_marks(raw).set_index("umaban")
+    # umaban1: 本紙に印あり(CP予想は無印) -> ★にならない
+    assert summary.loc["1", "mark_other"] == ""
+    # umaban2: CP予想に印あり(本紙は無印) -> ★にならない
+    assert summary.loc["2", "mark_other"] == ""
+    # umaban3: 両方無印 -> ★
+    assert summary.loc["3", "mark_other"] == "★"
 
 
 def test_summarize_marks_empty_input():

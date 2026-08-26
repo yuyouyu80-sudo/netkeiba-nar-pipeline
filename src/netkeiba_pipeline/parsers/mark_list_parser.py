@@ -143,8 +143,13 @@ def summarize_marks(raw_df: pd.DataFrame) -> pd.DataFrame:
     「本紙」「CP予想」を除く全専門家の印を、馬ごとに◎=6/○=4/▲=3/△=2/☆=0.5点
     (無印・未知の記号は0点)でスコアリングして合計する。レース内の馬をスコア降順で
     順位付けし(同スコアは同順位=dense ranking)、1位→◎、2位→○、3位→▲、4位→△を割り当てる。
-    5位以下(上位4段階に入らない馬)は無印(空文字)のまま。スコアが0点(=本紙・CP予想以外の
-    誰からも印を1つももらっていない馬)は順位に関係なく★とする。
+    5位以下(上位4段階に入らない馬)は無印(空文字)のまま。
+
+    ★の判定条件(2026-08-26にユーザー指示で「本紙」「CP予想」も無印の場合のみに限定):
+    スコアが0点(=本紙・CP予想以外の誰からも印を1つももらっていない馬)、**かつ**
+    「本紙」「CP予想」の両方が無印の馬だけが★になる。スコアが0点でも「本紙」か「CP予想」の
+    どちらかに印が付いている馬は、順位付けの対象外(スコア0点なので上位4段階には入らない)
+    として無印(空文字)になる(★にはしない)。
     """
     if raw_df.empty or "umaban" not in raw_df.columns:
         return pd.DataFrame(columns=["umaban", "mark_honshi", "mark_cp", "mark_other"])
@@ -165,8 +170,16 @@ def summarize_marks(raw_df: pd.DataFrame) -> pd.DataFrame:
     unique_scores_desc = sorted(scores[scores > 0].unique(), reverse=True)
     rank_of_score = {score: rank + 1 for rank, score in enumerate(unique_scores_desc)}
 
+    honshi_blank = out["mark_honshi"].fillna("").astype(str).eq("")
+    cp_blank = out["mark_cp"].fillna("").astype(str).eq("")
+    honshi_and_cp_both_blank = honshi_blank & cp_blank
+
     out["mark_other"] = [
-        NO_MARK_SCORE_SYMBOL if score <= 0 else OTHER_RANK_TO_MARK.get(rank_of_score[score], "")
-        for score in scores
+        (
+            OTHER_RANK_TO_MARK.get(rank_of_score[score], "")
+            if score > 0
+            else (NO_MARK_SCORE_SYMBOL if both_blank else "")
+        )
+        for score, both_blank in zip(scores, honshi_and_cp_both_blank)
     ]
     return out

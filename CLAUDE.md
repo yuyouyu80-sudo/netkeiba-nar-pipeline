@@ -24,7 +24,11 @@ netKeibaから生データを取得・蓄積するだけの会話。JRA・NAR両
 - `scripts/refresh_bias.py --date/--race-id` — オッズ・人気・馬体重の再取得
 - `scripts/fetch_marks.py --date/--race-id [--circuit jra|nar]` — 予想印(本紙・CP・その他)取得。
   Playwright使用、事前に`fetch_newspaper.py`でCSVが生成済みであることが前提
-- 関連スキル: `netkeiba-fetch-date`、`netkeiba-fetch-newspaper`、`netkeiba-fetch-marks`
+- `scripts/fetch_corner_position.py --date/--race-id [--circuit jra|nar]` — 4コーナー位置取り
+  (AI展開)取得。requestsのみ(Playwright不要)、事前に`fetch_newspaper.py`でCSVが
+  生成済みであることが前提
+- 関連スキル: `netkeiba-fetch-date`、`netkeiba-fetch-newspaper`、`netkeiba-fetch-marks`、
+  `netkeiba-fetch-corner-position`
 
 ### データ予想用セッション
 
