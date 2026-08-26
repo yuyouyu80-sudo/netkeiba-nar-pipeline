@@ -38,12 +38,12 @@ def test_parse_mark_list_jra_marks_align_to_umaban_by_position():
     # 本紙: umaban9(◎)とumaban7(無印)を実データのHTMLから目視確認済み
     assert df.loc["9", "mark_raw_本紙"] == "◎"
     assert df.loc["7", "mark_raw_本紙"] == ""
-    assert df.loc["1", "mark_raw_本紙"] == "▲"
+    assert df.loc["1", "mark_raw_本紙"] == "△"
     assert df.loc["10", "mark_raw_本紙"] == "☆"
 
-    # CP予想: umaban9(◎)、umaban5(▲)
+    # CP予想: umaban9(◎)、umaban5(△)
     assert df.loc["9", "mark_raw_CP予想"] == "◎"
-    assert df.loc["5", "mark_raw_CP予想"] == "▲"
+    assert df.loc["5", "mark_raw_CP予想"] == "△"
     assert df.loc["1", "mark_raw_CP予想"] == ""
 
 
@@ -84,13 +84,14 @@ def test_parse_mark_list_nar_no_honshi_expert():
 
 
 def test_summarize_marks_scoring_and_ranking():
-    """実データ(202610020801)から手計算で検証したケース:
+    """実データ(202610020801)から手計算で検証したケース(2026-08-27、Icon_Osae/Icon_Kurosanの
+    記号対応修正後の値):
     - umaban9: 小林/藤村/大石川が全員◎ → 18点、単独1位 → ◎
-    - umaban8: 4/3/4点=11点、単独2位 → ○
-    - umaban10: 0.5/4/2点=6.5点、単独3位 → ▲
-    - umaban1,6: ともに6点でタイ、4位タイ → 両方△
-    - umaban3: 5点、5位(上位4段階に入らない) → 無印
-    - umaban7: 小林/藤村/大石川いずれも無印 → 0点だが、CP予想が△(無印でない)を付けている
+    - umaban8: 4/2/4点=10点、単独2位 → ○
+    - umaban10: 0.5/4/3点=7.5点、単独3位 → ▲
+    - umaban3: 藤村▲(3)+大石川△(2)=5点、単独4位 → △
+    - umaban1,5,6: いずれも4点でタイ、5位タイ(上位4段階に入らない) → 無印
+    - umaban7: 小林/藤村/大石川いずれも無印 → 0点だが、CP予想が▲(無印でない)を付けている
       ため★にはならず無印(2026-08-26のユーザー指示: ★は0点かつ本紙・CP予想も両方無印の
       場合のみ)
     """
@@ -101,11 +102,12 @@ def test_summarize_marks_scoring_and_ranking():
     assert summary.loc["9", "mark_other"] == "◎"
     assert summary.loc["8", "mark_other"] == "○"
     assert summary.loc["10", "mark_other"] == "▲"
-    assert summary.loc["1", "mark_other"] == "△"
-    assert summary.loc["6", "mark_other"] == "△"
-    assert summary.loc["3", "mark_other"] == ""
+    assert summary.loc["3", "mark_other"] == "△"
+    assert summary.loc["1", "mark_other"] == ""
+    assert summary.loc["5", "mark_other"] == ""
+    assert summary.loc["6", "mark_other"] == ""
     assert summary.loc["7", "mark_other"] == ""
-    assert summary.loc["7", "mark_cp"] == "△"
+    assert summary.loc["7", "mark_cp"] == "▲"
 
     assert summary.loc["9", "mark_honshi"] == "◎"
     assert summary.loc["9", "mark_cp"] == "◎"

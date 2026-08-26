@@ -25,11 +25,15 @@ YOSOKA_ID_RE = re.compile(r"^yoso_goods_seq_(\d+)$")
 
 RAW_MARK_PREFIX = "mark_raw_"
 
+# 2026-08-27修正: Icon_Osae/Icon_Kurosanの対応記号が逆だった(旧: Osae=▲, Kurosan=△)。
+# netkeiba公式スプライト画像(race_pc_new.css → icon_yoso_shirushi.png、背景位置
+# Icon_Kurosan=0 -38px→▲, Icon_Osae=0 -57px→△)で実際の記号を確認し、あわせて実際の
+# mark_list.html表示(ユーザー提供のスクリーンショット、2026-08-22中京1R)と全馬照合して確定。
 ICON_CLASS_TO_SYMBOL = {
     "Icon_Honmei": "◎",
     "Icon_Taikou": "○",
-    "Icon_Osae": "▲",
-    "Icon_Kurosan": "△",
+    "Icon_Osae": "△",
+    "Icon_Kurosan": "▲",
     "Icon_Hoshi": "☆",
 }
 
