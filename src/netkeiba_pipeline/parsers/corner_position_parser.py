@@ -11,13 +11,17 @@ JS実行不要)で取得したHTMLからそのまま抽出できる。ウィジ�
   `<span class="Waku Waku{N}">{umaban}</span>` (馬番)、`<span class="HorseName">{name}</span>`
   を持つ。internal_idはHorse{N}のNで、umaban(馬番)とは別の内部連番(mark_list.htmlのmark_Nと
   同種の仕組み)。
-- 3コーナー・4コーナーの座標(`left:X%`)と加速マーク(SpeedUp_01/02/03)は、
-  `updateHorsePosition()` 関数内、`switch (cornerCheck) { case 'Corner03': ... }` の中に
+- `#CornerSwitch`タブは実データで3つだけ確認済み: `id="Corner01"`(表示ラベルは"スタート後"、
+  1コーナーではない)、`id="Corner02"`(表示ラベルは"3コーナー")、`id="Corner03"`(表示ラベルは
+  "4コーナー")。内部のcase識別子(Corner01/02/03)と実際のコーナー名がズレている
+  (2026-08-27確認)。1コーナー・2コーナー単独のデータはnetkeiba側に存在しない。
+- 各状態の座標(`left:X%`)と加速マーク(SpeedUp_01/02/03、4コーナー状態のみ付与)は、
+  `updateHorsePosition()` 関数内、`switch (cornerCheck) { case 'CornerNN': ... }` の中に
   `$("#Horse{N}").css({ 'top':'Y%', 'left':'X%', }).append('<span class="SpeedUp_0M"></span>');`
   という形でJS文字列として並んでいる。この関数は「出遅れ率/騎手傾向」チェックボックスの
   4通りの組み合わせごとに同じswitch文が4回繰り返されるため、**最初の
   `if (!checkbox1Checked && !checkbox2Checked)`(チェックなし=既定表示)ブロックの
-  `case 'Corner03':`だけ**を対象にする。
+  各`case`だけ**を対象にする。
 - 先頭判定: 実データとCSS(develop.css)を確認した結果、`left:0%`が常に先頭(1着相当)、
   `left:100%`が常に最後方。馬アイコンのスプライト画像(animation_horse01.png等)は変形前の
   基準状態で左向きに走っており、反時計回り(AntiClockwise)コースはCSSの
@@ -55,11 +59,19 @@ _NO_CHECKBOX_BLOCK_RE = re.compile(
     r"if\s*\(\s*!checkbox1Checked\s*&&\s*!checkbox2Checked\s*\)\s*\{(.*?)\}\s*else\s+if\s*\(\s*checkbox1Checked\s*&&\s*!checkbox2Checked\s*\)",
     re.DOTALL,
 )
-_CORNER03_CASE_RE = re.compile(r"case\s+'Corner03'\s*:(.*?)break\s*;", re.DOTALL)
 _HORSE_CSS_RE = re.compile(
     r'\$\("#Horse(\d+)"\)\.css\(\{[^}]*?\'left\'\s*:\s*\'([\d.]+)%\'[^}]*?\}\)'
     r'(?:\.append\(\'<span class="([^"]*)"></span>\'\))?'
 )
+
+# #CornerSwitch のタブは実データで3つだけ確認済み: Corner01="スタート後", Corner02="3コーナー",
+# Corner03="4コーナー"(2026-08-27確認、race_id=202607030203)。1コーナー・2コーナー単独の
+# データは存在しない(「スタート後」と「3コーナー」の間の中間地点は取得不可)。
+CORNER_CASE_LABEL = {"corner3": "Corner02", "corner4": "Corner03"}
+
+
+def _case_re(case_label: str) -> re.Pattern:
+    return re.compile(r"case\s+'" + re.escape(case_label) + r"'\s*:(.*?)break\s*;", re.DOTALL)
 
 
 def _base_horse_info(soup: BeautifulSoup) -> dict[str, dict]:
@@ -80,16 +92,18 @@ def _base_horse_info(soup: BeautifulSoup) -> dict[str, dict]:
     return info
 
 
-def parse_corner4_position(html: str, race_id: str) -> pd.DataFrame:
-    """4コーナー(ラスト直線に入る手前)の予想位置取りを1行1頭で返す。
+def _parse_corner_case(html: str, race_id: str, corner_key: str, include_speedup: bool) -> pd.DataFrame:
+    """corner_key("corner3" or "corner4")に対応するcase(CORNER_CASE_LABEL参照)の座標を
+    1行1頭で返す共通実装。列名は corner_key をプレフィックスにして動的に生成する。"""
+    case_label = CORNER_CASE_LABEL[corner_key]
+    rank_col = f"{corner_key}_rank"
+    pct_col = f"{corner_key}_gap_pct"
+    len_col = f"{corner_key}_gap_lengths"
+    speedup_col = f"{corner_key}_speedup"
+    out_cols = ["umaban", "horse_id", "horse_name", rank_col, pct_col, len_col]
+    if include_speedup:
+        out_cols.append(speedup_col)
 
-    列: umaban, horse_id, horse_name, corner4_rank(1=先頭からのdense rank),
-    corner4_gap_pct(先頭からの差、horse-left%スケール、0=先頭),
-    corner4_gap_lengths(上記を馬身換算した近似値)、corner4_speedup(加速マーク▶の数、0-3)。
-
-    ウィジェット自体が無い(netkeiba側にAI展開データが無い)日は空DataFrameを返す
-    (スクレイピング失敗ではなく実際にデータが無い状態)。
-    """
     soup = BeautifulSoup(html, "lxml")
     wrap = soup.select_one(".DevelopImgWrap")
     if wrap is None:
@@ -116,27 +130,27 @@ def parse_corner4_position(html: str, race_id: str) -> pd.DataFrame:
             "page structure may have changed"
         )
 
-    corner03_match = _CORNER03_CASE_RE.search(no_checkbox_match.group(1))
-    if corner03_match is None:
+    case_match = _case_re(case_label).search(no_checkbox_match.group(1))
+    if case_match is None:
         raise ValueError(
-            f"race_id={race_id}: case 'Corner03'ブロックが見つからない - page structure may have changed"
+            f"race_id={race_id}: case '{case_label}'ブロックが見つからない - page structure may have changed"
         )
 
     # netkeiba側が取消・除外反映前の古い計算結果を`//`行コメントとして残したまま、直後に
     # 有効な(コメントアウトされていない)最新版を置いていることがある(NAR実データで確認済み、
     # 取消馬を含む古い頭数の行がまるごとコメントアウトされていた)。JSが実際に実行するのは
     # コメントされていない方だけなので、行コメントを除去してから抽出する。
-    corner03_text = re.sub(r"//[^\n]*", "", corner03_match.group(1))
+    case_text = re.sub(r"//[^\n]*", "", case_match.group(1))
 
-    entries = _HORSE_CSS_RE.findall(corner03_text)
+    entries = _HORSE_CSS_RE.findall(case_text)
     if not entries:
         raise ValueError(
-            f"race_id={race_id}: case 'Corner03'内に馬の座標が1件も見つからない - "
+            f"race_id={race_id}: case '{case_label}'内に馬の座標が1件も見つからない - "
             "page structure may have changed"
         )
     if len(entries) != len(horse_info):
         raise ValueError(
-            f"race_id={race_id}: Corner03の座標数({len(entries)})と初期DOMの馬数({len(horse_info)})"
+            f"race_id={race_id}: {case_label}の座標数({len(entries)})と初期DOMの馬数({len(horse_info)})"
             "が一致しない - page structure may have changed"
         )
 
@@ -145,36 +159,64 @@ def parse_corner4_position(html: str, race_id: str) -> pd.DataFrame:
         key = f"Horse{internal_id}"
         if key not in horse_info:
             raise ValueError(
-                f"race_id={race_id}: Corner03に出現するinternal_id={internal_id}が初期DOMに無い - "
+                f"race_id={race_id}: {case_label}に出現するinternal_id={internal_id}が初期DOMに無い - "
                 "page structure may have changed"
             )
         info = horse_info[key]
-        speedup_match = SPEEDUP_RE.search(speedup_class or "")
-        records.append(
-            {
-                "umaban": info["umaban"],
-                "horse_id": info["horse_id"],
-                "horse_name": info["horse_name"],
-                "corner4_gap_pct": float(left_pct_str),
-                "corner4_speedup": int(speedup_match.group(1)) if speedup_match else 0,
-            }
-        )
+        record = {
+            "umaban": info["umaban"],
+            "horse_id": info["horse_id"],
+            "horse_name": info["horse_name"],
+            pct_col: float(left_pct_str),
+        }
+        if include_speedup:
+            speedup_match = SPEEDUP_RE.search(speedup_class or "")
+            record[speedup_col] = int(speedup_match.group(1)) if speedup_match else 0
+        records.append(record)
 
     df = pd.DataFrame.from_records(records)
 
     # 先頭(left%最小)を0とする差分に正規化(通常はleft%そのものが既に0始まりのはずだが、
     # 将来的な仕様変更に備えて最小値基準に明示的に正規化する)。
-    min_pct = df["corner4_gap_pct"].min()
-    df["corner4_gap_pct"] = df["corner4_gap_pct"] - min_pct
-    df["corner4_gap_lengths"] = (df["corner4_gap_pct"] / CORNER4_LENGTH_PCT_PER_HORSE).round(2)
+    min_pct = df[pct_col].min()
+    df[pct_col] = df[pct_col] - min_pct
+    df[len_col] = (df[pct_col] / CORNER4_LENGTH_PCT_PER_HORSE).round(2)
 
     # dense rank(同着は同順位)、先頭が1位。
-    unique_gaps_asc = sorted(df["corner4_gap_pct"].unique())
+    unique_gaps_asc = sorted(df[pct_col].unique())
     rank_of_gap = {gap: rank + 1 for rank, gap in enumerate(unique_gaps_asc)}
-    df["corner4_rank"] = df["corner4_gap_pct"].map(rank_of_gap)
+    df[rank_col] = df[pct_col].map(rank_of_gap)
 
-    df["corner4_gap_pct"] = df["corner4_gap_pct"].round(2)
+    df[pct_col] = df[pct_col].round(2)
 
-    return df[
-        ["umaban", "horse_id", "horse_name", "corner4_rank", "corner4_gap_pct", "corner4_gap_lengths", "corner4_speedup"]
-    ]
+    return df[out_cols]
+
+
+def parse_corner4_position(html: str, race_id: str) -> pd.DataFrame:
+    """4コーナー(ラスト直線に入る手前)の予想位置取りを1行1頭で返す。
+
+    列: umaban, horse_id, horse_name, corner4_rank(1=先頭からのdense rank),
+    corner4_gap_pct(先頭からの差、horse-left%スケール、0=先頭),
+    corner4_gap_lengths(上記を馬身換算した近似値)、corner4_speedup(加速マーク▶の数、0-3)。
+
+    ウィジェット自体が無い(netkeiba側にAI展開データが無い)日は空DataFrameを返す
+    (スクレイピング失敗ではなく実際にデータが無い状態)。
+    """
+    return _parse_corner_case(html, race_id, "corner4", include_speedup=True)
+
+
+def parse_corner3_position(html: str, race_id: str) -> pd.DataFrame:
+    """3コーナーの予想位置取りを1行1頭で返す(#CornerSwitchの実際のタブ表記は"3コーナー"、
+    内部のcase識別子は'Corner02'。1コーナー・2コーナー単独のデータはnetkeiba側に存在しない
+    ため取得不可、モジュールdocstring参照)。
+
+    列: umaban, horse_id, horse_name, corner3_rank(1=先頭からのdense rank),
+    corner3_gap_pct(先頭からの差、horse-left%スケール、0=先頭)、
+    corner3_gap_lengths(上記を馬身換算した近似値)。
+    加速マーク(▶)は4コーナー時点のみ描画される仕様のため、3コーナーにはcorner3_speedup列は
+    存在しない。
+
+    ウィジェット自体が無い(netkeiba側にAI展開データが無い)日は空DataFrameを返す
+    (スクレイピング失敗ではなく実際にデータが無い状態)。
+    """
+    return _parse_corner_case(html, race_id, "corner3", include_speedup=False)

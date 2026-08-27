@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from src.netkeiba_pipeline.parsers.corner_position_parser import parse_corner4_position
+from src.netkeiba_pipeline.parsers.corner_position_parser import parse_corner3_position, parse_corner4_position
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -48,6 +48,48 @@ def test_parse_corner4_position_nar_skips_stale_commented_out_line():
 
     assert len(df) == 9
     assert set(df["umaban"]) == {str(i) for i in range(1, 10)}
+
+
+def test_parse_corner3_position_jra_basic_shape_and_leader():
+    """#CornerSwitchの実際のタブ表記は"3コーナー"だが内部case識別子は'Corner02'
+    (モジュールdocstring参照)。3コーナー時点の先頭はコトテ(umaban=5)、4コーナーの先頭
+    エイダ(umaban=3、corner4_rank=1)とは異なる馬(実データで確認済み)。"""
+    html = _load("corner_position_202607030203_jra.html")
+    df = parse_corner3_position(html, race_id="202607030203").set_index("umaban")
+
+    assert len(df) == 9
+    assert "corner3_speedup" not in df.columns  # 加速マークは4コーナー時点のみ描画される仕様
+
+    assert df.loc["5", "corner3_rank"] == 1
+    assert df.loc["5", "corner3_gap_pct"] == 0.0
+    assert df.loc["5", "horse_name"] == "コトテ"
+
+    # 最後方はヴィス(umaban=8)、4コーナーと同じく最後方のまま
+    assert df.loc["8", "corner3_rank"] == 9
+    assert df.loc["8", "corner3_gap_pct"] == 100.0
+
+
+def test_parse_corner3_position_gap_lengths_conversion():
+    html = _load("corner_position_202607030203_jra.html")
+    df = parse_corner3_position(html, race_id="202607030203").set_index("umaban")
+
+    # エイダ(umaban=3): gap_pct=28.57 -> 馬身換算(CORNER4_LENGTH_PCT_PER_HORSE=10.0586で除算)
+    assert df.loc["3", "corner3_gap_pct"] == pytest.approx(28.57, abs=0.01)
+    assert df.loc["3", "corner3_gap_lengths"] == pytest.approx(2.84, abs=0.01)
+
+
+def test_parse_corner3_position_nar_skips_stale_commented_out_line():
+    html = _load("newspaper_202654072501_nar_no_writeup.html")
+    df = parse_corner3_position(html, race_id="202654072501")
+
+    assert len(df) == 9
+    assert set(df["umaban"]) == {str(i) for i in range(1, 10)}
+
+
+def test_parse_corner3_position_empty_page_returns_empty_frame():
+    df = parse_corner3_position("<html><body>no develop widget here</body></html>", race_id="000000000000")
+    assert df.empty
+    assert "umaban" in df.columns
 
 
 def test_parse_corner4_position_empty_page_returns_empty_frame():

@@ -13,6 +13,8 @@ scripts/fetch_newspaper.py で既に生成済みであること。このスク�
 - corner4_gap_lengths: 上記を馬身換算した近似値(柵の間隔≈1馬身という換算、
   詳細はsrc/netkeiba_pipeline/parsers/corner_position_parser.py参照)
 - corner4_speedup: 4コーナーでの加速マーク(▶)の数(0〜3)
+- corner3_rank / corner3_gap_pct / corner3_gap_lengths: 3コーナー時点の同種データ
+  (2026-08-27追加。加速マークは4コーナー時点のみ描画される仕様のためcorner3_speedupは無い)
 
 netkeiba側にAI展開データが無いレース(未成立・データ欠落等)はスキップする。
 """
@@ -30,7 +32,7 @@ from dotenv import load_dotenv
 from config.settings import LOG_DIR
 from src.netkeiba_pipeline.auth.session import login
 from src.netkeiba_pipeline.discovery.race_calendar import list_nar_race_ids, list_race_ids
-from src.netkeiba_pipeline.parsers.corner_position_parser import parse_corner4_position
+from src.netkeiba_pipeline.parsers.corner_position_parser import parse_corner3_position, parse_corner4_position
 from src.netkeiba_pipeline.scrapers.newspaper import fetch_newspaper_html
 from src.netkeiba_pipeline.storage.paths import newspaper_csv_path
 from src.netkeiba_pipeline.storage.writer import mark_scraped
@@ -50,14 +52,24 @@ def refresh_corner_position_for_race(session, race_id: str, logger: logging.Logg
         return 0, 0
 
     html = fetch_newspaper_html(session, race_id)
-    corner_df = parse_corner4_position(html, race_id)
-    if corner_df.empty:
+    corner4_df = parse_corner4_position(html, race_id)
+    corner3_df = parse_corner3_position(html, race_id)
+    if corner4_df.empty and corner3_df.empty:
         logger.warning("race_id=%s: AI展開データが無い - skip", race_id)
         return 0, len(df)
 
-    corner_df = corner_df.drop(columns=["horse_id", "horse_name"])
-    corner_df["umaban"] = corner_df["umaban"].astype(str)
-    corner_df = corner_df.set_index("umaban")
+    corner4_df = corner4_df.drop(columns=["horse_id", "horse_name"], errors="ignore")
+    corner3_df = corner3_df.drop(columns=["horse_id", "horse_name"], errors="ignore")
+    for d in (corner4_df, corner3_df):
+        if not d.empty:
+            d["umaban"] = d["umaban"].astype(str)
+
+    if corner4_df.empty:
+        corner_df = corner3_df.set_index("umaban")
+    elif corner3_df.empty:
+        corner_df = corner4_df.set_index("umaban")
+    else:
+        corner_df = corner4_df.set_index("umaban").join(corner3_df.set_index("umaban"), how="outer")
 
     df["umaban"] = df["umaban"].astype(str)
 
@@ -72,14 +84,14 @@ def refresh_corner_position_for_race(session, race_id: str, logger: logging.Logg
 
     df.to_csv(path, index=False, encoding="utf-8")
     mark_scraped(race_id, data_type="corner_position")
-    logger.info("race_id=%s: refreshed corner4 position for %d/%d horses", race_id, updated, len(df))
+    logger.info("race_id=%s: refreshed corner3/corner4 position for %d/%d horses", race_id, updated, len(df))
     return updated, len(df)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="newspaper.htmlの4コーナー位置取り(AI展開)を取得し、既存のnewspaper CSVへ"
-        "corner4_rank/corner4_gap_pct/corner4_gap_lengths/corner4_speedupを追加・上書き更新する。"
+        description="newspaper.htmlの3・4コーナー位置取り(AI展開)を取得し、既存のnewspaper CSVへ"
+        "corner{3,4}_rank/corner{3,4}_gap_pct/corner{3,4}_gap_lengths/corner4_speedupを追加・上書き更新する。"
     )
     target = parser.add_mutually_exclusive_group(required=True)
     target.add_argument("--race-id", help="単一race_idのみ更新する")
@@ -125,7 +137,7 @@ def main() -> None:
         total_horses += total
 
     print(
-        f"refreshed corner4 position: {total_updated}/{total_horses} horses across "
+        f"refreshed corner3/corner4 position: {total_updated}/{total_horses} horses across "
         f"{len(race_ids) - len(missing) - len(failed)}/{len(race_ids)} races for {args.date}"
     )
     if missing:
