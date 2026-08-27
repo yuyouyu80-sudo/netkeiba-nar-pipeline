@@ -15,9 +15,18 @@
     探索側と本番側で別のpriorsを使ってしまう事故を構造的に防ぐ。
 """
 import re
+import sys
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
+
+# mark_honshi/mark_cp/mark_other(◎○▲△☆の記号文字列)の数値化は、パーサー側の
+# MARK_SCORE(mark_list_parser.py)を単一の真実の源として再利用する(重複定義しない、
+# 2026-08-27全ファクター統合計画Phase0)。
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+from src.netkeiba_pipeline.parsers.mark_list_parser import MARK_SCORE  # noqa: E402
 
 # --- 旧スキーマの10キー。winner_*.json / predict_pattern29.py / build_artifact_nar.py が
 # --- このキー集合を前提にしているため、値が0でも必ず残す。
@@ -91,8 +100,39 @@ CANDIDATE_SIGNALS_V3 = ["waku_recent2d"]
 #                ブレンド)に統一した(単純な「増加ほど良い」という一方向の前提は、
 #                太め残りの増加など実務的に誤りうるとの指摘のため)。
 CANDIDATE_SIGNALS_V4 = ["hold_just", "hold_wide", "jockey_change", "class_drop", "weight_trend"]
+# --- 2026-08-27、全ファクター統合・高確信度選抜計画で追加した候補シグナル。予想印
+# (mark_honshi/mark_cp/mark_other、netkeiba「本紙・CP予想・その他」)と、展開予想
+# (corner3/4_rank・corner3/4_gap_lengths・corner4_speedup、netkeiba「AI展開」)を初めて
+# シグナル化した。いずれもdata/newspaper/nar/*.csvに2026-08-26/27に追加された列で、
+# 既存17〜22本の"馬の強さ"系シグナルとは異なる情報源(専門家の主観判断・レース展開の
+# 予測)であり、目的関数(市場超過pt)の構造的な逆風("馬の強さ"では市場を上回りにくい)を
+# 受けにくい可能性がある、という仮説の検証対象。Phase1で個別LOBOゲートを経てから
+# Phase2の組み合わせ探索に進む(V4同様、個別ゲート未実施のまま一括投入しない)。
+#   mark_honshi_score/mark_cp_score/mark_other_score: 各印(◎○▲△☆)をMARK_SCORE
+#     (◎6/○4/▲3/△2/☆0.5/無印0)で数値化しレース内minmax。列自体が欠測のレースは
+#     全馬0.0→_minmaxのhi==lo分岐で自動的に全NaN化される(class_dropと同型の安全設計、
+#     Phase0で実データ確認要)。
+#   mark_composite_score: 本紙・CP・その他3列のMARK_SCORE合計をminmax。
+#   corner4_position/corner3_position: 4/3コーナー通過順位(小さいほど先頭)を符号反転して
+#     minmax(高いほど先頭に近い=高評価、他シグナルと符号を揃える)。
+#   corner4_gap/corner3_gap: 4/3コーナー時点の先頭との推定差(馬身)を符号反転してminmax。
+#   corner4_speedup: 4コーナーでの加速マーク(▶)の数(0-3)をそのままminmax。
+#   corner_transition_rank/corner_transition_gap: 3→4コーナーの順位変化・先頭差変化
+#     (正=押し上げ/詰めた)をminmax。
+CANDIDATE_SIGNALS_V5_MARK = ["mark_honshi_score", "mark_cp_score", "mark_other_score",
+                             "mark_composite_score"]
+CANDIDATE_SIGNALS_V5_CORNER = ["corner4_position", "corner4_gap", "corner4_speedup",
+                               "corner3_position", "corner3_gap",
+                               "corner_transition_rank", "corner_transition_gap"]
+CANDIDATE_SIGNALS_V5 = CANDIDATE_SIGNALS_V5_MARK + CANDIDATE_SIGNALS_V5_CORNER
 ALL_SIGNALS = (LEGACY_SIGNALS + NEW_SIGNALS + CANDIDATE_SIGNALS + CANDIDATE_SIGNALS_V2
                + CANDIDATE_SIGNALS_V3 + CANDIDATE_SIGNALS_V4)
+# --- 重要: ALL_SIGNALSにV5を含めない。nar_search500_2026_08_20.py:108が
+# `NAMES = NS.ALL_SIGNALS` を実行時に直接参照しており、ここにV5を追記すると
+# 「既存スクリプトは無改造のまま」という前提が壊れる(dead信号リストの内容が変わり、
+# signal_matrices()がbuild_signals()に無い旧キーを探すKeyErrorすら起こしかねない)。
+# 新規スクリプト(Phase1個別ゲート・Phase2組合せ探索)はこちらのALL_SIGNALS_V5を使う。
+ALL_SIGNALS_V5 = ALL_SIGNALS + CANDIDATE_SIGNALS_V5
 
 # NARでは値が構造的に存在しないことを実測で確認したシグナル(686頭全件)。
 # ハードコードではなく detect_dead() で毎回検出するが、既定値としても持っておく。
@@ -425,6 +465,35 @@ def build_signals(df: pd.DataFrame, current_class: float, priors: dict) -> dict:
     )
     trend = _wavg(wt, [5, 4, 3, 2, 1])
     sig["weight_trend"] = _blend_minmax(trend, -trend.abs())
+
+    # --- mark_*(2026-08-27、全ファクター統合計画): 予想印(本紙・CP予想・その他)を
+    # MARK_SCORE(mark_list_parser.pyと共通)で数値化してminmax。列が丸ごと欠測の
+    # レース(印データ未取得)は全馬0.0→_minmaxのhi==lo分岐で自動的に全NaN化される
+    # (class_dropと同型の安全設計)。
+    mark_honshi_num = _col(df, "mark_honshi").map(MARK_SCORE).fillna(0.0)
+    mark_cp_num = _col(df, "mark_cp").map(MARK_SCORE).fillna(0.0)
+    mark_other_num = _col(df, "mark_other").map(MARK_SCORE).fillna(0.0)
+    sig["mark_honshi_score"] = _minmax(mark_honshi_num)
+    sig["mark_cp_score"] = _minmax(mark_cp_num)
+    sig["mark_other_score"] = _minmax(mark_other_num)
+    sig["mark_composite_score"] = _minmax(mark_honshi_num + mark_cp_num + mark_other_num)
+
+    # --- corner_*(2026-08-27、全ファクター統合計画): 展開予想(AI展開)の3・4コーナー
+    # 通過順位・先頭との推定差(馬身)。順位・差はいずれも「小さいほど先頭に近い」ため
+    # 符号反転してminmax(他シグナルと「高いほど高評価」の向きを揃える)。
+    c4_rank = _num(_col(df, "corner4_rank"))
+    c4_gap = _num(_col(df, "corner4_gap_lengths"))
+    c3_rank = _num(_col(df, "corner3_rank"))
+    c3_gap = _num(_col(df, "corner3_gap_lengths"))
+    sig["corner4_position"] = _minmax(-c4_rank)
+    sig["corner4_gap"] = _minmax(-c4_gap)
+    sig["corner4_speedup"] = _minmax(_num(_col(df, "corner4_speedup")))
+    sig["corner3_position"] = _minmax(-c3_rank)
+    sig["corner3_gap"] = _minmax(-c3_gap)
+    # 3→4角の変化: 正=順位アップ/先頭差を詰めた。片方でも欠測ならNaN(pd.Seriesの引き算は
+    # 自動的にNaN伝播するため追加処理は不要)。
+    sig["corner_transition_rank"] = _minmax(c3_rank - c4_rank)
+    sig["corner_transition_gap"] = _minmax(c3_gap - c4_gap)
 
     return sig
 

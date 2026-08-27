@@ -6,3 +6,5 @@ python-dotenv
 tqdm
 pytest
 playwright~=1.62
+scikit-learn~=1.9
+scipy~=1.18

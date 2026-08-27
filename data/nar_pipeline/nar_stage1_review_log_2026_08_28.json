@@ -1,0 +1,60 @@
+{
+  "project": "全ファクター統合・高確信度選抜による回収率最大化計画(NAR Stage1)",
+  "plan_file": "C:\\Users\\yuyou\\.claude\\plans\\valiant-cuddling-aho.md",
+  "requested_by_user": "2026-08-27: 収集済み全データ(予想印・展開データ含む)を組み合わせ、弱いシグナルでも積み重ねて回収率を最大化する。確信度は絞ったレースで的中率最大化。多くのパターンを試し、統計・競馬専門家サブエージェント→改善→Opus5サブエージェント→改善、の2段階レビューを経てプランをHTMLで提示。",
+  "population": "NAR通常戦(新馬・未勝利除く)、2026-07-11〜2026-08-26、1643レース",
+  "review_process": {
+    "reviewers": [
+      "統計・競馬専門家(サブエージェント、レビュー1)",
+      "Opus5(サブエージェント、レビュー2)"
+    ],
+    "review1_summary": {
+      "verdict": "0件致命的/3件重要/5件中程度/2件軽微。総括「有望だが未確立」。",
+      "key_findings": [
+        "欠損検出の.astype(str).isin()バグ(pandas 3.0.3のArrow-backed string dtypeでNaNが文字列'nan'に変換されずマスクが機能しない)を発見。診断のみが壊れており、本体計算(nar_signals.pyの_num/_pct経由)は無傷と評価。",
+        "多重比較・母集団再利用への対処が「明記する方針」のみで数値が無いことを指摘。",
+        "係数・重みが一切保存されていない(OUT_JSON未書き出し)ことを指摘。",
+        "C_GRIDが0.01始まりで下限に張り付いており、下限拡張と収束確認を推奨。"
+      ]
+    },
+    "review1_response": {
+      "isna_fix": "nar_signal_gate_v5_2026_08_27.pyの欠損検出を.astype(str).isin([...])から.isna()ベースへ修正。mark_honshiは実測で100.0000%欠損(16801/16801行)と確認(mark_honshi_correct_check.txt)。",
+      "coefficient_extraction": "nar_box3_coefficients_2026_08_28.py新設、Ridge/Lasso全データ再学習係数とDirichlet最良パターンの重み配分を出力。",
+      "c_grid_extension": "nar_box3_coefficients_2026_08_28.pyのみC_GRIDを0.001〜300(12点)に拡張。Phase2本体(nar_search_combined_2026_08_28.py)は旧グリッド(0.01〜300、10点)のまま — この不整合はレビュー2で指摘され後述の通り対応。",
+      "multi_comparison_note": "「明記する方針」のみで数値未算出のまま、レビュー2へ引き継がれた(レビュー2で数値化)。"
+    },
+    "review2_summary": {
+      "verdict": "現状のままの提示は不可(理由はレビュー1と異なる)。多重比較補正を通過する統計的に有効な発見が1件存在する一方、当初提示しようとしていた主張(予想印・展開データが効いている)は実データが支持しない。「未確立」ではなく「発見はあるが主張の中身が違う」状態と総括。",
+      "key_findings": [
+        "多重比較補正: Phase1(11候補、box4)は全候補がBonferroni/Holm/BH全て不通過(corner4_positionの未補正p=0.0087もBonferroni閾値0.00455に届かず)。11検定中1件以上が偶然PASSする確率は43.1%。",
+        "多重比較補正: Phase2(3手法×3box_n=9構成、現行本番比)はbox3_dirichletのみ(p=0.0011)がBonferroni/Holm/BH全てを通過。他8構成は全て不通過。",
+        "Dirichlet重み配分(パターン#564)はフラットDirichlet(alpha=1^18)のランダムdraw順序統計量と比べて統計的に極端でない(観測1位の重みはランダムdrawの期待値を下回る、2位corner4_positionの重みもP=16.4%で有意でない)。重み配分自体を証拠として提示すべきでない。",
+        "Lasso選定C=0.003はC_GRID中の単一点スパイク(隣接格子差3.11pt)であり、同一データのブロックブートストラップCI半幅(±3.8pt)に埋もれるノイズ。Ridgeは全格子でexcess幅0.69ptに収まり、C>=3.0の5点はpicksが完全一致(飽和)。両手法ともC選択は実質的にノイズであり「発見」として報告すべきでない。",
+        "決定的なdecomposition: 現行本番(-7.06pt)から新シグナルcorner4_positionを等重み追加(-6.38pt、差+0.68pt、95%CI[-1.35,+2.74]で0と区別不可)、そこから重み探索(Dirichlet OOF、-0.66pt、差+5.70pt)。新データの限界効果は非有意、重み再最適化の効果が主要因。",
+        "corner4_position単独通過はbox4限定でbox3/box5では非有意(一貫性なし)。",
+        "mark_honshiの100%欠損は取得失敗ではなく構造的(NARに「本紙」という名の予想家が存在しないため)。情報はmark_otherに入っており失われていないが、3〜6人の点数合計が◎○▲△4段階に圧縮されている。",
+        "nar_box3_coefficients_2026_08_28.pyのOUT_JSON未書き出しは未解消のまま(レビュー1指摘への対応が不完全)。",
+        "nar_logistic.py: _fast_excess()のs_sum==0→0.0返却がJRA Stage2の小規模innerfoldで退化設定を誤って優位に見せるリスク。standardize_fit()の全NaN列無防備もJRA Stage2で疎なシグナルがサイレントに無効化されるリスク。make_fit_fn()の厳密不等号タイブレーク(同点は常に最小Cを選ぶ)がC下限張り付きの真因である可能性を指摘。",
+        "nar_signal_gate_v5_2026_08_27.py L114: rho(NaN)がNaN<thresholdでFalseになり誤った分岐に入るが、今回はfill_rate側の判定で結果的に正しい除外になっていたと確認。",
+        "JRA Stage2移植: 36ブロック・211レースでは内側CVの評価ノイズがNARの2.79倍に拡大し、C選択が事実上乱数化する。ネストCVは外し固定Cを事前登録すべき、Dirichlet探索腕はselection_optimism比が2.0を割るため事前ゲート必須、_fast_excessのゼロ賭金ガードと列カバレッジログを先に入れる必要ありと結論。"
+      ],
+      "mandatory_before_report": [
+        "corner4_position抜き(POOL_TRUE_PROD 17本のみ)でbox3 Dirichletを再実行し、Phase1→Phase2のプール選抜リークが+6.38ptを実質的に押し上げていないか確認する",
+        "多重比較補正の数値(Bonferroni/Holm/BH閾値・p値・偶然通過確率)を本文に記載する",
+        "Dirichlet重み配分の帰無分布シミュレーション結果を本文に記載する",
+        "nar_box3_coefficients_2026_08_28.pyのOUT_JSON書き出しを修正する",
+        "C選択がノイズであることを記載し、C_GRID不整合を解消または「発見」の主張を取り下げる"
+      ]
+    },
+    "review2_response": {
+      "leak_check": "nar_leak_check_2026_08_28.py新設・実行。corner4_positionを完全に除いたPOOL_TRUE_PROD(17本、現行本番と同一集合)のみでbox3 Dirichlet探索を同一設定(WEIGHT_TIERS/SEED/N_FOLDS)で独立に再実行した結果、現行本番比のOOF市場超過は+7.31pt(95%CI[+3.44,+11.44])——corner4_position込みの元の結果+6.38pt(95%CI[+2.64,+10.30])より弱まるどころかむしろ0.92pt強い。プール選抜リークによる水増しは確認されなかった(結果はnar_leak_check_2026_08_28_result.jsonに保存)。",
+      "multi_comparison_computed": "nar_stage1_rigor_check_2026_08_28.py新設・実行。Phase1(11検定、box4)・Phase2(9検定)双方についてBonferroni/Holm/BH(q=0.05)を算出、レビュー2が本文中で示した数値と独立に一致(誤差は正規近似の丸めのみ)。結果はnar_stage1_rigor_check_2026_08_28_result.jsonに保存。",
+      "dirichlet_null_simulation": "同スクリプトでflat Dirichlet(alpha=1^18)を20万回シミュレーションし、パターン#564の1位・2位重みの帰無分布上の位置を確認。1位P=46.3%、2位(corner4_position)P=16.4%——レビュー2の46.3%/16.5%とほぼ一致。",
+      "out_json_fix": "nar_box3_coefficients_2026_08_28.pyを修正しOUT_JSON書き出しを追加、best_scoreの上方バイアス注記・Ridgeのn_zero自明性注記も追加。再実行結果はnar_box3_coefficients_2026_08_28_result.jsonに保存。",
+      "c_grid_inconsistency": "再実行はせず(Ridge/LassoのC選択はノイズでありグリッド拡張は結論を変えないとレビュー2自身が実証済みのため)、レポート本文でグリッド不整合を明記し「C=0.003の発見」という主張は取り下げる方針とした。",
+      "jra_portability_fixes": "nar_logistic.pyの_fast_excess()をs_sum==0/ms_sum==0のとき-np.infを返すよう修正(退化設定の誤選択防止)。standardize_fit()に全NaN列の明示的検出とmean=0/std=1フォールバック(all_nan_cols診断フィールド追加)を実装。いずれもNARでは非発火(ガード条件により到達しない、または充足率94%以上のため)と確認済みで、既存のPhase2/Phase3の数値には影響しない — JRA Stage2移植への備え。",
+      "nan_correlation_fix": "nar_signal_gate_v5_2026_08_27.py L114のNaN比較条件を`not (rho >= threshold)`へ修正。レビュー2が確認した通り結果への影響はないため、Phase1ゲート結果の再実行はせず。"
+    },
+    "final_verdict": "レビュー2指定の提示前必須対応5項目をすべて完了。結論はレビュー2の総括通り「予想印・展開データが効いた」という当初仮説は実データが支持しない(新シグナルの限界効果+0.68pt、95%CI[-1.35,+2.74]で非有意)一方、副産物としてbox3の既存17シグナルの重み配分再最適化が現行本番比+6.38〜+7.31pt(構成により、いずれもHolm/Bonferroni/BH補正後も有意、リーク確認済み)という統計的に頑健な発見を得た。ただし(1)いずれの構成も市場ベンチマークそのものは上回っていない、(2)selection_optimism診断(true_edge比1.387)は本プロジェクトの従来ゲート(>=2.0)を下回る、(3)母集団は過去の探索と同一で時間的ホールドアウトが存在しない、という3点により本番反映は見送り、事前登録した前向き確認テスト(kaisai_date>20260826の新規データのみ使用)の結果を待つ。winner_box3_nar.json/winner_box4_nar.json/winner_box5_nar.jsonは変更しない(現行の17本等重みを維持)。JRA Stage2は本テスト結果を待って着手、nar_logistic.pyの2件のJRA移植向け防御修正(ゼロ賭金ガード・全NaN列ガード)は実施済みでNARの既存数値には影響しない。"
+  }
+}
