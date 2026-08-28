@@ -143,6 +143,37 @@ class Evaluator:
         result["n_folds"] = len(chosen_pattern_idx)
         return result
 
+    # ----------------------------------------------------- CV(2026-08-28追加)
+    # JRA Stage2移植: jra_eval.Evaluator.group_kfold_oof_genericと同型(軸流し版)。
+    # lobo_oofのleave-one-block-out退化(軸流し複勝的中率探索でfold毎の選択パターン
+    # 1/36=全fold同一を実測済み)への対策として、held-out比率を大きくしたK分割で
+    # argmaxが実際に変動しうるようにする。既存lobo_oof/chronological_oofは無改造。
+    def group_kfold_oof_generic(self, predict_fn, n_folds: int = 8, seed: int = 13) -> dict:
+        """predict_fn(train_idx, test_idx) -> (test_picks, chosen) を受け取る汎用OOF評価。
+        jra_eval.Evaluator.group_kfold_oof_genericと同一契約(bets/max_payoutは軸流し側の
+        evaluate()に存在しないため引数から省く)。"""
+        rng = np.random.default_rng(seed)
+        ids = list(self.block_ids)
+        order = rng.permutation(len(ids))
+        folds = [order[i::n_folds] for i in range(n_folds)]
+        picks = [None] * len(self.races)
+        choices = []
+        for fold in folds:
+            test_blocks = {ids[i] for i in fold}
+            test_idx = np.array([i for i, b in enumerate(self.blocks) if b in test_blocks])
+            train_idx = np.array([i for i, b in enumerate(self.blocks) if b not in test_blocks])
+            if len(test_idx) == 0 or len(train_idx) == 0:
+                continue
+            test_picks, chosen = predict_fn(train_idx, test_idx)
+            choices.append(chosen)
+            for i, p in zip(test_idx, test_picks):
+                picks[i] = p
+        result = {"picks": picks, **self.evaluate(picks)}
+        result["fold_argmax_choices"] = choices
+        result["fold_argmax_unique"] = len(set(choices))
+        result["n_folds"] = len(folds)
+        return result
+
     # --------------------------------------------------------------- bootstrap
     def block_bootstrap(self, picks: list, bets=OBJ_BETS_AXIS, n: int = 2000,
                         seed: int = 11, block_subset=None,

@@ -248,6 +248,43 @@ class Evaluator:
         result["n_folds"] = len(chosen_pattern_idx)
         return result
 
+    # ----------------------------------------------------- CV(2026-08-28追加)
+    # JRA Stage2移植: NAR Stage1(nar_eval.Evaluator.group_kfold_oof_generic)の移植。
+    # lobo_oofはleave-one-block-outのためブロック数が少ない(JRAは現状42)と学習集合が
+    # ほぼ変わらずargmaxが実質固定される構造的欠陥がある(軸流し複勝的中率探索で
+    # 実測済み: fold毎の選択パターンが1/36=全fold同一という完全退化)。held-out比率を
+    # 意図的に大きくする(既定n_folds=8なら1/8=12.5%)ことでargmaxが実際に変動しうる
+    # ようにする。既存lobo_oof/chronological_oofは無改造のまま残す。
+    def group_kfold_oof_generic(self, predict_fn, n_folds: int = 8, seed: int = 13,
+                                bets=None, max_payout: float = None) -> dict:
+        """predict_fn(train_idx, test_idx) -> (test_picks, chosen) を受け取る汎用OOF評価
+        (test_picksはtest_idx順に対応するpicksのリスト、chosenはハッシュ可能な値— 選ばれた
+        Dirichletパターン番号や正則化強度Cなど)。mats_all@w前提のlobo_oofと異なり、
+        正則化ロジスティック回帰(jra_logistic.py)のような任意のfit/predict手順を、
+        Dirichletパターン探索と全く同じOOFプロトコル(同じブロック分割・同じ評価指標)に
+        載せて直接比較できる(Phase J2の本命)。bets/max_payoutはevaluate()にそのまま渡す。"""
+        rng = np.random.default_rng(seed)
+        ids = list(self.block_ids)
+        order = rng.permutation(len(ids))
+        folds = [order[i::n_folds] for i in range(n_folds)]
+        picks = [None] * len(self.races)
+        choices = []
+        for fold in folds:
+            test_blocks = {ids[i] for i in fold}
+            test_idx = np.array([i for i, b in enumerate(self.blocks) if b in test_blocks])
+            train_idx = np.array([i for i, b in enumerate(self.blocks) if b not in test_blocks])
+            if len(test_idx) == 0 or len(train_idx) == 0:
+                continue
+            test_picks, chosen = predict_fn(train_idx, test_idx)
+            choices.append(chosen)
+            for i, p in zip(test_idx, test_picks):
+                picks[i] = p
+        result = {"picks": picks, **self.evaluate(picks, bets=bets, max_payout=max_payout)}
+        result["fold_argmax_choices"] = choices
+        result["fold_argmax_unique"] = len(set(choices))
+        result["n_folds"] = len(folds)
+        return result
+
     # --------------------------------------------------------------- bootstrap
     def block_bootstrap(self, picks: list, bets=OBJ_BETS, n: int = 2000,
                         seed: int = 11, block_subset=None,

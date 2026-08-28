@@ -1,0 +1,42 @@
+
+=== Phase J1(box4、予想印・展開7候補、peerセッション実施)(7検定) ===
+  Bonferroni閾値: 0.007143
+  corner_transition_gap                mean=  +7.78pt p=0.02091  Bonf=fail  Holm=fail  BH=fail
+  mark_other_score                     mean=  +7.83pt p=0.05563  Bonf=fail  Holm=fail  BH=fail
+  corner_transition_rank               mean= +11.37pt p=0.07983  Bonf=fail  Holm=fail  BH=fail
+  mark_cp_score                        mean= +10.54pt p=0.09840  Bonf=fail  Holm=fail  BH=fail
+  corner4_speedup                      mean=  +7.91pt p=0.14275  Bonf=fail  Holm=fail  BH=fail
+  corner4_position                     mean=  +3.24pt p=0.29174  Bonf=fail  Holm=fail  BH=fail
+  mark_honshi_score                    mean=  -0.25pt p=0.94542  Bonf=fail  Holm=fail  BH=fail
+  参考: 独立にn=7回検定した場合、名目α=0.05で1件以上偶然PASSする確率=30.2%
+
+=== Phase J2(box買い、3手法×3box_n、現行本番[全246レース]比)(9検定) ===
+  Bonferroni閾値: 0.005556
+  box4_lasso                           mean= -33.47pt p=0.01703  Bonf=fail  Holm=fail  BH=fail
+  box4_ridge                           mean= -30.91pt p=0.02149  Bonf=fail  Holm=fail  BH=fail
+  box4_dirichlet                       mean= -23.04pt p=0.03992  Bonf=fail  Holm=fail  BH=fail
+  box5_ridge                           mean= -14.84pt p=0.08359  Bonf=fail  Holm=fail  BH=fail
+  box5_lasso                           mean= -13.65pt p=0.12014  Bonf=fail  Holm=fail  BH=fail
+  box3_ridge                           mean=  -9.23pt p=0.32867  Bonf=fail  Holm=fail  BH=fail
+  box3_lasso                           mean=  -8.88pt p=0.34076  Bonf=fail  Holm=fail  BH=fail
+  box5_dirichlet                       mean=  -2.63pt p=0.74347  Bonf=fail  Holm=fail  BH=fail
+  box3_dirichlet                       mean=  -2.54pt p=0.81533  Bonf=fail  Holm=fail  BH=fail
+  参考: 独立にn=9回検定した場合、名目α=0.05で1件以上偶然PASSする確率=37.0%
+
+=== Phase J3(2頭軸流し・フォーメーション14構成、held-out限定)(14検定) ===
+  Bonferroni閾値: 0.003571
+  2軸流し K=7_3連複                         mean= -66.26pt p=0.02324  Bonf=fail  Holm=fail  BH=fail
+  3連単フォーメーション A=1 B=2 C=4_3連単_フォーメーション mean= -50.45pt p=0.09244  Bonf=fail  Holm=fail  BH=fail
+  2軸流し K=5_3連複                         mean= -36.88pt p=0.26627  Bonf=fail  Holm=fail  BH=fail
+  馬単フォーメーション A=1 B=3_馬単_フォーメーション       mean= +97.28pt p=0.30682  Bonf=fail  Holm=fail  BH=fail
+  2軸流し K=5_3連単_2軸固定                    mean=+181.99pt p=0.31806  Bonf=fail  Holm=fail  BH=fail
+  3連単フォーメーション A=2 B=3 C=5_3連単_フォーメーション mean= -17.45pt p=0.33340  Bonf=fail  Holm=fail  BH=fail
+  2軸流し K=3_3連複                         mean= -23.90pt p=0.38072  Bonf=fail  Holm=fail  BH=fail
+  2軸流し K=7_3連単_2軸固定                    mean=+117.08pt p=0.38107  Bonf=fail  Holm=fail  BH=fail
+  2軸流し K=5_3連単_2軸box                   mean= +81.18pt p=0.40236  Bonf=fail  Holm=fail  BH=fail
+  2軸流し K=3_3連単_2軸box                   mean= +32.20pt p=0.46019  Bonf=fail  Holm=fail  BH=fail
+  馬単フォーメーション A=2 B=4_馬単_フォーメーション       mean= +40.87pt p=0.47262  Bonf=fail  Holm=fail  BH=fail
+  馬単フォーメーション A=1 B=5_馬単_フォーメーション       mean= +34.39pt p=0.49727  Bonf=fail  Holm=fail  BH=fail
+  2軸流し K=3_3連単_2軸固定                    mean= +46.20pt p=0.57562  Bonf=fail  Holm=fail  BH=fail
+  2軸流し K=7_3連単_2軸box                   mean=  +0.30pt p=0.99710  Bonf=fail  Holm=fail  BH=fail
+  参考: 独立にn=14回検定した場合、名目α=0.05で1件以上偶然PASSする確率=51.2%

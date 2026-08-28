@@ -1,0 +1,123 @@
+{
+  "n_races": 246,
+  "note": "jra_box_baseline_reassessment_2026_08_22.pyの246レース版。held_out_onlyのbootstrap_ci_vs_marketが新規追加(model vs marketのペア差分CI、市場超過ゲート本体)。bootstrap_ci_absoluteは参考値でありゲートに使わない(NAR Stage1で確認済みの絶対CI≠市場超過ゲートの原則)。",
+  "results_by_box": {
+    "5": {
+      "model_file": "winner_v3.json",
+      "fitted_on_dates": [
+        "20260711",
+        "20260712",
+        "20260718",
+        "20260719",
+        "20260725",
+        "20260726"
+      ],
+      "fitted_on_n_races": 105,
+      "n_held_out_blocks": 24,
+      "n_held_out_races": 141,
+      "breakeven_pct": 78.33333333333333,
+      "all_races": {
+        "model": 88.90785907859079,
+        "market": 78.22493224932249,
+        "excess": 10.682926829268297
+      },
+      "held_out_only": {
+        "model": 78.82269503546098,
+        "market": 79.74468085106383,
+        "excess": -0.9219858156028522,
+        "bootstrap_ci_absolute": {
+          "mean": 78.57169385002052,
+          "lo": 62.51533105554693,
+          "hi": 99.99315087145962,
+          "n_blocks": 24
+        },
+        "bootstrap_ci_vs_market": {
+          "mean": -0.8264500814966798,
+          "lo": -21.27186996779389,
+          "hi": 24.733002412623875,
+          "n_blocks": 24
+        },
+        "above_breakeven": true,
+        "market_excess_significant": false
+      }
+    },
+    "4": {
+      "model_file": "winner_box4.json",
+      "fitted_on_dates": [
+        "20260711",
+        "20260712",
+        "20260718",
+        "20260719",
+        "20260725",
+        "20260726"
+      ],
+      "fitted_on_n_races": 105,
+      "n_held_out_blocks": 24,
+      "n_held_out_races": 141,
+      "breakeven_pct": 78.5,
+      "all_races": {
+        "model": 108.20325203252033,
+        "market": 76.8211382113821,
+        "excess": 31.38211382113822
+      },
+      "held_out_only": {
+        "model": 81.84397163120568,
+        "market": 78.58865248226951,
+        "excess": 3.2553191489361666,
+        "bootstrap_ci_absolute": {
+          "mean": 81.7309838136753,
+          "lo": 60.08291519953052,
+          "hi": 107.0899730073039,
+          "n_blocks": 24
+        },
+        "bootstrap_ci_vs_market": {
+          "mean": 3.5763691814662035,
+          "lo": -21.781356872933394,
+          "hi": 32.694518529617405,
+          "n_blocks": 24
+        },
+        "above_breakeven": true,
+        "market_excess_significant": false
+      }
+    },
+    "3": {
+      "model_file": "winner_box3.json",
+      "fitted_on_dates": [
+        "20260711",
+        "20260712",
+        "20260718",
+        "20260719",
+        "20260725",
+        "20260726"
+      ],
+      "fitted_on_n_races": 105,
+      "n_held_out_blocks": 24,
+      "n_held_out_races": 141,
+      "breakeven_pct": 78.75,
+      "all_races": {
+        "model": 85.46747967479675,
+        "market": 79.89837398373983,
+        "excess": 5.569105691056919
+      },
+      "held_out_only": {
+        "model": 71.05200945626477,
+        "market": 79.47990543735224,
+        "excess": -8.427895981087474,
+        "bootstrap_ci_absolute": {
+          "mean": 70.93542497061632,
+          "lo": 58.47391872216513,
+          "hi": 84.24408983451535,
+          "n_blocks": 24
+        },
+        "bootstrap_ci_vs_market": {
+          "mean": -8.39478482842019,
+          "lo": -19.22800697865352,
+          "hi": 3.452778202969531,
+          "n_blocks": 24
+        },
+        "above_breakeven": false,
+        "market_excess_significant": false
+      }
+    }
+  }
+}

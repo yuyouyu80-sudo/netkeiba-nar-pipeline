@@ -1,0 +1,41 @@
+{
+  "project": "JRA Stage2移植+新規買い方(2頭軸・フォーメーション)による回収率改善調査",
+  "plan_file": "C:\\Users\\yuyou\\.claude\\plans\\valiant-cuddling-aho.md",
+  "requested_by_user": "2026-08-28: JRA Stage2移植を試し、各券種での回収率が高まる方法(買い方=1頭軸・2頭軸・フォーメーション等も可)を考える。",
+  "population": "JRA通常戦(新馬・未勝利除く)、2026-07-11〜2026-08-23、246レース・42ブロック",
+  "collaboration_note": "同一リポジトリで並行稼働していた別セッション(claude-f3)が、本セッションの着手直前(2026-08-28 09:59、commit 7c57477)にNAR Stage1と同一のPhase0/1手続き(V4シグナル=予想印・展開データの追加、個別ゲート、500パターンDirichlet探索)を独立に実施し全box不採用と判定していたことをgit log調査で発見。SendMessageで連絡を取り、作業重複・ファイル競合が無いことを相互確認した上で、そのPhase0/1成果(jra_signals.pyのCANDIDATE_SIGNALS_V4、jra_signal_gate_v4_2026_08_28.py、jra_search500_2026_08_28_v4signals.py)をそのまま再利用し、本セッションはLOBO退化の再検証・正則化回帰・新しい買い方(2頭軸・フォーメーション)・総合多重比較補正に集中する形で分担した。",
+  "peer_session_report_url": "https://claude.ai/code/artifact/9566ee12-f397-4454-9681-8f78252d098b",
+  "findings": {
+    "phase_j1_marks_and_pace": {
+      "source": "peerセッション(claude-f3)実施、commit 7c57477",
+      "summary": "予想印4本+展開7本→相関スクリーニングで7候補。box4主指標のペア差分ブートストラップでcorner_transition_gapのみ未補正PASS(+7.78pt、95%CI[+1.32,+14.52])だが、box5/3では符号すら不一致。本セッションで多重比較補正(Bonferroni/Holm/BH)を追加算出した結果、7検定中0件が通過(Bonferroni閾値0.00714に対しp=0.0209)。独立7回検定で1件以上偶然PASSする確率30.2%の範囲内。"
+    },
+    "phase_j2_lobo_degeneracy_recheck": {
+      "summary": "peerセッションのPhase2(500パターンDirichlet探索)が自己申告した「LOBO OOFがfold毎の選択パターン2〜3/42まで退化」を、本セッションでjra_eval.py/jra_axis_eval.pyに追加したgroup_kfold_oof_generic(8分割、held-out比率12.5%)で再検証。fold選択多様性は2〜4/8に改善し、box4のOOF市場差の符号が反転(-2.53pt→+8.76pt)したが、selection_optimism(true_edge/sd比)は3box_nとも従来ゲート(>=2.0)を大幅に下回ったまま(-0.047/+0.525/-0.221)で結論(REJECTED)は不変。"
+    },
+    "phase_j2_regularized_logistic": {
+      "summary": "新設jra_logistic.py(固定C、ネストCV無し——NAR Stage1レビュー2のJRA移植提言を反映)でRidge/Lassoをbox5/4/3に適用。ALL_SIGNALS_V4(41本)を入力。現行本番(全246レース直接評価)比では3手法(Dirichlet/Ridge/Lasso)ともbox4で有意に負(Ridge -30.91pt CI[-57.85,-5.15]等)だったが、現行本番のfit母集団(105レース)を除外したheld-out限定比較では全て非有意化(box3ではRidge/Lassoの点推定がむしろ正転)。現行本番自体の246レース版・held-out限定公正再評価も新規実施し、3box_nとも市場超過は非有意(box5 -0.92pt/box4 +3.26pt/box3 -8.43pt、いずれも95%CIが0を跨ぐ)と判明——新シグナル・新手法とは独立の、現行本番自体の評価体制の問題。"
+    },
+    "phase_j3_new_bet_construction": {
+      "summary": "JRA・NARどちらにも存在しなかった2頭軸流し(jra_multi_axis_backtest.py)・フォーメーション(jra_formation_backtest.py)を新設。事前登録11設定・14券種別結果を現行本番(box5)スコアでheld-out141レース評価。市場を有意に上回った構成は0/14、有意に下回った構成は2/14(2頭軸流しK=7の3連複、3連単フォーメーションA=1,B=2,C=4)。3連単系の点推定(+47〜+232pt)は141レース中の少数の高額的中に支配された裾の重い分布によるもので証拠として使用不可、と明記。"
+    },
+    "phase_j4_synthesis": {
+      "summary": "Phase J1(7)+J2(9)+J3(14)=計30検定にBonferroni・Holm・BH(q=0.05)を適用、通過0/30。NAR Stage1(9検定中1件、box3 Dirichlet)との対比で、JRAの母集団規模(246レース・42ブロック、NARの約7分の1)が検出力不足の一因である可能性を明記。"
+    }
+  },
+  "implementation_notes": {
+    "additive_only_changes": "jra_eval.py(+37行)・jra_axis_eval.py(+31行)にgroup_kfold_oof_generic追加、既存lobo_oof/chronological_oof等は無改造。jra_signals.pyは無変更(peerセッションの追加のみ再利用)。",
+    "new_files": [
+      "scripts/jra_model/jra_logistic.py", "scripts/jra_model/jra_multi_axis_backtest.py",
+      "scripts/jra_model/jra_formation_backtest.py",
+      "scripts/jra_model/jra_search500_2026_08_28_groupkfold_recheck.py",
+      "scripts/jra_model/jra_box_baseline_reassessment_2026_08_28.py",
+      "scripts/jra_model/jra_search_combined_2026_08_28.py",
+      "scripts/jra_model/jra_search_combined_2026_08_28_heldout_check.py",
+      "scripts/jra_model/jra_new_bettypes_search_2026_08_28.py",
+      "scripts/jra_model/jra_stage2_rigor_check_2026_08_28.py"
+    ],
+    "settlement_engine_smoke_tests": "jra_multi_axis_backtest.py/jra_formation_backtest.pyは合成データでcombo生成数・stake・payout照合を検証済み(2-axis: 3連複/3連単_2軸box/3連単_2軸固定の点数・的中判定、formation: 馬単/3連単の候補集合重複除外・payout照合)。"
+  },
+  "final_verdict": "予想印・展開データ・正則化回帰・新しい買い方(2頭軸・フォーメーション)いずれも、現行の246レース母集団規模では統計的に確立した市場超過を示せなかった(30検定中0件が多重比較補正を通過)。現行本番モデル自体もheld-out限定の公正評価では市場超過が非有意であり、新規性の欠如というより検出力不足の可能性がある。winner_v3.json/winner_box4.json/winner_box3.json/predict_pattern29.pyへの反映は行わない。次の一手は新シグナル・新手法の追加ではなく、既存設計のままJRAデータを3〜6ヶ月分蓄積した上での再検証を推奨する。"
+}

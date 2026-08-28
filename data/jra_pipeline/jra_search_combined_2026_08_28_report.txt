@@ -1,0 +1,53 @@
+レース数: 246  日付: 20260711〜20260823(14日)
+Ridge/Lasso入力候補(41本、個別ゲート不合格分も含む全候補): ['speed', 'form', 'style', 'jt', 'waku', 'apt', 'train', 'distance', 'sire', 'bms', 'course', 'concerned', 'interval', 'kinryo', 'nige', 'margin', 'timediff', 'agari', 'holdtime', 'ketto_training', 'ketto_comment', 'odds_jockey', 'surf_jt', 'jockey_owner', 'prevjockey', 'hold_just', 'hold_wide', 'jockey_change', 'class_drop', 'weight_trend', 'mark_honshi_score', 'mark_cp_score', 'mark_other_score', 'mark_composite_score', 'corner4_position', 'corner4_gap', 'corner4_speedup', 'corner3_position', 'corner3_gap', 'corner_transition_rank', 'corner_transition_gap']
+
+========================================================================
+box_n=4
+========================================================================
+[現行本番] 市場差=+31.38pt(固定重み、fitなし、全246レース直接評価)
+  [ridge] C候補別5分割CV参考excess: {0.01: -0.95, 0.03: -1.06, 0.1: -2.83, 0.3: -2.76, 1.0: -3.89, 3.0: -3.58}
+  [ridge] 固定採用C=0.01(参考値の中でのargmax。この後の外側OOFでは再最適化しない)
+  [ridge] group_kfold OOF(8分割) 市場差=+0.76pt  chosen(=C、全fold固定のはず)={0.01}
+  [lasso] C候補別5分割CV参考excess: {0.01: -6.64, 0.03: -2.61, 0.1: -7.13, 0.3: -4.48, 1.0: -4.62, 3.0: -3.89}
+  [lasso] 固定採用C=0.03(参考値の中でのargmax。この後の外側OOFでは再最適化しない)
+  [lasso] group_kfold OOF(8分割) 市場差=-1.84pt  chosen(=C、全fold固定のはず)={0.03}
+
+  --- 現行本番比のペア差分ブートストラップ ---
+  ridge vs 現行本番: 差分95%CI=[-57.85,-5.15] mean=-30.91pt
+  lasso vs 現行本番: 差分95%CI=[-61.77,-6.78] mean=-33.47pt
+
+  [参考: Dirichlet(500パターン、jra_search500_2026_08_28_groupkfold_recheck.py)] 市場差=+8.76pt  現行本番比CI=[-46.30,-2.34]
+
+========================================================================
+box_n=5
+========================================================================
+[現行本番] 市場差=+10.68pt(固定重み、fitなし、全246レース直接評価)
+  [ridge] C候補別5分割CV参考excess: {0.01: -5.91, 0.03: -3.22, 0.1: -2.64, 0.3: -4.19, 1.0: -4.37, 3.0: -4.06}
+  [ridge] 固定採用C=0.1(参考値の中でのargmax。この後の外側OOFでは再最適化しない)
+  [ridge] group_kfold OOF(8分割) 市場差=-3.99pt  chosen(=C、全fold固定のはず)={0.1}
+  [lasso] C候補別5分割CV参考excess: {0.01: -8.37, 0.03: -2.45, 0.1: -5.8, 0.3: -3.2, 1.0: -3.74, 3.0: -5.42}
+  [lasso] 固定採用C=0.03(参考値の中でのargmax。この後の外側OOFでは再最適化しない)
+  [lasso] group_kfold OOF(8分割) 市場差=-2.74pt  chosen(=C、全fold固定のはず)={0.03}
+
+  --- 現行本番比のペア差分ブートストラップ ---
+  ridge vs 現行本番: 差分95%CI=[-33.15,+0.48] mean=-14.84pt
+  lasso vs 現行本番: 差分95%CI=[-32.31,+2.12] mean=-13.65pt
+
+  [参考: Dirichlet(500パターン、jra_search500_2026_08_28_groupkfold_recheck.py)] 市場差=+8.11pt  現行本番比CI=[-18.60,+12.94]
+
+========================================================================
+box_n=3
+========================================================================
+[現行本番] 市場差=+5.57pt(固定重み、fitなし、全246レース直接評価)
+  [ridge] C候補別5分割CV参考excess: {0.01: -6.14, 0.03: -1.84, 0.1: -0.25, 0.3: 1.18, 1.0: 0.97, 3.0: 0.7}
+  [ridge] 固定採用C=0.3(参考値の中でのargmax。この後の外側OOFでは再最適化しない)
+  [ridge] group_kfold OOF(8分割) 市場差=-3.44pt  chosen(=C、全fold固定のはず)={0.3}
+  [lasso] C候補別5分割CV参考excess: {0.01: -7.05, 0.03: -7.95, 0.1: -4.88, 0.3: -4.74, 1.0: 1.38, 3.0: 0.97}
+  [lasso] 固定採用C=1.0(参考値の中でのargmax。この後の外側OOFでは再最適化しない)
+  [lasso] group_kfold OOF(8分割) 市場差=-3.10pt  chosen(=C、全fold固定のはず)={1.0}
+
+  --- 現行本番比のペア差分ブートストラップ ---
+  ridge vs 現行本番: 差分95%CI=[-29.76,+7.27] mean=-9.23pt
+  lasso vs 現行本番: 差分95%CI=[-28.93,+7.62] mean=-8.88pt
+
+  [参考: Dirichlet(500パターン、jra_search500_2026_08_28_groupkfold_recheck.py)] 市場差=+3.31pt  現行本番比CI=[-25.03,+17.61]
