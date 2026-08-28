@@ -14,7 +14,10 @@ netKeiba(JRA中央競馬・NAR地方競馬)のデータ収集・蓄積・予想�
 
 netKeibaから生データを取得・蓄積するだけの会話。JRA・NAR両方を対象とする。
 
-- `scripts/fetch_newspaper.py --date/--race-id [--circuit jra|nar]` — 馬柱(newspaper)データ取得
+- `scripts/fetch_newspaper.py --date/--race-id [--circuit jra|nar]` — 馬柱(newspaper)データ取得。
+  **2026-08-28〜、日次収集では取得後に必ず`fetch_corner_position.py`→`fetch_marks.py`を同じ
+  `--date`/`--circuit`で続けて実行する(3本セットが標準ワークフロー、詳細は
+  `netkeiba-fetch-newspaper`スキル参照)**
 - `scripts/run_pilot.py --date [--circuit jra|nar]` — レース結果・払戻取得
 - `scripts/fetch_course_analysis.py --date` — コース分析・リーディングデータ取得(JRAのみ対応)
 - `scripts/fetch_horse_weight.py` — 馬体重取得
