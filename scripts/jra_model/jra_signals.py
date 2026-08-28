@@ -14,9 +14,18 @@ docstringが記録する通り、探索側と本番側でpriorsが食い違い(1
   * 欠損シグナルの重みは、値のあるシグナルへ再配分する(combine_signals)。
 """
 import re
+import sys
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
+
+# mark_honshi/mark_cp/mark_other(◎○▲△☆の記号文字列)の数値化は、パーサー側の
+# MARK_SCORE(mark_list_parser.py)を単一の真実の源として再利用する(NARのnar_signals.pyと
+# 同じ、重複定義しない、2026-08-28 JRA Stage2)。
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+from src.netkeiba_pipeline.parsers.mark_list_parser import MARK_SCORE  # noqa: E402
 
 # --- 既存10シグナル(scripts/predict_pattern29.py L73-78のWEIGHTSキーと同一)。
 LEGACY_SIGNALS = ["speed", "form", "style", "jt", "waku", "apt", "train", "distance", "sire", "bms"]
@@ -43,6 +52,32 @@ CANDIDATE_SIGNALS_V2 = ["ketto_training", "ketto_comment", "odds_jockey", "surf_
 #     既に一致する)ので、class_drop専用にCLASS_ORDINAL_V3EXTを新設して対応する。
 CANDIDATE_SIGNALS_V3 = ["hold_just", "hold_wide", "jockey_change", "class_drop", "weight_trend"]
 ALL_SIGNALS = LEGACY_SIGNALS + CANDIDATE_SIGNALS + CANDIDATE_SIGNALS_V2 + CANDIDATE_SIGNALS_V3
+# --- 候補シグナル第4弾(2026-08-28、JRA Stage2: 全ファクター統合・高確信度選抜計画のJRA移植)。
+# NARのCANDIDATE_SIGNALS_V5(scripts/nar_model/nar_signals.py L122-127、2026-08-27新設)を
+# そのままJRAへ移植。予想印(mark_honshi/mark_cp/mark_other、netkeiba「本紙・CP予想・その他」)と
+# 展開予想(corner3/4_rank・corner3/4_gap_lengths・corner4_speedup、netkeiba「AI展開」)。
+# 列名・MARK_SCORE・符号の向きはNARと完全同一(JRAのnewspaper CSVも同じスキーマで取得済み、
+# 2026-08-28実データ確認: 504ファイル中504がmark_honshi充足・489が corner4_rank充足)。
+#   mark_honshi_score/mark_cp_score/mark_other_score: 各印(◎○▲△☆)をMARK_SCOREで数値化し
+#     レース内minmax。列自体が欠測のレースは全馬0.0→_minmaxのhi==lo分岐で自動的に全NaN化
+#     (class_dropと同型の安全設計)。
+#   mark_composite_score: 本紙・CP・その他3列のMARK_SCORE合計をminmax。
+#   corner4_position/corner3_position: 4/3コーナー通過順位(小さいほど先頭)を符号反転して
+#     minmax(高いほど先頭に近い=高評価、他シグナルと符号を揃える)。
+#   corner4_gap/corner3_gap: 4/3コーナー時点の先頭との推定差(馬身)を符号反転してminmax。
+#   corner4_speedup: 4コーナーでの加速マーク(▶)の数(0-3)をそのままminmax。
+#   corner_transition_rank/corner_transition_gap: 3→4コーナーの順位変化・先頭差変化
+#     (正=押し上げ/詰めた)をminmax。
+CANDIDATE_SIGNALS_V4_MARK = ["mark_honshi_score", "mark_cp_score", "mark_other_score",
+                             "mark_composite_score"]
+CANDIDATE_SIGNALS_V4_CORNER = ["corner4_position", "corner4_gap", "corner4_speedup",
+                               "corner3_position", "corner3_gap",
+                               "corner_transition_rank", "corner_transition_gap"]
+CANDIDATE_SIGNALS_V4 = CANDIDATE_SIGNALS_V4_MARK + CANDIDATE_SIGNALS_V4_CORNER
+# --- 重要: ALL_SIGNALSにV4(mark/corner)を含めない。既存スクリプト(jra_search500_2026_08_21_
+# v3signals.py等)がJS.ALL_SIGNALSを実行時に直接参照しているため(NARのALL_SIGNALS/ALL_SIGNALS_V5
+# と同じ理由、nar_signals.py L130-134のコメント参照)。新規スクリプトはこちらのALL_SIGNALS_V4を使う。
+ALL_SIGNALS_V4 = ALL_SIGNALS + CANDIDATE_SIGNALS_V4
 
 TRAIN_RANK_MAP = {"S": 6, "A": 5, "B": 4, "C": 3, "D": 2, "E": 1}
 DNF_FINISH_PENALTY = 20
@@ -462,6 +497,35 @@ def compute_signals(df: pd.DataFrame, current_class_ordinal: float, priors: dict
     wt = pd.concat(wt_cols, axis=1)
     trend = _wavg(wt, [5, 4, 3, 2, 1])
     sig["weight_trend"] = _blend_minmax(trend, -trend.abs())
+
+    # --- mark_*(2026-08-28、候補シグナル第4弾・JRA Stage2): 予想印(本紙・CP予想・その他)を
+    # MARK_SCORE(mark_list_parser.pyと共通)で数値化してminmax。列が丸ごと欠測のレース
+    # (印データ未取得)は全馬0.0→_minmaxのhi==lo分岐で自動的に全NaN化される(NARのnar_signals.py
+    # と完全同一ロジック)。
+    mark_honshi_num = _col(df, "mark_honshi").map(MARK_SCORE).fillna(0.0)
+    mark_cp_num = _col(df, "mark_cp").map(MARK_SCORE).fillna(0.0)
+    mark_other_num = _col(df, "mark_other").map(MARK_SCORE).fillna(0.0)
+    sig["mark_honshi_score"] = _minmax(mark_honshi_num)
+    sig["mark_cp_score"] = _minmax(mark_cp_num)
+    sig["mark_other_score"] = _minmax(mark_other_num)
+    sig["mark_composite_score"] = _minmax(mark_honshi_num + mark_cp_num + mark_other_num)
+
+    # --- corner_*(2026-08-28、候補シグナル第4弾・JRA Stage2): 展開予想(AI展開)の3・4コーナー
+    # 通過順位・先頭との推定差(馬身)。順位・差はいずれも「小さいほど先頭に近い」ため
+    # 符号反転してminmax(他シグナルと「高いほど高評価」の向きを揃える、NARと完全同一ロジック)。
+    c4_rank = _num(_col(df, "corner4_rank"))
+    c4_gap = _num(_col(df, "corner4_gap_lengths"))
+    c3_rank = _num(_col(df, "corner3_rank"))
+    c3_gap = _num(_col(df, "corner3_gap_lengths"))
+    sig["corner4_position"] = _minmax(-c4_rank)
+    sig["corner4_gap"] = _minmax(-c4_gap)
+    sig["corner4_speedup"] = _minmax(_num(_col(df, "corner4_speedup")))
+    sig["corner3_position"] = _minmax(-c3_rank)
+    sig["corner3_gap"] = _minmax(-c3_gap)
+    # 3→4角の変化: 正=順位アップ/先頭差を詰めた。片方でも欠測ならNaN(pd.Seriesの引き算は
+    # 自動的にNaN伝播するため追加処理は不要)。
+    sig["corner_transition_rank"] = _minmax(c3_rank - c4_rank)
+    sig["corner_transition_gap"] = _minmax(c3_gap - c4_gap)
 
     return sig
 

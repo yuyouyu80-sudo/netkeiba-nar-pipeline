@@ -1,0 +1,94 @@
+レース数: 246  日付: 20260711〜20260823(14日)  頭数: 3160  ブロック数: 42
+
+========================================================================
+Phase0: V4(予想印・展開)候補の充足率診断
+========================================================================
+  mark_honshi_score: 充足率100.0%
+  mark_cp_score: 充足率100.0%
+  mark_other_score: 充足率100.0%
+  mark_composite_score: 充足率100.0%
+  corner4_position: 充足率98.2%
+  corner4_gap: 充足率98.2%
+  corner4_speedup: 充足率94.5%
+  corner3_position: 充足率98.2%
+  corner3_gap: 充足率98.2%
+  corner_transition_rank: 充足率97.3%
+  corner_transition_gap: 充足率98.2%
+
+--- hi==lo NaN安全性の実データ確認(mark_honshi欠測レース) ---
+  mark_honshi欠測レース総数: 0/246
+
+========================================================================
+Phase0: V4候補間のSpearman相関スクリーニング(多重比較対策)
+========================================================================
+                        mark_honshi_score  mark_cp_score  mark_other_score  mark_composite_score  corner4_position  corner4_gap  corner4_speedup  corner3_position  corner3_gap  corner_transition_rank  corner_transition_gap
+mark_honshi_score                   1.000          0.301             0.568                 0.806             0.312        0.311            0.227             0.281        0.276                   0.073                  0.113
+mark_cp_score                       0.301          1.000             0.319                 0.658             0.089        0.089            0.155             0.070        0.070                   0.033                  0.041
+mark_other_score                    0.568          0.319             1.000                 0.758             0.336        0.331            0.187             0.311        0.305                   0.065                  0.085
+mark_composite_score                0.806          0.658             0.758                 1.000             0.324        0.322            0.240             0.290        0.288                   0.078                  0.109
+corner4_position                    0.312          0.089             0.336                 0.324             1.000        0.926           -0.185             0.938        0.888                   0.145                  0.149
+corner4_gap                         0.311          0.089             0.331                 0.322             0.926        1.000           -0.176             0.891        0.954                   0.077                  0.137
+corner4_speedup                     0.227          0.155             0.187                 0.240            -0.185       -0.176            1.000            -0.256       -0.248                   0.177                  0.251
+corner3_position                    0.281          0.070             0.311                 0.290             0.938        0.891           -0.256             1.000        0.920                  -0.143                 -0.071
+corner3_gap                         0.276          0.070             0.305                 0.288             0.888        0.954           -0.248             0.920        1.000                  -0.085                 -0.072
+corner_transition_rank              0.073          0.033             0.065                 0.078             0.145        0.077            0.177            -0.143       -0.085                   1.000                  0.639
+corner_transition_gap               0.113          0.041             0.085                 0.109             0.149        0.137            0.251            -0.071       -0.072                   0.639                  1.000
+  |rho|=0.954 corner4_gap vs corner3_gap -> 除外: corner4_gap
+  |rho|=0.938 corner4_position vs corner3_position -> 除外: corner3_position
+  |rho|=0.888 corner4_position vs corner3_gap -> 除外: corner3_gap
+  |rho|=0.806 mark_honshi_score vs mark_composite_score -> 除外: mark_composite_score
+
+スクリーニング後候補(7本): ['mark_honshi_score', 'mark_cp_score', 'mark_other_score', 'corner4_position', 'corner4_speedup', 'corner_transition_rank', 'corner_transition_gap']
+除外(4本、高相関のため): ['corner4_gap', 'corner3_position', 'corner3_gap', 'mark_composite_score']
+
+========================================================================
+Phase0: V4(スクリーニング後)の死にシグナル確認
+========================================================================
+死にシグナル: []
+生存候補(7本): ['mark_honshi_score', 'mark_cp_score', 'mark_other_score', 'corner4_position', 'corner4_speedup', 'corner_transition_rank', 'corner_transition_gap']
+
+========================================================================
+Phase1: 個別シグナルゲート(baseline=POOL_TRUE_PROD 10本 vs baseline+候補1本)
+========================================================================
+POOL_TRUE_PROD(現行本番と同一構成、winner_v3/box4/box3.json実データ確認済み、10本): ['speed', 'form', 'style', 'jt', 'waku', 'apt', 'train', 'distance', 'sire', 'bms']
+
+--- box_n=4 ---
+  baseline(10本等重み): model=73.89% market=76.82% excess=-2.93pt
+  [mark_honshi_score] excess=-3.18pt (基準比-0.25pt) ペア差分95%CI=[-7.82,+6.38] G1=NO
+  [mark_cp_score] excess=+7.61pt (基準比+10.54pt) ペア差分95%CI=[-0.99,+24.03] G1=NO
+  [mark_other_score] excess=+4.89pt (基準比+7.83pt) ペア差分95%CI=[-0.00,+16.02] G1=NO
+  [corner4_position] excess=+0.30pt (基準比+3.24pt) ペア差分95%CI=[-2.92,+9.11] G1=NO
+  [corner4_speedup] excess=+4.98pt (基準比+7.91pt) ペア差分95%CI=[-1.53,+19.63] G1=NO
+  [corner_transition_rank] excess=+8.44pt (基準比+11.37pt) ペア差分95%CI=[-0.13,+25.31] G1=NO
+  [corner_transition_gap] excess=+4.85pt (基準比+7.78pt) ペア差分95%CI=[+1.32,+14.52] G1=PASS
+
+--- box_n=5 ---
+  baseline(10本等重み): model=85.47% market=78.22% excess=+7.24pt
+  [mark_honshi_score] excess=+0.15pt (基準比-7.09pt) ペア差分95%CI=[-20.20,+1.95] G1=NO
+  [mark_cp_score] excess=+3.54pt (基準比-3.70pt) ペア差分95%CI=[-17.92,+7.41] G1=NO
+  [mark_other_score] excess=-1.57pt (基準比-8.81pt) ペア差分95%CI=[-22.18,+1.29] G1=NO
+  [corner4_position] excess=+9.59pt (基準比+2.34pt) ペア差分95%CI=[-4.65,+9.26] G1=NO
+  [corner4_speedup] excess=+0.31pt (基準比-6.94pt) ペア差分95%CI=[-18.20,+2.12] G1=NO
+  [corner_transition_rank] excess=+3.60pt (基準比-3.64pt) ペア差分95%CI=[-14.84,+5.02] G1=NO
+  [corner_transition_gap] excess=+1.31pt (基準比-5.94pt) ペア差分95%CI=[-17.71,+4.06] G1=NO
+
+--- box_n=3 ---
+  baseline(10本等重み): model=80.24% market=79.90% excess=+0.35pt
+  [mark_honshi_score] excess=-6.20pt (基準比-6.54pt) ペア差分95%CI=[-14.10,+0.71] G1=NO
+  [mark_cp_score] excess=+2.45pt (基準比+2.11pt) ペア差分95%CI=[-8.51,+12.73] G1=NO
+  [mark_other_score] excess=-5.79pt (基準比-6.13pt) ペア差分95%CI=[-15.72,+2.80] G1=NO
+  [corner4_position] excess=-1.29pt (基準比-1.64pt) ペア差分95%CI=[-10.69,+8.48] G1=NO
+  [corner4_speedup] excess=+9.38pt (基準比+9.04pt) ペア差分95%CI=[-5.17,+27.54] G1=NO
+  [corner_transition_rank] excess=+3.23pt (基準比+2.89pt) ペア差分95%CI=[-6.51,+13.71] G1=NO
+  [corner_transition_gap] excess=+6.49pt (基準比+6.14pt) ペア差分95%CI=[-3.13,+17.60] G1=NO
+
+========================================================================
+Phase1 まとめ(box_n=4主指標、G1=ペア差分ブートストラップ95%CI下限>0)
+========================================================================
+  mark_honshi_score: box4基準比-0.25pt G1=NO (box5/3一貫: True)
+  mark_cp_score: box4基準比+10.54pt G1=NO (box5/3一貫: True)
+  mark_other_score: box4基準比+7.83pt G1=NO (box5/3一貫: True)
+  corner4_position: box4基準比+3.24pt G1=NO (box5/3一貫: True)
+  corner4_speedup: box4基準比+7.91pt G1=NO (box5/3一貫: True)
+  corner_transition_rank: box4基準比+11.37pt G1=NO (box5/3一貫: True)
+  corner_transition_gap: box4基準比+7.78pt G1=PASS (box5/3一貫: False)
