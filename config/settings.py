@@ -5,6 +5,11 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 RACE_LIST_SUB_URL = "https://race.netkeiba.com/top/race_list_sub.html"
 RACE_RESULT_URL = "https://db.netkeiba.com/race/{race_id}/"
 RACE_API_URL = "https://race.netkeiba.com/race_api/"
+# 複勝・馬連等オッズのJSON API(2026-09-02実データ確認、JRAのみ)。type=1で単勝+複勝が
+# セットで返る(フロントエンドの「単勝・複勝」タブと同じグルーピング)、type=4で馬連。
+# GETのみ・race.netkeiba.com固定ホスト(NAR側の同等APIは未確認、詳細は
+# src/netkeiba_pipeline/scrapers/odds_api.pyのdocstring参照)。
+JRA_ODDS_API_URL = "https://race.netkeiba.com/api/api_get_jra_odds.html"
 # horse_id単位(race_id非依存)。5世代分の血統表、ログイン不要・EUC-JP(race_result.pyと同種)。
 PEDIGREE_URL = "https://db.netkeiba.com/horse/ped/{horse_id}/"
 # horse_id単位。血統表(/horse/ped/)とは別の、競走馬プロフィール本体ページ(生産者・馬主欄)。
@@ -39,6 +44,13 @@ HORSE_PROFILE_DIR = DATA_DIR / "horse_profile"
 # 永続キャッシュにはしない(常に上書き、詳細はfetch_person_profile.py参照)。
 JOCKEY_PROFILE_DIR = DATA_DIR / "jockey_profile"
 TRAINER_PROFILE_DIR = DATA_DIR / "trainer_profile"
+# 複勝・馬連オッズ時系列(Tier2、2026-09-02〜)。kaisai_date単位、既存の単勝オッズ時系列
+# (odds_history_{date}.csv、セッション固有scratchpad出力の予想パイプライン専用ファイル)
+# とは別の、新規・恒久データとしての永続化先。race_result_csv_path/payout_csv_pathと同じ
+# 「用途ごとに別ディレクトリ」の流儀に揃え、複勝・馬連で別ディレクトリにする。
+# 詳細はwatch_odds.py参照。
+ODDS_HISTORY_FUKU_DIR = DATA_DIR / "odds_history_fuku"
+ODDS_HISTORY_UMAREN_DIR = DATA_DIR / "odds_history_umaren"
 MANIFEST_PATH = DATA_DIR / "_manifest" / "scraped_race_ids.csv"
 
 LOG_DIR = PROJECT_ROOT / "logs"

@@ -20,6 +20,17 @@
 スケジュールから除外される(スクリプトを再起動しても二重取得・二重行にならない)。
 発走時刻を過ぎてしまった(=起動が遅れた)チェックポイントは、値が実態とずれるため
 取得を試みずスキップする。
+
+複勝・馬連オッズ(2026-09-02〜、予想ファクター充足度マップTier2、JRAのみ): 単勝と同じ
+チェックポイントで race.netkeiba.com/api/api_get_jra_odds.html (JSON API)から取得し、
+data/odds_history_fuku/{year}/{date}.csv・data/odds_history_umaren/{year}/{date}.csvへ
+追記する。単勝側(odds_history_{date}.csv)とは異なり、こちらはOUT_DIR(セッション固有
+scratchpad)ではなくdata/配下(Git管理・永続)にのみ書く - 既存の単勝オッズ時系列は
+predict_pattern29.py/build_artifact.py側の既存の予想パイプラインが読む前提のファイルの
+ため、スキーマ・置き場所を変更せず(下流互換性を壊さない)、複勝・馬連は完全に別の新規
+永続データとして追加する設計。冪等性は単勝側のイベントスケジュール(_already_done)に
+相乗りしており、複勝・馬連専用の重複排除チェックは無い(単勝が既取得ならそのチェック
+ポイントは複勝・馬連含めてまとめてスキップされる)。
 """
 import argparse
 import csv
@@ -40,7 +51,10 @@ from dotenv import load_dotenv
 from config.settings import LOG_DIR
 from src.netkeiba_pipeline.auth.session import login
 from src.netkeiba_pipeline.parsers.bias_parser import parse_bias
+from src.netkeiba_pipeline.parsers.odds_api_parser import parse_fuku_odds, parse_umaren_odds
 from src.netkeiba_pipeline.scrapers.bias import fetch_bias_html
+from src.netkeiba_pipeline.scrapers.odds_api import fetch_jra_odds_json
+from src.netkeiba_pipeline.storage.paths import odds_history_fuku_csv_path, odds_history_umaren_csv_path
 from src.netkeiba_pipeline.utils.logging_conf import configure_logging
 
 # このレポート生成パイプライン(build_artifact.py)専用の出力先。predict_pattern29.pyの
@@ -64,6 +78,19 @@ CHECKPOINTS: list[tuple[str, int]] = [
 CSV_COLUMNS = [
     "race_id", "checkpoint_label", "checkpoint_offset_sec",
     "scheduled_time", "fetched_time", "umaban", "horse_name", "win_odds", "ninki",
+]
+
+# 複勝・馬連(予想ファクター充足度マップTier2、2026-09-02〜)。単勝と違い恒久データ
+# (data/配下)にのみ書く - 既存のodds_history_{date}.csv(セッション固有scratchpad、
+# 予想パイプライン専用)のスキーマは変更しない(下流のbuild_artifact.py等への影響を
+# 避けるため)。JRAのみ対応(NAR側の同等APIは未検証、詳細はodds_api.py参照)。
+FUKU_CSV_COLUMNS = [
+    "race_id", "checkpoint_label", "checkpoint_offset_sec",
+    "scheduled_time", "fetched_time", "umaban", "fuku_odds_low", "fuku_odds_high", "fuku_ninki",
+]
+UMAREN_CSV_COLUMNS = [
+    "race_id", "checkpoint_label", "checkpoint_offset_sec",
+    "scheduled_time", "fetched_time", "umaban_a", "umaban_b", "umaren_odds", "umaren_ninki",
 ]
 
 
@@ -150,6 +177,15 @@ def fetch_odds(session, race_id: str) -> pd.DataFrame:
     return parse_bias(html, race_id)
 
 
+def fetch_fuku_umaren_odds(session, race_id: str) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """複勝・馬連オッズをJSON APIから取得する(JRAのみ、呼び出し側で保証すること)。
+    type=1で単勝+複勝がセットで返るが、単勝は既存のfetch_odds(bias.html)経由で
+    別途取得済みのため複勝のみ使う。"""
+    tanfuku_payload = fetch_jra_odds_json(session, race_id, bet_type=1)
+    umaren_payload = fetch_jra_odds_json(session, race_id, bet_type=4)
+    return parse_fuku_odds(tanfuku_payload, race_id), parse_umaren_odds(umaren_payload, race_id)
+
+
 def _append_rows(date: str, circuit: str, race_id: str, label: str, offset: int, scheduled: datetime,
                   fetched: datetime, bias_df: pd.DataFrame) -> int:
     out_path = OUT_DIR / f"odds_history{_suffix(circuit)}_{date}.csv"
@@ -168,6 +204,45 @@ def _append_rows(date: str, circuit: str, race_id: str, label: str, offset: int,
             })
             n += 1
     return n
+
+
+def _append_fuku_umaren_rows(date: str, race_id: str, label: str, offset: int, scheduled: datetime,
+                              fetched: datetime, fuku_df: pd.DataFrame, umaren_df: pd.DataFrame) -> tuple[int, int]:
+    """複勝・馬連を data/odds_history_fuku|umaren/{year}/{date}.csv (恒久データ)へ追記する。
+    OUT_DIR(scratchpad)側には一切書かない - 既存のodds_history_{date}.csvのスキーマ・
+    置き場所を変更しない方針(詳細はFUKU_CSV_COLUMNS付近のコメント参照)。"""
+    fuku_path = odds_history_fuku_csv_path(date)
+    umaren_path = odds_history_umaren_csv_path(date)
+    fuku_path.parent.mkdir(parents=True, exist_ok=True)
+    umaren_path.parent.mkdir(parents=True, exist_ok=True)
+
+    fuku_is_new = not fuku_path.exists()
+    with open(fuku_path, "a", newline="", encoding="utf-8-sig") as f:
+        writer = csv.DictWriter(f, fieldnames=FUKU_CSV_COLUMNS)
+        if fuku_is_new:
+            writer.writeheader()
+        for _, r in fuku_df.iterrows():
+            writer.writerow({
+                "race_id": race_id, "checkpoint_label": label, "checkpoint_offset_sec": offset,
+                "scheduled_time": scheduled.isoformat(sep=" "), "fetched_time": fetched.isoformat(sep=" "),
+                "umaban": r["umaban"], "fuku_odds_low": r["fuku_odds_low"],
+                "fuku_odds_high": r["fuku_odds_high"], "fuku_ninki": r["fuku_ninki"],
+            })
+
+    umaren_is_new = not umaren_path.exists()
+    with open(umaren_path, "a", newline="", encoding="utf-8-sig") as f:
+        writer = csv.DictWriter(f, fieldnames=UMAREN_CSV_COLUMNS)
+        if umaren_is_new:
+            writer.writeheader()
+        for _, r in umaren_df.iterrows():
+            writer.writerow({
+                "race_id": race_id, "checkpoint_label": label, "checkpoint_offset_sec": offset,
+                "scheduled_time": scheduled.isoformat(sep=" "), "fetched_time": fetched.isoformat(sep=" "),
+                "umaban_a": r["umaban_a"], "umaban_b": r["umaban_b"],
+                "umaren_odds": r["umaren_odds"], "umaren_ninki": r["umaren_ninki"],
+            })
+
+    return len(fuku_df), len(umaren_df)
 
 
 def _require_credentials() -> tuple[str, str]:
@@ -236,6 +311,25 @@ def run_watch(date: str, circuit: str = "jra") -> None:
                 )
                 fetched_count += 1
                 logger.info("fetched race_id=%s checkpoint=%s (%d horses)", ev.race_id, ev.checkpoint_label, n)
+
+                # 複勝・馬連(Tier2、JRAのみ)。失敗しても単勝側の取得成功は既に確定して
+                # いるので、監視ループ全体を止めずログのみに留める。
+                if circuit == "jra":
+                    try:
+                        fuku_df, umaren_df = fetch_fuku_umaren_odds(session, ev.race_id)
+                        n_fuku, n_umaren = _append_fuku_umaren_rows(
+                            date, ev.race_id, ev.checkpoint_label, ev.offset_sec,
+                            ev.scheduled_time, datetime.now(), fuku_df, umaren_df,
+                        )
+                        logger.info(
+                            "fetched fuku/umaren race_id=%s checkpoint=%s (%d/%d rows)",
+                            ev.race_id, ev.checkpoint_label, n_fuku, n_umaren,
+                        )
+                    except Exception:  # noqa: BLE001 - 単勝側の成功は既に確定済み、複勝・馬連は付随データ
+                        logger.exception(
+                            "failed to fetch fuku/umaren odds for race_id=%s checkpoint=%s",
+                            ev.race_id, ev.checkpoint_label,
+                        )
             except Exception:  # noqa: BLE001 - 1件の失敗で監視全体を止めない
                 errored += 1
                 logger.exception("failed to fetch race_id=%s checkpoint=%s", ev.race_id, ev.checkpoint_label)
@@ -262,6 +356,12 @@ def test_fetch(race_id: str) -> None:
     df = fetch_odds(session, race_id)
     print(f"race_id={race_id}: {len(df)} horses")
     print(df[["umaban", "bias_horse_name", "bias_win_odds", "bias_ninki"]].to_string(index=False))
+
+    fuku_df, umaren_df = fetch_fuku_umaren_odds(session, race_id)
+    print(f"\nfuku: {len(fuku_df)} rows")
+    print(fuku_df.to_string(index=False))
+    print(f"\numaren: {len(umaren_df)} rows (showing first 10)")
+    print(umaren_df.head(10).to_string(index=False))
 
 
 def main() -> None:

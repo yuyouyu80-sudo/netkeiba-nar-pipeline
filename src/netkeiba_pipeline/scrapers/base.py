@@ -36,3 +36,14 @@ def fetch_json(session: requests.Session, url: str, data: dict, delay_seconds: f
     response = session.post(url, data=data, timeout=DEFAULT_TIMEOUT_SECONDS)
     response.raise_for_status()
     return response.json()
+
+
+def fetch_json_get(session: requests.Session, url: str, params: dict, delay_seconds: float = 1.5) -> Any:
+    """GETs `params` as a query string and returns the parsed JSON body. Used for
+    race.netkeiba.com/api/ endpoints (distinct from race_api/ above - GET+query-string
+    instead of POST+form-data. Confirmed for api_get_jra_odds.html, the live odds
+    widget's underlying data source)."""
+    time.sleep(delay_seconds)
+    response = session.get(url, params=params, timeout=DEFAULT_TIMEOUT_SECONDS)
+    response.raise_for_status()
+    return response.json()

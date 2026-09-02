@@ -9,6 +9,8 @@ from config.settings import (
     JOCKEY_PROFILE_DIR,
     LAP_TIMES_DIR,
     NEWSPAPER_DIR,
+    ODDS_HISTORY_FUKU_DIR,
+    ODDS_HISTORY_UMAREN_DIR,
     PAYOUTS_DIR,
     PEDIGREE_DIR,
     RACE_RESULTS_DIR,
@@ -94,3 +96,15 @@ def jockey_profile_csv_path(jockey_id: str) -> Path:
 def trainer_profile_csv_path(trainer_id: str) -> Path:
     """trainer_id単位。jockey_profile_csv_pathと同じく毎回上書き。"""
     return TRAINER_PROFILE_DIR / f"{trainer_id}.csv"
+
+
+def odds_history_fuku_csv_path(kaisai_date: str) -> Path:
+    """kaisai_date: 'YYYYMMDD'。複勝オッズ時系列(Tier2)の永続保存先。
+    race_result_csv_pathと同じ年別ディレクトリ構成。現時点ではJRAのみ
+    (詳細はwatch_odds.py/odds_api.py参照、NAR側の同等APIは未検証)。"""
+    return ODDS_HISTORY_FUKU_DIR / kaisai_date[:4] / f"{kaisai_date}.csv"
+
+
+def odds_history_umaren_csv_path(kaisai_date: str) -> Path:
+    """kaisai_date: 'YYYYMMDD'。馬連オッズ時系列(Tier2)の永続保存先。JRAのみ。"""
+    return ODDS_HISTORY_UMAREN_DIR / kaisai_date[:4] / f"{kaisai_date}.csv"
