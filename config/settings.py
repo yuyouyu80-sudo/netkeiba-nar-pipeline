@@ -61,6 +61,9 @@ ODDS_HISTORY_UMAREN_DIR = DATA_DIR / "odds_history_umaren"
 # JRA公式サイトのクッション値・含水率(Tier3、2026-09-02〜)。venue_code+kai単位
 # (開催回全体で1ファイル、race_id/kaisai_date単位ではない点に注意)。
 JRA_BABA_DIR = DATA_DIR / "jra_baba"
+# JRA公式サイトのWIN5キャリーオーバー履歴(Tier4項目11、2026-09-02〜)。単一ファイル
+# (全期間分をまとめて1ファイル、開催回単位ではない - 元データが疎な履歴のため)。
+JRA_WIN5_CARRYOVER_CSV = DATA_DIR / "jra_win5_carryover_history.csv"
 MANIFEST_PATH = DATA_DIR / "_manifest" / "scraped_race_ids.csv"
 
 LOG_DIR = PROJECT_ROOT / "logs"
