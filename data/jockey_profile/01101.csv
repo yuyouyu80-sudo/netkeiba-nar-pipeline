@@ -1,2 +1,2 @@
-id,name,name_kana,birth_date,affiliation_area,affiliation_type,jra_season,jra_season_rank,jra_season_starts,jra_season_wins,jra_season_win_rate,jra_career_starts,jra_career_wins,jra_career_win_rate,nar_season,nar_season_rank,nar_season_starts,nar_season_wins,nar_season_win_rate,nar_career_starts,nar_career_wins,nar_career_win_rate
-01101,中村将之,ナカムラマサユキ,1986/10/09,栗東,浜田多実,2026,97,52,4,7.7％,"3,186",155,4.9％,2013,360,1,0,0.0％,14,1,7.1％
+id,name,name_kana,birth_date,affiliation_area,affiliation_type,hometown,blood_type,debut_year,jra_season,jra_season_rank,jra_season_starts,jra_season_wins,jra_season_win_rate,jra_career_starts,jra_career_wins,jra_career_win_rate,nar_season,nar_season_rank,nar_season_starts,nar_season_wins,nar_season_win_rate,nar_career_starts,nar_career_wins,nar_career_win_rate
+01101,中村将之,ナカムラマサユキ,1986/10/09,栗東,浜田多実,愛知県,B型,2005,2026,97,52,4,7.7％,"3,186",155,4.9％,2013,360,1,0,0.0％,14,1,7.1％

@@ -27,6 +27,16 @@
 ページ内のJSローカル変数`TozaiCD`('1'=美浦/'2'=栗東/'3'=地方所属)がどちらのタブを既定表示に
 するかを決めているが、上記の通り両方のテーブルを常に取得するため、このスクリプトでは
 `TozaiCD`自体は使わない(所属地は`affiliation_area`で別途取得済み)。
+
+- 出身地・デビュー年(予想ファクター充足度マップTier4項目13、2026-09-02〜):
+  `table#DetailTable`(騎手は`class="JockeyDataTable"`、調教師は`class="TrainerDataTable"`)
+  内に`<tr><th>出身地</th><td>...</td></tr>`・`<tr><th>デビュー年</th><td>...</td></tr>`が
+  ある。騎手側は値が「熊本県/B型」のように出身地と血液型が"/"区切りで同居しているが、
+  調教師側は「千葉県」のように出身地のみ(血液型欄自体が無い)。**海外出身の短期免許
+  騎手であれば出身地欄に国名が入る可能性が高いが、日本人騎手のフィクスチャしか
+  実際には確認できておらず未検証**(実データで確認できたのは国内騎手2名・調教師1名のみ)。
+  デビュー年は「2004年(23年目)」のように西暦+経験年数が同一セルに同居しているため、
+  西暦部分のみ正規表現で抜き出す。
 """
 import re
 
@@ -35,6 +45,7 @@ from bs4 import BeautifulSoup
 
 _BIRTH_DATE_RE = re.compile(r"(\d{4}/\d{2}/\d{2})")
 _BRACKETED_AREA_RE = re.compile(r"^\[(.+?)\](.*)$")
+_DEBUT_YEAR_RE = re.compile(r"(\d{4})年")
 
 # ResultsByYears table column order (0-indexed), common to jockey and trainer pages:
 # 年度, 順位, 1着, 2着, 3着, 4着~, 騎乗/出走回数, 重賞出走, 重賞勝利, 勝率, 連対率, 複勝率, 代表馬.
@@ -54,7 +65,8 @@ _STAT_FIELDS = [
 ]
 
 _COLUMNS = (
-    ["id", "name", "name_kana", "birth_date", "affiliation_area", "affiliation_type"]
+    ["id", "name", "name_kana", "birth_date", "affiliation_area", "affiliation_type",
+     "hometown", "blood_type", "debut_year"]
     + [f"jra_{f}" for f in _STAT_FIELDS]
     + [f"nar_{f}" for f in _STAT_FIELDS]
 )
@@ -93,6 +105,32 @@ def _parse_header(soup: BeautifulSoup) -> dict:
         "affiliation_area": affiliation_area,
         "affiliation_type": affiliation_type,
     }
+
+
+def _parse_detail_table(soup: BeautifulSoup) -> dict:
+    """table#DetailTable(出身地・血液型・デビュー年)。無ければ全て空文字(古い/想定外の
+    ページ構造への耐性、必須情報ではないため例外にはしない)。"""
+    result = {"hometown": "", "blood_type": "", "debut_year": ""}
+    table = soup.find(id="DetailTable")
+    if table is None:
+        return result
+
+    for tr in table.find_all("tr"):
+        th, td = tr.find("th"), tr.find("td")
+        if th is None or td is None:
+            continue
+        label = th.get_text(strip=True)
+        value = td.get_text(strip=True)
+        if label == "出身地":
+            # jockey pages combine "hometown/blood-type" in one cell (e.g. "熊本県/B型");
+            # trainer pages have hometown only (e.g. "千葉県") - a plain split handles both.
+            parts = value.split("/", 1)
+            result["hometown"] = parts[0].strip()
+            result["blood_type"] = parts[1].strip() if len(parts) > 1 else ""
+        elif label == "デビュー年":
+            match = _DEBUT_YEAR_RE.search(value)
+            result["debut_year"] = match.group(1) if match else ""
+    return result
 
 
 def _cell_text(tds, index: int) -> str:
@@ -147,12 +185,14 @@ def parse_person_profile(html: str, person_id: str, kind: str) -> pd.DataFrame:
     used for the error message / not for any structural branching)."""
     soup = BeautifulSoup(html, "lxml")
     header = _parse_header(soup)
+    detail = _parse_detail_table(soup)
     jra_stats = _parse_results_by_years(soup, "ResultsBox0")
     nar_stats = _parse_results_by_years(soup, "ResultsBox1")
 
     row = {
         "id": person_id,
         **header,
+        **detail,
         **{f"jra_{k}": v for k, v in jra_stats.items()},
         **{f"nar_{k}": v for k, v in nar_stats.items()},
     }

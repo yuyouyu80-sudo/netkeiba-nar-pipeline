@@ -32,6 +32,9 @@ def test_parse_person_profile_jockey_jra():
     # bracketed "[美浦]フリー" form -> area/type split apart
     assert row["affiliation_area"] == "美浦"
     assert row["affiliation_type"] == "フリー"
+    assert row["hometown"] == "熊本県"
+    assert row["blood_type"] == "B型"
+    assert row["debut_year"] == "2004"
     assert row["jra_season"] == "2026"
     assert row["jra_season_wins"] == "9"
     assert row["jra_career_wins"] == "107"
@@ -64,6 +67,9 @@ def test_parse_person_profile_trainer():
     assert row["name"] == "和田正一郎"
     assert row["affiliation_area"] == "美浦"
     assert row["affiliation_type"] == ""
+    assert row["hometown"] == "千葉県"
+    assert row["blood_type"] == ""  # trainer pages have no blood-type field
+    assert row["debut_year"] == "2009"
     assert row["jra_season"] == "2026"
     assert row["jra_season_starts"] == "143"
     assert row["jra_career_starts"] == "3,870"
