@@ -54,6 +54,13 @@ netKeibaから生データを取得・蓄積するだけの会話。JRA・NAR両
   (予想時点の速報値ではない点に注意)。`data/jra_baba/{year}/{venue_code}_{kai}.csv`に
   保存、恒久キャッシュ(fetch_pedigree.pyと同方式)。進行中の開催回は403として
   正常にskip扱いされる
+- `scripts/fetch_jra_win5_carryover.py` — WIN5キャリーオーバー履歴取得(2026-09-02〜、
+  Tier4、netkeiba外のwww.jra.go.jp)。日付/race_id引数無し(全期間分をまとめて毎回
+  丸ごと上書き)。`data/jra_win5_carryover_history.csv`に保存。的中者が出ず繰り越しが
+  発生した週のみの疎な履歴で、「今週の有無」を予想時点で判定できるものではない
+- `data/jra_course_master.csv` — JRA10場のコース仕様(直線距離・高低差・周長・幅員・
+  回り方向・設定距離、2026-09-02〜、Tier4項目8)。恒久・静的な参照表のため取得
+  スクリプトは無し(詳細・出典は同ファイル併設の`jra_course_master.README.md`参照)
 - 関連スキル: `netkeiba-fetch-date`、`netkeiba-fetch-newspaper`、`netkeiba-fetch-marks`、
   `netkeiba-fetch-corner-position`、`netkeiba-fetch-pedigree`
 
