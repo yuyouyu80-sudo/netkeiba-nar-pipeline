@@ -1,9 +1,20 @@
 import re
 
 import pandas as pd
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString
 
 HORSE_ID_RE = re.compile(r"/horse/(\d+)")
+# jockey/trainer use \w+ (not \d+): NAR-licensed jockeys carry alphanumeric IDs
+# (e.g. "a05df"), same pattern as race_result_parser.py's _ID_HREF_RE. \d+ is a
+# strict subset of \w+, so this is a no-op for JRA's numeric IDs.
+#
+# No trailing "/" in the pattern (unlike race_result_parser.py's _ID_HREF_RE):
+# confirmed against real bias.html pages that JRA hrefs omit the trailing slash
+# (".../recent/01087\"") while NAR hrefs keep it (".../recent/05688/\""). \w+ is
+# non-greedy-safe here since neither "/" nor the closing quote match \w, so this
+# single pattern handles both forms.
+JOCKEY_ID_RE = re.compile(r"/jockey/result/recent/(\w+)")
+TRAINER_ID_RE = re.compile(r"/trainer/result/recent/(\w+)")
 _COLOR_RE = re.compile(r"background:\s*(#[0-9A-Fa-f]{6})")
 
 # table.Bias ("血統ビーム出馬表") color-codes each horse's 父(sire)/母父(broodmare
@@ -27,6 +38,15 @@ def _bloodline(td) -> str:
     return _BLOODLINE_BY_COLOR.get(match.group(1).upper(), "")
 
 
+def _leading_text(td) -> str:
+    """Text sitting directly inside td (e.g. a weight-allowance mark like △)
+    before/outside its <a> child, as opposed to the <a>'s own text. Concatenates
+    every direct NavigableString child rather than assuming a single leading
+    node, since that's the only structurally reliable way to get "whatever text
+    isn't inside the link"."""
+    return "".join(c for c in td.children if isinstance(c, NavigableString)).strip()
+
+
 _BIAS_COLUMNS = [
     "umaban",
     "bias_horse_id",
@@ -39,7 +59,11 @@ _BIAS_COLUMNS = [
     "bias_weight_carried",
     "bias_horse_weight",
     "bias_jockey",
+    "bias_jockey_id",
+    # 減量記号(▲△☆◇等)。斤量減額の対象になる若手・女性騎手にのみ付き、多くの行では空文字。
+    "bias_jockey_allowance_mark",
     "bias_trainer",
+    "bias_trainer_id",
     "bias_win_odds",
     "bias_ninki",
 ]
@@ -105,8 +129,10 @@ def parse_bias(html: str, race_id: str) -> pd.DataFrame:
         horse_id_match = HORSE_ID_RE.search(horse_a["href"]) if horse_a else None
         sire_a = sire_td.find("a")
         dam_sire_a = dam_sire_td.find("a")
-        jockey_a = jockey_td.find("a")
-        trainer_a = trainer_td.find("a")
+        jockey_a = jockey_td.find("a", href=True)
+        trainer_a = trainer_td.find("a", href=True)
+        jockey_id_match = JOCKEY_ID_RE.search(jockey_a["href"]) if jockey_a else None
+        trainer_id_match = TRAINER_ID_RE.search(trainer_a["href"]) if trainer_a else None
 
         records.append(
             {
@@ -120,8 +146,15 @@ def parse_bias(html: str, race_id: str) -> pd.DataFrame:
                 "bias_sex_age": sex_age_td.get_text(strip=True),
                 "bias_weight_carried": weight_td.get_text(strip=True),
                 "bias_horse_weight": horse_weight_td.get_text(strip=True) if horse_weight_td else "",
+                # bias_jockey stays exactly as before (name only, no allowance mark) -
+                # downstream signal code (jra_signals.py/nar_signals.py/
+                # jra_candidate_factors_v1.py etc.) already depends on this value's
+                # meaning, so the mark is kept in its own new column instead.
                 "bias_jockey": jockey_a.get_text(strip=True) if jockey_a else "",
+                "bias_jockey_id": jockey_id_match.group(1) if jockey_id_match else "",
+                "bias_jockey_allowance_mark": _leading_text(jockey_td),
                 "bias_trainer": trainer_a.get_text(strip=True) if trainer_a else "",
+                "bias_trainer_id": trainer_id_match.group(1) if trainer_id_match else "",
                 "bias_win_odds": odds_td.get_text(strip=True),
                 "bias_ninki": ninki_td.get_text(strip=True),
             }

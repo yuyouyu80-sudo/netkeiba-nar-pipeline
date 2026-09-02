@@ -65,6 +65,24 @@ def test_parse_bias_works_unmodified_for_nar():
     assert df["bias_horse_id"].notna().all()
 
 
+def test_parse_bias_extracts_jockey_trainer_ids_and_allowance_mark_for_nar():
+    """NAR jockey/trainer IDs are alphanumeric (e.g. "a03e2"), not just digits -
+    this fixture has a mix of both forms plus exactly one weight-allowance mark
+    (umaban=5, 阿部基嗣, "△")."""
+    html = (FIXTURES / "bias_202654072501_nar.html").read_text(encoding="utf-8")
+    df = parse_bias(html, race_id="202654072501")
+    assert set(df["bias_jockey_id"]) == {
+        "05564", "a03e2", "a0270", "a01ad", "05688", "a01bb", "05496", "05536", "05074",
+    }
+    assert set(df["bias_trainer_id"]) == {
+        "a020e", "05785", "a0549", "a003f", "a030b", "05663", "05580",
+    }
+    marked = df[df["bias_jockey_allowance_mark"] != ""]
+    assert list(marked["umaban"]) == ["5"]
+    assert marked.iloc[0]["bias_jockey_allowance_mark"] == "△"
+    assert marked.iloc[0]["bias_jockey"] == "阿部基嗣"  # mark must not leak into bias_jockey
+
+
 def test_parse_shutuba_past_works_unmodified_for_nar():
     html = (FIXTURES / "shutuba_past_202654072501_nar.html").read_text(encoding="utf-8")
     df = parse_shutuba_past(html, race_id="202654072501")
