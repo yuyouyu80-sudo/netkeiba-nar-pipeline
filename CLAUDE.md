@@ -23,7 +23,9 @@ netKeibaから生データを取得・蓄積するだけの会話。JRA・NAR両
 - `scripts/fetch_horse_weight.py` — 馬体重取得
 - `scripts/fetch_quick_result.py --date` — 当日速報(1〜5着)取得
 - `scripts/watch_odds.py --date` — 発走前オッズの継続監視・取得(要: 事前に`predict_pattern29.py`で
-  `race_names_{date}.csv`が生成済みであること)
+  `race_names_{date}.csv`が生成済みであること)。単勝(セッション固有scratchpad、予想パイプライン
+  専用)に加え、2026-09-02〜複勝・馬連もJRAのみ取得し`data/odds_history_fuku/`・
+  `data/odds_history_umaren/`(Git管理下、永続)へ追記する(NAR未対応、詳細はスクリプト冒頭docstring参照)
 - `scripts/refresh_bias.py --date/--race-id` — オッズ・人気・馬体重の再取得
 - `scripts/fetch_marks.py --date/--race-id [--circuit jra|nar]` — 予想印(本紙・CP・その他)取得。
   Playwright使用、事前に`fetch_newspaper.py`でCSVが生成済みであることが前提
