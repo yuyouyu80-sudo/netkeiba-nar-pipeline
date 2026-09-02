@@ -48,6 +48,12 @@ netKeibaから生データを取得・蓄積するだけの会話。JRA・NAR両
   fetch_horse_profile.pyとは方式が異なる点に注意)。事前に`fetch_newspaper.py`(2026-09-02の
   bias_parser.py拡張以降)でCSVが生成済みであることが前提(`bias_jockey_id`/
   `bias_trainer_id`列をIDソースとして使う)
+- `scripts/fetch_jra_baba.py --date/--race-id [--force]` — クッション値・含水率取得
+  (2026-09-02〜、Tier3、JRAのみ・netkeiba外のwww.jra.go.jp)。開催回(複数週にまたがる
+  ブロック)単位のPDFで、**開催回が完全終了した翌平日にしか公開されない事後データ**
+  (予想時点の速報値ではない点に注意)。`data/jra_baba/{year}/{venue_code}_{kai}.csv`に
+  保存、恒久キャッシュ(fetch_pedigree.pyと同方式)。進行中の開催回は403として
+  正常にskip扱いされる
 - 関連スキル: `netkeiba-fetch-date`、`netkeiba-fetch-newspaper`、`netkeiba-fetch-marks`、
   `netkeiba-fetch-corner-position`、`netkeiba-fetch-pedigree`
 
