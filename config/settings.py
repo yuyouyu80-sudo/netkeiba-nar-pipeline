@@ -10,6 +10,13 @@ RACE_API_URL = "https://race.netkeiba.com/race_api/"
 # GETのみ・race.netkeiba.com固定ホスト(NAR側の同等APIは未確認、詳細は
 # src/netkeiba_pipeline/scrapers/odds_api.pyのdocstring参照)。
 JRA_ODDS_API_URL = "https://race.netkeiba.com/api/api_get_jra_odds.html"
+
+# JRA公式サイト(netkeibaとは別ドメイン、ログイン不要、robots.txt全許可を確認済み
+# 2026-09-02)。クッション値・含水率は開催回(「○回○○」)単位のPDFで、当該開催回が
+# 完全に終了した後の翌平日に初めて公開される(実データ確認: 現在進行中の開催回は403、
+# 完了済みの開催回は200)。よって事前予想向けの速報値ではなく、事後の傾向分析専用。
+# URLは競馬場のローマ字名(01=sapporo〜10=kokura、実データで10場全て200を確認済み)。
+JRA_OFFICIAL_BABA_PDF_URL = "https://www.jra.go.jp/keiba/baba/archive/{year}pdf/{venue}{kai:02d}.pdf"
 # horse_id単位(race_id非依存)。5世代分の血統表、ログイン不要・EUC-JP(race_result.pyと同種)。
 PEDIGREE_URL = "https://db.netkeiba.com/horse/ped/{horse_id}/"
 # horse_id単位。血統表(/horse/ped/)とは別の、競走馬プロフィール本体ページ(生産者・馬主欄)。
@@ -51,6 +58,9 @@ TRAINER_PROFILE_DIR = DATA_DIR / "trainer_profile"
 # 詳細はwatch_odds.py参照。
 ODDS_HISTORY_FUKU_DIR = DATA_DIR / "odds_history_fuku"
 ODDS_HISTORY_UMAREN_DIR = DATA_DIR / "odds_history_umaren"
+# JRA公式サイトのクッション値・含水率(Tier3、2026-09-02〜)。venue_code+kai単位
+# (開催回全体で1ファイル、race_id/kaisai_date単位ではない点に注意)。
+JRA_BABA_DIR = DATA_DIR / "jra_baba"
 MANIFEST_PATH = DATA_DIR / "_manifest" / "scraped_race_ids.csv"
 
 LOG_DIR = PROJECT_ROOT / "logs"

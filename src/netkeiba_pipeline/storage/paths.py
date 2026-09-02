@@ -7,6 +7,7 @@ from config.settings import (
     COURSE_RANKING_DIR,
     HORSE_PROFILE_DIR,
     JOCKEY_PROFILE_DIR,
+    JRA_BABA_DIR,
     LAP_TIMES_DIR,
     NEWSPAPER_DIR,
     ODDS_HISTORY_FUKU_DIR,
@@ -108,3 +109,10 @@ def odds_history_fuku_csv_path(kaisai_date: str) -> Path:
 def odds_history_umaren_csv_path(kaisai_date: str) -> Path:
     """kaisai_date: 'YYYYMMDD'。馬連オッズ時系列(Tier2)の永続保存先。JRAのみ。"""
     return ODDS_HISTORY_UMAREN_DIR / kaisai_date[:4] / f"{kaisai_date}.csv"
+
+
+def jra_baba_csv_path(year: str, venue_code: str, kai: str) -> Path:
+    """year: 'YYYY'。venue_code: race_id[4:6]相当の2桁場コード(例: "05"=東京、
+    JRA_TRACK_CODES参照)。kai: 開催回(2桁ゼロ埋め文字列に正規化)。race_id/
+    kaisai_date単位ではなく開催回単位(1ファイルが複数週にまたがる)点に注意。"""
+    return JRA_BABA_DIR / year / f"{venue_code}_{int(kai):02d}.csv"
