@@ -30,8 +30,24 @@ netKeibaから生データを取得・蓄積するだけの会話。JRA・NAR両
 - `scripts/fetch_corner_position.py --date/--race-id [--circuit jra|nar]` — 3・4コーナー位置取り
   (AI展開)取得。requestsのみ(Playwright不要)、事前に`fetch_newspaper.py`でCSVが
   生成済みであることが前提
+- `scripts/fetch_pedigree.py --date/--race-id [--circuit jra|nar] [--force]` — 5世代血統表
+  (祖先系図)取得。requestsのみ(Playwright不要、ログイン不要ページ)、出走馬のhorse_id単位で
+  `data/pedigree/{horse_id}.csv`に保存(newspaper CSVへの列追加はしない)。事前に
+  `fetch_newspaper.py`でCSVが生成済みであることが前提
+- `scripts/fetch_horse_profile.py --date/--race-id [--circuit jra|nar] [--force]` — 生産者・
+  馬主取得(2026-09-02〜、予想ファクター充足度マップTier1)。requestsのみ、ログイン不要ページ、
+  出走馬のhorse_id単位で`data/horse_profile/{horse_id}.csv`に保存(不変データのため恒久
+  キャッシュ、`fetch_pedigree.py`と同じ方式)。事前に`fetch_newspaper.py`でCSVが生成済み
+  であることが前提
+- `scripts/fetch_person_profile.py --kind jockey|trainer --date/--race-id [--circuit jra|nar]`
+  — 騎手・調教師の年度別成績/リーディング順位/所属地・所属形態取得(2026-09-02〜、同Tier1)。
+  requestsのみ、ログイン不要ページ、`data/{jockey,trainer}_profile/{id}.csv`に保存。
+  時系列データのため**恒久キャッシュにせず毎回上書き**(fetch_pedigree.py/
+  fetch_horse_profile.pyとは方式が異なる点に注意)。事前に`fetch_newspaper.py`(2026-09-02の
+  bias_parser.py拡張以降)でCSVが生成済みであることが前提(`bias_jockey_id`/
+  `bias_trainer_id`列をIDソースとして使う)
 - 関連スキル: `netkeiba-fetch-date`、`netkeiba-fetch-newspaper`、`netkeiba-fetch-marks`、
-  `netkeiba-fetch-corner-position`
+  `netkeiba-fetch-corner-position`、`netkeiba-fetch-pedigree`
 
 ### データ予想用セッション
 
