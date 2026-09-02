@@ -73,7 +73,15 @@ def collect_venue_kai_targets(race_ids: list[str], logger: logging.Logger) -> li
 
 def fetch_baba_for_target(year: str, venue_code: str, kai: str, force: bool, logger: logging.Logger) -> str:
     """戻り値: "fetched" / "skipped"(既存キャッシュあり) / "not_yet_published"(403、
-    開催回未終了) / 呼び出し元でraiseされるその他の例外。"""
+    開催回未終了) / "unparseable"(PDFは取得できたが0行、後述) / 呼び出し元でraiseされる
+    その他の例外。
+
+    2026-09-02判明の重要な注意: parse_baba_pdfが対応する表レイアウト("開催日次"+
+    "測定月日"の単一の幅広テーブル)は2025年1月以降のPDFのみで、2024年以前は
+    「週末ブロック単位」の別レイアウトのため0行を返す(例外にはならない)。この場合を
+    "fetched"扱いで空CSVを保存すると、"存在すれば恒久スキップ"キャッシュにより誤って
+    永続的に空データがキャッシュされてしまうため、0行の結果は"unparseable"として
+    ファイルを保存せずスキップする(2024年以前向けの別パーサー実装は将来課題)。"""
     path = jra_baba_csv_path(year, venue_code, kai)
     if path.exists() and not force:
         return "skipped"
@@ -88,6 +96,13 @@ def fetch_baba_for_target(year: str, venue_code: str, kai: str, force: bool, log
         raise
 
     df = parse_baba_pdf(pdf_bytes, year=year, venue=venue_name, kai=kai)
+    if df.empty:
+        logger.warning(
+            "year=%s venue=%s(%s) kai=%s: PDF取得できたが0行(未対応レイアウトの可能性、"
+            "2024年以前で既知) - 空CSVはキャッシュせずskip", year, venue_code, venue_name, kai,
+        )
+        return "unparseable"
+
     path.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(path, index=False, encoding="utf-8")
     logger.info("year=%s venue=%s(%s) kai=%s: saved %s (%d days)", year, venue_code, venue_name, kai, path, len(df))
@@ -115,7 +130,7 @@ def main() -> None:
     targets = collect_venue_kai_targets(race_ids, logger)
     logger.info("Collected %d unique (year, venue, kai) target(s) across %d race_ids", len(targets), len(race_ids))
 
-    fetched, skipped, not_yet, failed = [], [], [], []
+    fetched, skipped, not_yet, unparseable, failed = [], [], [], [], []
     for year, venue_code, kai in targets:
         try:
             result = fetch_baba_for_target(year, venue_code, kai, args.force, logger)
@@ -127,15 +142,20 @@ def main() -> None:
             fetched.append((year, venue_code, kai))
         elif result == "skipped":
             skipped.append((year, venue_code, kai))
+        elif result == "unparseable":
+            unparseable.append((year, venue_code, kai))
         else:
             not_yet.append((year, venue_code, kai))
 
     print(
         f"jra_baba: fetched {len(fetched)}, skipped (already cached) {len(skipped)}, "
-        f"not yet published (開催回未終了) {len(not_yet)}, failed {len(failed)} / {len(targets)} targets"
+        f"not yet published (開催回未終了) {len(not_yet)}, unparseable (未対応レイアウト、"
+        f"2024年以前で既知) {len(unparseable)}, failed {len(failed)} / {len(targets)} targets"
     )
     if not_yet:
         print(f"Not yet published ({len(not_yet)}): {not_yet}")
+    if unparseable:
+        print(f"Unparseable ({len(unparseable)}): {unparseable}")
     if failed:
         print(f"Failed ({len(failed)}): {failed}")
 

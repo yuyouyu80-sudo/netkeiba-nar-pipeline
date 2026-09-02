@@ -8,6 +8,15 @@ bias_jockey_id / bias_trainer_id 列(2026-09-02のbias_parser.py拡張で追加�
 (data/race_results、レース後にしか生成されない)ではなく、レース前に生成されるnewspaper
 CSV由来なので、デビュー戦の騎手・初出走の管理馬でも対象に含められる。
 
+--ids-file(2026-09-02追記、予想ファクター充足度マップの勝率検証用に追加): 1行1IDの
+テキストファイルからperson_idを直接指定する第三の対象指定方法。過去のnewspaper CSVは
+Tier0以前に取得されたものが大半でbias_jockey_id列を持たないため、既存576レース分を
+新カラム目当てに再取得するのは非現実的(1レース約1分×576=長時間)。代わりに
+data/race_results(レース後生成、jockey_id/trainer_id列は本スキーマ拡張以前から存在)
+側から集めたユニークIDをこの方法で渡せば、過去分もまとめて年度別成績・所属情報の
+バックフィルができる(その場合、取得できるのは「現在時点(取得日)の」年度別成績・
+リーディング順位であり、過去の各レース時点のものではない近似値である点に注意)。
+
 fetch_pedigree.py/fetch_horse_profile.pyとの決定的な違い: 年度別成績・リーディング順位は
 レースのたびに変化する時系列データなので、**「存在すれば恒久スキップ」キャッシュにはしない**
 (データ収集ロードマップのレビューで指摘済み)。同じperson_idを再度指定した場合は常に
@@ -95,6 +104,7 @@ def main() -> None:
     target = parser.add_mutually_exclusive_group(required=True)
     target.add_argument("--race-id", help="単一race_idの出走馬の騎手・調教師だけを対象にする")
     target.add_argument("--date", help="この開催日(YYYYMMDD)の全race_idの出走馬の騎手・調教師を対象にする")
+    target.add_argument("--ids-file", help="1行1IDのテキストファイルからperson_idを直接指定する(race_results等からのバックフィル用)")
     parser.add_argument("--circuit", choices=["jra", "nar"], default="jra", help="開催区分(既定: jra)")
     args = parser.parse_args()
 
@@ -107,22 +117,28 @@ def main() -> None:
             "and fill them in yourself (never paste real credentials into chat)."
         )
 
-    log_name = args.date if args.date else args.race_id
+    log_name = args.date if args.date else (args.race_id if args.race_id else Path(args.ids_file).stem)
     configure_logging(LOG_DIR / f"fetch_person_profile_{args.kind}_{log_name}.log")
     logger = logging.getLogger("fetch_person_profile")
 
     session = login(email, password)
 
-    if args.race_id:
-        race_ids = [args.race_id]
+    if args.ids_file:
+        with open(args.ids_file, encoding="utf-8") as f:
+            person_ids = [line.strip() for line in f if line.strip()]
+        race_ids = []
+        logger.info("Loaded %d %s_ids from %s", len(person_ids), args.kind, args.ids_file)
     else:
-        list_ids = list_nar_race_ids if args.circuit == "nar" else list_race_ids
-        race_ids = list_ids(session, args.date)
-        logger.info("Found %d race_ids for %s (circuit=%s)", len(race_ids), args.date, args.circuit)
+        if args.race_id:
+            race_ids = [args.race_id]
+        else:
+            list_ids = list_nar_race_ids if args.circuit == "nar" else list_race_ids
+            race_ids = list_ids(session, args.date)
+            logger.info("Found %d race_ids for %s (circuit=%s)", len(race_ids), args.date, args.circuit)
 
-    id_column = _KIND_CONFIG[args.kind]["id_column"]
-    person_ids = collect_person_ids(race_ids, id_column, logger)
-    logger.info("Collected %d unique %s_ids across %d race_ids", len(person_ids), args.kind, len(race_ids))
+        id_column = _KIND_CONFIG[args.kind]["id_column"]
+        person_ids = collect_person_ids(race_ids, id_column, logger)
+        logger.info("Collected %d unique %s_ids across %d race_ids", len(person_ids), args.kind, len(race_ids))
 
     fetched, failed = [], []
     for person_id in person_ids:

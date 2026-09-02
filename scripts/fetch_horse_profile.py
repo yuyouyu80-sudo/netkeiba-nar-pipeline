@@ -12,6 +12,11 @@ data/horse_profile/{horse_id}.csv(horse_id単位、1ファイル1行)へ保存�
 前提: 対象race_idについて data/newspaper/{jra,nar}/{race_id}.csv が
 scripts/fetch_newspaper.py で既に生成済みであること。
 
+--ids-file(2026-09-02追記、予想ファクター充足度マップの勝率検証用に追加): 1行1IDの
+テキストファイルからhorse_idを直接指定する第三の対象指定方法。fetch_person_profile.pyの
+同名オプションと同じ動機で、data/race_results(horse_id列は既存)側から集めたユニークIDを
+まとめてバックフィルする用途。
+
 注意: db.netkeiba.com/horse/{horse_id}/ 自体はログイン不要の公開ページだが、--date指定時に
 使う list_race_ids/list_nar_race_ids(開催日→race_id列挙)はログイン必須のnetkeiba
 APIを使うため、他のfetch_*.pyスクリプトと同様に事前ログインが必要。
@@ -76,6 +81,7 @@ def main() -> None:
     target = parser.add_mutually_exclusive_group(required=True)
     target.add_argument("--race-id", help="単一race_idの出走馬だけを対象にする")
     target.add_argument("--date", help="この開催日(YYYYMMDD)の全race_idの出走馬を対象にする")
+    target.add_argument("--ids-file", help="1行1IDのテキストファイルからhorse_idを直接指定する(race_results等からのバックフィル用)")
     parser.add_argument("--circuit", choices=["jra", "nar"], default="jra", help="開催区分(既定: jra)")
     parser.add_argument(
         "--force", action="store_true", help="既存のdata/horse_profile/{horse_id}.csvがあっても再取得する"
@@ -91,21 +97,27 @@ def main() -> None:
             "and fill them in yourself (never paste real credentials into chat)."
         )
 
-    log_name = args.date if args.date else args.race_id
+    log_name = args.date if args.date else (args.race_id if args.race_id else Path(args.ids_file).stem)
     configure_logging(LOG_DIR / f"fetch_horse_profile_{log_name}.log")
     logger = logging.getLogger("fetch_horse_profile")
 
     session = login(email, password)
 
-    if args.race_id:
-        race_ids = [args.race_id]
+    if args.ids_file:
+        with open(args.ids_file, encoding="utf-8") as f:
+            horse_ids = [line.strip() for line in f if line.strip()]
+        race_ids = []
+        logger.info("Loaded %d horse_ids from %s", len(horse_ids), args.ids_file)
     else:
-        list_ids = list_nar_race_ids if args.circuit == "nar" else list_race_ids
-        race_ids = list_ids(session, args.date)
-        logger.info("Found %d race_ids for %s (circuit=%s)", len(race_ids), args.date, args.circuit)
+        if args.race_id:
+            race_ids = [args.race_id]
+        else:
+            list_ids = list_nar_race_ids if args.circuit == "nar" else list_race_ids
+            race_ids = list_ids(session, args.date)
+            logger.info("Found %d race_ids for %s (circuit=%s)", len(race_ids), args.date, args.circuit)
 
-    horse_ids = collect_horse_ids(race_ids, logger)
-    logger.info("Collected %d unique horse_ids across %d race_ids", len(horse_ids), len(race_ids))
+        horse_ids = collect_horse_ids(race_ids, logger)
+        logger.info("Collected %d unique horse_ids across %d race_ids", len(horse_ids), len(race_ids))
 
     fetched, skipped, failed = [], [], []
     for horse_id in horse_ids:
