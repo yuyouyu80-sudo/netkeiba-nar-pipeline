@@ -1,0 +1,49 @@
+{
+  "generated_at": "2026-09-06T11:09:20.001501+00:00",
+  "source": "data\\jra_pipeline\\jra_search500_2026_08_28_v4signals_result.json",
+  "n_races0": 246,
+  "n_blocks0": 42,
+  "gate_ratio": 2.0,
+  "per_box": {
+    "4": {
+      "observed_true_edge_pt": -0.369457092059114,
+      "observed_true_edge_sd": 7.910761614016009,
+      "current_n_blocks": 42,
+      "current_mde_pt_at_gate_ratio_2": 15.82,
+      "required_n_blocks_for_target_effect": {
+        "2.0pt": 2629,
+        "3.0pt": 1169,
+        "5.0pt": 421,
+        "10.0pt": 106
+      },
+      "phase3_recommendation": "凍結(標本不足)"
+    },
+    "5": {
+      "observed_true_edge_pt": 4.430991278602271,
+      "observed_true_edge_sd": 8.432246769251694,
+      "current_n_blocks": 42,
+      "current_mde_pt_at_gate_ratio_2": 16.86,
+      "required_n_blocks_for_target_effect": {
+        "2.0pt": 2987,
+        "3.0pt": 1328,
+        "5.0pt": 478,
+        "10.0pt": 120
+      },
+      "phase3_recommendation": "凍結(標本不足)"
+    },
+    "3": {
+      "observed_true_edge_pt": -1.8824746896730415,
+      "observed_true_edge_sd": 8.520153686857364,
+      "current_n_blocks": 42,
+      "current_mde_pt_at_gate_ratio_2": 17.04,
+      "required_n_blocks_for_target_effect": {
+        "2.0pt": 3049,
+        "3.0pt": 1356,
+        "5.0pt": 488,
+        "10.0pt": 122
+      },
+      "phase3_recommendation": "凍結(標本不足)"
+    }
+  },
+  "notes": "sdはブロック数にほぼ反比例して縮む(sd_at_N ≈ sd_at_n0 * sqrt(n0/N))という近似に基づく概算。目標効果量3ptを『競馬の回収率改善として現実的な下限』の目安としてphase3_recommendationの判定基準に使っている(恣意的な閾値であり、実際の意思決定はこの数値だけでなくドメイン知識も併用すること)。"
+}

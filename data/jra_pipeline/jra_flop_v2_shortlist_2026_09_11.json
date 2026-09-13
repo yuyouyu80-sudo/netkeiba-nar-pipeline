@@ -1,0 +1,29 @@
+{
+  "shortlist": [
+    "flop2_career_place_rate",
+    "flop2_turn_apt_place_rate",
+    "flop2_course_size_apt_place_rate",
+    "flop2_turf_type_apt_place_rate",
+    "flop2_grade_best",
+    "flop2_first_time_flag",
+    "flop2_trainer_change",
+    "flop2_stable_multi_entry",
+    "flop2_class_form_place_rate",
+    "flop2_class_challenge_flag",
+    "flop2_layoff_flag",
+    "flop2_second_after_layoff_flag",
+    "flop2_main_jockey_return_flag",
+    "flop2_jockey_lead_rank",
+    "flop2_trainer_lead_rank",
+    "flop2_owner_prior_win_rate",
+    "flop2_jockey_career_wins_band",
+    "flop2_transport_flag",
+    "flop2_breeder_group",
+    "flop2_horse_age",
+    "flop2_horse_weight_diff_band",
+    "flop2_interval_band",
+    "flop2_training_track_condition",
+    "flop2_ca_jockey_win_rate",
+    "flop2_ca_trainer_win_rate"
+  ]
+}

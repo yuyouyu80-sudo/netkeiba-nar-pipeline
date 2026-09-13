@@ -1,0 +1,22 @@
+{"logged_at": "2026-09-06T12:07:45.776290+00:00", "script_name": "jra_axis_ensemble_search_2026_08_21.py", "n_candidates": 500, "description": "1頭軸流し・アンサンブル探索", "outcome": "不採用(現行重み維持)"}
+{"logged_at": "2026-09-06T12:07:45.778331+00:00", "script_name": "jra_axis_search500_2026_08_21_v3signals.py", "n_candidates": 500, "description": "1頭軸流し・v3シグナル500パターン探索", "outcome": "不採用(現行重み維持)"}
+{"logged_at": "2026-09-06T12:07:45.780322+00:00", "script_name": "jra_axis_search_2026_08_21.py", "n_candidates": 500, "description": "1頭軸流し重み探索", "outcome": "不採用(現行重み維持)"}
+{"logged_at": "2026-09-06T12:07:45.808917+00:00", "script_name": "jra_axis_top3_search_2026_08_21.py", "n_candidates": 500, "description": "1頭軸流しtop3構成探索", "outcome": "不採用(現行重み維持)"}
+{"logged_at": "2026-09-06T12:07:45.809847+00:00", "script_name": "jra_ensemble_search_2026_08_21.py", "n_candidates": 500, "description": "通常戦アンサンブル探索", "outcome": "不採用(現行重み維持)"}
+{"logged_at": "2026-09-06T12:07:45.811839+00:00", "script_name": "jra_market_model_search_2026_08_22.py", "n_candidates": 1, "description": "市場アンカー型EVモデル検証(gate1-5)", "outcome": "不採用(現行重み維持)"}
+{"logged_at": "2026-09-06T12:07:45.813293+00:00", "script_name": "jra_new_bettypes_search_2026_08_28.py", "n_candidates": 1, "description": "新規券種(馬連等)でのheld-out検証", "outcome": "不採用(現行重み維持)"}
+{"logged_at": "2026-09-06T12:07:45.813884+00:00", "script_name": "jra_search500_2026_08_21_v3signals.py", "n_candidates": 500, "description": "通常戦v3シグナル500パターン探索", "outcome": "不採用(現行重み維持)"}
+{"logged_at": "2026-09-06T12:07:45.813884+00:00", "script_name": "jra_search500_2026_08_28_groupkfold_recheck.py", "n_candidates": 500, "description": "group-kfold再検証500パターン", "outcome": "不採用(現行重み維持)"}
+{"logged_at": "2026-09-06T12:07:45.815450+00:00", "script_name": "jra_search500_2026_08_28_v4signals.py", "n_candidates": 500, "description": "通常戦v4シグナル500パターン探索(box5/4/3)", "outcome": "不採用(現行重み維持)"}
+{"logged_at": "2026-09-06T12:07:45.816474+00:00", "script_name": "jra_search_2026_08_11.py", "n_candidates": 1000, "description": "通常戦重み再探索(19シグナル、1000パターン)", "outcome": "不採用(現行重み維持)"}
+{"logged_at": "2026-09-06T12:07:45.817975+00:00", "script_name": "jra_search_2026_08_12.py", "n_candidates": 1000, "description": "通常戦重み再探索(25シグナル、1000パターン)", "outcome": "不採用(現行重み維持)"}
+{"logged_at": "2026-09-06T12:07:45.819006+00:00", "script_name": "jra_search_box2345_umaren_cap_2026_08_23.py", "n_candidates": 1000, "description": "馬連box2-5キャップ探索", "outcome": "不採用(現行重み維持)"}
+{"logged_at": "2026-09-06T12:07:45.820008+00:00", "script_name": "jra_search_box234_umaren_cap_2026_08_23.py", "n_candidates": 1000, "description": "馬連box2-4キャップ探索", "outcome": "不採用(現行重み維持)"}
+{"logged_at": "2026-09-06T12:07:45.822010+00:00", "script_name": "jra_search_box2_umaren_2026_08_23.py", "n_candidates": 1000, "description": "馬連box2探索", "outcome": "不採用(現行重み維持)"}
+{"logged_at": "2026-09-06T12:07:45.822010+00:00", "script_name": "jra_search_combined_2026_08_28_heldout_check.py", "n_candidates": 1, "description": "combinedモデルheld-out確認", "outcome": "不採用(現行重み維持)"}
+{"logged_at": "2026-09-06T12:07:45.822010+00:00", "script_name": "jra_search_combined_2026_08_28.py", "n_candidates": 1, "description": "ロジスティック回帰モデル(市場+シグナル)グリッドサーチ", "outcome": "不採用(現行重み維持)"}
+{"logged_at": "2026-09-06T12:07:45.822010+00:00", "script_name": "jra_search_pedigree_2026_08_30.py", "n_candidates": 1000, "description": "血統適性シグナル1000パターン探索", "outcome": "不採用(現行重み維持)"}
+{"logged_at": "2026-09-06T12:07:45.822010+00:00", "script_name": "jra_signal_univariate_search_2026_08_22.py", "n_candidates": 1, "description": "単変量シグナルグリッドサーチ", "outcome": "不採用(現行重み維持)"}
+{"logged_at": "2026-09-06T12:07:45.822010+00:00", "script_name": "jra_stage2_rigor_check_2026_08_28.py", "n_candidates": 1, "description": "多重比較補正(Phase J1-J3横断)", "outcome": "不採用(現行重み維持)"}
+{"logged_at": "2026-09-06T12:07:58.455863+00:00", "script_name": "jra_provenance_audit.py", "n_candidates": 1, "description": "point-in-time provenance監査(改善計画Phase0-B)", "outcome": "監査完了・リーク疑いレース0件"}
+{"logged_at": "2026-09-06T12:07:58.615230+00:00", "script_name": "jra_power_precheck.py", "n_candidates": 1, "description": "Phase3検出力事前登録(改善計画Phase0-C)", "outcome": "全box凍結(標本不足)"}

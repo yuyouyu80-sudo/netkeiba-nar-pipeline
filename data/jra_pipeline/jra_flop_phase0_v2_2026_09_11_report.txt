@@ -1,0 +1,92 @@
+レース数: 319  日付: 20260711〜20260906(18日)  頭数: 4126  ブロック数: 54
+
+cf1/cf2/cf3計算用の参照データ(race_results全件・騎手/調教師/馬主プロフィール)をロード中...
+
+========================================================================
+Phase0: FLOP_SIGNALS_V2(30候補)の充足率診断
+========================================================================
+  flop2_career_place_rate: 充足率99.1%
+  flop2_distance_band_place_rate: 充足率96.2%
+  flop2_turn_apt_place_rate: 充足率95.1%
+  flop2_course_size_apt_place_rate: 充足率91.8%
+  flop2_slope_apt_place_rate: 充足率27.5%
+  flop2_turf_type_apt_place_rate: 充足率26.9%
+  flop2_grade_best: 充足率100.0%
+  flop2_first_time_flag: 充足率100.0%
+  flop2_jockey_switch: 充足率82.2%
+  flop2_trainer_change: 充足率99.2%
+  flop2_stable_multi_entry: 充足率100.0%
+  flop2_class_form_place_rate: 充足率84.5%
+  flop2_class_challenge_flag: 充足率99.2%
+  flop2_layoff_flag: 充足率82.2%
+  flop2_second_after_layoff_flag: 充足率68.8%
+  flop2_main_jockey_return_flag: 充足率100.0%
+  flop2_jockey_lead_rank: 充足率100.0%
+  flop2_trainer_lead_rank: 充足率100.0%
+  flop2_owner_prior_win_rate: 充足率90.3%
+  flop2_jockey_career_wins_band: 充足率100.0%
+  flop2_transport_flag: 充足率99.2%
+  flop2_breeder_group: 充足率46.9%
+  flop2_horse_age: 充足率97.0%
+  flop2_horse_weight_diff_band: 充足率73.7%
+  flop2_interval_band: 充足率82.2%
+  flop2_corner4_expected_rank: 充足率98.4%
+  flop2_past1_finish_band: 充足率81.8%
+  flop2_training_track_condition: 充足率82.8%
+  flop2_ca_jockey_win_rate: 充足率99.6%
+  flop2_ca_trainer_win_rate: 充足率98.5%
+
+死にシグナル: []
+
+========================================================================
+Phase0: 候補間Spearman相関(|rho|>=0.7のペアは充足率が低い方をドロップ)
+========================================================================
+  flop2_career_place_rate vs flop2_distance_band_place_rate: rho=+0.869 -> flop2_distance_band_place_rateをドロップ(充足率が低い方)
+  flop2_course_size_apt_place_rate vs flop2_slope_apt_place_rate: rho=+0.761 -> flop2_slope_apt_place_rateをドロップ(充足率が低い方)
+
+候補間相関ドロップ後: 28候補 (死にシグナル0件 + 相関ドロップ2件を除外)
+
+========================================================================
+Phase0: 本番シグナル(ALL_SIGNALS_V4+CANDIDATE_SIGNALS_V5、45信号)との相関スクリーニング(|rho|>=0.7でドロップ)
+========================================================================
+  flop2_career_place_rate: 最大相関 ketto_comment=-0.512, mark_composite_score=-0.501, mark_other_score=-0.491
+  flop2_turn_apt_place_rate: 最大相関 mark_other_score=-0.408, mark_composite_score=-0.404, ketto_comment=-0.397
+  flop2_course_size_apt_place_rate: 最大相関 mark_other_score=-0.408, mark_composite_score=-0.406, mark_honshi_score=-0.394
+  flop2_turf_type_apt_place_rate: 最大相関 form=-0.427, mark_composite_score=-0.390, course=-0.387
+  flop2_grade_best: 最大相関 class_drop=-0.243, agari=-0.150, form=+0.109
+  flop2_first_time_flag: 最大相関 speed=-0.123, corner4_speedup=-0.102, mark_honshi_score=-0.095
+  flop2_jockey_switch: 最大相関 jockey_change=+0.895, form=-0.147, mark_composite_score=-0.119
+  flop2_trainer_change: 最大相関 speed=-0.069, agari=-0.054, mark_composite_score=-0.052
+  flop2_stable_multi_entry: 最大相関 hold_just=-0.053, interval=-0.044, ped_sire_course=-0.040
+  flop2_class_form_place_rate: 最大相関 mark_composite_score=-0.405, mark_honshi_score=-0.382, mark_other_score=-0.363
+  flop2_class_challenge_flag: 最大相関 form=+0.384, margin=+0.288, timediff=+0.234
+  flop2_layoff_flag: 最大相関 corner4_speedup=-0.119, speed=-0.101, agari=-0.099
+  flop2_second_after_layoff_flag: 最大相関 agari=-0.068, corner4_speedup=-0.055, speed=-0.048
+  flop2_main_jockey_return_flag: 最大相関 jockey_change=+0.481, mark_other_score=-0.074, mark_composite_score=-0.070
+  flop2_jockey_lead_rank: 最大相関 prevjockey=-0.452, odds_jockey=-0.418, mark_other_score=-0.397
+  flop2_trainer_lead_rank: 最大相関 corner4_position=-0.280, corner4_gap=-0.270, jt=-0.268
+  flop2_owner_prior_win_rate: 最大相関 ped_sire_going=-0.229, corner4_position=-0.222, ped_sire_surface=-0.222
+  flop2_jockey_career_wins_band: 最大相関 prevjockey=-0.248, odds_jockey=-0.238, jt=-0.233
+  flop2_transport_flag: 最大相関 train=-0.070, agari=+0.063, kinryo=-0.060
+  flop2_breeder_group: 最大相関 ped_sire_going=-0.135, ped_sire_surface=-0.119, ped_sire_distance=-0.095
+  flop2_horse_age: 最大相関 ketto_comment=-0.503, ketto_training=-0.485, kinryo=-0.413
+  flop2_horse_weight_diff_band: 最大相関 weight_trend=-0.082, agari=-0.045, ped_sire_course=+0.038
+  flop2_interval_band: 最大相関 jockey_change=+0.126, class_drop=+0.104, ped_sire_surface=+0.070
+  flop2_corner4_expected_rank: 最大相関 corner4_position=-1.000, corner3_position=-0.938, corner4_gap=-0.927
+  flop2_past1_finish_band: 最大相関 form=-0.768, margin=-0.553, timediff=-0.473
+  flop2_training_track_condition: 最大相関 corner_transition_rank=+0.058, agari=+0.048, class_drop=-0.039
+  flop2_ca_jockey_win_rate: 最大相関 jt=-0.674, mark_other_score=-0.284, mark_composite_score=-0.280
+  flop2_ca_trainer_win_rate: 最大相関 jt=-0.578, concerned=-0.242, course=-0.239
+
+本番シグナルとの高相関でドロップ: ['flop2_jockey_switch', 'flop2_corner4_expected_rank', 'flop2_past1_finish_band']
+
+V2ショートリスト確定: 25候補
+  ['flop2_career_place_rate', 'flop2_turn_apt_place_rate', 'flop2_course_size_apt_place_rate', 'flop2_turf_type_apt_place_rate', 'flop2_grade_best', 'flop2_first_time_flag', 'flop2_trainer_change', 'flop2_stable_multi_entry', 'flop2_class_form_place_rate', 'flop2_class_challenge_flag', 'flop2_layoff_flag', 'flop2_second_after_layoff_flag', 'flop2_main_jockey_return_flag', 'flop2_jockey_lead_rank', 'flop2_trainer_lead_rank', 'flop2_owner_prior_win_rate', 'flop2_jockey_career_wins_band', 'flop2_transport_flag', 'flop2_breeder_group', 'flop2_horse_age', 'flop2_horse_weight_diff_band', 'flop2_interval_band', 'flop2_training_track_condition', 'flop2_ca_jockey_win_rate', 'flop2_ca_trainer_win_rate']
+
+========================================================================
+Phase0: V2ショートリスト等重み合成の粗いリフト診断(pred_rank1-5位の母集団内)
+========================================================================
+  母集団: pred_rank1-5位  flopフラグ(composite上位40%)有無別の複勝圏外率
+  flopフラグ有り: 0.7964071856287425 (n=334)
+  flopフラグ無し: 0.5963521015067407 (n=1261)
+  リフト: 20.00550841220018pt(統計的採否には使わない、粗い事前スクリーニング専用)

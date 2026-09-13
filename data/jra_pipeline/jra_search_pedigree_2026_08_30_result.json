@@ -1,0 +1,359 @@
+{
+  "n_races": 246,
+  "dates": [
+    "20260711",
+    "20260712",
+    "20260718",
+    "20260719",
+    "20260725",
+    "20260726",
+    "20260801",
+    "20260802",
+    "20260808",
+    "20260809",
+    "20260815",
+    "20260816",
+    "20260822",
+    "20260823"
+  ],
+  "pool": [
+    "speed",
+    "form",
+    "style",
+    "jt",
+    "waku",
+    "apt",
+    "train",
+    "distance",
+    "sire",
+    "bms",
+    "course",
+    "concerned",
+    "interval",
+    "kinryo",
+    "nige",
+    "margin",
+    "timediff",
+    "agari",
+    "holdtime",
+    "ketto_training",
+    "ketto_comment",
+    "odds_jockey",
+    "surf_jt",
+    "jockey_owner",
+    "prevjockey",
+    "hold_just",
+    "hold_wide",
+    "jockey_change",
+    "class_drop",
+    "weight_trend",
+    "ped_sire_distance",
+    "ped_sire_surface",
+    "ped_sire_going",
+    "ped_sire_course"
+  ],
+  "n_patterns": 1000,
+  "seed": 2044,
+  "priors_fresh": {
+    "style_win": 9.85759493670886,
+    "style_place3": 29.070886075949367,
+    "jockey_win": 7.491455696202531,
+    "trainer_win": 8.003481012658227,
+    "waku_win": 6.926582278481012,
+    "apt_win": 7.527777777777778,
+    "distance_win": 15.569684278350516,
+    "distance_place3": 34.82770618556701,
+    "distance_return": 147.85025773195878,
+    "sire_win": 8.038291139240506,
+    "sire_place3": 23.440822784810127,
+    "sire_return": 78.99303797468355,
+    "bms_win": 8.435759493670886,
+    "bms_place3": 22.98860759493671,
+    "bms_return": 77.22943037974683,
+    "course_win": 12.064936708860758,
+    "course_place3": 26.275949367088607,
+    "course_return": 112.61522151898734,
+    "concerned_win": 10.00506329113924,
+    "concerned_place3": 22.3003164556962,
+    "concerned_return": 91.11360759493671,
+    "interval_win": 7.8144620253164545,
+    "interval_place3": 18.34632911392405,
+    "interval_return": 75.75572784810127,
+    "kinryo_win": 9.309272151898734,
+    "kinryo_place3": 24.927056962025315,
+    "kinryo_return": 74.01974683544303,
+    "ketto_training_win": 14.969553450608931,
+    "ketto_training_place3": 35.20669824086603,
+    "ketto_training_return": 134.00947225981056,
+    "ketto_comment_win": 16.550742574257427,
+    "ketto_comment_place3": 38.067450495049506,
+    "ketto_comment_return": 148.79888613861385,
+    "odds_jockey_win": 7.686122448979591,
+    "odds_jockey_place3": 24.382448979591835,
+    "odds_jockey_return": 76.92979591836735,
+    "surf_jt_win": 8.887540164227062,
+    "surf_jt_place3": 24.49767940021421,
+    "surf_jt_return": 94.7368796858265,
+    "jockey_owner_win": 11.307598039215685,
+    "jockey_owner_place3": 28.30187908496732,
+    "jockey_owner_return": 130.38888888888889,
+    "prevjockey_win": 7.703730017761989,
+    "prevjockey_place3": 22.665719360568385,
+    "prevjockey_return": 71.43161634103019,
+    "ped_sire_distance_win": 0.0799064845650554,
+    "ped_sire_surface_win": 0.07916658039838148,
+    "ped_sire_going_win": 0.07773378496660834,
+    "ped_sire_course_win": 0.08404566209413687
+  },
+  "results_by_box": {
+    "5": {
+      "pattern_id_current": 83,
+      "n_signals": 34,
+      "market": 78.22493224932249,
+      "current_model": {
+        "model": 88.90785907859079,
+        "excess": 10.682926829268297,
+        "percentile_among_1000": 98.8
+      },
+      "equal_weight": {
+        "model": 76.06775067750678,
+        "excess": -2.1571815718157126,
+        "percentile_among_1000": 47.3
+      },
+      "best_full_population": {
+        "pattern_index": 523,
+        "model": 93.46883468834687,
+        "excess": 15.243902439024382,
+        "weights": {
+          "form": 0.007113138737593761,
+          "style": 0.010220168909934187,
+          "jt": 0.0218084508697319,
+          "waku": 0.005384328676000645,
+          "apt": 0.11709911334423057,
+          "train": 0.018116403696434445,
+          "distance": 0.04093752449994024,
+          "sire": 0.0926802331270507,
+          "bms": 0.030306161948016025,
+          "course": 0.018789402442973415,
+          "concerned": 0.028667165493025632,
+          "interval": 0.0230151498481092,
+          "timediff": 0.010447173781839852,
+          "agari": 0.022551637109616288,
+          "holdtime": 0.017210511438065706,
+          "ketto_training": 0.020747703819847595,
+          "ketto_comment": 0.031934795675377395,
+          "odds_jockey": 0.007510142139036505,
+          "surf_jt": 0.0955568493741016,
+          "jockey_owner": 0.017373311493450658,
+          "prevjockey": 0.011759551354891935,
+          "hold_just": 0.08719817263562414,
+          "hold_wide": 0.053900897540538915,
+          "jockey_change": 0.029174947968228653,
+          "ped_sire_distance": 0.07477470837232539,
+          "ped_sire_surface": 0.020329203926555395,
+          "ped_sire_going": 0.019892466456496418,
+          "ped_sire_course": 0.047249992803178244
+        },
+        "ped_signal_weight_share": 0.16224637155855545,
+        "note": "全246レースで選んだ重みなのでin-sample最適化の楽観を含む"
+      },
+      "nested_lobo_oof": {
+        "model": 64.94850948509485,
+        "excess": -13.276422764227647
+      },
+      "selection_optimism": {
+        "selected_side": 103.99697005878633,
+        "unseen_side": 74.96871181622899,
+        "unseen_all_mean": 76.37414131688024,
+        "optimism_pt": 29.028258242557342,
+        "true_edge_pt": -1.40542950065126,
+        "true_edge_sd": 6.090521503400467,
+        "win_rate": 0.45
+      },
+      "gates_report_only": {
+        "nested_beats_current": false,
+        "nested_positive": false,
+        "true_edge_over_sd": -0.23075684075108824,
+        "true_edge_gate_pass": false
+      },
+      "tansho_check_in_sample": {
+        "current_return_rate_pct": 89.6,
+        "current_hit_rate_pct": 69.5,
+        "best_return_rate_pct": 85.7,
+        "best_hit_rate_pct": 71.5
+      },
+      "bootstrap_full_population": {
+        "mean": 93.76537096711398,
+        "lo": 75.61175261044177,
+        "hi": 114.91111388888888,
+        "n_blocks": 42
+      }
+    },
+    "4": {
+      "pattern_id_current": 19,
+      "n_signals": 34,
+      "market": 76.8211382113821,
+      "current_model": {
+        "model": 108.20325203252033,
+        "excess": 31.38211382113822,
+        "percentile_among_1000": 100.0
+      },
+      "equal_weight": {
+        "model": 75.82926829268293,
+        "excess": -0.9918699186991802,
+        "percentile_among_1000": 46.1
+      },
+      "best_full_population": {
+        "pattern_index": 550,
+        "model": 93.70325203252033,
+        "excess": 16.88211382113822,
+        "weights": {
+          "speed": 0.011720315371451361,
+          "form": 0.01654135176388959,
+          "style": 0.012645142477076052,
+          "jt": 0.018394888007123134,
+          "waku": 0.015556884846968511,
+          "apt": 0.024819974385052207,
+          "train": 0.042703502976807084,
+          "bms": 0.011252328838913788,
+          "course": 0.12300126161399344,
+          "concerned": 0.11633554230657812,
+          "interval": 0.006527145948115503,
+          "nige": 0.03011840027940403,
+          "margin": 0.02337757091973424,
+          "timediff": 0.06170891469952146,
+          "agari": 0.03171362529119397,
+          "holdtime": 0.06684401282298347,
+          "ketto_training": 0.014811731058167943,
+          "ketto_comment": 0.01412793060237638,
+          "odds_jockey": 0.013442220911006487,
+          "surf_jt": 0.02547503731413026,
+          "jockey_owner": 0.018212250432252143,
+          "prevjockey": 0.00951952077950638,
+          "hold_just": 0.1102027141985312,
+          "hold_wide": 0.0475127278670482,
+          "jockey_change": 0.005243100849649646,
+          "class_drop": 0.0073623939340670495,
+          "weight_trend": 0.021390112878032545,
+          "ped_sire_distance": 0.03942750217023831,
+          "ped_sire_surface": 0.008741772062112255,
+          "ped_sire_going": 0.03880700040682973
+        },
+        "ped_signal_weight_share": 0.09156500006268298,
+        "note": "全246レースで選んだ重みなのでin-sample最適化の楽観を含む"
+      },
+      "nested_lobo_oof": {
+        "model": 64.71951219512195,
+        "excess": -12.101626016260155
+      },
+      "selection_optimism": {
+        "selected_side": 105.90402662163486,
+        "unseen_side": 73.40266645642933,
+        "unseen_all_mean": 75.89780873003794,
+        "optimism_pt": 32.501360165205526,
+        "true_edge_pt": -2.495142273608599,
+        "true_edge_sd": 6.019180919533411,
+        "win_rate": 0.34
+      },
+      "gates_report_only": {
+        "nested_beats_current": false,
+        "nested_positive": false,
+        "true_edge_over_sd": -0.41453186188695174,
+        "true_edge_gate_pass": false
+      },
+      "tansho_check_in_sample": {
+        "current_return_rate_pct": 100.1,
+        "current_hit_rate_pct": 60.2,
+        "best_return_rate_pct": 92.9,
+        "best_hit_rate_pct": 62.6
+      },
+      "bootstrap_full_population": {
+        "mean": 93.99947638534601,
+        "lo": 76.49129717582557,
+        "hi": 112.74076305220882,
+        "n_blocks": 42
+      }
+    },
+    "3": {
+      "pattern_id_current": 95,
+      "n_signals": 34,
+      "market": 79.89837398373983,
+      "current_model": {
+        "model": 85.46747967479675,
+        "excess": 5.569105691056919,
+        "percentile_among_1000": 94.6
+      },
+      "equal_weight": {
+        "model": 76.1788617886179,
+        "excess": -3.7195121951219363,
+        "percentile_among_1000": 55.50000000000001
+      },
+      "best_full_population": {
+        "pattern_index": 399,
+        "model": 98.51626016260163,
+        "excess": 18.617886178861795,
+        "weights": {
+          "speed": 0.042585798482818,
+          "form": 0.011765049568772414,
+          "style": 0.20125292661939786,
+          "jt": 0.025913914436299527,
+          "waku": 0.07344050533510457,
+          "apt": 0.008344422126074903,
+          "train": 0.07052757334661652,
+          "distance": 0.021201355354079448,
+          "bms": 0.022667035147326896,
+          "course": 0.03199742373469148,
+          "concerned": 0.01958521386346753,
+          "interval": 0.012687551624055016,
+          "kinryo": 0.016144598662249807,
+          "nige": 0.02854313511034357,
+          "margin": 0.022636696365765156,
+          "timediff": 0.053401639383880525,
+          "holdtime": 0.029622444012477128,
+          "ketto_training": 0.009872797213672107,
+          "odds_jockey": 0.02567924703155003,
+          "surf_jt": 0.014207932267017293,
+          "jockey_owner": 0.05076995756759297,
+          "prevjockey": 0.03035152492649313,
+          "hold_just": 0.036622156949454844,
+          "jockey_change": 0.08010240919222811,
+          "weight_trend": 0.012801424223377527,
+          "ped_sire_distance": 0.02606552306638912
+        },
+        "ped_signal_weight_share": 0.03410194846637104,
+        "note": "全246レースで選んだ重みなのでin-sample最適化の楽観を含む"
+      },
+      "nested_lobo_oof": {
+        "model": 69.19376693766938,
+        "excess": -10.70460704607045
+      },
+      "selection_optimism": {
+        "selected_side": 111.6036662580596,
+        "unseen_side": 75.01010368288524,
+        "unseen_all_mean": 75.014147922977,
+        "optimism_pt": 36.59356257517436,
+        "true_edge_pt": -0.004044240091764201,
+        "true_edge_sd": 7.157509507723147,
+        "win_rate": 0.545
+      },
+      "gates_report_only": {
+        "nested_beats_current": false,
+        "nested_positive": false,
+        "true_edge_over_sd": -0.0005650345399332487,
+        "true_edge_gate_pass": false
+      },
+      "tansho_check_in_sample": {
+        "current_return_rate_pct": 78.9,
+        "current_hit_rate_pct": 47.2,
+        "best_return_rate_pct": 99.6,
+        "best_hit_rate_pct": 47.6
+      },
+      "bootstrap_full_population": {
+        "mean": 98.50931861735577,
+        "lo": 74.7117108433735,
+        "hi": 126.40262865239579,
+        "n_blocks": 42
+      }
+    }
+  }
+}

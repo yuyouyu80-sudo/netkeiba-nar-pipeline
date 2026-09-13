@@ -1,0 +1,42 @@
+レース数: 319  日付: ['20260711', '20260712', '20260718', '20260719', '20260725', '20260726', '20260801', '20260802', '20260808', '20260809', '20260815', '20260816', '20260822', '20260823', '20260829', '20260830', '20260905', '20260906']  頭数: 4126
+探索対象プール(45信号): ['speed', 'form', 'style', 'jt', 'waku', 'apt', 'train', 'distance', 'sire', 'bms', 'course', 'concerned', 'interval', 'kinryo', 'nige', 'margin', 'timediff', 'agari', 'holdtime', 'ketto_training', 'ketto_comment', 'odds_jockey', 'surf_jt', 'jockey_owner', 'prevjockey', 'hold_just', 'hold_wide', 'jockey_change', 'class_drop', 'weight_trend', 'ped_sire_distance', 'ped_sire_surface', 'ped_sire_going', 'ped_sire_course', 'mark_honshi_score', 'mark_cp_score', 'mark_other_score', 'mark_composite_score', 'corner4_position', 'corner4_gap', 'corner4_speedup', 'corner3_position', 'corner3_gap', 'corner_transition_rank', 'corner_transition_gap']
+priors再計算: 49キー(全319レースから)
+
+上位3人気BOX(市場)  複勝+ワイド=81.50%
+現行モデル(pattern95, 2026-08-12選定、全319レースで直接評価)  複勝+ワイド=89.39%  市場差=+7.89pt
+等重み(45信号、参考)  複勝+ワイド=70.96%  市場差=-10.54pt
+
+[早期診断] 2000パターンのin-sampleスコア分布における現行モデルの位置: 99.7パーセンタイル / 等重み: 17.3パーセンタイル
+
+[全319レースで最良の1パターン] pattern#1559  複勝+ワイド=92.57%(市場差=+11.07pt)  ※学習データそのもので選んでいるため楽観的(in-sample)な数字である点に注意
+  重み内訳(0.5%以上): {"speed": 0.01255558453663676, "form": 0.02319766644204504, "style": 0.01827810763302801, "waku": 0.010405176519544437, "apt": 0.032369275671424065, "train": 0.009919863640934742, "distance": 0.014631083408340342, "course": 0.015588320157988915, "interval": 0.011555826808227865, "nige": 0.040017846048366404, "margin": 0.010539133436583258, "agari": 0.020204168980175394, "holdtime": 0.00804659110934237, "ketto_training": 0.01378311165561358, "ketto_comment": 0.030482132197187612, "surf_jt": 0.06247490656494506, "jockey_owner": 0.019962870724301873, "prevjockey": 0.008679974213041418, "hold_just": 0.024451183531093584, "hold_wide": 0.015977927448102554, "jockey_change": 0.09740653115500324, "weight_trend": 0.010801512955304425, "ped_sire_distance": 0.010196495409420244, "ped_sire_surface": 0.08004838134511676, "ped_sire_going": 0.020856859193520053, "mark_cp_score": 0.04364709375253735, "mark_composite_score": 0.02810234556880591, "corner4_position": 0.01983978409522389, "corner4_gap": 0.11351424931563187, "corner4_speedup": 0.03505849832822331, "corner3_position": 0.015539510424372556, "corner3_gap": 0.032119998164480926, "corner_transition_rank": 0.043961819117433056, "corner_transition_gap": 0.01723990430459827}
+
+[Nested LOBO OOF] 2000パターン探索という手続き全体をブロックで交差検証: 複勝+ワイド=75.54%  市場差=-5.97pt  (foldの選択パターン数: 3/54、1に近いほど『全foldで同じパターンしか選ばれない=退化』の疑い)  ※これが実際に汎化する性能の誠実な推定値
+
+[選択バイアス診断] ブロック半分割×200反復:
+  選抜側(見た側)の平均      : 101.4%
+  その候補の未使用側での成績 : 77.6%
+  未使用側の2000パターン平均       : 74.8%
+  楽観バイアス               : +23.8pt
+  選ぶことの真の価値         : +2.81pt (sd 5.55)
+  未使用側で2000パターン平均を上回る確率 : 71%
+
+[単勝チェック(参考、in-sample)] 現行=86.2%(的中47.3%) → 最良候補=91.3%(的中52.7%)
+
+[held-out(36ブロック、現行モデルのfit日付を除く)での参考比較]
+  最良候補 vs 市場   : 差分95%CI=[-19.1, +43.0]pt  n_blocks=36
+  最良候補 vs 現行モデル: 差分95%CI=[-19.1, +42.4]pt  n_blocks=36
+
+採否ゲート(参考、検出力不足のため統計的な採否判断には使わない):
+  Nested LOBO市場差が現行モデルを上回るか: NO (-5.97 vs +7.89)
+  Nested LOBO市場差がプラスか            : NO (-5.97pt)
+
+[全319レース実測・最良候補重み] 複勝+ワイド=92.57%  95%CI[72.6, 117.8]
+
+[信号グループ別寄与(最良パターン)]
+  LEGACY: 0.128 (12.8%)
+  CANDIDATE_v1(08-11): 0.112 (11.2%)
+  CANDIDATE_v2(08-12): 0.136 (13.6%)
+  CANDIDATE_v3(08-21): 0.150 (15.0%)
+  CANDIDATE_v4(08-28,mark/corner): 0.358 (35.8%)
+  CANDIDATE_v5(08-30,sire適性): 0.116 (11.6%)

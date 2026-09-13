@@ -1,0 +1,158 @@
+{
+  "n_races": 319,
+  "n_blocks": 54,
+  "dates": [
+    "20260711",
+    "20260712",
+    "20260718",
+    "20260719",
+    "20260725",
+    "20260726",
+    "20260801",
+    "20260802",
+    "20260808",
+    "20260809",
+    "20260815",
+    "20260816",
+    "20260822",
+    "20260823",
+    "20260829",
+    "20260830",
+    "20260905",
+    "20260906"
+  ],
+  "candidates": [
+    "flop2_career_place_rate",
+    "flop2_distance_band_place_rate",
+    "flop2_turn_apt_place_rate",
+    "flop2_course_size_apt_place_rate",
+    "flop2_slope_apt_place_rate",
+    "flop2_turf_type_apt_place_rate",
+    "flop2_grade_best",
+    "flop2_first_time_flag",
+    "flop2_jockey_switch",
+    "flop2_trainer_change",
+    "flop2_stable_multi_entry",
+    "flop2_class_form_place_rate",
+    "flop2_class_challenge_flag",
+    "flop2_layoff_flag",
+    "flop2_second_after_layoff_flag",
+    "flop2_main_jockey_return_flag",
+    "flop2_jockey_lead_rank",
+    "flop2_trainer_lead_rank",
+    "flop2_owner_prior_win_rate",
+    "flop2_jockey_career_wins_band",
+    "flop2_transport_flag",
+    "flop2_breeder_group",
+    "flop2_horse_age",
+    "flop2_horse_weight_diff_band",
+    "flop2_interval_band",
+    "flop2_corner4_expected_rank",
+    "flop2_past1_finish_band",
+    "flop2_training_track_condition",
+    "flop2_ca_jockey_win_rate",
+    "flop2_ca_trainer_win_rate"
+  ],
+  "fill_rates": {
+    "flop2_career_place_rate": 0.9912748424624334,
+    "flop2_distance_band_place_rate": 0.9624333494910324,
+    "flop2_turn_apt_place_rate": 0.9505574406204557,
+    "flop2_course_size_apt_place_rate": 0.917595734367426,
+    "flop2_slope_apt_place_rate": 0.2748424624333495,
+    "flop2_turf_type_apt_place_rate": 0.2687833252544838,
+    "flop2_grade_best": 1.0,
+    "flop2_first_time_flag": 1.0,
+    "flop2_jockey_switch": 0.821619001454193,
+    "flop2_trainer_change": 0.9924866698982064,
+    "flop2_stable_multi_entry": 1.0,
+    "flop2_class_form_place_rate": 0.8453708191953466,
+    "flop2_class_challenge_flag": 0.9924866698982064,
+    "flop2_layoff_flag": 0.821619001454193,
+    "flop2_second_after_layoff_flag": 0.6880756180319922,
+    "flop2_main_jockey_return_flag": 0.9997576345128454,
+    "flop2_jockey_lead_rank": 1.0,
+    "flop2_trainer_lead_rank": 0.9997576345128454,
+    "flop2_owner_prior_win_rate": 0.9028114396509938,
+    "flop2_jockey_career_wins_band": 1.0,
+    "flop2_transport_flag": 0.9922443044110518,
+    "flop2_breeder_group": 0.4694619486185167,
+    "flop2_horse_age": 0.9697043141056714,
+    "flop2_horse_weight_diff_band": 0.7367910809500727,
+    "flop2_interval_band": 0.821619001454193,
+    "flop2_corner4_expected_rank": 0.9840038778477945,
+    "flop2_past1_finish_band": 0.8179835191468735,
+    "flop2_training_track_condition": 0.8284052350945226,
+    "flop2_ca_jockey_win_rate": 0.9958797867183713,
+    "flop2_ca_trainer_win_rate": 0.9854580707707222
+  },
+  "dead_signals": [],
+  "dropped_internal_corr": [
+    {
+      "pair": [
+        "flop2_career_place_rate",
+        "flop2_distance_band_place_rate"
+      ],
+      "rho": 0.8689992664027839,
+      "dropped": "flop2_distance_band_place_rate"
+    },
+    {
+      "pair": [
+        "flop2_course_size_apt_place_rate",
+        "flop2_slope_apt_place_rate"
+      ],
+      "rho": 0.7614512029889215,
+      "dropped": "flop2_slope_apt_place_rate"
+    }
+  ],
+  "high_corr_warnings_vs_prod": [
+    {
+      "flop_signal": "flop2_jockey_switch",
+      "existing_signal": "jockey_change",
+      "rho": 0.8945326480430258
+    },
+    {
+      "flop_signal": "flop2_corner4_expected_rank",
+      "existing_signal": "corner4_position",
+      "rho": -1.0
+    },
+    {
+      "flop_signal": "flop2_past1_finish_band",
+      "existing_signal": "form",
+      "rho": -0.7681589279176613
+    }
+  ],
+  "shortlist": [
+    "flop2_career_place_rate",
+    "flop2_turn_apt_place_rate",
+    "flop2_course_size_apt_place_rate",
+    "flop2_turf_type_apt_place_rate",
+    "flop2_grade_best",
+    "flop2_first_time_flag",
+    "flop2_trainer_change",
+    "flop2_stable_multi_entry",
+    "flop2_class_form_place_rate",
+    "flop2_class_challenge_flag",
+    "flop2_layoff_flag",
+    "flop2_second_after_layoff_flag",
+    "flop2_main_jockey_return_flag",
+    "flop2_jockey_lead_rank",
+    "flop2_trainer_lead_rank",
+    "flop2_owner_prior_win_rate",
+    "flop2_jockey_career_wins_band",
+    "flop2_transport_flag",
+    "flop2_breeder_group",
+    "flop2_horse_age",
+    "flop2_horse_weight_diff_band",
+    "flop2_interval_band",
+    "flop2_training_track_condition",
+    "flop2_ca_jockey_win_rate",
+    "flop2_ca_trainer_win_rate"
+  ],
+  "precision_diag": {
+    "flagged_outside_rate": 0.7964071856287425,
+    "baseline_outside_rate": 0.5963521015067407,
+    "lift_pt": 20.00550841220018,
+    "n_flagged": 334,
+    "n_baseline": 1261
+  }
+}

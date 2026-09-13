@@ -1,0 +1,48 @@
+V2ショートリスト: 25候補
+  ['flop2_career_place_rate', 'flop2_turn_apt_place_rate', 'flop2_course_size_apt_place_rate', 'flop2_turf_type_apt_place_rate', 'flop2_grade_best', 'flop2_first_time_flag', 'flop2_trainer_change', 'flop2_stable_multi_entry', 'flop2_class_form_place_rate', 'flop2_class_challenge_flag', 'flop2_layoff_flag', 'flop2_second_after_layoff_flag', 'flop2_main_jockey_return_flag', 'flop2_jockey_lead_rank', 'flop2_trainer_lead_rank', 'flop2_owner_prior_win_rate', 'flop2_jockey_career_wins_band', 'flop2_transport_flag', 'flop2_breeder_group', 'flop2_horse_age', 'flop2_horse_weight_diff_band', 'flop2_interval_band', 'flop2_training_track_condition', 'flop2_ca_jockey_win_rate', 'flop2_ca_trainer_win_rate']
+
+全18日中、直近3日をheld-outとして予約(探索には使わない): ['20260830', '20260905', '20260906']
+探索(search)に使う日付: 15日
+探索母集団: 263レース / 全319レース
+
+cf1/cf2/cf3計算用の参照データをロード中...
+
+========================================================================
+Phase1: alphaごとのDirichlet探索 + Nested OOF(8-fold) + flop_selection_optimism
+主ゲート: true_edge_pt/true_edge_sd >= 2.0(box_n=4主指標)
+========================================================================
+
+--- box_n=4(重み: normal_box4) ---
+  baseline(alpha=0、現行と同一、探索母集団のみ): model=106.83% market=76.02% excess=+30.82pt
+  [alpha=0.02] Nested OOF: excess=+24.67pt (fold argmax unique: 3/8)  true_edge=-0.76pt(sd=1.79, ratio=-0.42)  主ゲート=NO
+  [alpha=0.05] Nested OOF: excess=+25.40pt (fold argmax unique: 4/8)  true_edge=+0.18pt(sd=3.53, ratio=+0.05)  主ゲート=NO
+  [alpha=0.1] Nested OOF: excess=+15.71pt (fold argmax unique: 5/8)  true_edge=+0.15pt(sd=5.54, ratio=+0.03)  主ゲート=NO
+  [alpha=0.2] Nested OOF: excess=+12.78pt (fold argmax unique: 4/8)  true_edge=-0.94pt(sd=3.21, ratio=-0.29)  主ゲート=NO
+  [alpha=0.3] Nested OOF: excess=+8.90pt (fold argmax unique: 4/8)  true_edge=-2.61pt(sd=4.54, ratio=-0.58)  主ゲート=NO
+
+--- box_n=5(重み: normal) ---
+  baseline(alpha=0、現行と同一、探索母集団のみ): model=88.05% market=78.08% excess=+9.97pt
+  [alpha=0.02] Nested OOF: excess=+13.35pt (fold argmax unique: 5/8)  true_edge=-0.53pt(sd=3.40, ratio=-0.16)  主ゲート=NO
+  [alpha=0.05] Nested OOF: excess=+14.66pt (fold argmax unique: 3/8)  true_edge=+0.09pt(sd=2.93, ratio=+0.03)  主ゲート=NO
+  [alpha=0.1] Nested OOF: excess=+14.09pt (fold argmax unique: 3/8)  true_edge=+0.45pt(sd=3.87, ratio=+0.12)  主ゲート=NO
+  [alpha=0.2] Nested OOF: excess=+12.66pt (fold argmax unique: 4/8)  true_edge=+0.53pt(sd=4.74, ratio=+0.11)  主ゲート=NO
+  [alpha=0.3] Nested OOF: excess=+20.89pt (fold argmax unique: 2/8)  true_edge=+6.66pt(sd=7.82, ratio=+0.85)  主ゲート=NO
+
+--- box_n=3(重み: normal_box3) ---
+  baseline(alpha=0、現行と同一、探索母集団のみ): model=82.57% market=79.31% excess=+3.26pt
+  [alpha=0.02] Nested OOF: excess=+4.01pt (fold argmax unique: 2/8)  true_edge=-0.13pt(sd=1.32, ratio=-0.10)  主ゲート=NO
+  [alpha=0.05] Nested OOF: excess=+5.91pt (fold argmax unique: 4/8)  true_edge=-0.57pt(sd=4.17, ratio=-0.14)  主ゲート=NO
+  [alpha=0.1] Nested OOF: excess=+2.84pt (fold argmax unique: 7/8)  true_edge=-0.28pt(sd=4.06, ratio=-0.07)  主ゲート=NO
+  [alpha=0.2] Nested OOF: excess=+3.12pt (fold argmax unique: 3/8)  true_edge=+0.51pt(sd=4.08, ratio=+0.13)  主ゲート=NO
+  [alpha=0.3] Nested OOF: excess=+13.13pt (fold argmax unique: 2/8)  true_edge=-0.24pt(sd=7.91, ratio=-0.03)  主ゲート=NO
+
+========================================================================
+Phase1 まとめ・tie-break(box_n=4主指標、PASSしたalphaのうち最小値を採用)
+========================================================================
+  alpha=0.02: box4 edge_ratio=-0.42 主ゲート=NO(box5/3一貫: True)
+  alpha=0.05: box4 edge_ratio=+0.05 主ゲート=NO(box5/3一貫: True)
+  alpha=0.1: box4 edge_ratio=+0.03 主ゲート=NO(box5/3一貫: True)
+  alpha=0.2: box4 edge_ratio=-0.29 主ゲート=NO(box5/3一貫: True)
+  alpha=0.3: box4 edge_ratio=-0.58 主ゲート=NO(box5/3一貫: True)
+
+総合判定: 全alphaでREJECT(主ゲート不通過)
