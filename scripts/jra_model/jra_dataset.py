@@ -20,6 +20,14 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DATA_DIR = PROJECT_ROOT / "data" / "jra_pipeline"
 CACHE = DATA_DIR / "jra_dataset_cache.pkl"
+# 血統(種牡馬)ベースの時点参照シグナル(2026-08-30、jra_pedigree_features_2026_08_30.py生成)。
+# 存在すれば各レースのdfへ(race_id, horse_id)キーで列追加する。無ければ何もしない
+# (後方互換、既存シグナルの挙動には一切影響しない追加専用の列)。
+PEDIGREE_FEATURES_CACHE = DATA_DIR / "pedigree_sire_features_cache.csv"
+# 同日内トラックバイアス(枠グループ別複勝率)の時点参照シグナル(2026-09-13、
+# jra_track_bias_features_2026_09_13.py生成)。同じく存在すれば(race_id, horse_id)キーで
+# 列追加するだけの追加専用列(Phase3候補シグナル、JRAデータ資産棚卸しレビュー)。
+TRACK_BIAS_FEATURES_CACHE = DATA_DIR / "track_bias_features_cache.csv"
 
 sys.path.insert(0, str(PROJECT_ROOT))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -36,10 +44,13 @@ def parse_combo(bet_type: str, combo_text: str):
     if bet_type in ("単勝", "複勝"):
         return int(combo_text)
     if bet_type in ("馬単", "3連単"):
-        return tuple(int(x) for x in combo_text.split("→"))
+        # 2026-08-29頃からnetkeiba側の表示形式が「→」区切りから「-」区切りへ変更された
+        # (旧データは"6 → 3"、新データは"2-7")。両対応にする。
+        sep = "→" if "→" in combo_text else "-"
+        return tuple(int(x.strip()) for x in combo_text.split(sep))
     if "→" in combo_text:
         return None
-    return frozenset(int(x) for x in combo_text.split("-"))
+    return frozenset(int(x.strip()) for x in combo_text.split("-"))
 
 
 def build(verbose: bool = True) -> dict:
@@ -56,6 +67,13 @@ def build(verbose: bool = True) -> dict:
     meta = pd.concat(meta_rows, ignore_index=True)
     meta = meta[~meta["race_name"].str.contains("新馬|未勝利", regex=True, na=False)]
 
+    ped_features = None
+    if PEDIGREE_FEATURES_CACHE.exists():
+        ped_features = pd.read_csv(PEDIGREE_FEATURES_CACHE, dtype=str, encoding="utf-8")
+    track_bias_features = None
+    if TRACK_BIAS_FEATURES_CACHE.exists():
+        track_bias_features = pd.read_csv(TRACK_BIAS_FEATURES_CACHE, dtype=str, encoding="utf-8")
+
     races, skipped = [], []
     for _, row in meta.iterrows():
         path = newspaper_csv_path(row["race_id"])
@@ -70,6 +88,14 @@ def build(verbose: bool = True) -> dict:
         if df.empty:
             skipped.append((row["race_id"], "all_scratched"))
             continue
+        if ped_features is not None:
+            race_ped = ped_features[ped_features["race_id"] == row["race_id"]].drop(columns=["race_id"])
+            df = df.merge(race_ped, on="horse_id", how="left")
+        if track_bias_features is not None:
+            race_tb = track_bias_features[
+                track_bias_features["race_id"] == row["race_id"]
+            ].drop(columns=["race_id"])
+            df = df.merge(race_tb, on="horse_id", how="left")
         races.append({
             "race_id": row["race_id"], "kaisai_date": row["kaisai_date"],
             "racecourse": row["racecourse"], "race_name": row["race_name"], "df": df,

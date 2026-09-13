@@ -21,6 +21,16 @@
 よって race_date の厳密不等号 `<` によるカットオフで自己参照リークは発生しない
 (HorseHistoryIndex.__init__ でassertする)。
 
+**2026-09-13追記**: 上記の「重複0件」はload_results()の既定範囲が2024-2026だった時点
+(91,460行)での実測。同日付でload_results()の既定範囲を2016-2026へ拡張したところ、
+2018-02-03の東京開催で(horse_id, race_date)重複16組を新規発見。中身を確認したところ
+race_id違い(201805010301 と 201805010304)で16頭全頭の着順・タイム・オッズ・騎手名が
+一致する完全な二重登録で、同日2走ではなくrace_id割り当てのズレ
+(memory: project_jra_raceid_drift_20260802.md で既知の問題クラス、新潟8/9R・札幌でも
+類似ケース報告済み・原因未調査のまま)。根本原因の調査は本変更のスコープ外のため保留し、
+`_dedupe_race_id_drift()`で「該当列が完全一致する重複」だけを検出してrace_id最小の1行に
+畳み込む(完全一致しない重複は従来通りassertで検出させ、未知の異常を握りつぶさない)。
+
 なお race_results.csv の margin列(日本語トークン: クビ/ハナ/アタマ/大/同着 + 帯分数)は
 本線では使わない。検証専用として parse_margin_lengths() を残す(jra_history_validate_
 2026_08_23.py のV11で「使わない判断が正しいこと」を裏付けるためだけに呼ばれる)。
@@ -74,7 +84,12 @@ def parse_margin_lengths(s) -> float:
 
 
 # --------------------------------------------------------------------- ロード・派生列
-def load_results(years=("2024", "2025", "2026")) -> pd.DataFrame:
+# 2026-09-13: 2024-2026の3年のみだったデフォルト範囲を2016-2026の全11年へ拡張
+#(JRAデータ資産棚卸し監査B-2: 34万行・約24,000レースが探索圏外になっていた)。
+# data/race_results/2016/20160109.csv のみ旧31列スキーマ(corner1-4系列・track_index/
+# track_comment列が欠落)だが、pd.concatが自動的にNaN埋めするため追加対応は不要
+#(2017年以降・2016年の他36ファイルは新53列スキーマで統一済み、実データで確認済み)。
+def load_results(years=tuple(str(y) for y in range(2016, 2027))) -> pd.DataFrame:
     """data/race_results/{year}/*.csv を全件連結する(data/race_results/nar/ は除外)。"""
     frames = []
     for y in years:
@@ -155,10 +170,51 @@ class PastStart:
     field_size: int
 
 
+_DEDUP_OUTCOME_COLS = ["finish_pos", "time", "odds_final", "jockey_name", "race_name", "racecourse"]
+
+
+def _rows_equal_allow_nan(a: pd.Series, b: pd.Series, cols: list) -> bool:
+    """colsの全列でa,bが一致するか(NaN同士は一致とみなす)。"""
+    for c in cols:
+        va, vb = a[c], b[c]
+        if pd.isna(va) and pd.isna(vb):
+            continue
+        if va != vb:
+            return False
+    return True
+
+
+def _dedupe_race_id_drift(results: pd.DataFrame) -> pd.DataFrame:
+    """(horse_id, race_date)が重複する行のうち、race_idは違うが着順・タイム・オッズ・
+    騎手名・レース名・競馬場が完全一致する行を「同一レースの二重登録」とみなし、
+    race_id昇順で先頭の1行だけを残す(2026-09-13新設。詳細は本ファイル冒頭の追記参照)。
+    完全一致しない重複はここでは一切変更しない(呼び出し元のassertに検出させる)。"""
+    dup_mask = results.duplicated(subset=["horse_id", "race_date"], keep=False)
+    if not dup_mask.any():
+        return results
+    drop_idx = []
+    n_groups = 0
+    for _, g in results[dup_mask].groupby(["horse_id", "race_date"]):
+        if len(g) < 2:
+            continue
+        g_sorted = g.sort_values("race_id")
+        head = g_sorted.iloc[0]
+        if all(_rows_equal_allow_nan(head, g_sorted.iloc[i], _DEDUP_OUTCOME_COLS)
+               for i in range(1, len(g_sorted))):
+            drop_idx.extend(g_sorted.index[1:].tolist())
+            n_groups += 1
+    if drop_idx:
+        print(f"[jra_history] race_id重複(同一レース二重登録と判定)を{n_groups}組・"
+              f"{len(drop_idx)}行ドロップしました。詳細: jra_history.py冒頭の2026-09-13追記参照。")
+        results = results.drop(index=drop_idx)
+    return results
+
+
 class HorseHistoryIndex:
     """horse_id -> race_date昇順のPastStartリスト。"""
 
     def __init__(self, results: pd.DataFrame):
+        results = _dedupe_race_id_drift(results)
         dup = results.groupby(["horse_id", "race_date"]).size()
         assert dup.max() <= 1, (
             "同一(horse_id, race_date)の重複出走が見つかりました。"

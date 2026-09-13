@@ -34,7 +34,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import jra_dataset as JD  # noqa: E402 (parse_comboを再利用)
 import jra_history as JH  # noqa: E402
 
-HISTORY_START = "2024-08-24"  # 履歴インデックスの下限(母集団にはしない)
+HISTORY_START = "2024-08-24"  # 履歴インデックスの下限(母集団にはしない)。
+# 注(2026-09-13): この定数はコード上どこも参照しておらず、実際の下限はJH.load_results()の
+# デフォルト年範囲に追従するだけの表示用コメントだった。同日付でload_results()の既定範囲を
+# 2016-2026へ拡張したため、HorseHistoryIndexの実際の下限は2024-08-24より深くなる
+#(「アーカイブ全期間」という記述は現在では2016年〜を指す)。jra_archive_dataset_cache.pklは
+# この拡張を反映して再生成済み(削除→次回load()時に自動rebuild)。
 EXCLUDE_RACE_NAME = r"新馬|未勝利|障害"
 MODEL_START_DEFAULT = "2025-04-01"
 MODEL_END_DEFAULT = "2026-02-28"

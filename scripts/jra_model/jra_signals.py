@@ -79,6 +79,26 @@ CANDIDATE_SIGNALS_V4 = CANDIDATE_SIGNALS_V4_MARK + CANDIDATE_SIGNALS_V4_CORNER
 # と同じ理由、nar_signals.py L130-134のコメント参照)。新規スクリプトはこちらのALL_SIGNALS_V4を使う。
 ALL_SIGNALS_V4 = ALL_SIGNALS + CANDIDATE_SIGNALS_V4
 
+# --- 候補シグナル第5弾(2026-08-30): 血統(種牡馬=父)ベースの距離/表面/馬場状態/コース適性。
+# jra_pedigree_features_2026_08_30.py が data/jra_pipeline/pedigree_sire_features_cache.csv に
+# 事前計算する「そのレースより厳密に前の日付だけを使った時点参照(point-in-time)の種牡馬別
+# 勝率」を _shrink で縮約する(既存のsire/course等と全く同じ構造)。記述的検証
+# ([[project_jra_pedigree_theory_verification_2026_08_29]])ではインブリード係数・ニックスは
+# 信号なしだったが、種牡馬の距離/表面/馬場/コース適性はnetkeiba既存の`sire`シグナル(単一の
+# 総合勝率)より粒度が細かく、未検証のため候補プールに追加する。
+CANDIDATE_SIGNALS_V5 = ["ped_sire_distance", "ped_sire_surface", "ped_sire_going", "ped_sire_course"]
+ALL_SIGNALS_V5 = ALL_SIGNALS + CANDIDATE_SIGNALS_V5
+
+# --- 候補シグナル第6弾(2026-09-13、JRAデータ資産棚卸しレビュー Phase3): 同日内トラック
+# バイアス(枠グループ別複勝率)。jra_track_bias_features_2026_09_13.py が
+# data/jra_pipeline/track_bias_features_cache.csv に事前計算する「その開催日・競馬場・
+# サーフェス・枠グループ(内/中/外)で、このレースより厳密に前のrace_numberだけを使った
+# 時点参照の複勝率」を_shrinkで縮約する(ped_sireと同じ構造、日付単位でなくrace_number単位の
+# cumsumである点のみ異なる)。未検証(Nested LOBO OOF等の検証ゲートは
+# jra_search_track_bias_2026_09_13.py参照)。
+CANDIDATE_SIGNALS_V6 = ["track_waku_bias"]
+ALL_SIGNALS_V6 = ALL_SIGNALS_V5 + CANDIDATE_SIGNALS_V6
+
 TRAIN_RANK_MAP = {"S": 6, "A": 5, "B": 4, "C": 3, "D": 2, "E": 1}
 DNF_FINISH_PENALTY = 20
 DNF_CODES = {"中止", "取消", "除外", "失格", "中", "取", "除"}
@@ -159,6 +179,16 @@ SHRINK_SPECS = {
     "prevjockey_win": ("surf_jockey_prevjockey_win_rate", "surf_jockey_prevjockey_runs"),
     "prevjockey_place3": ("surf_jockey_prevjockey_place3_rate", "surf_jockey_prevjockey_runs"),
     "prevjockey_return": ("surf_jockey_prevjockey_win_return_rate", "surf_jockey_prevjockey_runs"),
+    # --- 候補シグナル第5弾用(2026-08-30): 血統(種牡馬)ベースの時点参照勝率。
+    # win_rateのみ(place3/returnは未計算、jra_pedigree_features_2026_08_30.py参照)。
+    "ped_sire_distance_win": ("ped_sire_distance_win_rate", "ped_sire_distance_runs"),
+    "ped_sire_surface_win": ("ped_sire_surface_win_rate", "ped_sire_surface_runs"),
+    "ped_sire_going_win": ("ped_sire_going_win_rate", "ped_sire_going_runs"),
+    "ped_sire_course_win": ("ped_sire_course_win_rate", "ped_sire_course_runs"),
+    # --- 候補シグナル第6弾用(2026-09-13): 同日内トラックバイアス(枠グループ別複勝率)。
+    # place3_rateのみ(win_rateは同日内サンプルがさらに薄くなるため未計算、
+    # jra_track_bias_features_2026_09_13.py参照)。
+    "track_waku_bias_place3": ("track_waku_bias_place3_rate", "track_waku_bias_runs"),
 }
 
 _MARGIN_RE = re.compile(r"\(([-+]?\d+\.?\d*)\)")
@@ -526,6 +556,20 @@ def compute_signals(df: pd.DataFrame, current_class_ordinal: float, priors: dict
     # 自動的にNaN伝播するため追加処理は不要)。
     sig["corner_transition_rank"] = _minmax(c3_rank - c4_rank)
     sig["corner_transition_gap"] = _minmax(c3_gap - c4_gap)
+
+    # --- 候補シグナル第5弾(2026-08-30): 血統(種牡馬)ベースの距離/表面/馬場/コース適性。
+    # 列自体が無い(pedigree_sire_features_cache.csv未生成 or 未マージ)レースでは
+    # _col()がNaN Seriesを返すため、_shrinkはpriorに欠損キー無しならprior値へフォールバック
+    # する(既存シグナルと同じ安全側の挙動)。
+    sig["ped_sire_distance"] = _minmax(_shrink(df, "ped_sire_distance_win", priors))
+    sig["ped_sire_surface"] = _minmax(_shrink(df, "ped_sire_surface_win", priors))
+    sig["ped_sire_going"] = _minmax(_shrink(df, "ped_sire_going_win", priors))
+    sig["ped_sire_course"] = _minmax(_shrink(df, "ped_sire_course_win", priors))
+
+    # --- 候補シグナル第6弾(2026-09-13): 同日内トラックバイアス(枠グループ別複勝率)。
+    # 列自体が無い(track_bias_features_cache.csv未生成 or 未マージ)レース・当日の最初の
+    # 該当条件(runs_before=0)ではNaNになり、_shrinkの安全側フォールバックに委ねる。
+    sig["track_waku_bias"] = _minmax(_shrink(df, "track_waku_bias_place3", priors))
 
     return sig
 
