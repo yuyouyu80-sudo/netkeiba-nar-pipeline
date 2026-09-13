@@ -1,0 +1,622 @@
+{
+ "filter_spec": [
+  [
+   "レース種別",
+   "通常戦"
+  ],
+  [
+   "本番予想スコア順位(BOX5モデル基準)",
+   "1〜3位"
+  ],
+  [
+   "血統適性 順位",
+   "1位のみ"
+  ],
+  [
+   "騎手・厩舎 順位",
+   "1〜5位"
+  ],
+  [
+   "枠番",
+   "3〜6枠(中)/7〜8枠(外)"
+  ],
+  [
+   "本番予想スコア順位(BOX4モデル基準)",
+   "1〜5位"
+  ],
+  [
+   "本番予想スコア順位(BOX3モデル基準)",
+   "1〜5位"
+  ]
+ ],
+ "races": {
+  "202603020509": {
+   "target_umabans": [
+    13
+   ],
+   "kaisai_date": "20260711"
+  },
+  "202603020511": {
+   "target_umabans": [
+    6
+   ],
+   "kaisai_date": "20260711"
+  },
+  "202603020512": {
+   "target_umabans": [
+    8
+   ],
+   "kaisai_date": "20260711"
+  },
+  "202610020509": {
+   "target_umabans": [
+    9
+   ],
+   "kaisai_date": "20260711"
+  },
+  "202602010907": {
+   "target_umabans": [
+    14
+   ],
+   "kaisai_date": "20260711"
+  },
+  "202602010910": {
+   "target_umabans": [
+    7
+   ],
+   "kaisai_date": "20260711"
+  },
+  "202610020608": {
+   "target_umabans": [
+    9
+   ],
+   "kaisai_date": "20260712"
+  },
+  "202610020609": {
+   "target_umabans": [
+    10
+   ],
+   "kaisai_date": "20260712"
+  },
+  "202610020610": {
+   "target_umabans": [
+    10
+   ],
+   "kaisai_date": "20260712"
+  },
+  "202602011007": {
+   "target_umabans": [
+    5
+   ],
+   "kaisai_date": "20260712"
+  },
+  "202602011008": {
+   "target_umabans": [
+    10
+   ],
+   "kaisai_date": "20260712"
+  },
+  "202602011010": {
+   "target_umabans": [
+    6
+   ],
+   "kaisai_date": "20260712"
+  },
+  "202603020712": {
+   "target_umabans": [
+    13
+   ],
+   "kaisai_date": "20260718"
+  },
+  "202610020709": {
+   "target_umabans": [
+    16
+   ],
+   "kaisai_date": "20260718"
+  },
+  "202610020711": {
+   "target_umabans": [
+    5
+   ],
+   "kaisai_date": "20260718"
+  },
+  "202602011110": {
+   "target_umabans": [
+    4
+   ],
+   "kaisai_date": "20260718"
+  },
+  "202610020812": {
+   "target_umabans": [
+    6
+   ],
+   "kaisai_date": "20260719"
+  },
+  "202602011208": {
+   "target_umabans": [
+    3
+   ],
+   "kaisai_date": "20260719"
+  },
+  "202602011209": {
+   "target_umabans": [
+    6
+   ],
+   "kaisai_date": "20260719"
+  },
+  "202602011210": {
+   "target_umabans": [
+    14
+   ],
+   "kaisai_date": "20260719"
+  },
+  "202602011212": {
+   "target_umabans": [
+    5
+   ],
+   "kaisai_date": "20260719"
+  },
+  "202604020105": {
+   "target_umabans": [
+    11
+   ],
+   "kaisai_date": "20260725"
+  },
+  "202607020108": {
+   "target_umabans": [
+    8
+   ],
+   "kaisai_date": "20260725"
+  },
+  "202607020109": {
+   "target_umabans": [
+    14
+   ],
+   "kaisai_date": "20260725"
+  },
+  "202607020111": {
+   "target_umabans": [
+    3
+   ],
+   "kaisai_date": "20260725"
+  },
+  "202601010109": {
+   "target_umabans": [
+    8
+   ],
+   "kaisai_date": "20260725"
+  },
+  "202601010110": {
+   "target_umabans": [
+    5
+   ],
+   "kaisai_date": "20260725"
+  },
+  "202604020206": {
+   "target_umabans": [
+    7
+   ],
+   "kaisai_date": "20260726"
+  },
+  "202604020207": {
+   "target_umabans": [
+    3
+   ],
+   "kaisai_date": "20260726"
+  },
+  "202607020206": {
+   "target_umabans": [
+    6
+   ],
+   "kaisai_date": "20260726"
+  },
+  "202601010210": {
+   "target_umabans": [
+    8
+   ],
+   "kaisai_date": "20260726"
+  },
+  "202601010211": {
+   "target_umabans": [
+    8
+   ],
+   "kaisai_date": "20260726"
+  },
+  "202604020306": {
+   "target_umabans": [
+    4
+   ],
+   "kaisai_date": "20260801"
+  },
+  "202607020307": {
+   "target_umabans": [
+    11
+   ],
+   "kaisai_date": "20260801"
+  },
+  "202607020308": {
+   "target_umabans": [
+    10
+   ],
+   "kaisai_date": "20260801"
+  },
+  "202607020311": {
+   "target_umabans": [
+    9
+   ],
+   "kaisai_date": "20260801"
+  },
+  "202601010304": {
+   "target_umabans": [
+    4
+   ],
+   "kaisai_date": "20260801"
+  },
+  "202601010309": {
+   "target_umabans": [
+    6
+   ],
+   "kaisai_date": "20260801"
+  },
+  "202607020406": {
+   "target_umabans": [
+    5
+   ],
+   "kaisai_date": "20260802"
+  },
+  "202607020407": {
+   "target_umabans": [
+    3
+   ],
+   "kaisai_date": "20260802"
+  },
+  "202607020411": {
+   "target_umabans": [
+    5
+   ],
+   "kaisai_date": "20260802"
+  },
+  "202601010404": {
+   "target_umabans": [
+    10
+   ],
+   "kaisai_date": "20260802"
+  },
+  "202601010406": {
+   "target_umabans": [
+    3
+   ],
+   "kaisai_date": "20260802"
+  },
+  "202607020505": {
+   "target_umabans": [
+    3
+   ],
+   "kaisai_date": "20260808"
+  },
+  "202607020506": {
+   "target_umabans": [
+    4
+   ],
+   "kaisai_date": "20260808"
+  },
+  "202607020507": {
+   "target_umabans": [
+    6
+   ],
+   "kaisai_date": "20260808"
+  },
+  "202607020508": {
+   "target_umabans": [
+    9
+   ],
+   "kaisai_date": "20260808"
+  },
+  "202607020511": {
+   "target_umabans": [
+    4
+   ],
+   "kaisai_date": "20260808"
+  },
+  "202601010509": {
+   "target_umabans": [
+    4
+   ],
+   "kaisai_date": "20260808"
+  },
+  "202601010511": {
+   "target_umabans": [
+    4
+   ],
+   "kaisai_date": "20260808"
+  },
+  "202601010512": {
+   "target_umabans": [
+    10
+   ],
+   "kaisai_date": "20260808"
+  },
+  "202604020605": {
+   "target_umabans": [
+    12
+   ],
+   "kaisai_date": "20260809"
+  },
+  "202604020606": {
+   "target_umabans": [
+    13
+   ],
+   "kaisai_date": "20260809"
+  },
+  "202604020607": {
+   "target_umabans": [
+    6
+   ],
+   "kaisai_date": "20260809"
+  },
+  "202604020610": {
+   "target_umabans": [
+    5
+   ],
+   "kaisai_date": "20260809"
+  },
+  "202607020607": {
+   "target_umabans": [
+    12
+   ],
+   "kaisai_date": "20260809"
+  },
+  "202607020608": {
+   "target_umabans": [
+    11
+   ],
+   "kaisai_date": "20260809"
+  },
+  "202607020611": {
+   "target_umabans": [
+    11
+   ],
+   "kaisai_date": "20260809"
+  },
+  "202607020706": {
+   "target_umabans": [
+    5
+   ],
+   "kaisai_date": "20260815"
+  },
+  "202607020711": {
+   "target_umabans": [
+    4
+   ],
+   "kaisai_date": "20260815"
+  },
+  "202601010710": {
+   "target_umabans": [
+    8
+   ],
+   "kaisai_date": "20260815"
+  },
+  "202607030103": {
+   "target_umabans": [
+    7
+   ],
+   "kaisai_date": "20260822"
+  },
+  "202607030110": {
+   "target_umabans": [
+    12
+   ],
+   "kaisai_date": "20260822"
+  },
+  "202601020107": {
+   "target_umabans": [
+    9
+   ],
+   "kaisai_date": "20260822"
+  },
+  "202601020111": {
+   "target_umabans": [
+    14
+   ],
+   "kaisai_date": "20260822"
+  },
+  "202604030207": {
+   "target_umabans": [
+    7
+   ],
+   "kaisai_date": "20260823"
+  },
+  "202604030208": {
+   "target_umabans": [
+    6
+   ],
+   "kaisai_date": "20260823"
+  },
+  "202601020209": {
+   "target_umabans": [
+    12
+   ],
+   "kaisai_date": "20260823"
+  },
+  "202601020212": {
+   "target_umabans": [
+    12
+   ],
+   "kaisai_date": "20260823"
+  },
+  "202604030306": {
+   "target_umabans": [
+    8
+   ],
+   "kaisai_date": "20260829"
+  },
+  "202604030310": {
+   "target_umabans": [
+    6
+   ],
+   "kaisai_date": "20260829"
+  },
+  "202607030308": {
+   "target_umabans": [
+    9
+   ],
+   "kaisai_date": "20260829"
+  },
+  "202607030310": {
+   "target_umabans": [
+    13
+   ],
+   "kaisai_date": "20260829"
+  },
+  "202601020308": {
+   "target_umabans": [
+    6
+   ],
+   "kaisai_date": "20260829"
+  },
+  "202601020310": {
+   "target_umabans": [
+    10
+   ],
+   "kaisai_date": "20260829"
+  },
+  "202601020312": {
+   "target_umabans": [
+    3
+   ],
+   "kaisai_date": "20260829"
+  },
+  "202604030411": {
+   "target_umabans": [
+    8
+   ],
+   "kaisai_date": "20260830"
+  },
+  "202604030412": {
+   "target_umabans": [
+    6
+   ],
+   "kaisai_date": "20260830"
+  },
+  "202607030405": {
+   "target_umabans": [
+    3
+   ],
+   "kaisai_date": "20260830"
+  },
+  "202607030408": {
+   "target_umabans": [
+    15
+   ],
+   "kaisai_date": "20260830"
+  },
+  "202601020409": {
+   "target_umabans": [
+    8
+   ],
+   "kaisai_date": "20260830"
+  },
+  "202601020410": {
+   "target_umabans": [
+    16
+   ],
+   "kaisai_date": "20260830"
+  },
+  "202601020412": {
+   "target_umabans": [
+    14
+   ],
+   "kaisai_date": "20260830"
+  },
+  "202606040109": {
+   "target_umabans": [
+    5
+   ],
+   "kaisai_date": "20260905"
+  },
+  "202606040111": {
+   "target_umabans": [
+    6
+   ],
+   "kaisai_date": "20260905"
+  },
+  "202609040107": {
+   "target_umabans": [
+    16
+   ],
+   "kaisai_date": "20260905"
+  },
+  "202609040111": {
+   "target_umabans": [
+    10
+   ],
+   "kaisai_date": "20260905"
+  },
+  "202601020508": {
+   "target_umabans": [
+    7
+   ],
+   "kaisai_date": "20260905"
+  },
+  "202601020509": {
+   "target_umabans": [
+    12
+   ],
+   "kaisai_date": "20260905"
+  },
+  "202601020510": {
+   "target_umabans": [
+    11
+   ],
+   "kaisai_date": "20260905"
+  },
+  "202601020511": {
+   "target_umabans": [
+    4
+   ],
+   "kaisai_date": "20260905"
+  },
+  "202609040207": {
+   "target_umabans": [
+    7
+   ],
+   "kaisai_date": "20260906"
+  },
+  "202609040208": {
+   "target_umabans": [
+    6
+   ],
+   "kaisai_date": "20260906"
+  },
+  "202609040210": {
+   "target_umabans": [
+    5
+   ],
+   "kaisai_date": "20260906"
+  },
+  "202609040211": {
+   "target_umabans": [
+    16
+   ],
+   "kaisai_date": "20260906"
+  },
+  "202601020611": {
+   "target_umabans": [
+    5
+   ],
+   "kaisai_date": "20260906"
+  },
+  "202606040407": {
+   "target_umabans": [
+    5
+   ],
+   "kaisai_date": "20260913"
+  },
+  "202606040410": {
+   "target_umabans": [
+    9
+   ],
+   "kaisai_date": "20260913"
+  }
+ }
+}

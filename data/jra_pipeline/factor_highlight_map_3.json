@@ -1,0 +1,686 @@
+{
+ "generated_at": "2026-09-05T22:01:25.554713+00:00",
+ "source_artifact": "https://claude.ai/code/artifact/7822331c-1ce4-4964-a60d-6624ee0aa6ca",
+ "bet_type": "馬連",
+ "filter_spec": [
+  [
+   "レース種別",
+   "通常戦"
+  ],
+  [
+   "軸",
+   "本番予想スコア順位(BOX5モデル基準) 1位固定"
+  ],
+  [
+   "相手頭数",
+   "2〜4頭"
+  ],
+  [
+   "能力・調教評価 順位(相手)",
+   "1〜5位"
+  ],
+  [
+   "コース高低差(相手)",
+   "中(2.0〜3.0m)・大(3.0m以上)"
+  ],
+  [
+   "想定ペース(相手)",
+   "ハイ(H)・スロー(S)"
+  ],
+  [
+   "斤量(負担重量)(相手)",
+   "55.0〜56.5kg・57.0kg以上(重ハンデ)"
+  ]
+ ],
+ "population_note": "母集団: 通常戦242レース(直近2開催日20260829・20260830はホールドアウト用に除外)。馬連頭軸=軸1頭(BOX5モデル1位)固定+相手フィルタに合致した馬(2〜4頭)それぞれと軸との馬連1点(100円)ずつ購入する想定。実戦で発走前に取得できないクッション値・含水率・芝コースバリエーション(いずれもJRA公式馬場情報PDFが開催回終了後にしか公開されない事後データ)は候補から除外済み。",
+ "n_races": 61,
+ "n_points": 212,
+ "hit_races": 24,
+ "hit_rate_pct": 39.3,
+ "return_rate_pct": 274.1,
+ "races": {
+  "202603020512": {
+   "kaisai_date": "20260711",
+   "axis_umaban": 8,
+   "partner_umabans": [
+    3,
+    6,
+    10,
+    15
+   ]
+  },
+  "202610020508": {
+   "kaisai_date": "20260711",
+   "axis_umaban": 3,
+   "partner_umabans": [
+    7,
+    9
+   ]
+  },
+  "202610020509": {
+   "kaisai_date": "20260711",
+   "axis_umaban": 10,
+   "partner_umabans": [
+    3,
+    4,
+    9,
+    11
+   ]
+  },
+  "202610020510": {
+   "kaisai_date": "20260711",
+   "axis_umaban": 17,
+   "partner_umabans": [
+    6,
+    14,
+    15,
+    16
+   ]
+  },
+  "202610020511": {
+   "kaisai_date": "20260711",
+   "axis_umaban": 11,
+   "partner_umabans": [
+    1,
+    5,
+    6,
+    7
+   ]
+  },
+  "202602010908": {
+   "kaisai_date": "20260711",
+   "axis_umaban": 9,
+   "partner_umabans": [
+    3,
+    8,
+    11
+   ]
+  },
+  "202602010909": {
+   "kaisai_date": "20260711",
+   "axis_umaban": 1,
+   "partner_umabans": [
+    6,
+    7,
+    8,
+    10
+   ]
+  },
+  "202602010912": {
+   "kaisai_date": "20260711",
+   "axis_umaban": 1,
+   "partner_umabans": [
+    2,
+    4
+   ]
+  },
+  "202603020610": {
+   "kaisai_date": "20260712",
+   "axis_umaban": 6,
+   "partner_umabans": [
+    2,
+    3,
+    9,
+    11
+   ]
+  },
+  "202603020612": {
+   "kaisai_date": "20260712",
+   "axis_umaban": 1,
+   "partner_umabans": [
+    2,
+    12,
+    13,
+    15
+   ]
+  },
+  "202610020607": {
+   "kaisai_date": "20260712",
+   "axis_umaban": 5,
+   "partner_umabans": [
+    4,
+    7,
+    10,
+    15
+   ]
+  },
+  "202610020609": {
+   "kaisai_date": "20260712",
+   "axis_umaban": 3,
+   "partner_umabans": [
+    5,
+    8,
+    9
+   ]
+  },
+  "202610020610": {
+   "kaisai_date": "20260712",
+   "axis_umaban": 10,
+   "partner_umabans": [
+    1,
+    3
+   ]
+  },
+  "202610020611": {
+   "kaisai_date": "20260712",
+   "axis_umaban": 6,
+   "partner_umabans": [
+    3,
+    5,
+    7,
+    11
+   ]
+  },
+  "202610020612": {
+   "kaisai_date": "20260712",
+   "axis_umaban": 8,
+   "partner_umabans": [
+    5,
+    15,
+    16
+   ]
+  },
+  "202602011007": {
+   "kaisai_date": "20260712",
+   "axis_umaban": 5,
+   "partner_umabans": [
+    1,
+    3,
+    7
+   ]
+  },
+  "202602011010": {
+   "kaisai_date": "20260712",
+   "axis_umaban": 6,
+   "partner_umabans": [
+    5,
+    8,
+    9
+   ]
+  },
+  "202603020710": {
+   "kaisai_date": "20260718",
+   "axis_umaban": 6,
+   "partner_umabans": [
+    1,
+    3,
+    12,
+    14
+   ]
+  },
+  "202603020712": {
+   "kaisai_date": "20260718",
+   "axis_umaban": 13,
+   "partner_umabans": [
+    2,
+    3,
+    5,
+    14
+   ]
+  },
+  "202610020710": {
+   "kaisai_date": "20260718",
+   "axis_umaban": 2,
+   "partner_umabans": [
+    1,
+    6,
+    8,
+    10
+   ]
+  },
+  "202610020712": {
+   "kaisai_date": "20260718",
+   "axis_umaban": 7,
+   "partner_umabans": [
+    2,
+    3,
+    5,
+    14
+   ]
+  },
+  "202602011107": {
+   "kaisai_date": "20260718",
+   "axis_umaban": 8,
+   "partner_umabans": [
+    1,
+    6,
+    11,
+    14
+   ]
+  },
+  "202603020812": {
+   "kaisai_date": "20260719",
+   "axis_umaban": 11,
+   "partner_umabans": [
+    1,
+    3,
+    4,
+    15
+   ]
+  },
+  "202610020810": {
+   "kaisai_date": "20260719",
+   "axis_umaban": 16,
+   "partner_umabans": [
+    3,
+    13
+   ]
+  },
+  "202602011208": {
+   "kaisai_date": "20260719",
+   "axis_umaban": 3,
+   "partner_umabans": [
+    1,
+    4,
+    6
+   ]
+  },
+  "202602011210": {
+   "kaisai_date": "20260719",
+   "axis_umaban": 14,
+   "partner_umabans": [
+    5,
+    7,
+    11,
+    12
+   ]
+  },
+  "202602011211": {
+   "kaisai_date": "20260719",
+   "axis_umaban": 9,
+   "partner_umabans": [
+    5,
+    7,
+    11,
+    13
+   ]
+  },
+  "202602011212": {
+   "kaisai_date": "20260719",
+   "axis_umaban": 5,
+   "partner_umabans": [
+    2,
+    3,
+    9,
+    12
+   ]
+  },
+  "202604020105": {
+   "kaisai_date": "20260725",
+   "axis_umaban": 5,
+   "partner_umabans": [
+    1,
+    3,
+    7,
+    11
+   ]
+  },
+  "202607020106": {
+   "kaisai_date": "20260725",
+   "axis_umaban": 9,
+   "partner_umabans": [
+    5,
+    6,
+    10,
+    11
+   ]
+  },
+  "202607020107": {
+   "kaisai_date": "20260725",
+   "axis_umaban": 1,
+   "partner_umabans": [
+    5,
+    6,
+    7,
+    10
+   ]
+  },
+  "202607020108": {
+   "kaisai_date": "20260725",
+   "axis_umaban": 1,
+   "partner_umabans": [
+    2,
+    5,
+    7,
+    8
+   ]
+  },
+  "202607020110": {
+   "kaisai_date": "20260725",
+   "axis_umaban": 9,
+   "partner_umabans": [
+    2,
+    6,
+    12,
+    13
+   ]
+  },
+  "202607020210": {
+   "kaisai_date": "20260726",
+   "axis_umaban": 10,
+   "partner_umabans": [
+    6,
+    15,
+    16
+   ]
+  },
+  "202604020306": {
+   "kaisai_date": "20260801",
+   "axis_umaban": 10,
+   "partner_umabans": [
+    1,
+    3,
+    6,
+    9
+   ]
+  },
+  "202604020308": {
+   "kaisai_date": "20260801",
+   "axis_umaban": 7,
+   "partner_umabans": [
+    5,
+    10,
+    12
+   ]
+  },
+  "202604020312": {
+   "kaisai_date": "20260801",
+   "axis_umaban": 2,
+   "partner_umabans": [
+    8,
+    14
+   ]
+  },
+  "202607020306": {
+   "kaisai_date": "20260801",
+   "axis_umaban": 3,
+   "partner_umabans": [
+    8,
+    13,
+    14,
+    15
+   ]
+  },
+  "202604020408": {
+   "kaisai_date": "20260802",
+   "axis_umaban": 4,
+   "partner_umabans": [
+    1,
+    8
+   ]
+  },
+  "202607020408": {
+   "kaisai_date": "20260802",
+   "axis_umaban": 7,
+   "partner_umabans": [
+    1,
+    3,
+    4,
+    6
+   ]
+  },
+  "202607020411": {
+   "kaisai_date": "20260802",
+   "axis_umaban": 6,
+   "partner_umabans": [
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  "202604020506": {
+   "kaisai_date": "20260808",
+   "axis_umaban": 2,
+   "partner_umabans": [
+    3,
+    5,
+    10
+   ]
+  },
+  "202604020511": {
+   "kaisai_date": "20260808",
+   "axis_umaban": 18,
+   "partner_umabans": [
+    7,
+    13,
+    14
+   ]
+  },
+  "202607020505": {
+   "kaisai_date": "20260808",
+   "axis_umaban": 3,
+   "partner_umabans": [
+    2,
+    5,
+    6
+   ]
+  },
+  "202607020508": {
+   "kaisai_date": "20260808",
+   "axis_umaban": 9,
+   "partner_umabans": [
+    4,
+    7,
+    8,
+    12
+   ]
+  },
+  "202604020610": {
+   "kaisai_date": "20260809",
+   "axis_umaban": 6,
+   "partner_umabans": [
+    1,
+    2,
+    3,
+    7
+   ]
+  },
+  "202607020605": {
+   "kaisai_date": "20260809",
+   "axis_umaban": 14,
+   "partner_umabans": [
+    5,
+    12
+   ]
+  },
+  "202607020606": {
+   "kaisai_date": "20260809",
+   "axis_umaban": 2,
+   "partner_umabans": [
+    1,
+    3,
+    4,
+    5
+   ]
+  },
+  "202607020610": {
+   "kaisai_date": "20260809",
+   "axis_umaban": 10,
+   "partner_umabans": [
+    2,
+    7,
+    11
+   ]
+  },
+  "202604020705": {
+   "kaisai_date": "20260815",
+   "axis_umaban": 15,
+   "partner_umabans": [
+    4,
+    5,
+    9
+   ]
+  },
+  "202607020707": {
+   "kaisai_date": "20260815",
+   "axis_umaban": 4,
+   "partner_umabans": [
+    1,
+    3,
+    5
+   ]
+  },
+  "202607020710": {
+   "kaisai_date": "20260815",
+   "axis_umaban": 10,
+   "partner_umabans": [
+    11,
+    14,
+    16
+   ]
+  },
+  "202604020805": {
+   "kaisai_date": "20260816",
+   "axis_umaban": 10,
+   "partner_umabans": [
+    7,
+    8,
+    9,
+    12
+   ]
+  },
+  "202604020806": {
+   "kaisai_date": "20260816",
+   "axis_umaban": 10,
+   "partner_umabans": [
+    5,
+    6,
+    8,
+    11
+   ]
+  },
+  "202604020811": {
+   "kaisai_date": "20260816",
+   "axis_umaban": 9,
+   "partner_umabans": [
+    1,
+    2,
+    5
+   ]
+  },
+  "202607020808": {
+   "kaisai_date": "20260816",
+   "axis_umaban": 10,
+   "partner_umabans": [
+    1,
+    6,
+    11,
+    16
+   ]
+  },
+  "202607030103": {
+   "kaisai_date": "20260822",
+   "axis_umaban": 7,
+   "partner_umabans": [
+    3,
+    5,
+    8
+   ]
+  },
+  "202607030107": {
+   "kaisai_date": "20260822",
+   "axis_umaban": 4,
+   "partner_umabans": [
+    2,
+    3,
+    9,
+    13
+   ]
+  },
+  "202604030211": {
+   "kaisai_date": "20260823",
+   "axis_umaban": 6,
+   "partner_umabans": [
+    3,
+    7,
+    10,
+    16
+   ]
+  },
+  "202607030205": {
+   "kaisai_date": "20260823",
+   "axis_umaban": 6,
+   "partner_umabans": [
+    2,
+    3,
+    5
+   ]
+  },
+  "202607030208": {
+   "kaisai_date": "20260823",
+   "axis_umaban": 2,
+   "partner_umabans": [
+    4,
+    5,
+    12,
+    15
+   ]
+  },
+  "202606040109": {
+   "kaisai_date": "20260905",
+   "axis_umaban": 7,
+   "partner_umabans": [
+    5,
+    10
+   ]
+  },
+  "202606040112": {
+   "kaisai_date": "20260905",
+   "axis_umaban": 3,
+   "partner_umabans": [
+    7,
+    10,
+    12
+   ]
+  },
+  "202609040108": {
+   "kaisai_date": "20260905",
+   "axis_umaban": 3,
+   "partner_umabans": [
+    1,
+    4,
+    6
+   ]
+  },
+  "202609040110": {
+   "kaisai_date": "20260905",
+   "axis_umaban": 7,
+   "partner_umabans": [
+    1,
+    2,
+    4,
+    6
+   ]
+  },
+  "202606040208": {
+   "kaisai_date": "20260906",
+   "axis_umaban": 14,
+   "partner_umabans": [
+    1,
+    6,
+    9
+   ]
+  },
+  "202606040211": {
+   "kaisai_date": "20260906",
+   "axis_umaban": 9,
+   "partner_umabans": [
+    2,
+    4,
+    7,
+    10
+   ]
+  },
+  "202609040208": {
+   "kaisai_date": "20260906",
+   "axis_umaban": 6,
+   "partner_umabans": [
+    2,
+    3,
+    5,
+    7
+   ]
+  }
+ }
+}
