@@ -111,12 +111,17 @@ ALL_SIGNALS_V6 = ALL_SIGNALS_V5 + CANDIDATE_SIGNALS_V6
 CANDIDATE_SIGNALS_V7 = ["radar_style_position", "radar_style_stamina", "radar_style_corner_move",
                        "radar_jt_base", "radar_jt_change", "radar_jt_stats",
                        "radar_pedigree_pure", "radar_pedigree_training", "radar_form_agari"]
-# --- 2026-09-14、JRAデータ資産棚卸しレビューのフォローアップで判明: CANDIDATE_SIGNALS_V4
-# (予想印・コーナー展開、11本)は2026-08-28の単独検証(ALL_SIGNALS_V4)以降、V5(血統)・
-# V6(トラックバイアス)の統合探索チェーンに一度も合流していなかった(ALL_SIGNALS_V5/V6は
-# ALL_SIGNALS(LEGACY+V1+V2+V3)から分岐しておりV4を経由しない)。ユーザー指示によりV7では
-# この欠落を解消し、V4を含む全候補(LEGACY10+V1-V4=41+V5=4+V6=1+V7=9、計55)を
-# 初めて一つのプールとして統合する。
+# --- 2026-09-14訂正(Opus5レビューで指摘、2026-09-15対応): 当初このコメントは
+# 「CANDIDATE_SIGNALS_V4(予想印・コーナー展開、11本)は2026-08-28の単独検証以降、統合探索に
+# 一度も合流していなかった」としていたが誤り。実際にはjra_search_boxN_2026_09_11.pyが
+# 同一319レースでNAMES=JS.ALL_SIGNALS_V5+JS.CANDIDATE_SIGNALS_V4という45本プール
+# (LEGACY+V1-V5、N_PATTERNS=2000)を既に検証済み(data/jra_pipeline/
+# jra_search_box{3,4,5}_2026_09_11_result.json)。事実として正しいのは、V4が
+# 「このモジュールのALL_SIGNALS_V5/V6という定数チェーン」(ALL_SIGNALS=LEGACY+V1+V2+V3から
+# 分岐しておりV4を経由しない)には合流していなかった、という限定的な話であり、
+# V4は2026-09-11時点で既にV5とは統合済みだった。ALL_SIGNALS_V7で新しいのは
+# V4をV6(トラックバイアス)・V7(レーダー複合)と初めて一緒に検証する点と、以後の
+# 検証がこのモジュール定数チェーンから再現可能になる点(LEGACY10+V1-V4=41+V5=4+V6=1+V7=9、計55)。
 ALL_SIGNALS_V7 = ALL_SIGNALS_V4 + CANDIDATE_SIGNALS_V5 + CANDIDATE_SIGNALS_V6 + CANDIDATE_SIGNALS_V7
 
 TRAIN_RANK_MAP = {"S": 6, "A": 5, "B": 4, "C": 3, "D": 2, "E": 1}
