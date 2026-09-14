@@ -110,6 +110,10 @@ def main():
         odds_final_by_race.setdefault(rid_, {})[int(uma_)] = float(odds_)
     axis_records = RC.build_axis_matrix(races, priors_v4, history_index, lap33_lookup, race_meta)
     axis_by_race = {rec["race_id"]: rec["axis"] for rec in axis_records}
+    # 2026-09-14追加(レーダー解像度レビュー、脚質・展開/騎手・厩舎/血統適性の細分化+
+    # 近走成績・調子からのagari独立、計9本)。axis_recordsが保持済みのsigを再利用するため
+    # compute_signals()/lap33_fit_matrix()の再計算は発生しない。
+    sub_axis_by_race = RC.build_display_subcategory_axis(axis_records)
 
     print("新規候補ファクターv1を計算中...")
     cf1_hist_idx = CF1.build_history_index(results_all)
@@ -149,6 +153,21 @@ def main():
                     radar_ranks[slug] = pd.Series(np.nan, index=df.index)
         else:
             radar_ranks = {slug: pd.Series(np.nan, index=df.index) for slug in CATEGORY_SLUG.values()}
+
+        # 2026-09-14追加: レーダー細分化フィルタ(9本)。既存radar_ranksと全く同じ抽出
+        # ロジック(rank→notnaでNaN復元)をRC.DISPLAY_SUBCATEGORY_SLUGの9カテゴリに適用するだけ。
+        sub_axis = sub_axis_by_race.get(rid)
+        sub_radar_ranks = {}
+        if sub_axis is not None:
+            for cat, slug in RC.DISPLAY_SUBCATEGORY_SLUG.items():
+                if cat in sub_axis.columns:
+                    sub_radar_ranks[slug] = sub_axis[cat].rank(method="min", ascending=False, na_option="bottom")
+                    sub_radar_ranks[slug] = sub_radar_ranks[slug].where(sub_axis[cat].notna())
+                else:
+                    sub_radar_ranks[slug] = pd.Series(np.nan, index=df.index)
+        else:
+            sub_radar_ranks = {slug: pd.Series(np.nan, index=df.index)
+                               for slug in RC.DISPLAY_SUBCATEGORY_SLUG.values()}
 
         flop_safety_rank = compute_flop_safety_rank(df, r["race_name"], priors_v4)
 
@@ -201,6 +220,16 @@ def main():
                 "radar_rank_pedigree": _rank_val(radar_ranks["pedigree"], i),
                 "radar_rank_jt": _rank_val(radar_ranks["jt"], i),
                 "radar_rank_mark": _rank_val(radar_ranks["mark"], i),
+                # --- レーダー細分化フィルタ(2026-09-14追加) ---
+                "radar_rank_style_position": _rank_val(sub_radar_ranks["style_position"], i),
+                "radar_rank_style_stamina": _rank_val(sub_radar_ranks["style_stamina"], i),
+                "radar_rank_style_corner_move": _rank_val(sub_radar_ranks["style_corner_move"], i),
+                "radar_rank_jt_base": _rank_val(sub_radar_ranks["jt_base"], i),
+                "radar_rank_jt_change": _rank_val(sub_radar_ranks["jt_change"], i),
+                "radar_rank_jt_stats": _rank_val(sub_radar_ranks["jt_stats"], i),
+                "radar_rank_pedigree_pure": _rank_val(sub_radar_ranks["pedigree_pure"], i),
+                "radar_rank_pedigree_training": _rank_val(sub_radar_ranks["pedigree_training"], i),
+                "radar_rank_form_agari": _rank_val(sub_radar_ranks["form_agari"], i),
                 "lap33_fit_rank": _rank_val(radar_ranks["lap33"], i),
                 "flop_safety_rank": _rank_val(flop_safety_rank, i),
                 "mark_honshi": _mark_val(mark_honshi.at[i]),

@@ -65,6 +65,47 @@ assert _expected == set(JS.ALL_SIGNALS_V4), (
     f"missing={set(JS.ALL_SIGNALS_V4) - _expected}  extra={_expected - set(JS.ALL_SIGNALS_V4)}"
 )
 
+# --------------------------------------------------------------------- 表示専用サブカテゴリ(2026-09-14)
+# 「詳細7カテゴリ(レーダー)」フィルタの解像度を上げるための表示専用の細分マッピング
+# (ファクター検証データベースのフィルタとしてのみ使う、jra_factor_registry.FACTOR_GROUPS
+# 参照)。CATEGORY_SIGNAL_MAP/CATEGORIES/ORDER_1/ORDER_2/ORDER_NULLおよび上記assert、
+# 「レーダー面積予想」手法(既に不採用判定済み、radar_area_picks等)には一切変更を加えない
+# 完全に独立した経路(build_display_subcategory_axis()参照)。
+# 参照: レーダー解像度レビュー(Opus5サブエージェント、2026-09-14)
+# https://claude.ai/code/artifact/6744447f-b10c-4c77-a344-bf50755a47fd
+# 採用: 脚質・展開→3分割、騎手・厩舎→3分割、血統適性→2分割、近走成績・調子から
+# agariのみ独立(weight_trendは単勝的中率がベースラインと無差別だったため見送り)。
+DISPLAY_SUBCATEGORY_MAP = {
+    "脚質・位置取り": ["style", "nige", "corner4_position", "corner4_gap",
+                    "corner3_position", "corner3_gap"],
+    "持続力(スタミナ)": ["holdtime", "hold_just", "hold_wide"],
+    "コーナーでの押し上げ": ["corner4_speedup", "corner_transition_rank", "corner_transition_gap"],
+    "騎手・厩舎: 素の成績": ["jt"],
+    "騎手・厩舎: 乗り替わり": ["jockey_change", "prevjockey"],
+    "騎手・厩舎: 掛け合わせ統計": ["odds_jockey", "surf_jt", "jockey_owner"],
+    "純血統(父・母父)": ["sire", "bms"],
+    "血統×調教・コメント": ["ketto_training", "ketto_comment"],
+    "上がり3F": ["agari"],
+}
+
+# jra_factor_registry.FACTOR_GROUPSのsource値・build_factor_dataset.py/
+# jra_pending_factor_scoring.pyの馬レコード辞書キーで共有する唯一の日本語名→slug対応表
+# (2箇所で手書きし直して食い違うことを防ぐため、ここに1箇所だけ定義する)。
+DISPLAY_SUBCATEGORY_SLUG = {
+    "脚質・位置取り": "style_position",
+    "持続力(スタミナ)": "style_stamina",
+    "コーナーでの押し上げ": "style_corner_move",
+    "騎手・厩舎: 素の成績": "jt_base",
+    "騎手・厩舎: 乗り替わり": "jt_change",
+    "騎手・厩舎: 掛け合わせ統計": "jt_stats",
+    "純血統(父・母父)": "pedigree_pure",
+    "血統×調教・コメント": "pedigree_training",
+    "上がり3F": "form_agari",
+}
+assert set(DISPLAY_SUBCATEGORY_SLUG) == set(DISPLAY_SUBCATEGORY_MAP), (
+    "DISPLAY_SUBCATEGORY_SLUGとDISPLAY_SUBCATEGORY_MAPのキーが一致しない"
+)
+
 # --------------------------------------------------------------------- 順序(面積専用)
 
 ORDER_1 = [  # 主軸・物語的順序
@@ -137,6 +178,38 @@ def compute_lap33_axis(race: dict, lap33_fit_all: dict) -> tuple:
 
 # --------------------------------------------------------------------- 軸行列構築
 
+def _build_axis_from_signals(sig: dict, index, cat_map: dict) -> tuple:
+    """sig(compute_signals()の生辞書+pace_fit/lap33_axis)から、指定カテゴリマップに
+    従って軸を構築する共通処理。build_axis_matrix()本体から切り出したもの(2026-09-14、
+    既に計算済みのsigを再利用したい呼び出し側(build_display_subcategory_axis())向け、
+    振る舞いは変更していない純粋な抽出)。戻り値: (raw_axis, axis, imputed, dropped)。"""
+    categories = list(cat_map.keys())
+    raw_cols = {}
+    for cat, members in cat_map.items():
+        weights = {m: 1.0 for m in members}
+        raw_cols[cat] = JS.combine_signals({m: sig[m] for m in members}, weights)
+    raw_axis = pd.DataFrame(raw_cols, index=index)[categories]
+
+    axis = pd.DataFrame(index=index, columns=categories, dtype=float)
+    imputed = pd.DataFrame(False, index=index, columns=categories)
+    dropped = {}
+    for cat in categories:
+        col = raw_axis[cat]
+        if col.isna().all():
+            dropped[cat] = "missing"
+            continue
+        mask = col.isna()
+        filled = col.fillna(col.mean())
+        renorm = JS._minmax(filled)
+        if renorm.isna().all():
+            # 補完後も全馬同値(タイ) - 欠損とは別理由として記録する。
+            dropped[cat] = "tied"
+            continue
+        axis[cat] = renorm
+        imputed[cat] = mask
+    return raw_axis, axis, imputed, dropped
+
+
 def build_axis_matrix(races: list, priors: dict, history_index, lap33_lookup: dict,
                       race_meta: dict, category_map: dict = None) -> list:
     """races(jra_dataset形式)全体について、補完済み・レース内再正規化済みの軸行列`R`を
@@ -171,29 +244,7 @@ def build_axis_matrix(races: list, priors: dict, history_index, lap33_lookup: di
         sig["lap33_axis"] = lap33_axis
         sig["lap33_type_known"] = lap33_known  # 診断専用、カテゴリ計算には使わない
 
-        raw_cols = {}
-        for cat, members in cat_map.items():
-            weights = {m: 1.0 for m in members}
-            raw_cols[cat] = JS.combine_signals({m: sig[m] for m in members}, weights)
-        raw_axis = pd.DataFrame(raw_cols, index=df.index)[categories]
-
-        axis = pd.DataFrame(index=df.index, columns=categories, dtype=float)
-        imputed = pd.DataFrame(False, index=df.index, columns=categories)
-        dropped = {}
-        for cat in categories:
-            col = raw_axis[cat]
-            if col.isna().all():
-                dropped[cat] = "missing"
-                continue
-            mask = col.isna()
-            filled = col.fillna(col.mean())
-            renorm = JS._minmax(filled)
-            if renorm.isna().all():
-                # 補完後も全馬同値(タイ) - 欠損とは別理由として記録する。
-                dropped[cat] = "tied"
-                continue
-            axis[cat] = renorm
-            imputed[cat] = mask
+        raw_axis, axis, imputed, dropped = _build_axis_from_signals(sig, df.index, cat_map)
 
         records.append({
             "race_id": race["race_id"], "kaisai_date": race["kaisai_date"],
@@ -202,6 +253,20 @@ def build_axis_matrix(races: list, priors: dict, history_index, lap33_lookup: di
             "dropped": dropped, "n_race": len(categories) - len(dropped),
         })
     return records
+
+
+def build_display_subcategory_axis(records: list, category_map: dict = None) -> dict:
+    """build_axis_matrix()の戻り値records(各要素が"signals"にcompute_signals()の生辞書を
+    保持済み)を再利用し、表示専用サブカテゴリ(既定: DISPLAY_SUBCATEGORY_MAP)の軸だけを
+    追加計算する。compute_signals()・lap33_fit_matrix()の再計算は発生しない(2026-09-14、
+    レーダー解像度レビュー対応、build_factor_dataset.py/jra_pending_factor_scoring.pyの
+    両方から呼ばれる想定)。戻り値: {race_id: axis DataFrame}。"""
+    cat_map = category_map if category_map is not None else DISPLAY_SUBCATEGORY_MAP
+    out = {}
+    for rec in records:
+        _, axis, _, _ = _build_axis_from_signals(rec["signals"], rec["axis"].index, cat_map)
+        out[rec["race_id"]] = axis
+    return out
 
 
 def filter_min_categories(races: list, records: list, min_categories: int = MIN_CATEGORIES) -> tuple:

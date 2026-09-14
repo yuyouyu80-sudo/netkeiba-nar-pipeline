@@ -77,6 +77,18 @@ jra_course_master.csvの静的値をv3と同じ閾値[2.0, 3.0]でバンド化)�
     (newspaper CSVの`bias_owner_id`相当)が現状存在しないため計算不可。該当atom
     (`owner_prior_win_rate_low`)はpending日では常に非該当になる(将来
     fetch_newspaper.py側にbias_owner_id列が追加されれば対応可能)。
+
+2026-09-14追記(ユーザー依頼「詳細7カテゴリ(レーダー)細分化」、レーダー解像度レビュー
+Opus5サブエージェント調査結果を★3件+条件付き1件採用): 「脚質・展開」→3分割
+(radar_rank_style_position/style_stamina/style_corner_move)、「騎手・厩舎」→3分割
+(radar_rank_jt_base/jt_change/jt_stats)、「血統適性」→2分割(radar_rank_pedigree_pure/
+pedigree_training)、「近走成績・調子」からagariのみ独立(radar_rank_form_agari、
+weight_trendは単勝的中率がベースラインと無差別だったため独立化見送り)の計9本を追加。
+いずれもjra_radar_categories.DISPLAY_SUBCATEGORY_MAP/DISPLAY_SUBCATEGORY_SLUG
+(build_factor_dataset.pyと共有する単一の定義、2箇所の手書き食い違いを防ぐ)経由で、
+既に呼んでいるRC.build_axis_matrix()のsignalsを再利用するだけ(新規のcompute_signals
+呼び出しは発生しない)。既存radar_rank_pedigree/jt/mark/ability/aptitude/form/style
+(7カテゴリ本体)は無変更。
 """
 import argparse
 import json
@@ -193,6 +205,9 @@ def main():
     print("レーダー8カテゴリ軸を計算中...")
     axis_records = RC.build_axis_matrix(races, priors_v4, history_index, lap33_lookup, race_meta)
     axis_by_race = {rec["race_id"]: rec["axis"] for rec in axis_records}
+    # 2026-09-14追加(レーダー解像度レビュー、build_factor_dataset.pyと同じ9本の細分化)。
+    # axis_recordsが保持済みのsigを再利用するため新規のcompute_signals呼び出しは発生しない。
+    sub_axis_by_race = RC.build_display_subcategory_axis(axis_records)
 
     print("本番スコアを計算中...")
     out = {}
@@ -314,6 +329,19 @@ def main():
                 rank_style = axis["脚質・展開"].rank(method="min", ascending=False, na_option="bottom")
                 rank_style = rank_style.where(axis["脚質・展開"].notna())
 
+        # 2026-09-14追加(レーダー解像度レビュー: 脚質・展開/騎手・厩舎/血統適性の細分化+
+        # 近走成績・調子からのagari独立、計9本)。build_factor_dataset.pyと同じ
+        # RC.DISPLAY_SUBCATEGORY_SLUG(単一の日本語名→slug対応表)を共有しているため、
+        # 2箇所で手書きし直して食い違うリスクが無い。
+        sub_axis = sub_axis_by_race.get(rid)
+        sub_ranks = {}
+        for cat, slug in RC.DISPLAY_SUBCATEGORY_SLUG.items():
+            if sub_axis is not None and cat in sub_axis.columns and sub_axis[cat].notna().any():
+                r_ = sub_axis[cat].rank(method="min", ascending=False, na_option="bottom")
+                sub_ranks[slug] = r_.where(sub_axis[cat].notna())
+            else:
+                sub_ranks[slug] = None
+
         ninki = JS._num(JS._col(df, "bias_ninki"))
         ca_jockey_wr = JS._pct(JS._col(df, "ca_jockey_win_rate"))
         ca_trainer_wr = JS._pct(JS._col(df, "ca_trainer_win_rate"))
@@ -357,6 +385,16 @@ def main():
                 "radar_rank_aptitude": _rank_val(rank_aptitude, i) if rank_aptitude is not None else None,
                 "radar_rank_form": _rank_val(rank_form, i) if rank_form is not None else None,
                 "radar_rank_style": _rank_val(rank_style, i) if rank_style is not None else None,
+                # --- レーダー細分化フィルタ(2026-09-14追加) ---
+                "radar_rank_style_position": _rank_val(sub_ranks["style_position"], i) if sub_ranks["style_position"] is not None else None,
+                "radar_rank_style_stamina": _rank_val(sub_ranks["style_stamina"], i) if sub_ranks["style_stamina"] is not None else None,
+                "radar_rank_style_corner_move": _rank_val(sub_ranks["style_corner_move"], i) if sub_ranks["style_corner_move"] is not None else None,
+                "radar_rank_jt_base": _rank_val(sub_ranks["jt_base"], i) if sub_ranks["jt_base"] is not None else None,
+                "radar_rank_jt_change": _rank_val(sub_ranks["jt_change"], i) if sub_ranks["jt_change"] is not None else None,
+                "radar_rank_jt_stats": _rank_val(sub_ranks["jt_stats"], i) if sub_ranks["jt_stats"] is not None else None,
+                "radar_rank_pedigree_pure": _rank_val(sub_ranks["pedigree_pure"], i) if sub_ranks["pedigree_pure"] is not None else None,
+                "radar_rank_pedigree_training": _rank_val(sub_ranks["pedigree_training"], i) if sub_ranks["pedigree_training"] is not None else None,
+                "radar_rank_form_agari": _rank_val(sub_ranks["form_agari"], i) if sub_ranks["form_agari"] is not None else None,
                 "flop_safety_rank": _rank_val(flop_safety_rank, i),
                 "bias_ninki": int(ninki.at[i]) if i in ninki.index and pd.notna(ninki.at[i]) else None,
                 "grade_best": cf1["grade_best"].at[i] if i in cf1["grade_best"].index else None,

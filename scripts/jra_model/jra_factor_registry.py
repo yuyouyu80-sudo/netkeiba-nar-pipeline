@@ -178,6 +178,113 @@ FACTOR_GROUPS = {
                     {"id": "radar_mark_top3", "label": "1〜3位", "params": {"le": 3}},
                     {"id": "radar_mark_top5", "label": "1〜5位", "params": {"le": 5}}],
     },
+    # =====================================================================
+    # レーダー細分化フィルタ(2026-09-14追加、レーダー解像度レビュー
+    # https://claude.ai/code/artifact/6744447f-b10c-4c77-a344-bf50755a47fd をOpus5
+    # サブエージェントに調査させ、★3件+条件付き1件を採用)。既存「詳細7カテゴリ(レーダー)」
+    # タイア(radar_ability〜radar_mark、7項目)は無変更のまま、「脚質・展開」「騎手・厩舎」
+    # 「血統適性」の3カテゴリをより細かい9本のサブ軸へ分割。jra_radar_categories.pyの
+    # DISPLAY_SUBCATEGORY_MAP(CATEGORY_SIGNAL_MAP/ORDER_1/2/NULL・既に不採用のレーダー
+    # 面積予想手法とは完全に独立)から算出。
+    # =====================================================================
+    "radar_style_position": {
+        "label": "脚質・位置取り 順位", "source": "radar_rank_style_position",
+        "kind": "rank_le", "widget": "radio", "tier": "radar_detail",
+        "options": [{"id": "radar_style_position_top1", "label": "1位のみ", "params": {"le": 1}},
+                    {"id": "radar_style_position_top3", "label": "1〜3位", "params": {"le": 3}},
+                    {"id": "radar_style_position_top5", "label": "1〜5位", "params": {"le": 5}}],
+        "extra_note": "「脚質・展開」(詳細7カテゴリ)の細分軸その1。style/nige/corner3・4"
+                      "コーナーの位置取り・ギャップ(6シグナル)のみで構成、相互に独立な"
+                      "3分割の1本目(rho≤0.15)。既存「脚質・展開 順位」(radar_style、"
+                      "13シグナルの集約)とは別軸で、そちらは無変更のまま残しています。",
+    },
+    "radar_style_stamina": {
+        "label": "持続力(スタミナ) 順位", "source": "radar_rank_style_stamina",
+        "kind": "rank_le", "widget": "radio", "tier": "radar_detail",
+        "options": [{"id": "radar_style_stamina_top1", "label": "1位のみ", "params": {"le": 1}},
+                    {"id": "radar_style_stamina_top3", "label": "1〜3位", "params": {"le": 3}},
+                    {"id": "radar_style_stamina_top5", "label": "1〜5位", "params": {"le": 5}}],
+        "extra_note": "「脚質・展開」の細分軸その2。holdtime/hold_just/hold_wide(持続タイム系"
+                      "3シグナル)のみで構成。",
+    },
+    "radar_style_corner_move": {
+        "label": "コーナーでの押し上げ 順位", "source": "radar_rank_style_corner_move",
+        "kind": "rank_le", "widget": "radio", "tier": "radar_detail",
+        "options": [{"id": "radar_style_corner_move_top1", "label": "1位のみ", "params": {"le": 1}},
+                    {"id": "radar_style_corner_move_top3", "label": "1〜3位", "params": {"le": 3}},
+                    {"id": "radar_style_corner_move_top5", "label": "1〜5位", "params": {"le": 5}}],
+        "extra_note": "「脚質・展開」の細分軸その3。corner4_speedup/corner_transition_rank・"
+                      "gap(コーナー間の順位変化・押し上げ系3シグナル)のみで構成。なお"
+                      "pace_fit(想定ペース×脚質)はこの3分割から意図的に除外しています"
+                      "(カバレッジ58%・約半数がタイで順位フィルタとして機能しないため。"
+                      "絞り込みたい場合は既存の「想定ペース」「4コーナー想定位置」フィルタを"
+                      "使ってください)。",
+    },
+    "radar_jt_base": {
+        "label": "騎手・厩舎: 素の成績 順位", "source": "radar_rank_jt_base",
+        "kind": "rank_le", "widget": "radio", "tier": "radar_detail",
+        "options": [{"id": "radar_jt_base_top1", "label": "1位のみ", "params": {"le": 1}},
+                    {"id": "radar_jt_base_top3", "label": "1〜3位", "params": {"le": 3}},
+                    {"id": "radar_jt_base_top5", "label": "1〜5位", "params": {"le": 5}}],
+        "extra_note": "「騎手・厩舎」(詳細7カテゴリ)の細分軸その1。jt(騎手・調教師の"
+                      "素の成績シグナル)単体のみ。既存「騎手・厩舎 順位」(radar_jt、6シグナル"
+                      "の集約)は無変更のまま残しています。",
+    },
+    "radar_jt_change": {
+        "label": "騎手・厩舎: 乗り替わり 順位", "source": "radar_rank_jt_change",
+        "kind": "rank_le", "widget": "radio", "tier": "radar_detail",
+        "options": [{"id": "radar_jt_change_top1", "label": "1位のみ", "params": {"le": 1}},
+                    {"id": "radar_jt_change_top3", "label": "1〜3位", "params": {"le": 3}},
+                    {"id": "radar_jt_change_top5", "label": "1〜5位", "params": {"le": 5}}],
+        "extra_note": "「騎手・厩舎」の細分軸その2。jockey_change/prevjockey(乗り替わり"
+                      "関連2シグナル)のみで構成。",
+    },
+    "radar_jt_stats": {
+        "label": "騎手・厩舎: 掛け合わせ統計 順位", "source": "radar_rank_jt_stats",
+        "kind": "rank_le", "widget": "radio", "tier": "radar_detail",
+        "options": [{"id": "radar_jt_stats_top1", "label": "1位のみ", "params": {"le": 1}},
+                    {"id": "radar_jt_stats_top3", "label": "1〜3位", "params": {"le": 3}},
+                    {"id": "radar_jt_stats_top5", "label": "1〜5位", "params": {"le": 5}}],
+        "extra_note": "「騎手・厩舎」の細分軸その3。odds_jockey/surf_jt/jockey_owner"
+                      "(掛け合わせ統計3シグナル)のみで構成。3分割の中で最も的中率の差が"
+                      "大きい軸ですが、高い的中率はodds_jockey(市場のオッズ情報)混入に"
+                      "相当程度依存しており、騎手の腕そのものではなく市場評価の代理と"
+                      "解釈してください。",
+    },
+    "radar_pedigree_pure": {
+        "label": "純血統(父・母父) 順位", "source": "radar_rank_pedigree_pure",
+        "kind": "rank_le", "widget": "radio", "tier": "radar_detail",
+        "options": [{"id": "radar_pedigree_pure_top1", "label": "1位のみ", "params": {"le": 1}},
+                    {"id": "radar_pedigree_pure_top3", "label": "1〜3位", "params": {"le": 3}},
+                    {"id": "radar_pedigree_pure_top5", "label": "1〜5位", "params": {"le": 5}}],
+        "extra_note": "「血統適性」(詳細7カテゴリ)の細分軸その1。sire/bms(父・母父の"
+                      "適性シグナル)のみで構成。既存「血統適性 順位」(radar_pedigree、"
+                      "4シグナルの集約)は無変更のまま残しています。",
+    },
+    "radar_pedigree_training": {
+        "label": "血統×調教・コメント 順位", "source": "radar_rank_pedigree_training",
+        "kind": "rank_le", "widget": "radio", "tier": "radar_detail",
+        "options": [{"id": "radar_pedigree_training_top3", "label": "1〜3位", "params": {"le": 3}},
+                    {"id": "radar_pedigree_training_top5", "label": "1〜5位", "params": {"le": 5}}],
+        "extra_note": "「血統適性」の細分軸その2。ketto_training/ketto_comment(血統評価と"
+                      "調教・厩舎コメントの掛け合わせ2シグナル)のみで構成。タイがやや多く"
+                      "単勝的中率もベースラインと有意差が無いため、「1位のみ」は意図的に"
+                      "提供していません。",
+    },
+    "radar_form_agari": {
+        "label": "上がり3F(近走) 順位", "source": "radar_rank_form_agari",
+        "kind": "rank_le", "widget": "radio", "tier": "radar_detail",
+        "options": [{"id": "radar_form_agari_top1", "label": "1位のみ", "params": {"le": 1}},
+                    {"id": "radar_form_agari_top3", "label": "1〜3位", "params": {"le": 3}},
+                    {"id": "radar_form_agari_top5", "label": "1〜5位", "params": {"le": 5}}],
+        "extra_note": "「近走成績・調子」(詳細7カテゴリ)からagari(上がり3F)だけを"
+                      "独立させた参考フィルタ。既存「近走成績・調子 順位」(radar_form、"
+                      "form/margin/timediff/agari/weight_trend/class_dropの6シグナル集約)は"
+                      "無変更のままです(agari抜きでも主軸のrho=0.922とほぼ不変なため、"
+                      "本体を分割するのではなく本項目を外出しする形にしました)。"
+                      "weight_trendは単勝的中率がベースラインと無差別だったため独立化を"
+                      "見送りました(condition タイアの「馬体重の増減」で代替可能です)。",
+    },
     "lap33": {
         "label": "33ラップ理論適合度", "source": "lap33_fit_rank",
         "kind": "rank_le", "widget": "radio", "tier": "reference",
@@ -810,6 +917,8 @@ FACTOR_GROUPS = {
 GROUP_TIERS = [
     {"id": "basic", "label": "基本"},
     {"id": "radar", "label": "詳細7カテゴリ(レーダー)"},
+    {"id": "radar_detail", "label": "レーダー細分化フィルタ(2026-09-14追加)",
+     "badge": "新規追加"},
     {"id": "condition", "label": "出走条件・馬プロフィール(2026-09-04追加)",
      "badge": "新規追加"},
     {"id": "course_baba", "label": "コース形態・馬場(2026-09-04追加)",
