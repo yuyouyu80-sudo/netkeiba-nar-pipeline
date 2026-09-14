@@ -99,6 +99,26 @@ ALL_SIGNALS_V5 = ALL_SIGNALS + CANDIDATE_SIGNALS_V5
 CANDIDATE_SIGNALS_V6 = ["track_waku_bias"]
 ALL_SIGNALS_V6 = ALL_SIGNALS_V5 + CANDIDATE_SIGNALS_V6
 
+# --- 候補シグナル第7弾(2026-09-14、レーダー解像度レビュー): 「詳細7カテゴリ(レーダー)」
+# 9分割(jra_radar_categories.DISPLAY_SUBCATEGORY_MAP)を、ファクター検証データベースの
+# 表示フィルタだけでなくbox3/4/5本番重み探索の候補シグナルとしても検証する。中身は全て
+# 既存シグナル(LEGACY/V1-V4)の再グルーピングであり新規生データではない点に注意
+# (例: radar_style_position = style+nige+corner4_position+corner4_gap+corner3_position+
+# corner3_gapの合成)。計算本体はjra_radar_categories.compute_signals_with_radar()/
+# signal_matrices_with_radar()側に置く(このモジュールを向こうがimportしているため、
+# 逆方向のimportは循環importになり不可)。ここではNAR/JRA共通の「各波ごとに名前リストを
+# 持つ」慣習に合わせて名前だけを定義する。
+CANDIDATE_SIGNALS_V7 = ["radar_style_position", "radar_style_stamina", "radar_style_corner_move",
+                       "radar_jt_base", "radar_jt_change", "radar_jt_stats",
+                       "radar_pedigree_pure", "radar_pedigree_training", "radar_form_agari"]
+# --- 2026-09-14、JRAデータ資産棚卸しレビューのフォローアップで判明: CANDIDATE_SIGNALS_V4
+# (予想印・コーナー展開、11本)は2026-08-28の単独検証(ALL_SIGNALS_V4)以降、V5(血統)・
+# V6(トラックバイアス)の統合探索チェーンに一度も合流していなかった(ALL_SIGNALS_V5/V6は
+# ALL_SIGNALS(LEGACY+V1+V2+V3)から分岐しておりV4を経由しない)。ユーザー指示によりV7では
+# この欠落を解消し、V4を含む全候補(LEGACY10+V1-V4=41+V5=4+V6=1+V7=9、計55)を
+# 初めて一つのプールとして統合する。
+ALL_SIGNALS_V7 = ALL_SIGNALS_V4 + CANDIDATE_SIGNALS_V5 + CANDIDATE_SIGNALS_V6 + CANDIDATE_SIGNALS_V7
+
 TRAIN_RANK_MAP = {"S": 6, "A": 5, "B": 4, "C": 3, "D": 2, "E": 1}
 DNF_FINISH_PENALTY = 20
 DNF_CODES = {"中止", "取消", "除外", "失格", "中", "取", "除"}

@@ -269,6 +269,45 @@ def build_display_subcategory_axis(records: list, category_map: dict = None) -> 
     return out
 
 
+# --------------------------------------------------------------------- box3/4/5重み探索向け(2026-09-14)
+# レーダー9分割(DISPLAY_SUBCATEGORY_MAP)をjra_signals.py CANDIDATE_SIGNALS_V7として
+# box3/4/5の本番重み探索にも投入するための橋渡し。jra_signals.py側からはこのモジュールを
+# importできない(本モジュールが冒頭で`import jra_signals as JS`しているため循環importになる)
+# ので、計算本体はこちら側に置き、jra_signals.pyはCANDIDATE_SIGNALS_V7という「名前のリスト」
+# だけを持つ(既存シグナルと同列に扱えるようにするため)。
+# "radar_"+DISPLAY_SUBCATEGORY_SLUGの値をキー名とする(jra_factor_registry.FACTOR_GROUPSの
+# id("radar_style_position"等)と完全に一致させ、レポート上の対応関係を分かりやすくする)。
+RADAR_SIGNAL_NAMES = [f"radar_{slug}" for slug in DISPLAY_SUBCATEGORY_SLUG.values()]
+
+
+def compute_signals_with_radar(df, current_class_ordinal, priors: dict, class_ordinal_map: dict = None) -> dict:
+    """JS.compute_signals()の戻り値(46キー、LEGACY+V1-V6)に、DISPLAY_SUBCATEGORY_MAPの
+    9複合シグナルを"radar_"+slugのキーで追加した拡張sig辞書を返す。追加分は全て既存キーの
+    再グルーピング(combine_signals→レース内minmax)であり、新規生データではない
+    (_build_axis_from_signalsと同じ計算、値域は既存シグナルと同じ0..1)。"""
+    sig = JS.compute_signals(df, current_class_ordinal, priors, class_ordinal_map)
+    _, axis, _, _ = _build_axis_from_signals(sig, df.index, DISPLAY_SUBCATEGORY_MAP)
+    for cat, slug in DISPLAY_SUBCATEGORY_SLUG.items():
+        sig[f"radar_{slug}"] = axis[cat]
+    return sig
+
+
+def signal_matrices_with_radar(races: list, priors: dict, names: list, class_ordinal_map: dict = None) -> list:
+    """JS.signal_matrices()と同じ契約・同じ(S, A)行列定義だが、compute_signals_with_radar()を
+    経由するため、namesにradar_*(RADAR_SIGNAL_NAMES)を含められる。既存シグナルのみの
+    namesを渡した場合はJS.signal_matrices()と数値的に完全に同一(追加計算をしないだけ無駄が
+    増えるので、radar_*を全く使わない探索では引き続きJS.signal_matrices()を使うこと)。"""
+    class_map = class_ordinal_map if class_ordinal_map is not None else JS.CLASS_ORDINAL
+    mats = []
+    for r in races:
+        current_class = JS._class_ordinal(r["race_name"], class_map)
+        sig = compute_signals_with_radar(r["df"], current_class, priors, class_map)
+        S = np.column_stack([sig[n].fillna(0.0).to_numpy(dtype=float) for n in names])
+        A = np.column_stack([sig[n].notna().to_numpy(dtype=float) for n in names])
+        mats.append({"S": S, "A": A})
+    return mats
+
+
 def filter_min_categories(races: list, records: list, min_categories: int = MIN_CATEGORIES) -> tuple:
     """N_race < min_categories のレースを races/records の両方から同じ順序で除外する
     (計画セクション3手順6、Evaluatorはこの除外後のracesリストで再構築すること)。"""
