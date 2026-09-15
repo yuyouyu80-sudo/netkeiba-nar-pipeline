@@ -45,7 +45,7 @@ BET_META = {
     "ワイド": dict(slug="wide", k=2, ordered=False, file="ledger_wide.html",
                  url="https://claude.ai/code/artifact/3e774502-09c8-4c39-8fa7-b22fa90c79df"),
     "馬単": dict(slug="umatan", k=2, ordered=True, file="ledger_umatan.html",
-                url=None),
+                url="https://claude.ai/code/artifact/a0b23ee4-4ddf-4183-be5b-65e2f965bdc1"),
     "3連複": dict(slug="sanrenpuku", k=3, ordered=False, file="ledger_sanrenpuku.html",
                  url="https://claude.ai/code/artifact/5aac2d4a-5cb6-4418-9a1e-fce73f867971"),
     "3連単": dict(slug="sanrentan", k=3, ordered=True, file="ledger_sanrentan.html",
