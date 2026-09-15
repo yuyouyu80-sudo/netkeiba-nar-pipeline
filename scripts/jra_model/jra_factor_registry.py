@@ -35,7 +35,9 @@ FACTOR_GROUPS = {
             {"id": "score_top1", "label": "1位のみ", "params": {"le": 1}},
             {"id": "score_top2", "label": "1〜2位", "params": {"le": 2}},
             {"id": "score_top3", "label": "1〜3位", "params": {"le": 3}},
+            {"id": "score_top4", "label": "1〜4位", "params": {"le": 4}},
             {"id": "score_top5", "label": "1〜5位", "params": {"le": 5}},
+            {"id": "score_top6", "label": "1〜6位", "params": {"le": 6}},
         ],
     },
     "score_rank_box4": {
@@ -45,7 +47,9 @@ FACTOR_GROUPS = {
             {"id": "score_box4_top1", "label": "1位のみ", "params": {"le": 1}},
             {"id": "score_box4_top2", "label": "1〜2位", "params": {"le": 2}},
             {"id": "score_box4_top3", "label": "1〜3位", "params": {"le": 3}},
+            {"id": "score_box4_top4", "label": "1〜4位", "params": {"le": 4}},
             {"id": "score_box4_top5", "label": "1〜5位", "params": {"le": 5}},
+            {"id": "score_box4_top6", "label": "1〜6位", "params": {"le": 6}},
         ],
         "extra_note": "2026-09-03、参考指標タイアへ移動(UI/UXレビュー指摘反映。BOX5(score_rank、"
                       "基本タイア)と並列に「基本」扱いされていると、本番採用モデルと誤認され"
@@ -63,7 +67,9 @@ FACTOR_GROUPS = {
             {"id": "score_box3_top1", "label": "1位のみ", "params": {"le": 1}},
             {"id": "score_box3_top2", "label": "1〜2位", "params": {"le": 2}},
             {"id": "score_box3_top3", "label": "1〜3位", "params": {"le": 3}},
+            {"id": "score_box3_top4", "label": "1〜4位", "params": {"le": 4}},
             {"id": "score_box3_top5", "label": "1〜5位", "params": {"le": 5}},
+            {"id": "score_box3_top6", "label": "1〜6位", "params": {"le": 6}},
         ],
         "extra_note": "score_rank_box4と同じ注意点(通常戦のみ対象、現行重みは未検証、"
                       "2026-09-03に参考指標タイアへ移動)。",
