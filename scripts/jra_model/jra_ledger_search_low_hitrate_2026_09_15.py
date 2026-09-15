@@ -30,7 +30,7 @@ OUT_PATH = DATA_DIR / "jra_ledger_search_low_hitrate_2026_09_15_result.json"
 BEAM_WIDTH = 300
 MAX_DEPTH = 6
 COVERAGE_MIN_PCT = 40.0
-HIT_RATE_THRESHOLD_PCT = 5.0
+HIT_RATE_THRESHOLD_PCT = 3.0
 N_HOLDOUT_DATES = 2
 
 # 券種: (組合せサイズr, 順序ありか)
