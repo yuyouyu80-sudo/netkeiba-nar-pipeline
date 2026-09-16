@@ -1,0 +1,229 @@
+{
+  "tier_meta": {
+    "basic": "基本",
+    "radar": "詳細7カテゴリ(レーダー)",
+    "radar_detail": "レーダー細分化",
+    "condition": "出走条件・体調フィルター",
+    "course_baba": "コース形態・馬場",
+    "reference": "参考指標(本番不使用)",
+    "candidate_v1": "新規ファクターv1",
+    "candidate_v2": "新規ファクターv2",
+    "candidate_v3": "騎手厩舎馬主生産者v3"
+  },
+  "tier_order": [
+    "basic",
+    "radar",
+    "radar_detail",
+    "condition",
+    "course_baba",
+    "reference",
+    "candidate_v1",
+    "candidate_v2",
+    "candidate_v3"
+  ],
+  "n_groups_per_tier": {
+    "unknown": 1,
+    "basic": 5,
+    "reference": 6,
+    "radar": 7,
+    "radar_detail": 9,
+    "candidate_v1": 12,
+    "candidate_v2": 7,
+    "condition": 17,
+    "course_baba": 8,
+    "candidate_v3": 9
+  },
+  "ledgers": {
+    "単勝": {
+      "criterion": "回収率10%未満",
+      "n_patterns": 462,
+      "n_zero_hit_rate": 153,
+      "zero_hit_rate_share_pct": 33.12,
+      "nonzero_hit_rate_min_pct": 0.2732,
+      "nonzero_hit_rate_max_pct": 1.8939,
+      "nonzero_hit_rate_median_pct": 0.4149,
+      "depth_distribution": {
+        "2": 8,
+        "3": 94,
+        "4": 305,
+        "5": 38,
+        "6": 17
+      },
+      "tier_composition_pct_of_atom_uses": {
+        "basic": 0.06,
+        "radar": 0.88,
+        "radar_detail": 12.6,
+        "condition": 21.99,
+        "course_baba": 7.85,
+        "reference": 38.95,
+        "candidate_v1": 6.8,
+        "candidate_v2": 2.49,
+        "candidate_v3": 8.4
+      },
+      "tier_pattern_share_pct": {
+        "basic": 0.22,
+        "radar": 3.46,
+        "radar_detail": 49.35,
+        "condition": 67.75,
+        "course_baba": 28.35,
+        "reference": 96.1,
+        "candidate_v1": 26.19,
+        "candidate_v2": 9.74,
+        "candidate_v3": 27.27
+      }
+    },
+    "複勝": {
+      "criterion": "的中率5%未満",
+      "n_patterns": 242,
+      "n_zero_hit_rate": 0,
+      "zero_hit_rate_share_pct": 0.0,
+      "nonzero_hit_rate_min_pct": 3.4632,
+      "nonzero_hit_rate_max_pct": 4.9793,
+      "nonzero_hit_rate_median_pct": 4.6025,
+      "depth_distribution": {
+        "3": 10,
+        "4": 75,
+        "5": 125,
+        "6": 32
+      },
+      "tier_composition_pct_of_atom_uses": {
+        "basic": 0.0,
+        "radar": 4.01,
+        "radar_detail": 11.77,
+        "condition": 31.47,
+        "course_baba": 2.18,
+        "reference": 32.78,
+        "candidate_v1": 6.71,
+        "candidate_v2": 1.66,
+        "candidate_v3": 9.42
+      },
+      "tier_pattern_share_pct": {
+        "basic": 0.0,
+        "radar": 19.01,
+        "radar_detail": 55.79,
+        "condition": 98.35,
+        "course_baba": 10.33,
+        "reference": 94.63,
+        "candidate_v1": 27.69,
+        "candidate_v2": 7.85,
+        "candidate_v3": 44.63
+      }
+    },
+    "ワイド": {
+      "criterion": "回収率10%未満",
+      "n_patterns": 407,
+      "n_zero_hit_rate": 257,
+      "zero_hit_rate_share_pct": 63.14,
+      "nonzero_hit_rate_min_pct": 0.2646,
+      "nonzero_hit_rate_max_pct": 1.6194,
+      "nonzero_hit_rate_median_pct": 0.4219,
+      "depth_distribution": {
+        "1": 1,
+        "2": 25,
+        "3": 162,
+        "4": 174,
+        "5": 37,
+        "6": 8
+      },
+      "tier_composition_pct_of_atom_uses": {
+        "basic": 0.0,
+        "radar": 3.75,
+        "radar_detail": 2.66,
+        "condition": 28.85,
+        "course_baba": 10.03,
+        "reference": 26.88,
+        "candidate_v1": 8.59,
+        "candidate_v2": 7.91,
+        "candidate_v3": 11.32
+      },
+      "tier_pattern_share_pct": {
+        "basic": 0.0,
+        "radar": 13.51,
+        "radar_detail": 9.58,
+        "condition": 80.34,
+        "course_baba": 32.68,
+        "reference": 79.36,
+        "candidate_v1": 30.47,
+        "candidate_v2": 28.5,
+        "candidate_v3": 32.92
+      }
+    },
+    "馬連": {
+      "criterion": "的中率0%(一度も的中なし)",
+      "n_patterns": 1075,
+      "n_zero_hit_rate": 1075,
+      "zero_hit_rate_share_pct": 100.0,
+      "nonzero_hit_rate_min_pct": null,
+      "nonzero_hit_rate_max_pct": null,
+      "nonzero_hit_rate_median_pct": null,
+      "depth_distribution": {
+        "1": 2,
+        "2": 84,
+        "3": 645,
+        "4": 235,
+        "5": 94,
+        "6": 15
+      },
+      "tier_composition_pct_of_atom_uses": {
+        "basic": 0.0,
+        "radar": 2.83,
+        "radar_detail": 5.3,
+        "condition": 23.91,
+        "course_baba": 9.51,
+        "reference": 34.51,
+        "candidate_v1": 8.46,
+        "candidate_v2": 3.44,
+        "candidate_v3": 11.98
+      },
+      "tier_pattern_share_pct": {
+        "basic": 0.0,
+        "radar": 9.4,
+        "radar_detail": 17.77,
+        "condition": 65.58,
+        "course_baba": 28.19,
+        "reference": 83.35,
+        "candidate_v1": 26.98,
+        "candidate_v2": 11.53,
+        "candidate_v3": 34.98
+      }
+    },
+    "3連複": {
+      "criterion": "的中率0%(一度も的中なし)",
+      "n_patterns": 1084,
+      "n_zero_hit_rate": 1084,
+      "zero_hit_rate_share_pct": 100.0,
+      "nonzero_hit_rate_min_pct": null,
+      "nonzero_hit_rate_max_pct": null,
+      "nonzero_hit_rate_median_pct": null,
+      "depth_distribution": {
+        "1": 3,
+        "2": 148,
+        "3": 620,
+        "4": 301,
+        "5": 12
+      },
+      "tier_composition_pct_of_atom_uses": {
+        "basic": 0.0,
+        "radar": 1.9,
+        "radar_detail": 6.11,
+        "condition": 23.98,
+        "course_baba": 13.85,
+        "reference": 30.91,
+        "candidate_v1": 9.73,
+        "candidate_v2": 1.75,
+        "candidate_v3": 11.36
+      },
+      "tier_pattern_share_pct": {
+        "basic": 0.0,
+        "radar": 6.0,
+        "radar_detail": 19.28,
+        "condition": 61.35,
+        "course_baba": 38.28,
+        "reference": 88.19,
+        "candidate_v1": 29.89,
+        "candidate_v2": 5.54,
+        "candidate_v3": 32.2
+      }
+    }
+  }
+}
