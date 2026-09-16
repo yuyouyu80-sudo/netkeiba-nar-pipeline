@@ -1,0 +1,418 @@
+{
+  "n_races": 319,
+  "dates": [
+    "20260711",
+    "20260712",
+    "20260718",
+    "20260719",
+    "20260725",
+    "20260726",
+    "20260801",
+    "20260802",
+    "20260808",
+    "20260809",
+    "20260815",
+    "20260816",
+    "20260822",
+    "20260823",
+    "20260829",
+    "20260830",
+    "20260905",
+    "20260906"
+  ],
+  "box_meta": {
+    "5": {
+      "pattern_id": 83,
+      "fitted_on": {
+        "n_races": 105,
+        "search_dates": [
+          "20260711",
+          "20260712",
+          "20260718"
+        ],
+        "holdout_dates": [
+          "20260719",
+          "20260725",
+          "20260726"
+        ]
+      }
+    },
+    "4": {
+      "pattern_id": 19,
+      "fitted_on": {
+        "n_races": 105,
+        "search_dates": [
+          "20260711",
+          "20260712",
+          "20260718"
+        ],
+        "holdout_dates": [
+          "20260719",
+          "20260725",
+          "20260726"
+        ],
+        "search_races": 53,
+        "holdout_races": 52
+      }
+    },
+    "3": {
+      "pattern_id": 95,
+      "fitted_on": {
+        "n_races": 105,
+        "search_dates": [
+          "20260711",
+          "20260712",
+          "20260718"
+        ],
+        "holdout_dates": [
+          "20260719",
+          "20260725",
+          "20260726"
+        ],
+        "search_races": 53,
+        "holdout_races": 52
+      }
+    }
+  },
+  "box_return_summary": {
+    "5": {
+      "market_excess_pt": 7.985370950888196,
+      "market_model": 86.96342737722048,
+      "market": 78.97805642633229,
+      "full_table": [
+        {
+          "bet_type": "単勝",
+          "races": 319,
+          "hit_races": 223,
+          "hit_rate_pct": 69.9,
+          "stake": 159500.0,
+          "return": 143760.0,
+          "return_rate_pct": 90.1
+        },
+        {
+          "bet_type": "複勝",
+          "races": 319,
+          "hit_races": 308,
+          "hit_rate_pct": 96.6,
+          "stake": 159500.0,
+          "return": 141520.0,
+          "return_rate_pct": 88.7
+        },
+        {
+          "bet_type": "枠連",
+          "races": 319,
+          "hit_races": 143,
+          "hit_rate_pct": 44.8,
+          "stake": 252000.0,
+          "return": 182170.0,
+          "return_rate_pct": 72.3
+        },
+        {
+          "bet_type": "馬連",
+          "races": 319,
+          "hit_races": 131,
+          "hit_rate_pct": 41.1,
+          "stake": 319000.0,
+          "return": 322310.0,
+          "return_rate_pct": 101.0
+        },
+        {
+          "bet_type": "ワイド",
+          "races": 319,
+          "hit_races": 218,
+          "hit_rate_pct": 68.3,
+          "stake": 319000.0,
+          "return": 274600.0,
+          "return_rate_pct": 86.1
+        },
+        {
+          "bet_type": "馬単",
+          "races": 319,
+          "hit_races": 131,
+          "hit_rate_pct": 41.1,
+          "stake": 638000.0,
+          "return": 634800.0,
+          "return_rate_pct": 99.5
+        },
+        {
+          "bet_type": "3連複",
+          "races": 319,
+          "hit_races": 54,
+          "hit_rate_pct": 16.9,
+          "stake": 319000.0,
+          "return": 243180.0,
+          "return_rate_pct": 76.2
+        },
+        {
+          "bet_type": "3連単",
+          "races": 319,
+          "hit_races": 54,
+          "hit_rate_pct": 16.9,
+          "stake": 1914000.0,
+          "return": 1509080.0,
+          "return_rate_pct": 78.8
+        }
+      ]
+    },
+    "4": {
+      "market_excess_pt": 25.30721003134795,
+      "market_model": 103.94984326018808,
+      "market": 78.64263322884013,
+      "full_table": [
+        {
+          "bet_type": "単勝",
+          "races": 319,
+          "hit_races": 192,
+          "hit_rate_pct": 60.2,
+          "stake": 127600.0,
+          "return": 126480.0,
+          "return_rate_pct": 99.1
+        },
+        {
+          "bet_type": "複勝",
+          "races": 319,
+          "hit_races": 283,
+          "hit_rate_pct": 88.7,
+          "stake": 127600.0,
+          "return": 116330.0,
+          "return_rate_pct": 91.2
+        },
+        {
+          "bet_type": "枠連",
+          "races": 319,
+          "hit_races": 108,
+          "hit_rate_pct": 33.9,
+          "stake": 156100.0,
+          "return": 162370.0,
+          "return_rate_pct": 104.0
+        },
+        {
+          "bet_type": "馬連",
+          "races": 319,
+          "hit_races": 102,
+          "hit_rate_pct": 32.0,
+          "stake": 191400.0,
+          "return": 327980.0,
+          "return_rate_pct": 171.4
+        },
+        {
+          "bet_type": "ワイド",
+          "races": 319,
+          "hit_races": 164,
+          "hit_rate_pct": 51.4,
+          "stake": 191400.0,
+          "return": 215270.0,
+          "return_rate_pct": 112.5
+        },
+        {
+          "bet_type": "馬単",
+          "races": 319,
+          "hit_races": 102,
+          "hit_rate_pct": 32.0,
+          "stake": 382800.0,
+          "return": 596560.0,
+          "return_rate_pct": 155.8
+        },
+        {
+          "bet_type": "3連複",
+          "races": 319,
+          "hit_races": 34,
+          "hit_rate_pct": 10.7,
+          "stake": 127600.0,
+          "return": 191230.0,
+          "return_rate_pct": 149.9
+        },
+        {
+          "bet_type": "3連単",
+          "races": 319,
+          "hit_races": 34,
+          "hit_rate_pct": 10.7,
+          "stake": 765600.0,
+          "return": 1091680.0,
+          "return_rate_pct": 142.6
+        }
+      ]
+    },
+    "3": {
+      "market_excess_pt": 7.737722048066885,
+      "market_model": 89.24242424242425,
+      "market": 81.50470219435736,
+      "full_table": [
+        {
+          "bet_type": "単勝",
+          "races": 319,
+          "hit_races": 151,
+          "hit_rate_pct": 47.3,
+          "stake": 95700.0,
+          "return": 79680.0,
+          "return_rate_pct": 83.3
+        },
+        {
+          "bet_type": "複勝",
+          "races": 319,
+          "hit_races": 258,
+          "hit_rate_pct": 80.9,
+          "stake": 95700.0,
+          "return": 83460.0,
+          "return_rate_pct": 87.2
+        },
+        {
+          "bet_type": "枠連",
+          "races": 319,
+          "hit_races": 53,
+          "hit_rate_pct": 16.6,
+          "stake": 80500.0,
+          "return": 48090.0,
+          "return_rate_pct": 59.7
+        },
+        {
+          "bet_type": "馬連",
+          "races": 319,
+          "hit_races": 54,
+          "hit_rate_pct": 16.9,
+          "stake": 95700.0,
+          "return": 90590.0,
+          "return_rate_pct": 94.7
+        },
+        {
+          "bet_type": "ワイド",
+          "races": 319,
+          "hit_races": 109,
+          "hit_rate_pct": 34.2,
+          "stake": 95700.0,
+          "return": 87350.0,
+          "return_rate_pct": 91.3
+        },
+        {
+          "bet_type": "馬単",
+          "races": 319,
+          "hit_races": 54,
+          "hit_rate_pct": 16.9,
+          "stake": 191400.0,
+          "return": 175400.0,
+          "return_rate_pct": 91.6
+        },
+        {
+          "bet_type": "3連複",
+          "races": 319,
+          "hit_races": 10,
+          "hit_rate_pct": 3.1,
+          "stake": 31900.0,
+          "return": 64750.0,
+          "return_rate_pct": 203.0
+        },
+        {
+          "bet_type": "3連単",
+          "races": 319,
+          "hit_races": 10,
+          "hit_rate_pct": 3.1,
+          "stake": 191400.0,
+          "return": 425380.0,
+          "return_rate_pct": 222.2
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-09-11T11:06:00.107085+09:00",
+  "box5_combo_experiment": {
+    "note": "2026-09-11、BOX5の2000パターン(45信号Dirichletランダム重み)の中から単体成績上位80件の全ペア(3160通り)×2演算(×/+)=6320通りを評価。上位3件(E1〜E3、E1が最良)を全て表示。単体探索の候補と異なりheld-out(36ブロック)でも一貫してプラス、最大配当ブロック除外後もプラスを維持する点で相対的に頑健だが、95%信頼区間はいずれも0を跨ぎ統計的有意性は無い。6320通りという大規模な多重比較の結果であり、偶然の産物である可能性は排除できない参考値。",
+    "combos": [
+      {
+        "idx": 1,
+        "pattern_i": 1425,
+        "pattern_j": 1845,
+        "op": "add",
+        "diagnosis": {
+          "pattern_i": 1425,
+          "pattern_j": 1845,
+          "op": "add",
+          "label": "combo_top1_add",
+          "all_races": {
+            "model": 94.67084639498434,
+            "excess": 15.69278996865205,
+            "ci_lo": 80.56978898956201,
+            "ci_hi": 110.54786022415739
+          },
+          "held_out": {
+            "model": 87.73208722741434,
+            "excess": 7.383177570093466,
+            "n_blocks": 36
+          },
+          "held_out_vs_market_diff_ci": {
+            "mean": 7.5065186472467005,
+            "lo": -10.30116056658395,
+            "hi": 30.712875197472343,
+            "n_blocks": 36
+          },
+          "top_block": "20260802_新潟",
+          "excess_without_top_block": 10.486199575371558,
+          "sensitivity_pt": -5.206590393280493
+        }
+      },
+      {
+        "idx": 2,
+        "pattern_i": 1425,
+        "pattern_j": 1845,
+        "op": "mult",
+        "diagnosis": {
+          "pattern_i": 1425,
+          "pattern_j": 1845,
+          "op": "mult",
+          "label": "combo_top2_mult",
+          "all_races": {
+            "model": 94.56426332288402,
+            "excess": 15.58620689655173,
+            "ci_lo": 80.42464443918662,
+            "ci_hi": 110.46335436382755
+          },
+          "held_out": {
+            "model": 87.57320872274144,
+            "excess": 7.224299065420567,
+            "n_blocks": 36
+          },
+          "held_out_vs_market_diff_ci": {
+            "mean": 7.353243261269225,
+            "lo": -10.398432539682544,
+            "hi": 30.40842339261283,
+            "n_blocks": 36
+          },
+          "top_block": "20260802_新潟",
+          "excess_without_top_block": 10.377919320594486,
+          "sensitivity_pt": -5.208287575957243
+        }
+      },
+      {
+        "idx": 3,
+        "pattern_i": 1537,
+        "pattern_j": 1600,
+        "op": "mult",
+        "diagnosis": {
+          "pattern_i": 1537,
+          "pattern_j": 1600,
+          "op": "mult",
+          "label": "combo_top3_mult",
+          "all_races": {
+            "model": 94.20480668756531,
+            "excess": 15.226750261233022,
+            "ci_lo": 78.8482786927548,
+            "ci_hi": 112.04708025572802
+          },
+          "held_out": {
+            "model": 90.82242990654206,
+            "excess": 10.473520249221181,
+            "n_blocks": 36
+          },
+          "held_out_vs_market_diff_ci": {
+            "mean": 10.722058959267036,
+            "lo": -11.847637038361805,
+            "hi": 37.40858305586385,
+            "n_blocks": 36
+          },
+          "top_block": "20260802_新潟",
+          "excess_without_top_block": 8.768577494692153,
+          "sensitivity_pt": -6.458172766540869
+        }
+      }
+    ]
+  }
+}

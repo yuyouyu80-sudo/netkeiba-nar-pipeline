@@ -1,0 +1,42 @@
+{
+  "t": {
+    "bet_type": "単勝",
+    "total_patterns": 462,
+    "used_patterns": 153,
+    "used_is_zero_subset": true,
+    "n_horses_marked": 905,
+    "n_horses": 4081
+  },
+  "w": {
+    "bet_type": "ワイド",
+    "total_patterns": 407,
+    "used_patterns": 257,
+    "used_is_zero_subset": true,
+    "n_horses_marked": 1949,
+    "n_horses": 4081
+  },
+  "f": {
+    "bet_type": "複勝",
+    "total_patterns": 242,
+    "used_patterns": 242,
+    "used_is_zero_subset": false,
+    "n_horses_marked": 1092,
+    "n_horses": 4081
+  },
+  "ur": {
+    "bet_type": "馬連",
+    "total_patterns": 2017,
+    "used_patterns": 1075,
+    "used_is_zero_subset": true,
+    "n_horses_marked": 2775,
+    "n_horses": 4081
+  },
+  "sr": {
+    "bet_type": "3連複",
+    "total_patterns": 1786,
+    "used_patterns": 1084,
+    "used_is_zero_subset": true,
+    "n_horses_marked": 3591,
+    "n_horses": 4081
+  }
+}

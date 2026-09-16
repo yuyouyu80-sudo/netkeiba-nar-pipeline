@@ -1,0 +1,818 @@
+{
+  "score5_30": {
+    "label": "スコア5(BOX5モデル予測)>=30【既存】",
+    "field": "s5",
+    "threshold": 30,
+    "candidates": [
+      {
+        "label": "baseline (none/none/none)",
+        "c1": "none",
+        "c2": "none",
+        "c3": "none",
+        "c1_label": "マークなし",
+        "c2_label": "マークなし",
+        "c3_label": "マークなし",
+        "all": {
+          "n_bet": 319,
+          "hit_races": 150,
+          "hit_rate_pct": 47.02,
+          "stake": 1517200,
+          "return": 1643020,
+          "return_rate_pct": 108.29,
+          "ci_lo": 74.0,
+          "ci_hi": 150.0,
+          "n_blocks": 54
+        },
+        "high": {
+          "n_bet": 107,
+          "hit_races": 49,
+          "hit_rate_pct": 45.79,
+          "stake": 468200,
+          "return": 343980,
+          "return_rate_pct": 73.47,
+          "ci_lo": 42.1,
+          "ci_hi": 114.1,
+          "n_blocks": 52
+        },
+        "mid": {
+          "n_bet": 105,
+          "hit_races": 50,
+          "hit_rate_pct": 47.62,
+          "stake": 516600,
+          "return": 599740,
+          "return_rate_pct": 116.09,
+          "ci_lo": 59.5,
+          "ci_hi": 200.3,
+          "n_blocks": 50
+        },
+        "low": {
+          "n_bet": 107,
+          "hit_races": 51,
+          "hit_rate_pct": 47.66,
+          "stake": 532400,
+          "return": 699300,
+          "return_rate_pct": 131.35,
+          "ci_lo": 65.7,
+          "ci_hi": 229.3,
+          "n_blocks": 48
+        }
+      },
+      {
+        "label": "all-top1 (none/w/t)",
+        "c1": "none",
+        "c2": "w",
+        "c3": "t",
+        "c1_label": "マークなし",
+        "c2_label": "W外し",
+        "c3_label": "外し",
+        "all": {
+          "n_bet": 319,
+          "hit_races": 145,
+          "hit_rate_pct": 45.45,
+          "stake": 1107000,
+          "return": 1388160,
+          "return_rate_pct": 125.4,
+          "ci_lo": 86.0,
+          "ci_hi": 176.3,
+          "n_blocks": 54
+        },
+        "high": {
+          "n_bet": 107,
+          "hit_races": 49,
+          "hit_rate_pct": 45.79,
+          "stake": 351100,
+          "return": 343980,
+          "return_rate_pct": 97.97,
+          "ci_lo": 57.3,
+          "ci_hi": 149.8,
+          "n_blocks": 52
+        },
+        "mid": {
+          "n_bet": 105,
+          "hit_races": 46,
+          "hit_rate_pct": 43.81,
+          "stake": 373100,
+          "return": 351120,
+          "return_rate_pct": 94.11,
+          "ci_lo": 62.0,
+          "ci_hi": 128.3,
+          "n_blocks": 50
+        },
+        "low": {
+          "n_bet": 107,
+          "hit_races": 50,
+          "hit_rate_pct": 46.73,
+          "stake": 382800,
+          "return": 693060,
+          "return_rate_pct": 181.05,
+          "ci_lo": 89.3,
+          "ci_hi": 319.8,
+          "n_blocks": 48
+        }
+      },
+      {
+        "label": "high-top1 (t/w/sr)",
+        "c1": "t",
+        "c2": "w",
+        "c3": "sr",
+        "c1_label": "外し",
+        "c2_label": "W外し",
+        "c3_label": "3連複外し",
+        "all": {
+          "n_bet": 245,
+          "hit_races": 41,
+          "hit_rate_pct": 16.73,
+          "stake": 382000,
+          "return": 324560,
+          "return_rate_pct": 84.96,
+          "ci_lo": 38.8,
+          "ci_hi": 149.2,
+          "n_blocks": 54
+        },
+        "high": {
+          "n_bet": 82,
+          "hit_races": 15,
+          "hit_rate_pct": 18.29,
+          "stake": 130100,
+          "return": 181440,
+          "return_rate_pct": 139.46,
+          "ci_lo": 21.2,
+          "ci_hi": 305.9,
+          "n_blocks": 47
+        },
+        "mid": {
+          "n_bet": 83,
+          "hit_races": 11,
+          "hit_rate_pct": 13.25,
+          "stake": 122900,
+          "return": 97900,
+          "return_rate_pct": 79.66,
+          "ci_lo": 15.0,
+          "ci_hi": 155.9,
+          "n_blocks": 46
+        },
+        "low": {
+          "n_bet": 80,
+          "hit_races": 15,
+          "hit_rate_pct": 18.75,
+          "stake": 129000,
+          "return": 45220,
+          "return_rate_pct": 35.05,
+          "ci_lo": 13.5,
+          "ci_hi": 66.5,
+          "n_blocks": 42
+        }
+      },
+      {
+        "label": "mid-top1 (none/w/none)",
+        "c1": "none",
+        "c2": "w",
+        "c3": "none",
+        "c1_label": "マークなし",
+        "c2_label": "W外し",
+        "c3_label": "マークなし",
+        "all": {
+          "n_bet": 319,
+          "hit_races": 150,
+          "hit_rate_pct": 47.02,
+          "stake": 1458700,
+          "return": 1643020,
+          "return_rate_pct": 112.64,
+          "ci_lo": 76.8,
+          "ci_hi": 156.3,
+          "n_blocks": 54
+        },
+        "high": {
+          "n_bet": 107,
+          "hit_races": 49,
+          "hit_rate_pct": 45.79,
+          "stake": 456800,
+          "return": 343980,
+          "return_rate_pct": 75.3,
+          "ci_lo": 43.3,
+          "ci_hi": 116.3,
+          "n_blocks": 52
+        },
+        "mid": {
+          "n_bet": 105,
+          "hit_races": 50,
+          "hit_rate_pct": 47.62,
+          "stake": 494500,
+          "return": 599740,
+          "return_rate_pct": 121.28,
+          "ci_lo": 62.6,
+          "ci_hi": 209.1,
+          "n_blocks": 50
+        },
+        "low": {
+          "n_bet": 107,
+          "hit_races": 51,
+          "hit_rate_pct": 47.66,
+          "stake": 507400,
+          "return": 699300,
+          "return_rate_pct": 137.82,
+          "ci_lo": 68.8,
+          "ci_hi": 240.3,
+          "n_blocks": 48
+        }
+      },
+      {
+        "label": "low-top1 (none/t/w)",
+        "c1": "none",
+        "c2": "t",
+        "c3": "w",
+        "c1_label": "マークなし",
+        "c2_label": "外し",
+        "c3_label": "W外し",
+        "all": {
+          "n_bet": 319,
+          "hit_races": 104,
+          "hit_rate_pct": 32.6,
+          "stake": 691900,
+          "return": 838280,
+          "return_rate_pct": 121.16,
+          "ci_lo": 70.6,
+          "ci_hi": 198.1,
+          "n_blocks": 54
+        },
+        "high": {
+          "n_bet": 107,
+          "hit_races": 38,
+          "hit_rate_pct": 35.51,
+          "stake": 226700,
+          "return": 235820,
+          "return_rate_pct": 104.02,
+          "ci_lo": 48.6,
+          "ci_hi": 180.1,
+          "n_blocks": 52
+        },
+        "mid": {
+          "n_bet": 105,
+          "hit_races": 31,
+          "hit_rate_pct": 29.52,
+          "stake": 233100,
+          "return": 180920,
+          "return_rate_pct": 77.61,
+          "ci_lo": 45.5,
+          "ci_hi": 114.7,
+          "n_blocks": 50
+        },
+        "low": {
+          "n_bet": 107,
+          "hit_races": 35,
+          "hit_rate_pct": 32.71,
+          "stake": 232100,
+          "return": 421540,
+          "return_rate_pct": 181.62,
+          "ci_lo": 51.4,
+          "ci_hi": 406.6,
+          "n_blocks": 48
+        }
+      }
+    ]
+  },
+  "score4_30": {
+    "label": "スコア4(BOX4モデル予測)>=30",
+    "field": "s4",
+    "threshold": 30,
+    "candidates": [
+      {
+        "label": "baseline (none/none/none)",
+        "c1": "none",
+        "c2": "none",
+        "c3": "none",
+        "c1_label": "マークなし",
+        "c2_label": "マークなし",
+        "c3_label": "マークなし",
+        "all": {
+          "n_bet": 319,
+          "hit_races": 149,
+          "hit_rate_pct": 46.71,
+          "stake": 1444600,
+          "return": 1658090,
+          "return_rate_pct": 114.78,
+          "ci_lo": 79.2,
+          "ci_hi": 158.3,
+          "n_blocks": 54
+        },
+        "high": {
+          "n_bet": 107,
+          "hit_races": 52,
+          "hit_rate_pct": 48.6,
+          "stake": 444200,
+          "return": 447320,
+          "return_rate_pct": 100.7,
+          "ci_lo": 53.4,
+          "ci_hi": 162.8,
+          "n_blocks": 52
+        },
+        "mid": {
+          "n_bet": 105,
+          "hit_races": 49,
+          "hit_rate_pct": 46.67,
+          "stake": 497400,
+          "return": 595100,
+          "return_rate_pct": 119.64,
+          "ci_lo": 61.2,
+          "ci_hi": 207.7,
+          "n_blocks": 50
+        },
+        "low": {
+          "n_bet": 107,
+          "hit_races": 48,
+          "hit_rate_pct": 44.86,
+          "stake": 503000,
+          "return": 615670,
+          "return_rate_pct": 122.4,
+          "ci_lo": 55.5,
+          "ci_hi": 225.7,
+          "n_blocks": 48
+        }
+      },
+      {
+        "label": "all-top1 (none/t/w)",
+        "c1": "none",
+        "c2": "t",
+        "c3": "w",
+        "c1_label": "マークなし",
+        "c2_label": "外し",
+        "c3_label": "W外し",
+        "all": {
+          "n_bet": 319,
+          "hit_races": 103,
+          "hit_rate_pct": 32.29,
+          "stake": 668000,
+          "return": 929520,
+          "return_rate_pct": 139.15,
+          "ci_lo": 79.4,
+          "ci_hi": 221.7,
+          "n_blocks": 54
+        },
+        "high": {
+          "n_bet": 107,
+          "hit_races": 39,
+          "hit_rate_pct": 36.45,
+          "stake": 217100,
+          "return": 336320,
+          "return_rate_pct": 154.91,
+          "ci_lo": 63.3,
+          "ci_hi": 272.9,
+          "n_blocks": 52
+        },
+        "mid": {
+          "n_bet": 105,
+          "hit_races": 30,
+          "hit_rate_pct": 28.57,
+          "stake": 225900,
+          "return": 180110,
+          "return_rate_pct": 79.73,
+          "ci_lo": 46.4,
+          "ci_hi": 118.9,
+          "n_blocks": 50
+        },
+        "low": {
+          "n_bet": 107,
+          "hit_races": 34,
+          "hit_rate_pct": 31.78,
+          "stake": 225000,
+          "return": 413090,
+          "return_rate_pct": 183.6,
+          "ci_lo": 49.4,
+          "ci_hi": 411.6,
+          "n_blocks": 48
+        }
+      },
+      {
+        "label": "high-top1 (none/w/ur)",
+        "c1": "none",
+        "c2": "w",
+        "c3": "ur",
+        "c1_label": "マークなし",
+        "c2_label": "W外し",
+        "c3_label": "馬連外し",
+        "all": {
+          "n_bet": 318,
+          "hit_races": 63,
+          "hit_rate_pct": 19.81,
+          "stake": 366800,
+          "return": 393420,
+          "return_rate_pct": 107.26,
+          "ci_lo": 53.6,
+          "ci_hi": 182.5,
+          "n_blocks": 54
+        },
+        "high": {
+          "n_bet": 107,
+          "hit_races": 26,
+          "hit_rate_pct": 24.3,
+          "stake": 131300,
+          "return": 275600,
+          "return_rate_pct": 209.9,
+          "ci_lo": 62.1,
+          "ci_hi": 416.0,
+          "n_blocks": 52
+        },
+        "mid": {
+          "n_bet": 105,
+          "hit_races": 12,
+          "hit_rate_pct": 11.43,
+          "stake": 119400,
+          "return": 36730,
+          "return_rate_pct": 30.76,
+          "ci_lo": 11.2,
+          "ci_hi": 54.0,
+          "n_blocks": 50
+        },
+        "low": {
+          "n_bet": 106,
+          "hit_races": 25,
+          "hit_rate_pct": 23.58,
+          "stake": 116100,
+          "return": 81090,
+          "return_rate_pct": 69.84,
+          "ci_lo": 40.6,
+          "ci_hi": 106.7,
+          "n_blocks": 48
+        }
+      },
+      {
+        "label": "mid-top1 (none/w/none)",
+        "c1": "none",
+        "c2": "w",
+        "c3": "none",
+        "c1_label": "マークなし",
+        "c2_label": "W外し",
+        "c3_label": "マークなし",
+        "all": {
+          "n_bet": 319,
+          "hit_races": 149,
+          "hit_rate_pct": 46.71,
+          "stake": 1387200,
+          "return": 1658090,
+          "return_rate_pct": 119.53,
+          "ci_lo": 82.6,
+          "ci_hi": 165.2,
+          "n_blocks": 54
+        },
+        "high": {
+          "n_bet": 107,
+          "hit_races": 52,
+          "hit_rate_pct": 48.6,
+          "stake": 433300,
+          "return": 447320,
+          "return_rate_pct": 103.24,
+          "ci_lo": 54.8,
+          "ci_hi": 167.5,
+          "n_blocks": 52
+        },
+        "mid": {
+          "n_bet": 105,
+          "hit_races": 49,
+          "hit_rate_pct": 46.67,
+          "stake": 475900,
+          "return": 595100,
+          "return_rate_pct": 125.05,
+          "ci_lo": 64.3,
+          "ci_hi": 215.7,
+          "n_blocks": 50
+        },
+        "low": {
+          "n_bet": 107,
+          "hit_races": 48,
+          "hit_rate_pct": 44.86,
+          "stake": 478000,
+          "return": 615670,
+          "return_rate_pct": 128.8,
+          "ci_lo": 58.7,
+          "ci_hi": 235.5,
+          "n_blocks": 48
+        }
+      },
+      {
+        "label": "low-top1 (none/t/w)",
+        "c1": "none",
+        "c2": "t",
+        "c3": "w",
+        "c1_label": "マークなし",
+        "c2_label": "外し",
+        "c3_label": "W外し",
+        "all": {
+          "n_bet": 319,
+          "hit_races": 103,
+          "hit_rate_pct": 32.29,
+          "stake": 668000,
+          "return": 929520,
+          "return_rate_pct": 139.15,
+          "ci_lo": 79.4,
+          "ci_hi": 221.7,
+          "n_blocks": 54
+        },
+        "high": {
+          "n_bet": 107,
+          "hit_races": 39,
+          "hit_rate_pct": 36.45,
+          "stake": 217100,
+          "return": 336320,
+          "return_rate_pct": 154.91,
+          "ci_lo": 63.3,
+          "ci_hi": 272.9,
+          "n_blocks": 52
+        },
+        "mid": {
+          "n_bet": 105,
+          "hit_races": 30,
+          "hit_rate_pct": 28.57,
+          "stake": 225900,
+          "return": 180110,
+          "return_rate_pct": 79.73,
+          "ci_lo": 46.4,
+          "ci_hi": 118.9,
+          "n_blocks": 50
+        },
+        "low": {
+          "n_bet": 107,
+          "hit_races": 34,
+          "hit_rate_pct": 31.78,
+          "stake": 225000,
+          "return": 413090,
+          "return_rate_pct": 183.6,
+          "ci_lo": 49.4,
+          "ci_hi": 411.6,
+          "n_blocks": 48
+        }
+      }
+    ]
+  },
+  "score4_40": {
+    "label": "スコア4(BOX4モデル予測)>=40",
+    "field": "s4",
+    "threshold": 40,
+    "candidates": [
+      {
+        "label": "baseline (none/none/none)",
+        "c1": "none",
+        "c2": "none",
+        "c3": "none",
+        "c1_label": "マークなし",
+        "c2_label": "マークなし",
+        "c3_label": "マークなし",
+        "all": {
+          "n_bet": 319,
+          "hit_races": 114,
+          "hit_rate_pct": 35.74,
+          "stake": 997600,
+          "return": 1044230,
+          "return_rate_pct": 104.67,
+          "ci_lo": 68.4,
+          "ci_hi": 152.4,
+          "n_blocks": 54
+        },
+        "high": {
+          "n_bet": 107,
+          "hit_races": 44,
+          "hit_rate_pct": 41.12,
+          "stake": 297200,
+          "return": 259740,
+          "return_rate_pct": 87.4,
+          "ci_lo": 50.5,
+          "ci_hi": 129.6,
+          "n_blocks": 52
+        },
+        "mid": {
+          "n_bet": 105,
+          "hit_races": 34,
+          "hit_rate_pct": 32.38,
+          "stake": 345600,
+          "return": 285610,
+          "return_rate_pct": 82.64,
+          "ci_lo": 49.5,
+          "ci_hi": 120.7,
+          "n_blocks": 50
+        },
+        "low": {
+          "n_bet": 107,
+          "hit_races": 36,
+          "hit_rate_pct": 33.64,
+          "stake": 354800,
+          "return": 498880,
+          "return_rate_pct": 140.61,
+          "ci_lo": 51.0,
+          "ci_hi": 282.7,
+          "n_blocks": 48
+        }
+      },
+      {
+        "label": "all-top1 (none/t/w)",
+        "c1": "none",
+        "c2": "t",
+        "c3": "w",
+        "c1_label": "マークなし",
+        "c2_label": "外し",
+        "c3_label": "W外し",
+        "all": {
+          "n_bet": 319,
+          "hit_races": 86,
+          "hit_rate_pct": 26.96,
+          "stake": 526500,
+          "return": 664090,
+          "return_rate_pct": 126.13,
+          "ci_lo": 63.1,
+          "ci_hi": 221.0,
+          "n_blocks": 54
+        },
+        "high": {
+          "n_bet": 107,
+          "hit_races": 34,
+          "hit_rate_pct": 31.78,
+          "stake": 164400,
+          "return": 163540,
+          "return_rate_pct": 99.48,
+          "ci_lo": 48.3,
+          "ci_hi": 157.8,
+          "n_blocks": 52
+        },
+        "mid": {
+          "n_bet": 105,
+          "hit_races": 24,
+          "hit_rate_pct": 22.86,
+          "stake": 178500,
+          "return": 126680,
+          "return_rate_pct": 70.97,
+          "ci_lo": 37.1,
+          "ci_hi": 113.1,
+          "n_blocks": 50
+        },
+        "low": {
+          "n_bet": 107,
+          "hit_races": 28,
+          "hit_rate_pct": 26.17,
+          "stake": 183600,
+          "return": 373870,
+          "return_rate_pct": 203.63,
+          "ci_lo": 42.6,
+          "ci_hi": 485.5,
+          "n_blocks": 48
+        }
+      },
+      {
+        "label": "high-top1 (t/w/sr)",
+        "c1": "t",
+        "c2": "w",
+        "c3": "sr",
+        "c1_label": "外し",
+        "c2_label": "W外し",
+        "c3_label": "3連複外し",
+        "all": {
+          "n_bet": 235,
+          "hit_races": 38,
+          "hit_rate_pct": 16.17,
+          "stake": 354300,
+          "return": 313030,
+          "return_rate_pct": 88.35,
+          "ci_lo": 38.2,
+          "ci_hi": 157.9,
+          "n_blocks": 54
+        },
+        "high": {
+          "n_bet": 77,
+          "hit_races": 13,
+          "hit_rate_pct": 16.88,
+          "stake": 119500,
+          "return": 174450,
+          "return_rate_pct": 145.98,
+          "ci_lo": 17.0,
+          "ci_hi": 329.5,
+          "n_blocks": 45
+        },
+        "mid": {
+          "n_bet": 81,
+          "hit_races": 11,
+          "hit_rate_pct": 13.58,
+          "stake": 110300,
+          "return": 97900,
+          "return_rate_pct": 88.76,
+          "ci_lo": 17.3,
+          "ci_hi": 172.8,
+          "n_blocks": 45
+        },
+        "low": {
+          "n_bet": 77,
+          "hit_races": 14,
+          "hit_rate_pct": 18.18,
+          "stake": 124500,
+          "return": 40680,
+          "return_rate_pct": 32.67,
+          "ci_lo": 11.4,
+          "ci_hi": 64.8,
+          "n_blocks": 41
+        }
+      },
+      {
+        "label": "mid-top1 (none/sr/none)",
+        "c1": "none",
+        "c2": "sr",
+        "c3": "none",
+        "c1_label": "マークなし",
+        "c2_label": "3連複外し",
+        "c3_label": "マークなし",
+        "all": {
+          "n_bet": 214,
+          "hit_races": 76,
+          "hit_rate_pct": 35.51,
+          "stake": 411400,
+          "return": 386930,
+          "return_rate_pct": 94.05,
+          "ci_lo": 64.4,
+          "ci_hi": 128.8,
+          "n_blocks": 54
+        },
+        "high": {
+          "n_bet": 70,
+          "hit_races": 26,
+          "hit_rate_pct": 37.14,
+          "stake": 118600,
+          "return": 122950,
+          "return_rate_pct": 103.67,
+          "ci_lo": 52.8,
+          "ci_hi": 163.1,
+          "n_blocks": 42
+        },
+        "mid": {
+          "n_bet": 72,
+          "hit_races": 23,
+          "hit_rate_pct": 31.94,
+          "stake": 141100,
+          "return": 160880,
+          "return_rate_pct": 114.02,
+          "ci_lo": 52.5,
+          "ci_hi": 189.6,
+          "n_blocks": 42
+        },
+        "low": {
+          "n_bet": 72,
+          "hit_races": 27,
+          "hit_rate_pct": 37.5,
+          "stake": 151700,
+          "return": 103100,
+          "return_rate_pct": 67.96,
+          "ci_lo": 33.9,
+          "ci_hi": 116.6,
+          "n_blocks": 42
+        }
+      },
+      {
+        "label": "low-top1 (none/t/w)",
+        "c1": "none",
+        "c2": "t",
+        "c3": "w",
+        "c1_label": "マークなし",
+        "c2_label": "外し",
+        "c3_label": "W外し",
+        "all": {
+          "n_bet": 319,
+          "hit_races": 86,
+          "hit_rate_pct": 26.96,
+          "stake": 526500,
+          "return": 664090,
+          "return_rate_pct": 126.13,
+          "ci_lo": 63.1,
+          "ci_hi": 221.0,
+          "n_blocks": 54
+        },
+        "high": {
+          "n_bet": 107,
+          "hit_races": 34,
+          "hit_rate_pct": 31.78,
+          "stake": 164400,
+          "return": 163540,
+          "return_rate_pct": 99.48,
+          "ci_lo": 48.3,
+          "ci_hi": 157.8,
+          "n_blocks": 52
+        },
+        "mid": {
+          "n_bet": 105,
+          "hit_races": 24,
+          "hit_rate_pct": 22.86,
+          "stake": 178500,
+          "return": 126680,
+          "return_rate_pct": 70.97,
+          "ci_lo": 37.1,
+          "ci_hi": 113.1,
+          "n_blocks": 50
+        },
+        "low": {
+          "n_bet": 107,
+          "hit_races": 28,
+          "hit_rate_pct": 26.17,
+          "stake": 183600,
+          "return": 373870,
+          "return_rate_pct": 203.63,
+          "ci_lo": 42.6,
+          "ci_hi": 485.5,
+          "n_blocks": 48
+        }
+      }
+    ]
+  }
+}

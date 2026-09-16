@@ -1,0 +1,27 @@
+=== score5_30 ===
+  baseline [all] n=319 hit=47.02 return=108.29
+  baseline [high] n=107 hit=45.79 return=73.47
+  baseline [mid] n=105 hit=47.62 return=116.09
+  baseline [low] n=107 hit=47.66 return=131.35
+  top1  [all] c1=none c2=w c3=t n=319 hit=45.45 return=125.4
+  top1  [high] c1=t c2=w c3=sr n=82 hit=18.29 return=139.46
+  top1  [mid] c1=none c2=w c3=none n=105 hit=47.62 return=121.28
+  top1  [low] c1=none c2=t c3=w n=107 hit=32.71 return=181.62
+=== score4_30 ===
+  baseline [all] n=319 hit=46.71 return=114.78
+  baseline [high] n=107 hit=48.6 return=100.7
+  baseline [mid] n=105 hit=46.67 return=119.64
+  baseline [low] n=107 hit=44.86 return=122.4
+  top1  [all] c1=none c2=t c3=w n=319 hit=32.29 return=139.15
+  top1  [high] c1=none c2=w c3=ur n=107 hit=24.3 return=209.9
+  top1  [mid] c1=none c2=w c3=none n=105 hit=46.67 return=125.05
+  top1  [low] c1=none c2=t c3=w n=107 hit=31.78 return=183.6
+=== score4_40 ===
+  baseline [all] n=319 hit=35.74 return=104.67
+  baseline [high] n=107 hit=41.12 return=87.4
+  baseline [mid] n=105 hit=32.38 return=82.64
+  baseline [low] n=107 hit=33.64 return=140.61
+  top1  [all] c1=none c2=t c3=w n=319 hit=26.96 return=126.13
+  top1  [high] c1=t c2=w c3=sr n=77 hit=16.88 return=145.98
+  top1  [mid] c1=none c2=sr c3=none n=72 hit=31.94 return=114.02
+  top1  [low] c1=none c2=t c3=w n=107 hit=26.17 return=203.63
