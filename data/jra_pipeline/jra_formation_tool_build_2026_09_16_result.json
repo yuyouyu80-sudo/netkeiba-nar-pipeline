@@ -1,0 +1,49 @@
+{
+  "n_races": 314,
+  "n_horses": 4081,
+  "date_range": "2026-07-11〜09-06",
+  "mark_summary": {
+    "t": {
+      "bet_type": "単勝",
+      "total_patterns": 462,
+      "used_patterns": 153,
+      "used_is_zero_subset": true,
+      "n_marked": 905,
+      "n": 4081
+    },
+    "w": {
+      "bet_type": "ワイド",
+      "total_patterns": 407,
+      "used_patterns": 257,
+      "used_is_zero_subset": true,
+      "n_marked": 1949,
+      "n": 4081
+    },
+    "f": {
+      "bet_type": "複勝",
+      "total_patterns": 242,
+      "used_patterns": 242,
+      "used_is_zero_subset": false,
+      "n_marked": 1092,
+      "n": 4081
+    },
+    "ur": {
+      "bet_type": "馬連",
+      "total_patterns": 1075,
+      "used_patterns": 1075,
+      "used_is_zero_subset": true,
+      "n_marked": 2775,
+      "n": 4081
+    },
+    "sr": {
+      "bet_type": "3連複",
+      "total_patterns": 1084,
+      "used_patterns": 1084,
+      "used_is_zero_subset": true,
+      "n_marked": 3591,
+      "n": 4081
+    }
+  },
+  "old_tool_ur_true_count_for_reference": 2775,
+  "old_tool_sr_true_count_for_reference": 3591
+}
