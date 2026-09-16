@@ -25,6 +25,13 @@ sys.path.insert(0, str(LIB_DIR))
 import jra_dataset_wide as JDW  # noqa: E402
 import jra_factor_registry as FR  # noqa: E402
 
+# 2026-09-16: 「本番予想スコア順位(BOX4/BOX3モデル基準)」は本番モデル自身の出力を条件に
+# 使うだけの循環参照(消し材料としての新規情報を持たない)のため、消し材料台帳の候補プールから
+# 除外する。110%台帳・JRAファクター検証データベースでは引き続き使うため、
+# jra_factor_registry.py本体は変更せずこのプロセス内でのみ除外する。
+for _gid in ("score_rank_box4", "score_rank_box3"):
+    FR.FACTOR_GROUPS.pop(_gid, None)
+
 OUT_PATH = DATA_DIR / "jra_ledger_search_low_hitrate_2026_09_15_result.json"
 
 BEAM_WIDTH = 300

@@ -51,13 +51,33 @@ BET_META = {
 NOTES_BY_BT = {
     "単勝": "単勝は1着馬を1頭だけ当てる券種のため、条件を絞るほど対象頭数(点数)は減ります。"
             "この一覧は逆に「当たりにくく・儲かりにくい」条件をあえて集めているため、"
-            "的中率が0.0%(対象レースで1度も的中していない)のパターンが多数を占めます。",
+            "掲載パターンは全て的中率0.0%(対象レースで1度も的中していない)です。",
     "複勝": "複勝は3着以内(小頭数レースでは2着以内)に入れば的中する券種のため、単勝より"
             "回収率10%未満に届く条件は少なめです。それでも該当したパターンは、複勝であっても"
             "3着以内にすら滅多に入らない組み合わせということになります。",
     "ワイド": "ワイドは上位3着以内のうち2頭の組番を当てる券種のため、対象馬を絞っても"
-             "組み合わせ数(点数)は該当馬数に応じて増えます。回収率10%未満のパターンは、"
-             "該当馬同士が組んでもまず3着以内に絡まないことを示しています。",
+             "組み合わせ数(点数)は該当馬数に応じて増えます。掲載パターンは全て的中率0.0%で、"
+             "該当馬同士が組んでも一度も3着以内に絡んでいないことを示しています。",
+}
+
+# 2026-09-16: (1)候補プールから「本番予想スコア順位(BOX4/BOX3モデル基準)」12atomを除外して
+# 再探索(本番モデル自身の出力を条件にする循環参照のため)、(2)単勝・ワイドを「回収率10%未満」
+# 基準(462/407件、上記(1)適用後も同数)から「的中率0.0%のみ」基準(153/257件)へ絞り込んだ。
+# 値は既存rebuild-note文の末尾へそのまま連結するため、先頭に<br><br>を含む(空文字なら無挿入)。
+REBUILD_NOTE_EXTRA_BY_BT = {
+    "単勝": "<br><br><b>2026-09-16追記</b>: 「本番予想スコア順位(BOX4/BOX3モデル基準)」は本番"
+            "モデル自身の出力を条件にする循環参照のため候補プールから除外して再探索しました"
+            "(該当パターン数は462件のまま変化なし)。さらに、その462パターンのうち的中率0.0%"
+            "(一度も的中していない)の153パターンのみへ絞り込みました。残り309パターンは"
+            "「回収率は低いが実際に的中したことがある」パターンで、消し材料としての純度を"
+            "優先し除外しています。",
+    "複勝": "",
+    "ワイド": "<br><br><b>2026-09-16追記</b>: 「本番予想スコア順位(BOX4/BOX3モデル基準)」は"
+             "本番モデル自身の出力を条件にする循環参照のため候補プールから除外して再探索しました"
+             "(該当パターン数は407件のまま変化なし)。さらに、その407パターンのうち的中率0.0%"
+             "(一度も的中していない)の257パターンのみへ絞り込みました。残り150パターンは"
+             "「回収率は低いが実際に的中したことがある」パターンで、消し材料としての純度を"
+             "優先し除外しています。",
 }
 
 CSS_TEMPLATE = r"""<title>__TITLE__</title>
@@ -260,9 +280,9 @@ CSS_TEMPLATE = r"""<title>__TITLE__</title>
   <p class="dek">
     <a href="__FORWARD_URL__">__BT__回収率110%台帳</a>の逆方向のレポートです。
     <a href="https://claude.ai/code/artifact/3fb262c6-079e-44ba-85b8-0bcaa02b2486">JRAファクター検証データベース</a>の
-    __BT__の対象レース数が母集団全体の40%以上を保ったまま、回収率が__THRESHOLD__%未満になる条件の組み合わせを
-    ビームサーチで探索し、回収率が低い順に全件収録したものです。日次の予想レポートとは別物で、検証済みの結論を
-    示すものではありません。
+    __BT__の対象レース数が母集団全体の40%以上を保ったまま条件の組み合わせをビームサーチで探索した結果のうち、
+    <b>的中率0.0%(対象レースで一度も的中していない)のパターンのみ</b>を全件収録したものです。日次の予想レポートとは
+    別物で、検証済みの結論を示すものではありません。
   </p>
   <div class="cross-link">← <a href="__FORWARD_URL__">__BT__回収率110%台帳(順方向)</a> ／
     <a href="https://claude.ai/code/artifact/1e94de55-9f1b-467b-a2e7-5e17eb436bbc">競馬予想レポート集</a>に戻る</div>
@@ -286,7 +306,7 @@ CSS_TEMPLATE = r"""<title>__TITLE__</title>
     スクリプト自体がリポジトリから失われていました。今回は__BT__回収率110%台帳と同じ__NGROUPS__
     グループ・__NATOMS__atom(2026-09-15時点)の候補プールをそのまま流用し、探索方向(回収率の
     大小)だけを反転させる設計で新規実装しました。探索母集団は直近2開催日をホールドアウトとして
-    除いた__SEARCHPOP__レース(全__FULLPOP__レース中)で、110%台帳と共通です。
+    除いた__SEARCHPOP__レース(全__FULLPOP__レース中)で、110%台帳と共通です。__REBUILD_NOTE_EXTRA__
   </div>
 
   <div class="toolbar">
@@ -502,7 +522,7 @@ JS_TEMPLATE = r"""<script type="application/json" id="data-blob">__DATA_BLOB__</
     <div class="stat"><div class="label">券種</div><div class="value">${meta.bet_type}</div></div>
     <div class="stat"><div class="label">母集団</div><div class="value">${meta.total_races}R</div></div>
     <div class="stat"><div class="label">対象R下限(全体の${Math.round(meta.min_race_frac*100)}%)</div><div class="value">${meta.min_races}R</div></div>
-    <div class="stat"><div class="label">回収率しきい値</div><div class="value">${meta.return_threshold.toFixed(0)}%未満</div></div>
+    <div class="stat"><div class="label">的中率しきい値</div><div class="value">${meta.hit_rate_threshold_label}</div></div>
     <div class="stat"><div class="label">該当パターン数</div><div class="value accent">${meta.n_patterns}</div></div>
   `;
 
@@ -517,7 +537,7 @@ JS_TEMPLATE = r"""<script type="application/json" id="data-blob">__DATA_BLOB__</
   document.getElementById("footer").textContent =
     `jra_ledger_search_low_2026_09_15.py / build_ledger_artifact_low_2026_09_15.py — 生成日時: ${meta.generated_at}`;
 
-  const DEFAULT_SORT = [{ key: "return_rate_pct", dir: 1 }];
+  const DEFAULT_SORT = [{ key: "hit_rate_pct", dir: 1 }];
   let sortKeys = DEFAULT_SORT.slice();
   let filterText = "";
   let userHasSorted = false;
@@ -566,7 +586,6 @@ JS_TEMPLATE = r"""<script type="application/json" id="data-blob">__DATA_BLOB__</
     tbody.innerHTML = filtered.map(r => {
       const chips = r.conditions.map(c =>
         `<span class="cond-chip"><b>${c.group}</b>: ${c.value}</span>`).join("");
-      const fragile = r.hit_rate_pct < 5;
       const tieCls = r._tieGroup ? ` tie-row${r._tieStart ? " tie-start" : ""}` : "";
       const checkedCls = selectedRanks.has(r.rank) ? " is-checked" : "";
       const rowCls = (tieCls + checkedCls).trim();
@@ -576,7 +595,7 @@ JS_TEMPLATE = r"""<script type="application/json" id="data-blob">__DATA_BLOB__</
         <td class="num">${r.n_races}</td>
         <td class="num">${r.n_points}</td>
         <td class="num">${r.hit_races}</td>
-        <td class="num hit-rate${fragile ? " is-fragile" : ""}">${r.hit_rate_pct.toFixed(1)}%${fragile ? '<span class="fragile-badge">的中率5%未満</span>' : ""}</td>
+        <td class="num hit-rate">${r.hit_rate_pct.toFixed(1)}%</td>
         <td class="num return-rate">${r.return_rate_pct.toFixed(1)}%</td>
         <td class="col-check"><input type="checkbox" class="pattern-check" data-rank="${r.rank}"${selectedRanks.has(r.rank) ? " checked" : ""}></td>
       </tr>`;
@@ -696,14 +715,25 @@ def main():
     full_pop = search["meta"]["full_population"]
 
     for bt, meta_info in BET_META.items():
+        if bt == "複勝":
+            # 複勝は2026-09-15にbuild_ledger_artifact_fukusho_hitrate_2026_09_15.pyへ移行済み
+            # (的中率5%未満基準)。このスクリプトの複勝セクションは2026-09-07当時の回収率25%未満
+            # 基準のまま更新しておらず、本番Artifactの生成元ではないため生成対象から除外する。
+            continue
         print(f"=== {bt}(消し材料) ===", flush=True)
         sec = search["bet_types"][bt]
         rows = sec["rows"]
+        threshold = sec.get("hit_rate_threshold")
+        if threshold is not None and threshold <= 0.0:
+            thresh_label = "0%(一度も的中なし)"
+        else:
+            thresh_label = f"{sec['return_threshold']:.0f}%未満(回収率基準)"
         data_blob = {
             "meta": {
                 "bet_type": bt, "total_races": sec["total_races"],
                 "min_race_frac": sec["min_race_frac"], "min_races": sec["min_races"],
-                "return_threshold": sec["return_threshold"], "n_patterns": sec["n_patterns"],
+                "hit_rate_threshold": threshold, "hit_rate_threshold_label": thresh_label,
+                "n_patterns": sec["n_patterns"],
                 "population": {
                     "normal": full_pop["normal"], "shinba": full_pop["shinba"],
                     "mishoubi": full_pop["mishoubi"], "total": full_pop["total"],
@@ -716,20 +746,19 @@ def main():
         # build_ledger_artifact_2026_09_15.build_race_data_blobをそのまま再利用
         race_data_blob = BLA.build_race_data_blob(search_races, offered, actual, bt)
 
-        threshold_int = int(sec["return_threshold"])
-        title = f"{bt}回収率{threshold_int}%未満台帳"
+        title = f"{bt}的中率{thresh_label}台帳"
         desc = (f"{bt}回収率110%台帳の逆方向: JRAファクター検証データベースと共通の"
-                f"{search['meta']['n_atoms']}atom候補プールを使い、対象レース数が全体の40%以上・"
-                f"回収率{threshold_int}%未満になる{bt}パターンを回収率が低い順に全件収録(消し材料の参考)")
+                f"{search['meta']['n_atoms']}atom候補プールを使い、対象レース数が全体の40%以上を保ったまま"
+                f"的中率が{thresh_label}になる{bt}パターンを全件収録(消し材料の参考)")
         css_html = (CSS_TEMPLATE
                     .replace("__TITLE__", title).replace("__DESC__", desc)
                     .replace("__H1__", title).replace("__BT__", bt)
-                    .replace("__THRESHOLD__", str(threshold_int))
                     .replace("__FORWARD_URL__", meta_info["forward_url"])
                     .replace("__NATOMS__", str(search["meta"]["n_atoms"]))
                     .replace("__NGROUPS__", str(search["meta"]["n_groups"]))
                     .replace("__SEARCHPOP__", str(search["meta"]["search_population"]))
-                    .replace("__FULLPOP__", str(full_pop["total"])))
+                    .replace("__FULLPOP__", str(full_pop["total"]))
+                    .replace("__REBUILD_NOTE_EXTRA__", REBUILD_NOTE_EXTRA_BY_BT.get(bt, "")))
         js_html = (JS_TEMPLATE
                    .replace("__DATA_BLOB__", json.dumps(data_blob, ensure_ascii=False).replace("</script", "<\\/script"))
                    .replace("__RACE_DATA_BLOB__", json.dumps(race_data_blob, ensure_ascii=False).replace("</script", "<\\/script"))

@@ -51,6 +51,29 @@ NOTES_BY_BT = {
             "条件の組み合わせを的中率の低さで直接ランキングしたものです。",
 }
 
+EXTRA_NOTE_BY_BT = {
+    "3連複": "<b>2026-09-16追記</b>: 的中率3%未満基準でも1,786件と依然として多かったため、"
+             "ユーザー依頼により2%未満基準を試算(1,559件、-12.7%)しましたが、大半を占める"
+             "的中率0%台(1,323件、うち完全に的中率0.0%が1,084件)はほぼ変化せず、"
+             "3%→2%の変更では実質的な絞り込み効果がほぼ無いと判明しました。そのため"
+             "最も厳しい基準である<b>的中率0.0%(対象レースで一度も的中していない)のみ</b>に"
+             "絞り込み、1,084件へ再構築しています。<br><br>"
+             "<b>2026-09-16追記2</b>: さらに「本番予想スコア順位(BOX4/BOX3モデル基準)」は"
+             "本番モデル自身の出力を条件にする循環参照のため候補プールから除外して再探索"
+             "しました。的中率3%未満基準の該当数は1,786→1,779件(-7件)でしたが、"
+             "的中率0.0%のみへ絞り込んだ最終的な1,084件には変化がありませんでした"
+             "(除外された7件はいずれも的中率0%より高いパターンだったため)。",
+    "馬連": "<b>2026-09-16追記</b>: 3連複外し台帳の再構築を踏まえ、馬連についても0〜5%の"
+            "各閾値でパターン数を試算(0%=1,075件/1%=1,609件/2%=1,831件/3%=2,017件/"
+            "4%=2,254件/5%=2,459件)したところ、劇的に減る閾値は無く0%への変更が最も"
+            "効果的と判明しました。ユーザー選択により<b>的中率0.0%(対象レースで一度も"
+            "的中していない)のみ</b>に絞り込み、1,075件へ再構築しています。<br><br>"
+            "<b>2026-09-16追記2</b>: さらに「本番予想スコア順位(BOX4/BOX3モデル基準)」は"
+            "本番モデル自身の出力を条件にする循環参照のため候補プールから除外して再探索"
+            "しました。的中率3%未満基準の該当数は2,017件のまま変化なく、的中率0.0%のみへ"
+            "絞り込んだ最終的な1,075件にも変化はありませんでした。",
+}
+
 CSS_TEMPLATE = r"""<title>__TITLE__</title>
 <meta name="description" content="__DESC__">
 <style>
@@ -246,9 +269,9 @@ CSS_TEMPLATE = r"""<title>__TITLE__</title>
     <a href="__FORWARD_URL__">__BT__回収率110%台帳</a>の逆方向のレポートです。
     <a href="https://claude.ai/code/artifact/3fb262c6-079e-44ba-85b8-0bcaa02b2486">JRAファクター検証データベース</a>と
     共通の__NATOMS__atom候補プールを使い、対象レース数が母集団全体の40%以上を保ったまま
-    <b>的中率(的中R÷対象R)が3%未満</b>になる条件の組み合わせをビームサーチで探索し、
+    <b>的中率(的中R÷対象R)が__THRESH_LABEL__</b>になる条件の組み合わせをビームサーチで探索し、
     的中率が低い順に全件収録したものです。単勝・複勝・ワイド版は的中率5%未満(または回収率)基準
-    ですが、__BT__は該当パターン数が多かったため的中率3%未満基準で新規構築しています
+    ですが、__BT__は該当パターン数が多かったため的中率__THRESH_LABEL__基準で構築しています
     (理由は下の再構築ノート参照)。
     日次の予想レポートとは別物で、検証済みの結論を示すものではありません。
   </p>
@@ -278,6 +301,7 @@ CSS_TEMPLATE = r"""<title>__TITLE__</title>
     的中率3%未満基準へ変更しています。
     探索母集団は直近2開催日をホールドアウトとして除いた__SEARCHPOP__レース(全__FULLPOP__レース中)、
     候補プールは__NGROUPS__グループ・__NATOMS__atomで、110%台帳と共通です。
+    __EXTRA_NOTE__
   </div>
 
   <div class="toolbar">
@@ -493,7 +517,7 @@ JS_TEMPLATE = r"""<script type="application/json" id="data-blob">__DATA_BLOB__</
     <div class="stat"><div class="label">券種</div><div class="value">${meta.bet_type}</div></div>
     <div class="stat"><div class="label">母集団</div><div class="value">${meta.total_races}R</div></div>
     <div class="stat"><div class="label">対象R下限(全体の${Math.round(meta.min_race_frac*100)}%)</div><div class="value">${meta.min_races}R</div></div>
-    <div class="stat"><div class="label">的中率しきい値</div><div class="value">${meta.hit_rate_threshold.toFixed(0)}%未満</div></div>
+    <div class="stat"><div class="label">的中率しきい値</div><div class="value">${meta.hit_rate_threshold_label}</div></div>
     <div class="stat"><div class="label">該当パターン数</div><div class="value accent">${meta.n_patterns}</div></div>
   `;
 
@@ -689,11 +713,18 @@ def main():
         print(f"=== {bt}(外し・的中率基準) ===", flush=True)
         sec = search["bet_types"][bt]
         rows = sec["rows"]
+        threshold = sec["hit_rate_threshold"]
+        if threshold <= 0.0:
+            thresh_label = "0%(一度も的中なし)"
+        else:
+            thresh_label = f"{threshold:.0f}%未満"
+        extra_note = EXTRA_NOTE_BY_BT.get(bt, "")
         data_blob = {
             "meta": {
                 "bet_type": bt, "total_races": sec["total_races"],
                 "min_race_frac": sec["min_race_frac"], "min_races": sec["min_races"],
-                "hit_rate_threshold": sec["hit_rate_threshold"], "n_patterns": sec["n_patterns"],
+                "hit_rate_threshold": sec["hit_rate_threshold"],
+                "hit_rate_threshold_label": thresh_label, "n_patterns": sec["n_patterns"],
                 "population": {
                     "normal": full_pop["normal"], "shinba": full_pop["shinba"],
                     "mishoubi": full_pop["mishoubi"], "total": full_pop["total"],
@@ -705,13 +736,15 @@ def main():
         }
         race_data_blob = BLA.build_race_data_blob(search_races, offered, actual, bt)
 
-        title = f"{bt}的中率3%未満台帳"
+        title = f"{bt}的中率{thresh_label}台帳"
         desc = (f"{bt}回収率110%台帳の逆方向: JRAファクター検証データベースと共通の"
                 f"{search['meta']['n_atoms']}atom候補プールを使い、対象レース数が全体の40%以上・"
-                f"的中率が3%未満になる{bt}パターンを的中率が低い順に全件収録(消し材料の参考)")
+                f"的中率が{thresh_label}になる{bt}パターンを的中率が低い順に全件収録(消し材料の参考)")
         css_html = (CSS_TEMPLATE
                     .replace("__TITLE__", title).replace("__DESC__", desc)
                     .replace("__H1__", title).replace("__BT__", bt)
+                    .replace("__THRESH_LABEL__", thresh_label)
+                    .replace("__EXTRA_NOTE__", extra_note)
                     .replace("__HITDESC__", meta_info["hit_desc"])
                     .replace("__FORWARD_URL__", meta_info["forward_url"])
                     .replace("__NATOMS__", str(search["meta"]["n_atoms"]))
