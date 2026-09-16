@@ -138,9 +138,12 @@ for race in races:
         except (TypeError, ValueError):
             fp_i = None
 
-        # atoms: factor_database側のhorse行から、290atom評価に使う生データ全てを引き継ぐ
-        # (umaban/waku/horse_name/race_typeは本ファイル側の値と重複するため除外)
-        atoms = {k: v for k, v in fd_h.items() if k not in ("umaban", "waku", "horse_name", "race_type")}
+        # atoms: factor_database側のhorse行から、290atom評価に使う生データ全てを引き継ぐ。
+        # jra_factor_registry.FACTOR_GROUPSのsourceには"waku"・"race_type"を使う atom も
+        # 含まれるため、umaban/horse_name(本ファイル側の値と重複するフィールドのみ)を除き
+        # waku/race_typeは必ずatomsに残す(全80種のsourceがfactor_database側に存在することを
+        # 事前に確認済み)。
+        atoms = {k: v for k, v in fd_h.items() if k not in ("umaban", "horse_name")}
 
         horses.append({
             "umaban": umaban,
