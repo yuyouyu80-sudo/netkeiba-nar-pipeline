@@ -1,0 +1,41 @@
+data2_races.json race count: 319
+factor_database.json total race count: 631
+factor_database.json normal(通常戦) race count: 314
+data2側にあってfactor_database(normal)に無い: 5件
+factor_database(normal)にあってdata2側に無い: 0件
+  202603020501  race_name='障害3歳以上OP'  hurdle=True  fd_race_type=(factor_databaseに存在しない)
+  202604020109  race_name='障害3歳以上OP'  hurdle=True  fd_race_type=(factor_databaseに存在しない)
+  202606040101  race_name='障害3歳以上OP'  hurdle=True  fd_race_type=(factor_databaseに存在しない)
+  202607020509  race_name='障害3歳以上OP'  hurdle=True  fd_race_type=(factor_databaseに存在しない)
+  202607030109  race_name='障害3歳以上OP'  hurdle=True  fd_race_type=(factor_databaseに存在しない)
+差分5件のうち障害戦=5件, それ以外=0件
+仮説確認: 差分は全て障害戦か -> True
+
+=== pred_rank_box4(factor_database) vs rank4(data2_races.json) 一致率 ===
+比較対象馬数: 4081
+一致: 3990 (97.77%)
+不一致: 91
+不一致の例(最大10件):
+    202601010208 umaban=2 pred_rank_box4=3 rank4=4
+    202601010208 umaban=5 pred_rank_box4=4 rank4=3
+    202601010209 umaban=3 pred_rank_box4=4 rank4=3
+    202601010209 umaban=5 pred_rank_box4=3 rank4=4
+    202601010312 umaban=4 pred_rank_box4=7 rank4=8
+    202601010312 umaban=6 pred_rank_box4=8 rank4=7
+    202601010412 umaban=4 pred_rank_box4=13 rank4=14
+    202601010412 umaban=13 pred_rank_box4=14 rank4=13
+    202601010609 umaban=4 pred_rank_box4=12 rank4=11
+    202601010609 umaban=15 pred_rank_box4=11 rank4=12
+
+=== priorsの出所(コード読み取りによる確認) ===
+build_data2.py (data2_races.json生成元): winner_v3.json/winner_box4.json/winner_box3.json
+  内の "priors" フィールドをそのまま JMS.score_race() へ渡している(L40-43)。
+build_factor_dataset.py (factor_database.json生成元): MS.compute_priors_for_population()
+  で通常戦246レースの df から動的に再計算した priors を使っている(L72-76)。
+決定: 現行公開中ツール(formation_tool_v3.html)の再現・後継が目的のため、
+  Stage 0-Cでは build_data2.py と同じ winner_*.json 内の priors を使用する。
+
+=== 決定事項(ユーザー指示 2026-09-16) ===
+障害戦はStage 0-Cの恒久データセットから除外する。
+これによりStage 0-Cの母集団はfactor_database.json側のnormal(通常戦)314レースと
+完全一致する設計にでき、factor_database側に障害戦の290atom評価を追加する必要はない。
