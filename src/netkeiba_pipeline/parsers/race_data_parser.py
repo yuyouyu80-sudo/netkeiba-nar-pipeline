@@ -104,7 +104,8 @@ def parse_horse_category_table(html: str, race_id: str, category_type: str, sour
 
 
 def parse_data_breakdown(
-    html: str, race_id: str, prefix: str, num_slots: int, terminal_label: str | None = None
+    html: str, race_id: str, prefix: str, num_slots: int, terminal_label: str | None = None,
+    allow_extra_row: bool = False,
 ) -> pd.DataFrame:
     """table.Course_Result_All (race/data.html?mode=distance|course|condition|
     others|cushion|baba_water): each horse has one tr.HorseList row (rowspan
@@ -128,7 +129,17 @@ def parse_data_breakdown(
     a single undated "ダートm" bucket instead of the usual 4 dated ones),
     always followed by a fixed final "全成績" row. In that mode, `num_slots`
     is only an upper bound sanity check and the true acceptance criterion is
-    that the last row's label matches `terminal_label`."""
+    that the last row's label matches `terminal_label`.
+
+    If `allow_extra_row` is True (JRA mode=others, 2026-09-22~), exactly
+    `num_slots + 1` rows are also accepted, but only if two adjacent rows are
+    byte-identical (same label and same stat cell text) - confirmed this is a
+    netkeiba rendering quirk where the class-category row is occasionally
+    duplicated verbatim (observed on 未勝利-class races, not on 2勝クラス
+    races on the same day), not a new distinct category. The duplicate is
+    dropped so downstream slot numbering stays consistent with the num_slots
+    shape; if no such duplicate is found, this still raises (a genuinely
+    unrecognized extra row should not be silently absorbed)."""
     soup = BeautifulSoup(html, "lxml")
     label = f"race_id={race_id} source={prefix}"
 
@@ -162,8 +173,29 @@ def parse_data_breakdown(
             slot_rows.append(sib)
             sib = sib.find_next_sibling("tr")
 
+        if not any(row.find("td", class_="Data_Title") for row in slot_rows):
+            # 初出走馬(2026-09-30確認: 名古屋3歳戦で1頭のみ)は比較対象の成績が無く、
+            # 成績行が0本(mode=othersは空の「馬体重」注記行1本のみ)になる。その馬は空欄で
+            # 残す(全頭がこの状態の場合のみ下で異常扱い)
+            records.append(record)
+            continue
+
         if terminal_label is None:
-            if len(slot_rows) != num_slots:
+            if allow_extra_row and len(slot_rows) == num_slots + 1:
+                dup_idx = None
+                for i in range(len(slot_rows) - 1):
+                    a_tds = [td.get_text(strip=True) for td in slot_rows[i].find_all("td", recursive=False)]
+                    b_tds = [td.get_text(strip=True) for td in slot_rows[i + 1].find_all("td", recursive=False)]
+                    if a_tds and a_tds == b_tds:
+                        dup_idx = i + 1
+                        break
+                if dup_idx is None:
+                    raise ValueError(
+                        f"{label}: expected {num_slots} category rows per horse, got {len(slot_rows)} "
+                        "with no identical adjacent duplicate row found - page structure may have changed"
+                    )
+                del slot_rows[dup_idx]
+            elif len(slot_rows) != num_slots:
                 raise ValueError(
                     f"{label}: expected {num_slots} category rows per horse, got {len(slot_rows)} - "
                     "page structure may have changed"
@@ -206,5 +238,10 @@ def parse_data_breakdown(
                     record[f"{slot_prefix}_{field}"] = ""
 
         records.append(record)
+
+    if not any(len(r) > 3 for r in records):
+        raise ValueError(
+            f"{label}: no category rows for any horse - page structure may have changed"
+        )
 
     return pd.DataFrame.from_records(records)

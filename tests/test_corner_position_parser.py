@@ -2,7 +2,11 @@ from pathlib import Path
 
 import pytest
 
-from src.netkeiba_pipeline.parsers.corner_position_parser import parse_corner3_position, parse_corner4_position
+from src.netkeiba_pipeline.parsers.corner_position_parser import (
+    parse_corner3_position,
+    parse_corner4_position,
+    parse_race_pace_label,
+)
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -108,6 +112,9 @@ def test_parse_corner4_position_raises_on_horse_count_mismatch():
       <a href="https://db.netkeiba.com/horse/2024000002"><span class="HorseIcon" id="Horse2">
         <span class="Waku Waku2">2</span><span class="HorseName">テストB</span>
       </span></a>
+      <a href="https://db.netkeiba.com/horse/2024000003"><span class="HorseIcon" id="Horse3">
+        <span class="Waku Waku3">3</span><span class="HorseName">テストC</span>
+      </span></a>
     </div>
     <script>
     function updateHorsePosition() {
@@ -126,5 +133,54 @@ def test_parse_corner4_position_raises_on_horse_count_mismatch():
     </script>
     </body></html>
     """
+    # 座標が馬数の半数未満(3頭中1頭)は構造変化とみなして異常扱い
     with pytest.raises(ValueError):
         parse_corner4_position(html, race_id="000000000000")
+
+
+def test_parse_corner4_position_allows_missing_debut_horse():
+    # 初出走馬など座標が算出されない馬がいる場合(2頭中1頭欠落)は、その馬だけ除いて返す
+    html = """
+    <html><body>
+    <div class="DevelopImgWrap">
+      <a href="https://db.netkeiba.com/horse/2024000001"><span class="HorseIcon" id="Horse1">
+        <span class="Waku Waku1">1</span><span class="HorseName">テストA</span>
+      </span></a>
+      <a href="https://db.netkeiba.com/horse/2024000002"><span class="HorseIcon" id="Horse2">
+        <span class="Waku Waku2">2</span><span class="HorseName">テストB</span>
+      </span></a>
+    </div>
+    <script>
+    function updateHorsePosition() {
+      var checkbox1Checked = false;
+      var checkbox2Checked = false;
+      if (!checkbox1Checked && !checkbox2Checked) {
+        switch (cornerCheck) {
+          case 'Corner03':
+          $("#Horse1").css({ 'top':'-4%', 'left':'0%', }).append('<span class="SpeedUp_01"></span>');
+          break;
+        }
+      } else if (checkbox1Checked && !checkbox2Checked) {
+        // dummy
+      }
+    }
+    </script>
+    </body></html>
+    """
+    df = parse_corner4_position(html, race_id="000000000000")
+    assert list(df["umaban"]) == ["1"]
+
+
+def test_parse_race_pace_label_jra_middle():
+    html = _load("corner_position_202607030203_jra.html")
+    assert parse_race_pace_label(html, race_id="202607030203") == "M"
+
+
+def test_parse_race_pace_label_nar_high():
+    html = _load("newspaper_202654072501_nar_no_writeup.html")
+    assert parse_race_pace_label(html, race_id="202654072501") == "H"
+
+
+def test_parse_race_pace_label_missing_section_returns_none():
+    df_html = "<html><body>no course data panel here</body></html>"
+    assert parse_race_pace_label(df_html, race_id="000000000000") is None

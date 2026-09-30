@@ -41,6 +41,22 @@ JS実行不要)で取得したHTMLからそのまま抽出できる。ウィジ�
   であり、目安の換算である点に注意。
 - ウィジェット自体が存在しない(netkeiba側でAI展開データが無い)日は空DataFrameを返す
   (既存パーサー規約と同じ)。
+
+`parse_race_pace_label()`(2026-08-29追加): 同じnewspaper.htmlレスポンス内、
+`.DevelopImgWrap`の兄弟要素`.AiTenkaiBlock02.DevelopOpinionArea`配下にある
+`section.CourseDataArea.Time`(「コース情報 {競馬場}{距離}m{馬場}」パネル)の
+「ペース」行から、公式AI予想ペース区分(H=ハイ/M=ミドル/S=スロー、
+クラス名`Pace_H`/`Pace_M`/`Pace_S`)をレース単位の値として1つ抽出する。実データ・
+JRA/NARのテストフィクスチャ双方で確認済み: このセクションには`isFreemium`
+(有料会員限定)クラスが付き、「推定タイム」等の数値は`pase_dummy.png`という
+ダミー画像で、直後の「AIによるこのレースの見解・推奨馬」自由文コメントは
+`FreemiumDummy01`という目隠し要素で、それぞれ実際に有料壁が掛かっているように
+見えるが、**ペースラベル自体(H/M/S)はマスクされておらず取得可能**。そのため
+このパーサーはペースラベルのみを対象とし、数値・コメント文は取得しない
+(有料壁の可能性が高い範囲には踏み込まない)。同じページ末尾付近に別ウィジェット
+(`.Sec_Deploy_Race .RacePace`)にも似た「ペース」バッジがあるが、これは別セクション
+であり値が一致するとは限らないため対象にしない(`.CourseDataArea.Time`にスコープを
+絞ってこの曖昧さを回避する)。
 """
 import re
 
@@ -49,6 +65,7 @@ from bs4 import BeautifulSoup
 
 HORSE_ID_RE = re.compile(r"/horse/(\d+)")
 SPEEDUP_RE = re.compile(r"SpeedUp_0(\d)")
+PACE_LABEL_RE = re.compile(r"Pace_([A-Z])")
 
 # 実測(2026-08-26、race_id=202607030203、Playwrightでのピクセル実測)による換算定数。
 # 1馬身 ≈ この値(horse-left%スケール上のポイント数)。導出根拠はモジュールdocstring参照。
@@ -148,7 +165,10 @@ def _parse_corner_case(html: str, race_id: str, corner_key: str, include_speedup
             f"race_id={race_id}: case '{case_label}'内に馬の座標が1件も見つからない - "
             "page structure may have changed"
         )
-    if len(entries) != len(horse_info):
+    # 初出走馬など、netkeiba側でAI展開の座標自体が算出されない馬がいる場合は座標数が馬数を
+    # 下回る(2026-09-30確認、202648092901: 12頭中11頭)。その馬はレコードに含めず空欄(NaN)で
+    # 残す。半数未満しか座標が無い、または馬数を超える場合は構造変化とみなして従来どおり異常扱い
+    if len(entries) > len(horse_info) or len(entries) * 2 < len(horse_info):
         raise ValueError(
             f"race_id={race_id}: {case_label}の座標数({len(entries)})と初期DOMの馬数({len(horse_info)})"
             "が一致しない - page structure may have changed"
@@ -220,3 +240,28 @@ def parse_corner3_position(html: str, race_id: str) -> pd.DataFrame:
     (スクレイピング失敗ではなく実際にデータが無い状態)。
     """
     return _parse_corner_case(html, race_id, "corner3", include_speedup=False)
+
+
+def parse_race_pace_label(html: str, race_id: str) -> str | None:
+    """「コース情報」パネル(`section.CourseDataArea.Time`)の公式AI予想ペース区分
+    (H/M/S)をレース単位の値として1つ返す(全馬共通、モジュールdocstring参照)。
+
+    パネル自体が無い、またはペースラベルを取得できない(開催直前でAI予想が未確定、
+    ページ構造の想定外の変化等)場合はNoneを返す(スクレイピング失敗ではなく
+    実際にデータが無い状態として扱う。他のコーナー系パーサーと違いraceのAI展開
+    データが完全に欠落しているとは限らないため、例外は送出しない)。
+    """
+    soup = BeautifulSoup(html, "lxml")
+    section = soup.select_one("section.CourseDataArea.Time")
+    if section is None:
+        return None
+    data_el = section.select_one(".Data")
+    if data_el is None:
+        return None
+    for cls in data_el.get("class", []):
+        m = PACE_LABEL_RE.fullmatch(cls)
+        if m:
+            return m.group(1)
+    # クラス名からペースが取れない場合はテキストにフォールバック(H/M/Sの1文字のみ許容)。
+    text = data_el.get_text(strip=True)
+    return text if text in ("H", "M", "S") else None
