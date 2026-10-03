@@ -46,7 +46,7 @@ def load_names(horse_ids):
     cache = {}
     if NAME_CACHE.exists():
         cache = pickle.loads(NAME_CACHE.read_bytes())
-    todo = [h for h in horse_ids if h not in cache]
+    todo = [h for h in horse_ids if cache.get(h) is None]  # 未取得(None)だった馬は再確認する
     print(f"血統名キャッシュ: 既存{len(cache)}頭、新規読込{len(todo)}頭")
     for i, h in enumerate(todo):
         p = B.pedigree_csv_path(h)
