@@ -15,6 +15,8 @@ STEPS = [
     "build_bloodline_map",
     "build_race_fit_score",
     "build_race_radar_data",
+    "build_bloodline_going_index",
+    "add_bloodline_going_to_radar",
     "gen_race_radar_report",
     "build_nakayama_today_table",
     "gen_nakayama_table_report",

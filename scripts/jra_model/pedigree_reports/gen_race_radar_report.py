@@ -4,6 +4,8 @@
 元は中山8R専用の gen_race8_radar_report.py。2026-10-03に全レース対応へ一般化し、各馬のミニレーダー
 (レース基準との重ね合わせ)を追加。1ページに全レースのセクションを持ち、上部のレース番号ボタンで切替
 (チャートは表示時に初めて描画する)。
+2026-10-03: 12軸目として「系統適性」(系統別成績の指数化、馬場状態別に切替可)を追加。指数は
+build_bloodline_going_index.py / add_bloodline_going_to_radar.py が作る(総合適性スコアには含めない)。
 """
 import html
 import json
@@ -24,6 +26,8 @@ SHORT = {"distance": "距離", "surface": "馬場", "course": "競馬場", "seas
          "debut": "新馬", "graded": "重賞", "leader_style": "脚質", "speed": "スピード",
          "stamina": "スタミナ", "kire": "キレ"}
 FEW_RACES = 15  # これ未満は「少数」の注意書きを付ける
+GK = ["全", "良", "稍重", "重", "不良"]  # 系統適性の馬場切替(全=馬場を問わない総合効果)
+GK_LABEL = {"全": "馬場問わず", "良": "良", "稍重": "稍重", "重": "重", "不良": "不良"}
 
 
 def esc(s):
@@ -77,6 +81,113 @@ def bloodline_table(bl, side_label):
     </div>"""
 
 
+def fmt_idx(x):
+    return f"{x:+.1f}" if x is not None else "-"
+
+
+def bl_role_table(bl, role, label):
+    rows = bl["table"].get(role, [])
+    if not rows:
+        return f'<p class="bal-note">{esc(label)}: 表示できる系統がありません。</p>'
+    body = []
+    for r in rows:
+        tds = []
+        for g in GK:
+            c = r["by_going"].get(g)
+            if not c or c.get("idx") is None:
+                tds.append('<td class="bl-idx">-</td>')
+                continue
+            few = " few" if c["n"] < 100 else ""
+            tds.append(f'<td class="bl-idx{few}">{fmt_idx(c["idx"])}<span class="bt-n">(N={c["n"]})</span></td>')
+        body.append(f'<tr><td class="bt-label">{esc(r["cat"])}</td>{"".join(tds)}</tr>')
+    head = "".join(f"<th>{esc(GK_LABEL[g])}</th>" for g in GK)
+    return f"""
+    <div class="bl-block">
+      <h3>{esc(label)}</h3>
+      <table class="bt bl-table bl-idx-table">
+        <thead><tr><th>系統</th>{head}</tr></thead>
+        <tbody>{''.join(body)}</tbody>
+      </table>
+    </div>"""
+
+
+def render_bl_card(bl, info, k):
+    if not bl:
+        return ""
+    pr = bl["pool_races"]
+    pool_txt = " / ".join(f"{g}{pr.get(g, 0):,}" for g in GK[1:])
+    actual = bl.get("actual_going")
+    actual_txt = (f"当日の発表馬場は<b>{esc(actual)}</b>でした(結果確定後に判明する参考情報で、発走前には使えません)。"
+                  if actual else "")
+    return f"""
+  <div class="card">
+    <h2>系統適性指数(馬場状態別)</h2>
+    <p class="small-note">
+      上の「系統別成績」を、<b>どの系統が有利か</b>を表す指数にしたものです。{esc(bl['pool_label'])}の全レース
+      (2016〜2026年、プール内のレース数: {esc(pool_txt)})で、系統ごとに
+      「3着以内に入った割合が、出走頭数から期待される水準よりどれだけ高いか」(複勝率pt)を集計し、走数の少ない系統は
+      総合効果へ縮約しています(縮約の強さK={k})。表の「馬場問わず」は馬場状態をまとめた系統の総合効果、
+      「良〜不良」は馬場状態別の値で、この値がレーダーチャートの12軸目「系統適性」になります
+      (チャート上部のボタンで切替)。{actual_txt}
+    </p>
+    <p class="few-warn" style="font-weight:500;">
+      ⚠ 検証(ページ上部の説明を参照): 系統の総合効果は弱いながら前後半で再現しましたが、<b>馬場状態別の上乗せ分は再現しませんでした</b>。
+      馬場別の列は参考表示です。斜体は走数100未満のセルです。
+    </p>
+    {bl_role_table(bl, 'sire', '父の系統')}
+    {bl_role_table(bl, 'bms', '母父の系統')}
+    {bl_role_table(bl, 'ss', '父父の系統')}
+  </div>
+"""
+
+
+def render_validation_box(meta):
+    """系統適性指数の前後半検証(bloodline_going_index.json の validation)を、ページ上部の説明として出す。"""
+    if not meta:
+        return ""
+    v = meta["validation"]
+    sub = v["by_subset"]
+    a = sub["全馬場"]
+    mb, mse = a["slope_main_only"]
+    gp, gse = a["partial_slope_going_part"]
+    d_ = sub["道悪(稍重・重・不良)"]
+    dgp, dgse = d_["partial_slope_going_part"]
+    hc = v["half_corr"]
+
+    def rr(role, scope, key):
+        x = hc.get(f"{role}/{scope}", {}).get(key)
+        return f"{x:+.2f}" if x is not None else "-"
+
+    role_rows = "".join(
+        f"<tr><td class='bt-label'>{lbl}</td><td>{rr(r, '全馬場', 'r_total')}</td><td>{rr(r, '全馬場', 'r_going_part')}</td>"
+        f"<td>{rr(r, '道悪', 'r_going_part')}</td></tr>"
+        for r, lbl in (("sire", "父の系統"), ("bms", "母父の系統"), ("ss", "父父の系統")))
+    return f"""
+    <div class="val-box">
+      <h3>12軸目「系統適性」と、その検証(前半2016〜{meta['split_year'] - 1}年 → 後半{meta['split_year']}年〜)</h3>
+      <p style="margin:4px 0;">「系統別成績(どの系統が有利か)」を指数化してレーダーチャートの12軸目に加えました。父・母父・父父それぞれの系統
+      (サンデーサイレンス系・ノーザンダンサー系など)について、同じサーフェス・距離帯の全レース(2016〜2026年)で「3着以内に入った割合が
+      頭数から期待される水準よりどれだけ高いか」(複勝率pt)を求めた値です。馬場状態(良/稍重/重/不良)ごとの値も計算しており、
+      上のボタンで切り替えられます。</p>
+      <p style="margin:4px 0;">前半のデータだけで作った指数が、後半の実際の複勝率超過をどれだけ予測するかを調べました
+      (K={meta['k']}は結果を見る前に決めた値で、検証は1回だけ実行。回帰の傾きが1なら指数どおり、0なら予測力なし。±は標準誤差)。</p>
+      <ul style="margin:4px 0;">
+        <li><b>系統の総合効果(馬場問わず)</b>: 傾き {mb:.2f}±{mse:.2f} → 再現します(差は偶然ではない)。ただし効き目は指数値の約{mb:.1f}倍で、
+          指数1ptあたり実際の複勝率超過は約{mb:.2f}ptです。指数は大きめに出ていると見てください。</li>
+        <li><b>馬場別の上乗せ分</b>(馬場別の指数 − 総合効果): 総合効果を考慮した偏回帰の傾き {gp:+.2f}±{gse:.2f}
+          (道悪だけでは{dgp:+.2f}±{dgse:.2f}) → <b>再現しません</b>。馬場状態による系統の向き不向きは、このデータでは総合的な強さの差と区別できませんでした。</li>
+      </ul>
+      <table class="bt" style="max-width:520px;">
+        <thead><tr><th>前後半の指数の相関r</th><th>総合の指数</th><th>馬場別の上乗せ分</th><th>(道悪のみ)</th></tr></thead>
+        <tbody>{role_rows}</tbody>
+      </table>
+      <p class="small-note" style="margin:6px 0 0;">母父の系統は総合の指数でも前後半の相関がほぼ0で、安定していません。
+        そのため既定は「馬場問わず」にしています。馬場ボタン(良/稍重/重/不良)は、ご要望に沿って馬場別の値を見られるようにしたもので、
+        この検証結果を踏まえた参考表示です。系統適性は総合適性スコアには含めていません。同条件レース自体もこの指数の集計に含まれるため
+        (軽い自己包含があります)、レース基準線は過去の上位馬の系統が全体平均からどれだけずれていたかの目安です。</p>
+    </div>"""
+
+
 def _mean(vals):
     vals = [v for v in vals if v is not None]
     return round(sum(vals) / len(vals), 2) if vals else None
@@ -126,6 +237,16 @@ def render_race(d, rno):
         "ss": [all_template[k].get("ss", {}).get("mean_pt") or 0 for k in axis_keys],
         "ref": [_mean([all_template[k].get(r, {}).get("mean_pt") for r in ("sire", "bms", "ss")]) for k in axis_keys],
     }
+
+    bl = d.get("bl_going")
+    if bl:
+        chart["labels"] = chart["labels"] + ["系統適性(複勝率pt)"]
+        chart["bl_ref"] = {}
+        for g in GK:
+            per = {r: bl["ref"][r][g]["mean"] for r in ("sire", "bms", "ss")}
+            per["mean"] = _mean(list(per.values()))
+            chart["bl_ref"][g] = per
+        chart["actual_going"] = bl.get("actual_going")
 
     ssk_rows = []
     for key, label in ssk_labels:
@@ -331,6 +452,8 @@ def render_race(d, rno):
                 cells.append(f'<td class="tc tc-ssk{mark}"><span class="tc-s">{s_txt}</span><span class="tc-b">{b_txt}</span><span class="tc-g">{g_txt}</span></td>')
             composite = h["composite_combined"]
             comp_txt = fmt_pt(composite) if composite is not None else "データ不足"
+            bl_cell = (f'<td class="tc tc-bl" data-rno="{rno}" data-hid="{esc(h["horse_id"])}">'
+                       '<span class="tc-s">-</span><span class="tc-b">-</span><span class="tc-g">-</span></td>') if bl else ""
             today_rows.append(f"""
             <tr>
               <td class="tc-uma">{h['umaban']}</td>
@@ -340,6 +463,7 @@ def render_race(d, rno):
               <td class="tc-comp">{comp_txt}</td>
               <td class="tc-damside">{damside_txt}<br>{damside_tags}</td>
               {''.join(cells)}
+              {bl_cell}
             </tr>""")
 
             # 各馬のミニレーダー用: 軸ごとに父・母父・父父の取得できたpt差の単純平均(総合適性と同じ父方3ライン)。
@@ -353,7 +477,14 @@ def render_race(d, rno):
                     per.append(x["excess_pt"] if x else None)
                 vals_h.append(_mean(per))
                 nlines.append(sum(v is not None for v in per))
+            hbl = {}
+            if bl:
+                ent = bl["horses"].get(h["horse_id"], {})
+                for g in GK:
+                    lines = [((ent.get(r) or {}).get("idx") or {}).get(g) for r in ("sire", "bms", "ss")]
+                    hbl[g] = {"v": _mean(lines), "n": sum(x is not None for x in lines), "lines": lines}
             horse_radar.append({
+                "hid": h["horse_id"], "bl": hbl,
                 "umaban": h["umaban"], "name": h["horse_name"], "rank": rank,
                 "composite": composite, "vals": vals_h, "nlines": nlines,
                 "ped": f"{h.get('sire_name') or '-'} / {h.get('bms_name') or '-'} / {h.get('ss_name') or '-'}",
@@ -362,6 +493,8 @@ def render_race(d, rno):
 
     today_header = "".join(f'<th{" class=hl" if key == hl_key else ""}>{esc(lbl)}</th>' for key, lbl in item_labels)
     today_header += "".join(f'<th class="tc-ssk">{esc(lbl)}</th>' for _key, lbl in ssk_labels)
+    if bl:
+        today_header += '<th class="tc-bl">系統適性<br><span class="th-sub">(選択中の馬場)</span></th>'
 
     # --- 同等レースの定義(根拠) ---
     if rule["day_condition"]:
@@ -379,6 +512,7 @@ def render_race(d, rno):
         few_warn = (f'<p class="few-warn">⚠ 同等の過去レースが{n_matched}件と少ないため、レース基準(上位馬の平均)は'
                     '偶然の偏りの影響を受けやすく、傾向は不安定です。参考程度にご覧ください。</p>')
 
+    bl_card = render_bl_card(bl, info, d.get("bl_going_k", 100))
     sec = f"""
 <section class="race-sec" id="race-sec-{rno}" data-rno="{rno}" hidden>
   <header class="masthead">
@@ -414,8 +548,10 @@ def render_race(d, rno):
     <h2>このレースタイプで求められるファクター</h2>
     <p class="small-note">
       距離・サーフェス・競馬場等の既存8項目に加え、スピード(短距離帯pt差)・スタミナ(長距離帯pt差)・
-      キレ(瞬発力、非先行-先行勝率差)の3項目を同じレーダーチャートに統合しています。いずれも「上位3着馬
-      (延べ{n_scored}頭)の平均pt差」という同一の算出方法で、父・母父・父父の3ラインを重ねて描いています。
+      キレ(瞬発力、非先行-先行勝率差)の3項目、さらに12軸目として系統適性(系統別成績の指数、複勝率pt)を
+      同じレーダーチャートに統合しています。いずれも「上位3着馬(延べ{n_scored}頭)の平均」という同一の算出方法で、
+      父・母父・父父の3ラインを重ねて描いています。系統適性の軸は、チャート上部の馬場ボタン(馬場問わず/良/稍重/重/不良)で値が変わります
+      (他の11軸は馬場状態では変わりません)。
     </p>
     <div class="chart-wrap"><canvas id="radar-{rno}"></canvas></div>
     <div class="legend-row">
@@ -433,8 +569,8 @@ def render_race(d, rno):
   <div class="card">
     <h2>各馬のレーダーチャート(レース基準との重ね合わせ)</h2>
     <p class="small-note">
-      上のチャートと同じ11軸で、<b>灰色の破線=このレースの上位3着馬の3ライン平均(レース基準)</b>、
-      <b>金色の実線=その馬の父・母父・父父の3ライン平均</b>を重ねています(総合適性スコア順)。
+      上のチャートと同じ12軸で、<b>灰色の破線=このレースの上位3着馬の3ライン平均(レース基準)</b>、
+      <b>金色の実線=その馬の父・母父・父父の3ライン平均</b>を重ねています(総合適性スコア順、系統適性の軸のみ馬場ボタンで変化)。
       基準線に近い形ほど「このレースタイプで上位に来た馬の血統」に近いという意味で、
       面積が大きいほど有利という意味ではありません。軸ごとに父・母父・父父のうち取得できたラインのみを
       平均し、3ラインとも無い軸は線を結びません(0ptとは扱いません)。±15ptを超える値は枠に丸めて描画し、
@@ -479,6 +615,8 @@ def render_race(d, rno):
     {bloodline_table(bloodline_ss, "父父の系統")}
   </div>
 
+  {bl_card}
+
   <div class="card">
     <h2>スピード・スタミナ・キレの「良い塩梅」検証</h2>
     <p class="small-note">
@@ -508,7 +646,8 @@ def render_race(d, rno):
       上のレーダーチャートで3ライン平均の絶対値が最も大きかった「{esc(hl_label)}」列です。
       <span class="sweet-swatch"></span>キレ列の緑の印は、「良い塩梅」検証で最も複勝率が高かった
       {esc(kire_best or '分位')}の範囲内にある値({'有意差あり' if kire_sig else '信頼区間が重なり有意差なし、参考'})です。
-      スピード・スタミナには印を付けていません。
+      スピード・スタミナには印を付けていません。右端の「系統適性」は、父・母父・父父それぞれの系統指数(複勝率pt、上段=父・中段=母父・
+      下段=父父)で、チャート上部の馬場ボタンに連動して変わります(総合適性スコアには含めていません)。
     </p>
   </div>
 
@@ -571,11 +710,24 @@ h1 { font-family: "Shippori Mincho", serif; font-weight: 700; font-size: clamp(2
 .method-item b { display: block; font-family: "IBM Plex Mono", monospace; font-size: 15px; color: var(--gold); }
 .going-chip { display: inline-block; background: var(--bg-alt); border-radius: 5px; padding: 3px 8px; font-size: 12px; margin: 2px 4px 2px 0; font-family: "IBM Plex Mono", monospace; }
 
-.race-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; background: var(--nav-bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin: 14px 0; display: flex; flex-wrap: wrap; gap: 6px; box-shadow: var(--shadow); }
+.sticky-bar { margin: 14px 0; background: var(--nav-bg); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); z-index: 30; }
+@media (min-width: 720px) { .sticky-bar { position: sticky; top: env(safe-area-inset-top, 0px); } }
+.race-nav { padding: 8px 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+.going-bar { padding: 6px 10px 8px; border-top: 1px dashed var(--line); display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-soft); }
+.going-bar button { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 12.5px; color: var(--ink); background: var(--bg-alt); border: 1px solid var(--line); border-radius: 5px; padding: 3px 10px; cursor: pointer; }
+.going-bar button:hover { border-color: var(--gold); color: var(--gold); }
+.going-bar button.is-active { background: var(--gold); color: var(--bg); border-color: var(--gold); font-weight: 600; }
+.going-bar button.is-actual::after { content: " ★"; }
+.bl-idx { font-family: "IBM Plex Mono", monospace; text-align: center; }
+.bl-idx.few { font-style: italic; opacity: 0.7; }
+.tc-bl { background: rgba(58,125,79,0.07); }
+.val-box { border: 1px dashed var(--line); border-radius: 8px; padding: 10px 14px; margin-top: 10px; background: var(--bg-alt); font-size: 12.5px; }
+.val-box h3 { font-family: "Shippori Mincho", serif; font-size: 14px; margin: 0 0 6px; }
 .race-nav button { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--ink); background: var(--bg-alt); border: 1px solid var(--line); border-radius: 5px; padding: 5px 11px; cursor: pointer; }
 .race-nav button:hover { border-color: var(--gold); color: var(--gold); }
 .race-nav button.is-active { background: var(--gold); color: var(--bg); border-color: var(--gold); font-weight: 600; }
 .race-nav button:disabled { opacity: 0.45; cursor: not-allowed; }
+.small-note-sm { font-size: 11.5px; color: var(--ink-soft); }
 .race-nav button .rn-sub { display: block; font-size: 9.5px; font-weight: 400; font-family: "Zen Kaku Gothic New", sans-serif; }
 .nav-note { font-size: 11.5px; color: var(--ink-soft); margin: -6px 0 10px; }
 
@@ -677,20 +829,52 @@ const SHORT_LABELS = __SHORT__;
 const CLAMP = 15;
 const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n);
 const rendered = {};
-const clamp = v => v === null ? null : Math.max(-CLAMP, Math.min(CLAMP, v));
+const charts = {};
+let GOING = '全';
+const GOING_LABEL = { '全': '馬場問わず', '良': '良', '稍重': '稍重', '重': '重', '不良': '不良' };
+const clamp = v => (v === null || v === undefined) ? null : Math.max(-CLAMP, Math.min(CLAMP, v));
+const fmt1 = v => (v === null || v === undefined) ? '-' : (v >= 0 ? '+' : '') + v.toFixed(1);
+
+function fillTable(rno) {
+  const R = RACES[rno];
+  document.querySelectorAll('td.tc-bl[data-rno="' + rno + '"]').forEach(function (td) {
+    const h = R.horses.find(function (x) { return x.hid === td.dataset.hid; });
+    const sp = td.querySelectorAll('span');
+    const lines = h && h.bl && h.bl[GOING] ? h.bl[GOING].lines : [null, null, null];
+    for (let i = 0; i < 3; i++) sp[i].textContent = fmt1(lines[i]);
+  });
+}
+
+function applyGoing() {
+  document.querySelectorAll('.going-bar button[data-g]').forEach(function (b) { b.classList.toggle('is-active', b.dataset.g === GOING); });
+  Object.keys(charts).forEach(function (rno) {
+    const R = RACES[rno], C = charts[rno];
+    if (!R.bl_ref) return;
+    ['sire', 'bms', 'ss'].forEach(function (role, i) { C.main.data.datasets[i].data[11] = R.bl_ref[GOING][role]; });
+    C.main.update('none');
+    C.minis.forEach(function (m) {
+      m.chart.data.datasets[0].data[11] = clamp(R.bl_ref[GOING].mean);
+      m.chart.data.datasets[1].data[11] = clamp(m.h.bl[GOING].v);
+      m.chart.update('none');
+    });
+    fillTable(rno);
+  });
+}
 
 function renderRace(rno) {
   if (rendered[rno]) return;
   rendered[rno] = true;
   const R = RACES[rno];
-  new Chart(document.getElementById('radar-' + rno), {
+  charts[rno] = { main: null, minis: [] };
+  const blv = role => R.bl_ref ? [R.bl_ref[GOING][role]] : [];
+  charts[rno].main = new Chart(document.getElementById('radar-' + rno), {
     type: 'radar',
     data: {
       labels: R.labels,
       datasets: [
-        { label: '父ライン平均pt', data: R.sire, borderColor: '#8b3a3a', backgroundColor: 'rgba(139,58,58,0.18)', pointBackgroundColor: '#8b3a3a', borderWidth: 2 },
-        { label: '母父ライン平均pt', data: R.bms, borderColor: '#33517d', backgroundColor: 'rgba(51,81,125,0.15)', pointBackgroundColor: '#33517d', borderWidth: 2 },
-        { label: '父父ライン平均pt', data: R.ss, borderColor: '#3a7d4f', backgroundColor: 'rgba(58,125,79,0.12)', pointBackgroundColor: '#3a7d4f', borderWidth: 2 }
+        { label: '父ライン平均pt', data: R.sire.concat(blv('sire')), spanGaps: true, borderColor: '#8b3a3a', backgroundColor: 'rgba(139,58,58,0.18)', pointBackgroundColor: '#8b3a3a', borderWidth: 2 },
+        { label: '母父ライン平均pt', data: R.bms.concat(blv('bms')), spanGaps: true, borderColor: '#33517d', backgroundColor: 'rgba(51,81,125,0.15)', pointBackgroundColor: '#33517d', borderWidth: 2 },
+        { label: '父父ライン平均pt', data: R.ss.concat(blv('ss')), spanGaps: true, borderColor: '#3a7d4f', backgroundColor: 'rgba(58,125,79,0.12)', pointBackgroundColor: '#3a7d4f', borderWidth: 2 }
       ]
     },
     options: {
@@ -721,13 +905,15 @@ function renderRace(rno) {
     const canvas = document.createElement('canvas'); cv.appendChild(canvas);
     card.append(head, ped, cv);
     grid.appendChild(card);
-    new Chart(canvas, {
+    const refv = R.ref.map(clamp).concat(R.bl_ref ? [clamp(R.bl_ref[GOING].mean)] : []);
+    const hv = h.vals.map(clamp).concat(R.bl_ref ? [clamp(h.bl[GOING].v)] : []);
+    const mini = new Chart(canvas, {
       type: 'radar',
       data: {
-        labels: SHORT_LABELS,
+        labels: SHORT_LABELS.concat(R.bl_ref ? ['系統'] : []),
         datasets: [
-          { label: 'レース基準(上位3着馬の3ライン平均)', data: R.ref.map(clamp), borderColor: '#8a8a8a', borderDash: [4, 3], backgroundColor: 'rgba(138,138,138,0.08)', pointRadius: 0, borderWidth: 1.5 },
-          { label: h.name + '(3ライン平均)', data: h.vals.map(clamp), borderColor: '#a8813c', backgroundColor: 'rgba(168,129,60,0.22)', pointBackgroundColor: '#a8813c', pointRadius: 2, borderWidth: 2, spanGaps: true }
+          { label: 'レース基準(上位3着馬の3ライン平均)', data: refv, borderColor: '#8a8a8a', borderDash: [4, 3], backgroundColor: 'rgba(138,138,138,0.08)', pointRadius: 0, borderWidth: 1.5 },
+          { label: h.name + '(3ライン平均)', data: hv, borderColor: '#a8813c', backgroundColor: 'rgba(168,129,60,0.22)', pointBackgroundColor: '#a8813c', pointRadius: 2, borderWidth: 2, spanGaps: true }
         ]
       },
       options: {
@@ -735,8 +921,11 @@ function renderRace(rno) {
         plugins: {
           legend: { display: false },
           tooltip: { callbacks: { label: function (c) {
-            const real = c.datasetIndex === 0 ? R.ref[c.dataIndex] : h.vals[c.dataIndex];
-            const extra = c.datasetIndex === 1 ? ' (' + h.nlines[c.dataIndex] + 'ライン)' : '';
+            const isBl = c.dataIndex === 11;
+            const real = isBl ? (c.datasetIndex === 0 ? R.bl_ref[GOING].mean : h.bl[GOING].v)
+                              : (c.datasetIndex === 0 ? R.ref[c.dataIndex] : h.vals[c.dataIndex]);
+            const nl = isBl ? h.bl[GOING].n : h.nlines[c.dataIndex];
+            const extra = c.datasetIndex === 1 ? ' (' + nl + 'ライン' + (isBl ? '・' + GOING_LABEL[GOING] : '') + ')' : '';
             return c.dataset.label.split('(')[0] + ': ' + (real === null ? 'データなし' : (real >= 0 ? '+' : '') + real.toFixed(1) + 'pt') + extra;
           } } }
         },
@@ -747,7 +936,9 @@ function renderRace(rno) {
         } }
       }
     });
+    charts[rno].minis.push({ chart: mini, h: h });
   });
+  fillTable(rno);
 }
 
 function showRace(rno, pushHash) {
@@ -756,9 +947,16 @@ function showRace(rno, pushHash) {
     b.classList.toggle('is-active', b.dataset.rno === String(rno));
   });
   renderRace(rno);
+  const act = RACES[rno].actual_going;
+  document.querySelectorAll('.going-bar button[data-g]').forEach(function (b) { b.classList.toggle('is-actual', b.dataset.g === act); });
+  const note = document.getElementById('goingActual');
+  if (note) note.textContent = act ? ('★=このレースの当日発表馬場(' + act + '、結果確定後の参考情報)') : '';
   if (pushHash) { try { history.replaceState(null, '', '#r' + rno); } catch (e) { location.hash = 'r' + rno; } }
 }
 
+document.querySelectorAll('.going-bar button[data-g]').forEach(function (b) {
+  b.addEventListener('click', function () { GOING = b.dataset.g; applyGoing(); });
+});
 document.querySelectorAll('.race-nav button[data-rno]').forEach(function (b) {
   b.addEventListener('click', function () { showRace(b.dataset.rno, true); window.scrollTo({ top: 0 }); });
 });
@@ -783,6 +981,7 @@ def main():
     for rno in rnos:
         d = races[rno]
         d["min_races_strict"] = payload.get("min_races_strict", 15)
+        d["bl_going_k"] = payload.get("bl_going_meta", {}).get("k", 100)
         sec, chart, nav = render_race(d, int(rno))
         sections.append(sec)
         charts[rno] = chart
@@ -807,6 +1006,10 @@ def main():
     skipped_txt = "".join(
         f"{rno}R({esc(v['race_name'])}): {esc(v['reason'])}。" for rno, v in sorted(skipped.items(), key=lambda kv: int(kv[0])))
 
+    going_buttons = "".join(
+        f'<button type="button" data-g="{g}"{" class=is-active" if g == "全" else ""}>{esc(GK_LABEL[g])}</button>'
+        for g in GK)
+    val_html = render_validation_box(payload.get("bl_going_meta"))
     n_races = len(rnos)
     desc = (f"{date_jp}・{venue}開催の{n_races}レースについて、同条件の過去レース上位3着馬の血統から求められるファクターを"
             "レーダーチャート化し、各馬のレーダーチャートをレース基準と重ねて表示。系統別成績・スピード/スタミナ/キレの検証も掲載。")
@@ -839,10 +1042,16 @@ def main():
       (旧版の6ライン平均では、8Rで旧3位の馬が14位になるなど順位が大きく動きました)。
     </p>
     {('<p class="small-note"><b>対象外のレース:</b> ' + skipped_txt + '</p>') if skipped else ''}
+    {val_html}
   </div>
 
-  <nav class="race-nav" aria-label="レース切替">{''.join(nav_buttons)}</nav>
-  <div class="nav-note">ボタン下段=同等の過去レース件数。URL末尾に #r8 を付けると8Rを直接開きます。</div>
+  <div class="sticky-bar">
+    <nav class="race-nav" aria-label="レース切替">{''.join(nav_buttons)}</nav>
+    <div class="going-bar" aria-label="系統適性の馬場状態">
+      <span>系統適性(12軸目)の馬場:</span>{going_buttons}<span id="goingActual" class="small-note-sm"></span>
+    </div>
+  </div>
+  <div class="nav-note">レースボタン下段=同等の過去レース件数。URL末尾に #r8 を付けると8Rを直接開きます。馬場ボタンは系統適性の軸と表だけを変えます。</div>
 
   {''.join(sections)}
 
