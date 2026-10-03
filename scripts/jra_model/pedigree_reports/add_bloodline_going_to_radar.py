@@ -33,12 +33,6 @@ def main():
     idx_all = json.loads(INDEX_PATH.read_text(encoding="utf-8"))
     bmap = json.loads(B.BLOODLINE_MAP_PATH.read_text(encoding="utf-8"))
     index = idx_all["index"]
-    day_csv = B.RESULTS_DIR / payload["race_date"][:4] / (payload["race_date"].replace("-", "") + ".csv")
-    actual_going = {}
-    if day_csv.exists():
-        import pandas as pd
-        dd = pd.read_csv(day_csv, dtype=str, encoding="utf-8").drop_duplicates("race_id")
-        actual_going = {r["race_id"]: r["going"] for _, r in dd.iterrows() if isinstance(r["going"], str)}
 
     for rno, d in payload["races"].items():
         info = d["race_info"]
@@ -103,7 +97,7 @@ def main():
             table[role] = rows
 
         pool_races = {g: idx_all["pool_races"].get(f"{surface}|{bucket}|{g}", 0) for g in GOINGS}
-        d["bl_going"] = {"actual_going": actual_going.get(info["race_id"]), "pool": f"{surface}|{bucket}", "pool_label": f"{'ダート' if surface == 'ダ' else '芝'}・{bucket}",
+        d["bl_going"] = {"pool": f"{surface}|{bucket}", "pool_label": f"{'ダート' if surface == 'ダ' else '芝'}・{bucket}",
                          "pool_races": pool_races, "ref": ref, "horses": horses, "table": table}
     payload["bl_going_meta"] = {"k": idx_all["k"], "split_year": idx_all["split_year"],
                                 "n_runs": idx_all["n_runs"], "validation": idx_all["validation"]}

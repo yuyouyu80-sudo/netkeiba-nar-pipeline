@@ -116,9 +116,6 @@ def render_bl_card(bl, info, k):
         return ""
     pr = bl["pool_races"]
     pool_txt = " / ".join(f"{g}{pr.get(g, 0):,}" for g in GK[1:])
-    actual = bl.get("actual_going")
-    actual_txt = (f"当日の発表馬場は<b>{esc(actual)}</b>でした(結果確定後に判明する参考情報で、発走前には使えません)。"
-                  if actual else "")
     return f"""
   <div class="card">
     <h2>系統適性指数(馬場状態別)</h2>
@@ -128,7 +125,7 @@ def render_bl_card(bl, info, k):
       「3着以内に入った割合が、出走頭数から期待される水準よりどれだけ高いか」(複勝率pt)を集計し、走数の少ない系統は
       総合効果へ縮約しています(縮約の強さK={k})。表の「馬場問わず」は馬場状態をまとめた系統の総合効果、
       「良〜不良」は馬場状態別の値で、この値がレーダーチャートの12軸目「系統適性」になります
-      (チャート上部のボタンで切替)。{actual_txt}
+      (チャート上部のボタンで、当日の馬場状態に合わせて選びます)。
     </p>
     <p class="few-warn" style="font-weight:500;">
       ⚠ 検証(ページ上部の説明を参照): 系統の総合効果は弱いながら前後半で再現しましたが、<b>馬場状態別の上乗せ分は再現しませんでした</b>。
@@ -246,7 +243,6 @@ def render_race(d, rno):
             per = {r: bl["ref"][r][g]["mean"] for r in ("sire", "bms", "ss")}
             per["mean"] = _mean(list(per.values()))
             chart["bl_ref"][g] = per
-        chart["actual_going"] = bl.get("actual_going")
 
     ssk_rows = []
     for key, label in ssk_labels:
@@ -717,7 +713,6 @@ h1 { font-family: "Shippori Mincho", serif; font-weight: 700; font-size: clamp(2
 .going-bar button { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 12.5px; color: var(--ink); background: var(--bg-alt); border: 1px solid var(--line); border-radius: 5px; padding: 3px 10px; cursor: pointer; }
 .going-bar button:hover { border-color: var(--gold); color: var(--gold); }
 .going-bar button.is-active { background: var(--gold); color: var(--bg); border-color: var(--gold); font-weight: 600; }
-.going-bar button.is-actual::after { content: " ★"; }
 .bl-idx { font-family: "IBM Plex Mono", monospace; text-align: center; }
 .bl-idx.few { font-style: italic; opacity: 0.7; }
 .tc-bl { background: rgba(58,125,79,0.07); }
@@ -947,10 +942,6 @@ function showRace(rno, pushHash) {
     b.classList.toggle('is-active', b.dataset.rno === String(rno));
   });
   renderRace(rno);
-  const act = RACES[rno].actual_going;
-  document.querySelectorAll('.going-bar button[data-g]').forEach(function (b) { b.classList.toggle('is-actual', b.dataset.g === act); });
-  const note = document.getElementById('goingActual');
-  if (note) note.textContent = act ? ('★=このレースの当日発表馬場(' + act + '、結果確定後の参考情報)') : '';
   if (pushHash) { try { history.replaceState(null, '', '#r' + rno); } catch (e) { location.hash = 'r' + rno; } }
 }
 
@@ -1048,7 +1039,7 @@ def main():
   <div class="sticky-bar">
     <nav class="race-nav" aria-label="レース切替">{''.join(nav_buttons)}</nav>
     <div class="going-bar" aria-label="系統適性の馬場状態">
-      <span>系統適性(12軸目)の馬場:</span>{going_buttons}<span id="goingActual" class="small-note-sm"></span>
+      <span>系統適性(12軸目)の馬場:</span>{going_buttons}<span class="small-note-sm">当日の馬場状態に合わせて選択(選んだ馬場が全レースに適用されます)</span>
     </div>
   </div>
   <div class="nav-note">レースボタン下段=同等の過去レース件数。URL末尾に #r8 を付けると8Rを直接開きます。馬場ボタンは系統適性の軸と表だけを変えます。</div>
