@@ -1,7 +1,15 @@
 # -*- coding: utf-8 -*-
-"""今日の中山8R(202606040808、3歳以上1勝クラス・ダート1200m)と「同等の過去レース」
-(同競馬場・同クラス・同距離・同サーフェス・同じ開催日数=開催8日目)を特定し、その上位3着馬の
+"""今日の中山全レース(race_fit_score_data.jsonの各レース、障害戦など条件が取れないものは除く)について、
+「同等の過去レース」(同競馬場・同クラス・同距離・同サーフェス・同じ開催日数)を特定し、その上位3着馬の
 血統(父・母父)から「このレースタイプで求められるファクター」をレーダーチャート用に集計する。
+(元は中山8R専用の build_race8_radar_data.py。2026-10-03に全レース対応へ一般化。8Rの出力は旧版と
+同一であることを確認済み。)
+
+## 全レース対応で追加した規則(2026-10-03)
+- 同等レース数が MIN_RACES_STRICT(15)未満のレースは「開催日数」の条件を外して再検索(緩和)する。
+  それでも MIN_RACES_PUBLISH(10)未満なら掲載しない。どちらの条件を使ったかは出力に記録し、レポートに明記する。
+- クラスは今日のレースのrace_name(race_results、無ければ出走表のrace_name)をclass_ordinal()で正規化。
+  未勝利・新馬(class_ord=0)は新馬/未勝利の別を揃える(新馬同士、未勝利同士)。
 
 ## 同等レースの定義(根拠)
 - 競馬場: 中山(race_idのvenue桁で判定、"06")
@@ -32,6 +40,7 @@ import json
 import math
 import sys
 from collections import defaultdict
+from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
@@ -57,23 +66,27 @@ PROFILE_PATH = PROJECT_ROOT / "data" / "jra_pipeline" / "pedigree_commentary_pro
 SCORE_TODAY_PATH = SCRATCH / "race_fit_score_data.json"
 BLOODLINE_MAP_PATH = SCRATCH / "bloodline_name_map.json"
 NEWSPAPER_DIR = PROJECT_ROOT / "data" / "newspaper"
-OUT_PATH = SCRATCH / "race8_radar_data.json"
+OUT_PATH = SCRATCH / "race_radar_data.json"
 
-TARGET_RACE_ID = "202606040808"
-TARGET_VENUE, TARGET_SURFACE, TARGET_DISTANCE, TARGET_DAY_SEG = "中山", "ダ", 1200.0, "08"
-TARGET_CLASS_ORD = 1  # 1勝クラス
+MIN_RACES_STRICT = 15   # 開催日数まで一致する同等レースがこれ未満なら開催日数の条件を外す
+MIN_RACES_PUBLISH = 10  # 緩和後もこれ未満なら掲載しない
 TOP_N = 3
 
-ITEM_LABELS = [
-    ("distance", "距離(1200m帯)"),
-    ("surface", "サーフェス(ダート)"),
-    ("course", "競馬場(中山)"),
-    ("season", "季節"),
-    ("rest", "休み明け間隔"),
-    ("debut", "新馬戦実績"),
-    ("graded", "重賞実績"),
-    ("leader_style", "脚質(先行)"),
-]
+SURFACE_NAME = {"ダ": "ダート", "芝": "芝"}
+
+
+def item_labels_for(venue, surface, distance):
+    return [
+        ("distance", f"距離({int(distance)}m帯)"),
+        ("surface", f"サーフェス({SURFACE_NAME.get(surface, surface)})"),
+        ("course", f"競馬場({venue})"),
+        ("season", "季節"),
+        ("rest", "休み明け間隔"),
+        ("debut", "新馬戦実績"),
+        ("graded", "重賞実績"),
+        ("leader_style", "脚質(先行)"),
+    ]
+
 
 SSK_LABELS = [("speed", "スピード"), ("stamina", "スタミナ"), ("kire", "キレ(瞬発力)")]
 
@@ -158,7 +171,15 @@ ROLE_SPEC = [
 ]
 
 
-def build_field_records(df_finishers, lut, profile_by_key, distance_bucket_label):
+@lru_cache(maxsize=None)
+def read_pedigree_row(horse_id):
+    ped_path = pedigree_csv_path(horse_id)
+    if not ped_path.exists():
+        return None
+    return pd.read_csv(ped_path, dtype=str, encoding="utf-8").iloc[0]
+
+
+def build_field_records(df_finishers, lut, profile_by_key, distance_bucket_label, surface, venue):
     """出走馬(上位に限らず全頭)について、父・母父・父父・母・母母・父母それぞれの14項目pt差+
     スピード/スタミナ/キレを算出する。父父(SS)は種牡馬プロファイル(role="sire")に、
     母・母母・父母(D/DD/SD)は繁殖牝馬プロファイル(role="dam"、2026-09-27新設)に自身の産駒が
@@ -168,10 +189,9 @@ def build_field_records(df_finishers, lut, profile_by_key, distance_bucket_label
     records = []
     for _, row in df_finishers.iterrows():
         horse_id = row["horse_id"]
-        ped_path = pedigree_csv_path(horse_id)
-        if not ped_path.exists():
+        ped = read_pedigree_row(horse_id)
+        if ped is None:
             continue
-        ped = pd.read_csv(ped_path, dtype=str, encoding="utf-8").iloc[0]
         rest_label = PROF.rest_bucket(row["rest_days"]) if pd.notna(row["rest_days"]) else None
 
         rec = {
@@ -189,7 +209,7 @@ def build_field_records(df_finishers, lut, profile_by_key, distance_bucket_label
             if pd.notna(anc_id) and (role, anc_id) in profile_by_key:
                 overall = profile_by_key[(role, anc_id)]["overall_win_rate"]
                 items = score_horse(lut, profile_by_key, role, anc_id, overall,
-                                     distance_bucket_label, TARGET_SURFACE, TARGET_VENUE,
+                                     distance_bucket_label, surface, venue,
                                      row["season"], rest_label)
                 ssk = speed_stamina_kire(lut, profile_by_key, role, anc_id)
                 any_items = True
@@ -327,40 +347,65 @@ def today_bloodline_labels(race_id):
     return out
 
 
-def main():
-    print("race_results全期間ロード中...")
-    results = load_all_results()
+def race_kind(race_name, class_ord):
+    """未勝利・新馬(class_ord=0)は新馬/未勝利の別を揃える。それ以外はNone(クラス序列のみで比較)。"""
+    if class_ord == 0 or class_ord is None:
+        if "新馬" in str(race_name):
+            return "新馬"
+        if "未勝利" in str(race_name):
+            return "未勝利"
+    return None
 
-    matched = results.drop_duplicates("race_id")
-    matched = matched[
-        (matched["racecourse"] == TARGET_VENUE) & (matched["surface"] == TARGET_SURFACE)
-        & (matched["distance_num"] == TARGET_DISTANCE) & (matched["class_ord"] == TARGET_CLASS_ORD)
-        & (matched["day_seg"] == TARGET_DAY_SEG) & (matched["race_id"] != TARGET_RACE_ID)
+
+def find_matched_races(results, cfg):
+    """今日のレースと同じ競馬場・サーフェス・距離・クラスの過去レース。開催日数まで一致するものが
+    MIN_RACES_STRICT未満なら日数条件を外す(緩和)。戻り値: (matched_df, rule_dict)"""
+    uniq = results.drop_duplicates("race_id")
+    base = uniq[
+        (uniq["racecourse"] == cfg["venue"]) & (uniq["surface"] == cfg["surface"])
+        & (uniq["distance_num"] == cfg["distance"]) & (uniq["class_ord"] == cfg["class_ord"])
+        & (uniq["race_id"] != cfg["race_id"])
     ]
+    if cfg["kind"] is not None:
+        base = base[base["race_name"].map(lambda n: race_kind(n, cfg["class_ord"]) == cfg["kind"])]
+    strict = base[base["day_seg"] == cfg["day_seg"]]
+    rule = {"n_strict": int(len(strict)), "n_relaxed": int(len(base)), "day_seg": cfg["day_seg"],
+            "kind": cfg["kind"]}
+    if len(strict) >= MIN_RACES_STRICT:
+        rule["day_condition"] = True
+        return strict, rule
+    rule["day_condition"] = False
+    return base, rule
+
+
+def build_one(cfg, results, lut, profile_by_key, bloodline_map, today_race):
+    """1レース分の出力辞書(旧race8_radar_data.jsonと同じ構造+match_rule/race_info)を返す。
+    同等レースが少なすぎて掲載できない場合は理由文字列を返す。"""
+    venue, surface, distance = cfg["venue"], cfg["surface"], cfg["distance"]
+    race_id = cfg["race_id"]
+    item_labels = item_labels_for(venue, surface, distance)
+
+    matched, rule = find_matched_races(results, cfg)
     match_race_ids = set(matched["race_id"])
-    print(f"同等過去レース: {len(match_race_ids)}件")
+    print(f"[{race_id[-2:]}R] 同等過去レース: {len(match_race_ids)}件 (開催日数条件={'あり' if rule['day_condition'] else 'なし(緩和)'}, "
+          f"厳密{rule['n_strict']}件/緩和{rule['n_relaxed']}件)")
+    if len(match_race_ids) < MIN_RACES_PUBLISH:
+        return f"同等の過去レースが{len(match_race_ids)}件しかなく(掲載基準{MIN_RACES_PUBLISH}件)集計できません"
 
     field_all = results[
         results["race_id"].isin(match_race_ids) & results["finish_pos_num"].notna()
     ].copy()
-    print(f"同等過去レース全出走 延べ{len(field_all)}頭")
+    distance_bucket_label = PROF.distance_bucket(distance)
 
-    lut = load_breakdown_lookup()
-    profile = pd.read_csv(PROFILE_PATH, dtype={"horse_id_ancestor": str}, encoding="utf-8")
-    profile_by_key = {(r["ancestor_role"], r["horse_id_ancestor"]): r for _, r in profile.iterrows()}
-    distance_bucket_label = PROF.distance_bucket(TARGET_DISTANCE)
-
-    field_records = build_field_records(field_all, lut, profile_by_key, distance_bucket_label)
-    print(f"血統照合済み(全出走) 延べ{len(field_records)}頭")
+    field_records = build_field_records(field_all, lut, profile_by_key, distance_bucket_label, surface, venue)
     horse_records = [r for r in field_records if r["finish_pos"] <= TOP_N]
-    print(f"うち上位{TOP_N}着 延べ{len(horse_records)}頭")
+    print(f"    血統照合済み(全出走) 延べ{len(field_records)}頭 / うち上位{TOP_N}着 延べ{len(horse_records)}頭")
 
     role_id_keys = [f"{k}_id" for k, _c, _d, _r in ROLE_SPEC]
     n_unique_pairs = len({
         tuple(r.get(rk) for rk in role_id_keys) for r in field_records
         if any(r.get(rk) is not None for rk in role_id_keys)
     })
-    print(f"6ライン(父/母父/父父/母/母母/父母)IDの組み合わせの種類: {n_unique_pairs}通り(疑似反復の目安)")
 
     ssk_balance = {key: tercile_balance_analysis(field_records, key) for key, _label in SSK_LABELS}
     for key, _label in SSK_LABELS:
@@ -370,22 +415,17 @@ def main():
             round(sum(combined_top3) / len(combined_top3), 2) if combined_top3 else None
         )
         ssk_balance[key]["top3_combined_n"] = len(combined_top3)
-        print(f"{key}: {ssk_balance[key].get('pattern')}")
 
     # --- 系統別成績(父系統・母父系統・父父系統、netkeiba血統ビーム色分けの再利用) ---
-    bloodline_map = json.loads(BLOODLINE_MAP_PATH.read_text(encoding="utf-8")) if BLOODLINE_MAP_PATH.exists() else {}
     bloodline_sire = bloodline_category_analysis(field_records, "sire_name", bloodline_map)
     bloodline_bms = bloodline_category_analysis(field_records, "bms_name", bloodline_map)
     bloodline_ss = bloodline_category_analysis(field_records, "ss_name", bloodline_map)
-    print(f"系統別(父)集計: {len(bloodline_sire['rows'])}系統、不明{bloodline_sire['n_unmatched']}頭")
-    print(f"系統別(母父)集計: {len(bloodline_bms['rows'])}系統、不明{bloodline_bms['n_unmatched']}頭")
-    print(f"系統別(父父)集計: {len(bloodline_ss['rows'])}系統、不明{bloodline_ss['n_unmatched']}頭")
-    today_bloodlines = today_bloodline_labels(TARGET_RACE_ID)
+    today_bloodlines = today_bloodline_labels(race_id)
 
     # --- テンプレート(過去上位馬の平均プロファイル)算出。父父(ss)は父と同じ種牡馬プロファイル、
     # 母・母母・父母(dam/dd/sd)は新設の繁殖牝馬プロファイルを再利用する第4〜6のラインとして扱う ---
     template = {}
-    for key, _label in ITEM_LABELS:
+    for key, _label in item_labels:
         for role, _code, _disp, _prole in ROLE_SPEC:
             items_field = f"{role}_items"
             vals = [
@@ -397,7 +437,6 @@ def main():
                 "n_horses": len(vals),
             }
 
-    # --- スピード・スタミナ・キレのテンプレート平均 ---
     ssk_template = {}
     for key, _label in SSK_LABELS:
         for role, _code, _disp, _prole in ROLE_SPEC:
@@ -410,7 +449,7 @@ def main():
                 "mean_pt": round(sum(vals) / len(vals), 2) if vals else None,
                 "n_horses": len(vals),
             }
-    tiers = importance_tier(distance_bucket_label, TARGET_SURFACE, TARGET_CLASS_ORD)
+    tiers = importance_tier(distance_bucket_label, surface, cfg["class_ord"])
 
     going_counts = matched["going"].value_counts().to_dict()
 
@@ -428,26 +467,20 @@ def main():
                       "dd_name": h["dd_name"], "sd_name": h["sd_name"]} for h in finishers],
         })
 
-    today_score = None
-    if SCORE_TODAY_PATH.exists():
-        today_all = json.loads(SCORE_TODAY_PATH.read_text(encoding="utf-8"))
-        today_race = next((r for r in today_all["races"] if r["race_id"] == TARGET_RACE_ID), None)
-        if today_race:
-            today_score = today_race
+    today_score = today_race
 
     # --- 補足参考情報: 今日の出走馬の「母自身」の現役時代の記録(産駒への遺伝伝達力とは別物、
     # プロ競馬予想家レビュー指摘: 個体の能力と遺伝伝達力を混同しないよう、軸には含めず別掲する) ---
     dam_records = {}
     ped_cache = {}
-    if today_score:
-        news_path = PROJECT_ROOT / "data" / "newspaper" / f"{TARGET_RACE_ID}.csv"
+    news_path = NEWSPAPER_DIR / f"{race_id}.csv"
+    if today_score and news_path.exists():
         news = pd.read_csv(news_path, dtype=str, encoding="utf-8")
         dam_ids = {}
         for _, nrow in news.iterrows():
-            hp = pedigree_csv_path(nrow["horse_id"])
-            if not hp.exists():
+            hped = read_pedigree_row(nrow["horse_id"])
+            if hped is None:
                 continue
-            hped = pd.read_csv(hp, dtype=str, encoding="utf-8").iloc[0]
             ped_cache[nrow["horse_id"]] = hped
             dam_id = hped.get("ped_D_horse_id")
             if pd.notna(dam_id):
@@ -466,17 +499,16 @@ def main():
                 "max_distance_m": int(pd.to_numeric(runs["distance_m"], errors="coerce").max()),
                 "min_distance_m": int(pd.to_numeric(runs["distance_m"], errors="coerce").min()),
             }
-    print(f"母自身の現役記録が確認できた馬: {sum(1 for v in dam_records.values() if v.get('raced_in_window'))}/{len(dam_records)}")
 
     # --- 今日の出走馬自身の母・母母・父母(D/DD/SD)ラインのpt差(2026-09-27追加)。
-    # 父父(ss)と同じ再利用ルックアップだが、対象roleは今回新設の"dam"(産駒数が少なくカバレッジ低)。
     # 総合適性スコア(composite_combined)は12レース版台帳と同じ定義(父/母父/父父の3ライン平均)のまま変更しない。
     # 母方3ラインは低カバレッジのため、総合適性には含めず「母方参考」として別枠で扱う(2026-10-03、指標統一)。
     n_damside_hit = {"dam": 0, "dd": 0, "sd": 0}
     if today_score:
+        month = int(cfg["race_date"][5:7])
         today_buckets = {
-            "distance_bucket_label": distance_bucket_label, "surface": TARGET_SURFACE,
-            "course": TARGET_VENUE, "season": PROF.SEASON_MAP[9], "turf_type": None,
+            "distance_bucket_label": distance_bucket_label, "surface": surface,
+            "course": venue, "season": PROF.SEASON_MAP[month], "turf_type": None,
         }
         today_horses_by_id = {h["horse_id"]: h for h in today_score["horses"]}
         for horse_id, hped in ped_cache.items():
@@ -492,11 +524,10 @@ def main():
                     n_damside_hit[role_key] += 1
                 anc_name = hped.get(f"ped_{ped_code}_name_ja")
                 th[f"{role_key}_name"] = anc_name if pd.notna(anc_name) else None
-    print(f"今日の出走馬{len(ped_cache)}頭中: 母データあり{n_damside_hit['dam']}頭 / "
-          f"母母{n_damside_hit['dd']}頭 / 父母{n_damside_hit['sd']}頭")
+    print(f"    今日の出走馬{len(ped_cache)}頭中: 母{n_damside_hit['dam']} / 母母{n_damside_hit['dd']} / 父母{n_damside_hit['sd']}頭 データあり")
 
-    out = {
-        "target_race_id": TARGET_RACE_ID, "item_labels": ITEM_LABELS, "ssk_labels": SSK_LABELS,
+    return {
+        "target_race_id": race_id, "item_labels": item_labels, "ssk_labels": SSK_LABELS,
         "role_spec": [{"key": k, "label": disp} for k, _c, disp, _r in ROLE_SPEC],
         "n_matched_races": len(match_race_ids), "n_scored_horses": len(horse_records),
         "going_breakdown_of_matched_races": going_counts,
@@ -507,9 +538,58 @@ def main():
         "today_bloodlines": today_bloodlines,
         "dam_records": dam_records, "n_today_horses": len(ped_cache), "n_damside_hit": n_damside_hit,
         "matched_races": race_list, "today": today_score,
+        "match_rule": rule,
+        "race_info": {k: cfg[k] for k in ("race_id", "race_number", "race_name", "class_name", "venue", "surface",
+                                          "distance", "class_ord", "kind", "race_date", "start_time")},
     }
-    OUT_PATH.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"wrote {OUT_PATH}")
+
+
+def main():
+    only = {int(a) for a in sys.argv[1:] if a.isdigit()}  # 例: python build_race_radar_data.py 8 で8Rだけ
+    print("race_results全期間ロード中...")
+    results = load_all_results()
+    lut = load_breakdown_lookup()
+    profile = pd.read_csv(PROFILE_PATH, dtype={"horse_id_ancestor": str}, encoding="utf-8")
+    profile_by_key = {(r["ancestor_role"], r["horse_id_ancestor"]): r for _, r in profile.iterrows()}
+    bloodline_map = json.loads(BLOODLINE_MAP_PATH.read_text(encoding="utf-8")) if BLOODLINE_MAP_PATH.exists() else {}
+    today_all = json.loads(SCORE_TODAY_PATH.read_text(encoding="utf-8"))
+    race_date = today_all["today"]
+
+    by_rid = results.drop_duplicates("race_id").set_index("race_id")
+    races_out, skipped = {}, {}
+    for tr in today_all["races"]:
+        rno = int(tr["race_number"])
+        if only and rno not in only:
+            continue
+        rid = tr["race_id"]
+        if tr.get("skipped_reason") or not tr.get("distance_m") or tr.get("surface") not in SURFACE_NAME:
+            skipped[str(rno)] = {"race_name": tr["race_name"],
+                                 "reason": tr.get("skipped_reason") or "距離・サーフェスが取得できません"}
+            continue
+        # 今日のレースのクラスはrace_results(確定後)のrace_name、無ければ出走表のrace_nameから判定
+        if rid in by_rid.index:
+            full_name = by_rid.loc[rid, "race_name"]
+            start_time = by_rid.loc[rid, "start_time"] if "start_time" in by_rid.columns else None
+        else:
+            full_name, start_time = tr["race_name"], None
+        class_ord = class_ordinal(full_name)
+        cfg = {
+            "race_id": rid, "race_number": rno, "race_name": tr["race_name"], "class_name": full_name,
+            "venue": tr["racecourse"], "surface": tr["surface"], "distance": float(tr["distance_m"]),
+            "class_ord": class_ord, "kind": race_kind(full_name, class_ord), "day_seg": rid[8:10],
+            "race_date": race_date, "start_time": start_time if isinstance(start_time, str) else None,
+        }
+        out = build_one(cfg, results, lut, profile_by_key, bloodline_map, tr)
+        if isinstance(out, str):
+            skipped[str(rno)] = {"race_name": tr["race_name"], "reason": out}
+            print(f"[{rid[-2:]}R] 掲載見送り: {out}")
+        else:
+            races_out[str(rno)] = out
+
+    payload = {"race_date": race_date, "races": races_out, "skipped": skipped,
+               "min_races_strict": MIN_RACES_STRICT, "min_races_publish": MIN_RACES_PUBLISH}
+    OUT_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"wrote {OUT_PATH} ({len(races_out)}レース掲載, {len(skipped)}レース見送り)")
 
 
 if __name__ == "__main__":

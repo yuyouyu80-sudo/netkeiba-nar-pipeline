@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""血統レポート(中山血統適性台帳・血統レーダーチャート中山8R)の全工程を順に再生成する。
+"""血統レポート(中山血統適性台帳・血統レーダーチャート(中山全レース))の全工程を順に再生成する。
 
 前提: data/jra_pipeline/pedigree_commentary_profile.csv と pedigree_bucket_breakdown.csv が最新であること
 (scripts/jra_model/jra_pedigree_commentary_profile_2026_09_25.py で再生成。父・母父・母の3role)。
@@ -14,8 +14,8 @@ HERE = Path(__file__).resolve().parent
 STEPS = [
     "build_bloodline_map",
     "build_race_fit_score",
-    "build_race8_radar_data",
-    "gen_race8_radar_report",
+    "build_race_radar_data",
+    "gen_race_radar_report",
     "build_nakayama_today_table",
     "gen_nakayama_table_report",
 ]
