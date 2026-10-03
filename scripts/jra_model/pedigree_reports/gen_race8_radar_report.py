@@ -294,6 +294,41 @@ def main():
     today_header = "".join(f'<th{" class=hl" if key=="leader_style" else ""}>{esc(lbl)}</th>' for key, lbl in item_labels)
     today_header += "".join(f'<th class="tc-ssk">{esc(lbl)}</th>' for _key, lbl in ssk_labels)
 
+    # --- 各馬のミニレーダー用データ。軸ごとに父・母父・父父の取得できたpt差の単純平均(総合適性と同じ
+    # 父方3ライン)を馬の値とし、レース基準線(上位馬の3ライン平均)と重ねる。全ラインが無い軸は
+    # null(線を結ばない)にして「データなし=0pt=平均的」に見えるのを避ける。 ---
+    SHORT = {"distance": "距離", "surface": "馬場", "course": "競馬場", "season": "季節", "rest": "間隔",
+             "debut": "新馬", "graded": "重賞", "leader_style": "脚質", "speed": "スピード",
+             "stamina": "スタミナ", "kire": "キレ"}
+    axis_keys = [key for key, _l in all_labels]
+
+    def _mean(vals):
+        vals = [v for v in vals if v is not None]
+        return round(sum(vals) / len(vals), 2) if vals else None
+
+    race_ref = [_mean([all_template[k].get(r, {}).get("mean_pt") for r in ("sire", "bms", "ss")]) for k in axis_keys]
+    horse_radar = []
+    if today:
+        ranked = sorted(today["horses"], key=lambda h: h["composite_combined"] if h["composite_combined"] is not None else -1e9, reverse=True)
+        for rank, h in enumerate(ranked, 1):
+            vals, nlines = [], []
+            for key in axis_keys:
+                per = []
+                for r in ("sire", "bms", "ss"):
+                    blk = h.get(r) or {}
+                    x = (blk.get("items") or {}).get(key) or (blk.get("ssk") or {}).get(key)
+                    per.append(x["excess_pt"] if x else None)
+                vals.append(_mean(per))
+                nlines.append(sum(v is not None for v in per))
+            horse_radar.append({
+                "umaban": h["umaban"], "name": h["horse_name"], "rank": rank,
+                "composite": h["composite_combined"], "vals": vals, "nlines": nlines,
+                "ped": f"{h.get('sire_name') or '-'} / {h.get('bms_name') or '-'} / {h.get('ss_name') or '-'}",
+            })
+    short_labels_js = json.dumps([SHORT.get(k, k) for k in axis_keys], ensure_ascii=False)
+    race_ref_js = json.dumps(race_ref)
+    horse_radar_js = json.dumps(horse_radar, ensure_ascii=False)
+
     html_out = f"""<title>血統レーダーチャート</title>
 <meta name="description" content="中山8R(3歳以上1勝クラス・ダート1200m)と同条件の過去33レース・上位3着延べ99頭の血統(父・母父・父父・母・母母・父母)から、求められるファクターと有利な系統をレーダーチャート・系統別成績で可視化。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -331,7 +366,7 @@ header.masthead {{ text-align: center; padding: 24px 12px 18px; border-bottom: 3
 h1 {{ font-family: "Shippori Mincho", serif; font-weight: 700; font-size: clamp(22px, 5vw, 32px); margin: 8px 0 6px; text-wrap: balance; }}
 .subtitle {{ color: var(--ink-soft); font-size: 14px; }}
 .caution-strip {{ background: var(--caution-bg); color: var(--caution-fg); font-size: 12px; font-weight: 600; text-align: center; padding: 8px 12px; border-radius: 6px; margin: 18px 0; }}
-.card {{ background: var(--card-bg); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; margin: 18px 0; box-shadow: var(--shadow); }}
+.card {{ background: var(--card-bg); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; margin: 18px 0; box-shadow: var(--shadow); overflow-x: auto; }}
 .card h2 {{ font-family: "Shippori Mincho", serif; font-size: 17px; margin: 0 0 10px; color: var(--gold); }}
 .card ul {{ margin: 6px 0 0; padding-left: 1.2em; font-size: 13.5px; }}
 .card li {{ margin: 4px 0; }}
@@ -344,6 +379,14 @@ h1 {{ font-family: "Shippori Mincho", serif; font-weight: 700; font-size: clamp(
 .legend-row {{ display: flex; justify-content: center; gap: 18px; margin-top: 8px; font-size: 12.5px; }}
 .legend-row .sw {{ display: inline-flex; align-items: center; gap: 5px; }}
 .legend-row .dot {{ width: 10px; height: 10px; border-radius: 3px; display: inline-block; }}
+.hr-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; margin-top: 12px; }}
+.hr-card {{ border: 1px solid var(--line); border-radius: 8px; padding: 8px 8px 6px; background: var(--card-bg, transparent); min-width: 0; }}
+.hr-head {{ display: flex; align-items: baseline; gap: 6px; font-size: 13px; font-weight: 600; flex-wrap: wrap; }}
+.hr-uma {{ font-family: "IBM Plex Mono", monospace; background: var(--gold); color: var(--bg); border-radius: 4px; padding: 0 6px; font-size: 12px; }}
+.hr-rank {{ margin-left: auto; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--ink-soft); font-weight: 400; }}
+.hr-ped {{ font-size: 10.5px; color: var(--ink-soft); margin: 2px 0 4px; }}
+.hr-canvas {{ position: relative; width: 100%; aspect-ratio: 1 / 1; }}
+
 .dot.sire {{ background: var(--sire); }}
 .dot.bms {{ background: var(--bms); }}
 .dot.ss {{ background: var(--ss); }}
@@ -491,6 +534,20 @@ td.bl-bar-cell {{ position: relative; min-width: 160px; }}
   </div>
 
   <div class="card">
+    <h2>各馬のレーダーチャート(レース基準との重ね合わせ)</h2>
+    <p style="font-size:12.5px;color:var(--ink-soft);">
+      上のチャートと同じ11軸で、<b>灰色の破線=このレースの上位3着馬の3ライン平均(レース基準)</b>、
+      <b>金色の実線=その馬の父・母父・父父の3ライン平均</b>を重ねています(総合適性スコア順)。
+      基準線に近い形ほど「このレースタイプで上位に来た馬の血統」に近いという意味で、
+      面積が大きいほど有利という意味ではありません。軸ごとに父・母父・父父のうち取得できたラインのみを
+      平均し、3ラインとも無い軸は線を結びません(0ptとは扱いません)。±15ptを超える値は枠に丸めて描画し、
+      マウスオーバー(タップ)で実際の値を表示します。脚質(先行)は上位馬の基準が+9pt前後と大きいため、
+      この軸の一致度がチャートの形を大きく左右します。
+    </p>
+    <div class="hr-grid" id="hrGrid"></div>
+  </div>
+
+  <div class="card">
     <h2>母方ライン(母・母母・父母、参考)</h2>
     <p style="font-size:12.5px;color:var(--ink-soft);">
       父方3ライン(父・母父・父父)は種牡馬プロファイルの高いカバレッジ(80〜90%台)に支えられて
@@ -608,6 +665,53 @@ new Chart(ctx, {{
     }}
   }}
 }});
+
+(function () {{
+  const LABELS = {short_labels_js};
+  const REF = {race_ref_js};
+  const HORSES = {horse_radar_js};
+  const CLAMP = 15;
+  const cs = getComputedStyle(document.documentElement);
+  const ink = cs.getPropertyValue('--ink'), soft = cs.getPropertyValue('--ink-soft'), line = cs.getPropertyValue('--line');
+  const clamp = v => v === null ? null : Math.max(-CLAMP, Math.min(CLAMP, v));
+  const grid = document.getElementById('hrGrid');
+  HORSES.forEach(function (h) {{
+    const card = document.createElement('div');
+    card.className = 'hr-card';
+    const comp = h.composite === null ? 'データ不足' : (h.composite >= 0 ? '+' : '') + h.composite.toFixed(1) + 'pt';
+    card.innerHTML = '<div class="hr-head"><span class="hr-uma">' + h.umaban + '</span><span>' + h.name +
+      '</span><span class="hr-rank">総合 ' + comp + ' / ' + h.rank + '位</span></div>' +
+      '<div class="hr-ped">父/母父/父父: ' + h.ped + '</div><div class="hr-canvas"><canvas></canvas></div>';
+    grid.appendChild(card);
+    new Chart(card.querySelector('canvas'), {{
+      type: 'radar',
+      data: {{
+        labels: LABELS,
+        datasets: [
+          {{ label: 'レース基準(上位3着馬の3ライン平均)', data: REF.map(clamp), borderColor: '#8a8a8a', borderDash: [4, 3], backgroundColor: 'rgba(138,138,138,0.08)', pointRadius: 0, borderWidth: 1.5 }},
+          {{ label: h.name + '(3ライン平均)', data: h.vals.map(clamp), borderColor: '#a8813c', backgroundColor: 'rgba(168,129,60,0.22)', pointBackgroundColor: '#a8813c', pointRadius: 2, borderWidth: 2, spanGaps: true }}
+        ]
+      }},
+      options: {{
+        responsive: true, maintainAspectRatio: false,
+        plugins: {{
+          legend: {{ display: false }},
+          tooltip: {{ callbacks: {{ label: function (c) {{
+            const real = c.datasetIndex === 0 ? REF[c.dataIndex] : h.vals[c.dataIndex];
+            const extra = c.datasetIndex === 1 ? ' (' + h.nlines[c.dataIndex] + 'ライン)' : '';
+            return c.dataset.label.split('(')[0] + ': ' + (real === null ? 'データなし' : (real >= 0 ? '+' : '') + real.toFixed(1) + 'pt') + extra;
+          }} }} }}
+        }},
+        scales: {{ r: {{
+          min: -CLAMP, max: CLAMP,
+          ticks: {{ display: false, stepSize: 5 }},
+          grid: {{ color: line }}, angleLines: {{ color: line }},
+          pointLabels: {{ color: ink, font: {{ size: 9.5 }} }}
+        }} }}
+      }}
+    }});
+  }});
+}})();
 </script>
 """
     OUT_PATH.write_text(html_out, encoding="utf-8")
