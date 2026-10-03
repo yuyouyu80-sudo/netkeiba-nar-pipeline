@@ -42,6 +42,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 from src.netkeiba_pipeline.storage.paths import load_all_pedigree  # noqa: E402
 
 RESULTS_DIR = PROJECT_ROOT / "data" / "race_results"
+MIN_RESULTS_YEAR = 2016
 COURSE_MASTER_PATH = PROJECT_ROOT / "data" / "jra_course_master.csv"
 OUT_PATH = PROJECT_ROOT / "data" / "jra_pipeline" / "pedigree_commentary_profile.csv"
 BREAKDOWN_OUT_PATH = PROJECT_ROOT / "data" / "jra_pipeline" / "pedigree_bucket_breakdown.csv"
@@ -256,8 +257,8 @@ def main() -> None:
     print("race_resultsロード中(2016-2026年、JRA全期間、除外なし)...")
     frames = []
     for year_dir in sorted(RESULTS_DIR.glob("*")):
-        if not year_dir.is_dir():
-            continue
+        if not (year_dir.is_dir() and year_dir.name.isdigit() and int(year_dir.name) >= MIN_RESULTS_YEAR):
+            continue  # 収集側の過去バックフィル(2011年〜)や nar/ を取り込まず、2016年以降に固定する
         for p in sorted(glob.glob(str(year_dir / "*.csv"))):
             frames.append(pd.read_csv(p, dtype=str, encoding="utf-8"))
     results = pd.concat(frames, ignore_index=True)

@@ -2,6 +2,7 @@
 """race8_radar_data.json から、中山8R向け「求められるファクター」レーダーチャートHTMLを生成する。"""
 import html
 import json
+from datetime import date
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
@@ -69,6 +70,7 @@ def bloodline_table(bl, side_label):
 
 def main():
     d = json.loads(DATA_PATH.read_text(encoding="utf-8"))
+    generated_date = date.today().isoformat()
     item_labels = d["item_labels"]
     template = d["template"]
     today = d["today"]
@@ -507,8 +509,9 @@ td.bl-bar-cell {{ position: relative; min-width: 160px; }}
     </table>
     <p class="dam-side-note"><b>読み方の注意:</b> 「N=0」は該当馬が種牡馬・母父・父父と違って
       産駒データを持たない(自身が繁殖記録の対象期間外、または産駒がまだ少数)ことを意味し、
-      「不利」ではなく「不明」です。総合適性スコア(比較表)はこの3ラインも算出できた馬についてのみ
-      平均に含めています。</p>
+      「不利」ではなく「不明」です。総合適性スコア(比較表)にはこの3ラインを含めていません
+      (12レース版「中山血統適性台帳」と同じ、父・母父・父父の3ライン平均)。母方3ラインは比較表の
+      「母方参考」列に別枠で示します。</p>
   </div>
 
   <div class="card">
@@ -545,7 +548,7 @@ td.bl-bar-cell {{ position: relative; min-width: 160px; }}
     <h2>今日の中山8R出走馬との比較</h2>
     <div class="table-scroll">
     <table class="tcmp">
-      <thead><tr><th>馬番</th><th>馬名(父/母父/父父・系統)</th><th>総合適性<br><span class="th-sub">(6ライン平均)</span></th><th>母方参考<br><span class="th-sub">(母/母母/父母)</span></th>{today_header}</tr></thead>
+      <thead><tr><th>馬番</th><th>馬名(父/母父/父父・系統)</th><th>総合適性<br><span class="th-sub">(父・母父・父父の3ライン平均)</span></th><th>母方参考<br><span class="th-sub">(母/母母/父母)</span></th>{today_header}</tr></thead>
       <tbody>{''.join(today_rows)}</tbody>
     </table>
     </div>
@@ -554,6 +557,12 @@ td.bl-bar-cell {{ position: relative; min-width: 160px; }}
       <span style="background:var(--highlight-bg);padding:1px 4px;border-radius:3px;">網掛け</span>は
       上のレーダーチャートで最も差が出た「脚質(先行)」列です。
       <span class="sweet-swatch"></span>キレ列は「良い塩梅」検証で最も複勝率が高かった中位分位の範囲内にある値に印を付けています(スピード・スタミナは有意な傾向が確認できなかったため印なし)。
+    </p>
+    <p style="font-size:12px;color:var(--ink-soft);margin-top:6px;">
+      <b>総合適性の定義(2026-10-03に変更):</b> 父・母父・父父の3ライン平均に統一しました(12レース版
+      「中山血統適性台帳」と同じ値)。以前は母・母母・父母も平均に含めていましたが、母方3ラインは
+      該当馬が半数前後で項目別の件数も少なく(例: 重賞実績はN=2〜13)、父方3ラインと同じ重みで
+      平均すると順位が大きく動くため(旧版で3位だった馬が14位になるなど)、「母方参考」列に分けました。
     </p>
   </div>
 
@@ -570,7 +579,7 @@ td.bl-bar-cell {{ position: relative; min-width: 160px; }}
   <footer>
     データ: data/race_results(2016〜2026年)× data/pedigree(5代血統表)。
     関連: <a href="https://claude.ai/artifact/6T1zVng4xQNL9enCKJ6NX7" target="_blank" rel="noopener">中山血統適性台帳</a>
-    生成日: 2026-09-27
+    生成日: {generated_date}
   </footer>
 </div>
 <script>

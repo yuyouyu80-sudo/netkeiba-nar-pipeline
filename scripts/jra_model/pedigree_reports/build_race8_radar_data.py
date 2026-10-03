@@ -111,6 +111,9 @@ def importance_tier(distance_bucket_label: str, surface: str, class_ord) -> dict
 def load_all_results() -> pd.DataFrame:
     frames = []
     for p in sorted(glob.glob(str(RESULTS_DIR / "*" / "*.csv"))):
+        year_name = Path(p).parent.name
+        if not (year_name.isdigit() and int(year_name) >= PROF.MIN_RESULTS_YEAR):
+            continue  # 2016年以降に固定(収集側の過去バックフィルで集計期間が動かないように)
         frames.append(pd.read_csv(p, dtype=str, encoding="utf-8"))
     df = pd.concat(frames, ignore_index=True)
     df["finish_pos_num"] = pd.to_numeric(df["finish_pos"], errors="coerce")
@@ -467,8 +470,8 @@ def main():
 
     # --- 今日の出走馬自身の母・母母・父母(D/DD/SD)ラインのpt差(2026-09-27追加)。
     # 父父(ss)と同じ再利用ルックアップだが、対象roleは今回新設の"dam"(産駒数が少なくカバレッジ低)。
-    # 総合適性スコアもこの3ラインを含めてこのレポート内でのみ再計算する
-    # (12レース版台帳の総合適性スコアとは値が異なる点に注意、そちらは父/母父/父父の3ラインのまま)。
+    # 総合適性スコア(composite_combined)は12レース版台帳と同じ定義(父/母父/父父の3ライン平均)のまま変更しない。
+    # 母方3ラインは低カバレッジのため、総合適性には含めず「母方参考」として別枠で扱う(2026-10-03、指標統一)。
     n_damside_hit = {"dam": 0, "dd": 0, "sd": 0}
     if today_score:
         today_buckets = {
@@ -489,12 +492,6 @@ def main():
                     n_damside_hit[role_key] += 1
                 anc_name = hped.get(f"ped_{ped_code}_name_ja")
                 th[f"{role_key}_name"] = anc_name if pd.notna(anc_name) else None
-            parts = [
-                s["composite_pt"] for s in
-                (th.get("sire"), th.get("bms"), th.get("ss"), th.get("dam"), th.get("dd"), th.get("sd"))
-                if s and s.get("composite_pt") is not None
-            ]
-            th["composite_combined"] = round(sum(parts) / len(parts), 2) if parts else None
     print(f"今日の出走馬{len(ped_cache)}頭中: 母データあり{n_damside_hit['dam']}頭 / "
           f"母母{n_damside_hit['dd']}頭 / 父母{n_damside_hit['sd']}頭")
 
