@@ -1,0 +1,485 @@
+<title>中山血統適性台帳</title>
+<meta name="description" content="2026年9月26日・中山開催全12レース156頭の血統(父・母父・父父)から算出できる総合適性スコア・適性14項目を一覧表化した台帳。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f4ec;
+  --bg-alt: #efe9d8;
+  --ink: #23262f;
+  --ink-soft: #565a66;
+  --line: #d8d0ba;
+  --gold: #a8813c;
+  --gold-soft: #cdae6d;
+  --sire: #8b3a3a;
+  --sire-bg: #f7ecec;
+  --bms: #33517d;
+  --bms-bg: #ecf0f7;
+  --ss: #3a7d4f;
+  --ss-bg: #e9f2ec;
+  --dim: #9a9686;
+  --sticky-bg: #fbf9f2;
+  --card-bg: #ffffff;
+  --shadow: 0 1px 2px rgba(35,38,47,0.06);
+  --score-strong-pos-bg: #dbe9dc; --score-strong-pos-fg: #2f6b3a;
+  --score-mild-pos-bg: #ecf3ea; --score-mild-pos-fg: #4a7d52;
+  --score-neutral-bg: #ece8da; --score-neutral-fg: #6b6656;
+  --score-mild-neg-bg: #f4e6e0; --score-mild-neg-fg: #a15945;
+  --score-strong-neg-bg: #ecd4cc; --score-strong-neg-fg: #8b3a2c;
+  --score-na-fg: #9a9686;
+  --badge-good-bg: #4a7d52; --badge-bad-bg: #a15945;
+  --caution-bg: #f4e6e0; --caution-fg: #8b3a2c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1b1c22;
+    --bg-alt: #232530;
+    --ink: #e9e6db;
+    --ink-soft: #a7a49a;
+    --line: #3a3c46;
+    --gold: #d3b262;
+    --gold-soft: #a98a4c;
+    --sire: #e39a9a;
+    --sire-bg: #33252a;
+    --bms: #9db4dd;
+    --bms-bg: #232c3d;
+    --ss: #86c99b;
+    --ss-bg: #1e3527;
+    --dim: #6d6f7a;
+    --sticky-bg: #1f2029;
+    --card-bg: #21232c;
+    --shadow: 0 1px 3px rgba(0,0,0,0.4);
+    --score-strong-pos-bg: #234a30; --score-strong-pos-fg: #8fd39c;
+    --score-mild-pos-bg: #1e3527; --score-mild-pos-fg: #7fb589;
+    --score-neutral-bg: #2c2d33; --score-neutral-fg: #a7a49a;
+    --score-mild-neg-bg: #3a2a24; --score-mild-neg-fg: #d99276;
+    --score-strong-neg-bg: #4a2921; --score-strong-neg-fg: #e6a389;
+    --score-na-fg: #6d6f7a;
+    --badge-good-bg: #4a8956; --badge-bad-bg: #b3644a;
+    --caution-bg: #3a2a24; --caution-fg: #e6a389;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1b1c22;
+  --bg-alt: #232530;
+  --ink: #e9e6db;
+  --ink-soft: #a7a49a;
+  --line: #3a3c46;
+  --gold: #d3b262;
+  --gold-soft: #a98a4c;
+  --sire: #e39a9a;
+  --sire-bg: #33252a;
+  --bms: #9db4dd;
+  --bms-bg: #232c3d;
+  --ss: #86c99b;
+  --ss-bg: #1e3527;
+  --dim: #6d6f7a;
+  --sticky-bg: #1f2029;
+  --card-bg: #21232c;
+  --shadow: 0 1px 3px rgba(0,0,0,0.4);
+  --score-strong-pos-bg: #234a30; --score-strong-pos-fg: #8fd39c;
+  --score-mild-pos-bg: #1e3527; --score-mild-pos-fg: #7fb589;
+  --score-neutral-bg: #2c2d33; --score-neutral-fg: #a7a49a;
+  --score-mild-neg-bg: #3a2a24; --score-mild-neg-fg: #d99276;
+  --score-strong-neg-bg: #4a2921; --score-strong-neg-fg: #e6a389;
+  --score-na-fg: #6d6f7a;
+  --badge-good-bg: #4a8956; --badge-bad-bg: #b3644a;
+  --caution-bg: #3a2a24; --caution-fg: #e6a389;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Zen Kaku Gothic New", "Hiragino Sans", sans-serif;
+  line-height: 1.6;
+}
+.wrap { max-width: 1600px; margin: 0 auto; padding: 24px 16px 64px; }
+header.masthead {
+  text-align: center;
+  padding: 28px 12px 20px;
+  border-bottom: 3px double var(--gold-soft);
+  margin-bottom: 20px;
+}
+.eyebrow {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+h1 {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 700;
+  font-size: clamp(24px, 5vw, 36px);
+  margin: 8px 0 6px;
+  text-wrap: balance;
+}
+.subtitle { color: var(--ink-soft); font-size: 14px; }
+.stat-strip {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 22px;
+  margin-top: 14px; font-family: "IBM Plex Mono", monospace; font-size: 13px;
+}
+.stat-strip b { color: var(--gold); font-size: 16px; }
+
+.notice-box {
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--gold);
+  border-radius: 6px;
+  padding: 16px 18px;
+  margin: 18px 0;
+  font-size: 13.5px;
+  box-shadow: var(--shadow);
+}
+.notice-box h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-family: "Shippori Mincho", serif;
+  color: var(--gold);
+}
+.notice-box ul { margin: 6px 0 0; padding-left: 1.2em; }
+.notice-box li { margin: 3px 0; }
+.notice-box.reject { border-left-color: var(--sire); }
+.notice-box.reject h3 { color: var(--sire); }
+
+.top-sticky {
+  position: sticky; top: 0; z-index: 40;
+  margin: 20px 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.caution-strip {
+  background: var(--caution-bg);
+  color: var(--caution-fg);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--line);
+}
+nav.jump {
+  background: var(--sticky-bg);
+  padding: 8px 10px;
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+nav.jump a {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12.5px;
+  color: var(--ink);
+  text-decoration: none;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 4px 9px;
+}
+nav.jump a:hover { border-color: var(--gold); color: var(--gold); }
+
+.legend {
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+  font-size: 12.5px; color: var(--ink-soft); margin: 10px 2px 4px;
+}
+.legend .sw { display: inline-flex; align-items: center; gap: 5px; }
+.legend .dot { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.dot.sire { background: var(--sire); }
+.dot.bms { background: var(--bms); }
+.dot.ss { background: var(--ss); }
+
+.race-block { margin: 30px 0 42px; }
+.race-title {
+  font-family: "Shippori Mincho", serif;
+  font-size: 20px;
+  margin: 0 0 10px;
+  display: flex; align-items: baseline; gap: 10px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 6px;
+}
+.race-no {
+  background: var(--gold);
+  color: var(--bg);
+  padding: 2px 10px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+.race-sub { font-size: 13px; color: var(--ink-soft); font-weight: 400; }
+
+.table-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card-bg);
+  box-shadow: var(--shadow);
+}
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  min-width: 1900px;
+  font-size: 12.5px;
+}
+th, td {
+  border-bottom: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  padding: 6px 8px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+thead th {
+  background: var(--bg-alt);
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 600;
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  position: sticky;
+  top: 105px;
+  z-index: 5;
+}
+thead tr:first-child th { top: 64px; z-index: 6; }
+.group-head { background: var(--gold-soft); color: var(--bg); font-family: "Zen Kaku Gothic New"; }
+.sticky {
+  position: sticky;
+  background: var(--sticky-bg);
+  z-index: 4;
+}
+.c-umaban { left: 0; width: 40px; font-family: "IBM Plex Mono", monospace; font-weight: 600; }
+.c-waku { left: 40px; width: 34px; font-weight: 700; color: #fff; }
+.c-name { left: 74px; width: 128px; text-align: left; font-weight: 600; white-space: normal; }
+.c-pedname { min-width: 130px; }
+thead .sticky { z-index: 7; background: var(--bg-alt); }
+
+.waku-1 { background: #fff; color: #111; }
+.waku-2 { background: #111; color: #fff; }
+.waku-3 { background: #d0362f; color: #fff; }
+.waku-4 { background: #2b5fb0; color: #fff; }
+.waku-5 { background: #e8b429; color: #111; }
+.waku-6 { background: #2a8a4a; color: #fff; }
+.waku-7 { background: #e8752c; color: #fff; }
+.waku-8 { background: #e389c2; color: #111; }
+
+.cell2 { display: flex; flex-direction: column; gap: 2px; min-width: 108px; }
+.row-sire, .row-bms {
+  display: flex; flex-direction: column; align-items: center;
+  border-radius: 4px; padding: 1px 3px;
+}
+.row-sire { background: var(--sire-bg); }
+.row-bms { background: var(--bms-bg); }
+.fval { font-size: 11.5px; font-weight: 600; }
+.row-sire .fval { color: var(--sire); }
+.row-bms .fval { color: var(--bms); }
+.fpct {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.fpct.lown { opacity: 0.55; font-style: italic; }
+.dim { color: var(--dim); font-size: 11px; }
+.c-pedname .row-sire, .c-pedname .row-bms { font-size: 11.5px; font-weight: 500; }
+.c-pedname .row-sire { color: var(--sire); }
+.c-pedname .row-bms { color: var(--bms); }
+
+/* --- サマリー層(総合適性スコア) --- */
+.summary-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; margin-bottom: 8px; flex-wrap: wrap;
+}
+.summary-hint { font-size: 12px; color: var(--ink-soft); }
+.sort-toggle {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11.5px;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.sort-toggle:hover { border-color: var(--gold); color: var(--gold); }
+.summary-scroll { overflow-x: auto; }
+.summary-table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: separate;
+  border-spacing: 0 6px;
+  margin-bottom: 4px;
+}
+.summary-table thead th {
+  font-size: 10.5px; color: var(--ink-soft); text-align: center;
+  padding: 2px 8px; font-family: "IBM Plex Mono", monospace; font-weight: 600;
+  border: none; position: static;
+}
+.summary-row > td {
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  border-left: none; border-right: none;
+  padding: 8px 10px;
+  vertical-align: middle;
+}
+.summary-row > td:first-child { border-left: 1px solid var(--line); border-radius: 6px 0 0 6px; }
+.summary-row > td:last-child { border-right: 1px solid var(--line); border-radius: 0 6px 6px 0; }
+.s-umaban { width: 34px; text-align: center; font-family: "IBM Plex Mono", monospace; font-weight: 600; }
+.s-waku { width: 30px; text-align: center; font-weight: 700; border-radius: 4px; }
+.s-name { min-width: 120px; font-weight: 600; }
+.s-name .ped-sub { display: block; font-size: 10.5px; font-weight: 400; color: var(--ink-soft); }
+.s-score { width: 92px; text-align: center; }
+.score-pill {
+  display: inline-block; min-width: 64px;
+  font-family: "IBM Plex Mono", monospace; font-weight: 700; font-size: 15px;
+  border-radius: 6px; padding: 4px 8px;
+}
+.score-pill.s-strong-pos { background: var(--score-strong-pos-bg); color: var(--score-strong-pos-fg); }
+.score-pill.s-mild-pos { background: var(--score-mild-pos-bg); color: var(--score-mild-pos-fg); }
+.score-pill.s-neutral { background: var(--score-neutral-bg); color: var(--score-neutral-fg); }
+.score-pill.s-mild-neg { background: var(--score-mild-neg-bg); color: var(--score-mild-neg-fg); }
+.score-pill.s-strong-neg { background: var(--score-strong-neg-bg); color: var(--score-strong-neg-fg); }
+.score-pill.s-na { background: transparent; color: var(--score-na-fg); font-style: italic; font-weight: 400; font-size: 11px; }
+.rank-badge {
+  display: inline-block; font-size: 9.5px; font-weight: 700;
+  color: #fff; border-radius: 4px; padding: 1px 5px; margin-left: 4px;
+  vertical-align: middle;
+}
+.rank-badge.good { background: var(--badge-good-bg); }
+.rank-badge.bad { background: var(--badge-bad-bg); }
+.s-rest { width: 70px; text-align: center; font-size: 11px; color: var(--ink-soft); }
+.s-matur { width: 56px; text-align: center; font-size: 10.5px; }
+.matur-badge {
+  display: inline-block; border-radius: 4px; padding: 1px 6px;
+  background: var(--bg-alt); color: var(--ink-soft); border: 1px solid var(--line);
+}
+.s-detail { width: 30px; text-align: center; }
+
+details.horse-detail summary {
+  cursor: pointer; list-style: none; color: var(--gold);
+  font-family: "IBM Plex Mono", monospace; font-size: 15px;
+}
+details.horse-detail summary::-webkit-details-marker { display: none; }
+.breakdown-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(126px, 1fr));
+  gap: 6px; background: var(--bg-alt); border-radius: 6px; padding: 8px;
+  margin: 4px 0 10px;
+}
+.bd-item { font-size: 11px; border-radius: 4px; padding: 3px 5px; background: var(--card-bg); }
+.bd-item .bd-label { color: var(--ink-soft); display: block; font-size: 9.5px; }
+.bd-item .bd-sire { color: var(--sire); font-family: "IBM Plex Mono", monospace; display: block; }
+.bd-item .bd-bms { color: var(--bms); font-family: "IBM Plex Mono", monospace; display: block; }
+.bd-item .bd-ss { color: var(--ss); font-family: "IBM Plex Mono", monospace; display: block; }
+.bd-sire.insig, .bd-bms.insig, .bd-ss.insig { opacity: 0.45; font-style: italic; }
+.bd-item .bd-na { color: var(--dim); font-style: italic; }
+
+details.detail-toggle {
+  margin-top: 6px;
+}
+details.detail-toggle > summary {
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--ink-soft);
+  padding: 6px 4px;
+}
+details.detail-toggle > summary:hover { color: var(--gold); }
+
+footer {
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 12px;
+  margin-top: 40px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <div class="eyebrow">JRA Pedigree Aptitude Ledger</div>
+    <h1>中山血統適性台帳</h1>
+    <div class="subtitle">2026年9月26日(土)・中山開催 全__TOTAL_RACES__レース __TOTAL_HORSES__頭</div>
+    <div class="stat-strip">
+      <span><b>総合適性スコア</b> + 14項目 × 父/母父/父父</span>
+      <span><b>__TOTAL_HORSES__</b>頭 収録</span>
+      <span><b>537</b>種牡馬 / <b>863</b>母父 実績プロファイル(父父も種牡馬プロファイルを再利用)</span>
+    </div>
+  </header>
+
+  <div class="notice-box">
+    <h3>総合適性スコアの読み方(NEW)</h3>
+    <ul>
+      <li>各レースの<b>実際の距離・芝ダート</b>と、父・母父・父父それぞれの当該条件での実測勝率を
+        突き合わせ、「(該当条件での勝率−その祖先の総合勝率)」をpt(パーセントポイント)差として
+        算出。競馬場(本日は中山)・得意季節(秋)・馬ごとの休み明け実際の間隔・新馬戦実績・重賞実績・
+        脚質傾向も同様にpt差化し、算出できた項目の単純平均を<b>総合適性スコア</b>としています。</li>
+      <li><b>父父(SS)ライン追加(2026-09-26)</b>: 種牡馬プロファイルは「対象期間内に自身の産駒が
+        走ったことのある馬」を全て登録しており、父父がこれに該当するケースが多い(本日156頭中139頭
+        =89.1%)。新規データ取得・新規集計ロジックなしで、父・母父と全く同じ方法で第3のラインとして
+        追加できたため実装。より遠い祖先(母父父17〜36%等)はカバレッジ不足のため主要軸には含めず。</li>
+      <li>回り・坂適性・コース規模は競馬場(中山)と実質的に同じ情報を別角度から見ているだけなので
+        二重計上を避けるため合成スコアには含めず(詳細表には従来通り掲載)、道悪(馬場状態)は
+        直前まで予報が無いため対象外、早熟晩成傾向は勝率ptと単位が異なるため数値合成せず
+        バッジ表示にしています。</li>
+      <li>各項目のpt差は95%信頼区間が0をまたぐ場合(=統計的に基準と区別できない)は内訳表示を
+        薄く表示します。父・母父・父父の合算は<b>均等重み平均であり、重みの妥当性自体は検証していません</b>
+        (父の影響が母父より大きいとされる血統理論とは無関係の単純平均です)。</li>
+      <li>スコアの色は「得意/不得意」を断定するものではなく参考の強弱を示すのみです。
+        <span class="rank-badge good">得意</span>/<span class="rank-badge bad">不得意</span>
+        バッジはレース内の相対順位の上位・下位約30%のみに付与し、中間層には付与しません
+        (小頭数レースでの過剰な序列表示を避けるため)。</li>
+    </ul>
+  </div>
+
+  <div class="notice-box">
+    <h3>14項目詳細表の読み方</h3>
+    <ul>
+      <li>詳細表の各セルは対象馬の<b>父</b>(上段・赤系)と<b>母父=BMS</b>(下段・青系)、それぞれの
+        産駒全体(2016〜2026年、全期間合算)の<b>史上ベストカテゴリ</b>の実測勝率です
+        (総合適性スコアとは異なり、今日のレース条件とは無関係の値です)。対象馬自身の成績では
+        ありません。<b>父父ラインは上の総合適性スコアのみに対応しており、この詳細表には未収録です</b>
+        (別集計方式のため、今回は総合適性スコア側にのみ追加)。</li>
+      <li><span class="fpct lown">斜体・薄字</span>のNはサンプル数20未満で信頼度が低いことを示します。
+        「対象外」は種牡馬・母父自体の産駒実績データ不足、または血統表未取得です。</li>
+      <li>気性の激しさ・集中力・精神的タフさ・操縦性・揉まれ弱さ・ゲートセンス・海外遠征適応力・
+        地方ダート(深い砂)適性の8項目は血統表(祖先の名前・生年のみ)から直接算出できないため、
+        この表には含まれていません。</li>
+    </ul>
+  </div>
+
+  <div class="legend">
+    <span class="sw"><span class="dot sire"></span>父の産駒実績</span>
+    <span class="sw"><span class="dot bms"></span>母父(BMS)の産駒実績</span>
+    <span class="sw"><span class="dot ss"></span>父父の産駒実績(総合適性スコアのみ・NEW)</span>
+    <span>N=サンプル数(該当カテゴリでの産駒出走数)</span>
+    <span>薄字=95%信頼区間が0をまたぐ(基準と有意差なし)</span>
+  </div>
+
+  <div class="top-sticky">
+    <div class="caution-strip">
+      ⚠ 総合適性スコアは血統単独モデル検証(Nested Group 8-Fold OOF)で市場超過を確認できず不採用と
+      判定済みの指標です。予想の唯一の根拠にしないでください(詳細は各レース内の注意書き参照)。
+    </div>
+    <nav class="jump">__NAV_LINKS__</nav>
+  </div>
+
+  __RACE_SECTIONS__
+
+  <footer>
+    データ: data/pedigree(5代血統表)× data/race_results(2016〜2026年) 由来の血統評論プロファイル+
+    本日のレース条件(距離・芝ダート)。生成日: 2026-09-26
+  </footer>
+</div>
+<script>
+document.querySelectorAll(".sort-toggle").forEach(function (btn) {
+  btn.addEventListener("click", function () {
+    var table = document.getElementById(btn.dataset.target);
+    var tbody = table.tBodies[0];
+    var rows = Array.prototype.slice.call(tbody.rows);
+    var mode = table.dataset.sort === "score" ? "umaban" : "score";
+    rows.sort(function (a, b) {
+      if (mode === "umaban") return (+a.dataset.umaban) - (+b.dataset.umaban);
+      var av = a.dataset.score === "" ? -1e9 : +a.dataset.score;
+      var bv = b.dataset.score === "" ? -1e9 : +b.dataset.score;
+      return bv - av;
+    });
+    rows.forEach(function (r) { tbody.appendChild(r); });
+    table.dataset.sort = mode;
+    btn.textContent = mode === "score" ? "馬番順に切替" : "スコア順に切替";
+  });
+});
+</script>
