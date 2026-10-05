@@ -78,6 +78,9 @@ netKeibaから生データを取得・蓄積するだけの会話。JRA・NAR両
 - `scripts/jra_verify_results.py` — 結果照合・検証
 - `scripts/build_artifact_jra_axis.py` / `scripts/build_artifact_nar.py` — レポート生成
 - `scripts/refresh_race_display.py` — 発走前の予想表示更新(軽量・単一レース)
+- `analysis/arere_2026_10_05/` — 3連複の荒れ指数・荒れない指数・予想3連複払戻額(2026-10-05〜)。本番レポートと
+  着順予想２の各レースカードに1行で表示するため、**レポート公開前に `s6_race_scores.py D` → `inject_arere_strip.py IN OUT` を通す**
+  (手順は `data/jra_pipeline/col1_special/OPERATION_2026_10_01.md` の4b、説明は同フォルダのREADME)
 - `scripts/jra_model/` 配下全体 — JRA評価基盤・重み探索・確信度較正(`jra_eval.py`/
   `jra_signals.py`/`jra_search_*.py`/`jra_confidence_calibrate.py`等)
 - `scripts/nar_model/` 配下全体 — NAR側の同種一式

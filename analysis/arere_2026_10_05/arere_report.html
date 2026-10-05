@@ -1,0 +1,333 @@
+<title>3連複 荒れ度の数値化</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: 1カラムの検証レポート。区分(一般・新馬・未勝利)を常に同じ順・同じ色で並べる */
+:root {
+  --bg: #EEF0F3; --surface: #FFFFFF; --ink: #181B22; --muted: #565C68; --rule: #D3D7DE;
+  --accent: #2F4A8A; --hot: #B5521B; --hot-soft: #F6E3D6; --cool-soft: #DFE6F4;
+  --c-ippan: #2F4A8A; --c-shinba: #3E7F6A; --c-mishori: #8A5A9E;
+  --display: "Zen Old Mincho", "Yu Mincho", serif;
+  --body: "Zen Kaku Gothic New", "Yu Gothic", "Hiragino Sans", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #13161C; --surface: #1B1F27; --ink: #E5E8EE; --muted: #9AA1AE; --rule: #2E343F;
+  --accent: #8FA9E6; --hot: #E8925E; --hot-soft: #3A2618; --cool-soft: #1F2A40;
+  --c-ippan: #8FA9E6; --c-shinba: #79C3A9; --c-mishori: #C69BD9; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #13161C; --surface: #1B1F27; --ink: #E5E8EE; --muted: #9AA1AE; --rule: #2E343F;
+  --accent: #8FA9E6; --hot: #E8925E; --hot-soft: #3A2618; --cool-soft: #1F2A40;
+  --c-ippan: #8FA9E6; --c-shinba: #79C3A9; --c-mishori: #C69BD9; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); line-height: 1.7; font-size: 15px; font-variant-numeric: tabular-nums; }
+main { max-width: 920px; margin: 0 auto; padding-inline: 18px; padding-block: 40px 72px; }
+h1 { font-family: var(--display); font-size: clamp(28px, 4.4vw, 40px); margin: 0 0 10px; text-wrap: balance; }
+h2 { font-family: var(--display); font-size: 22px; margin: 0 0 12px; text-wrap: balance; }
+h3 { font-size: 15px; margin: 22px 0 8px; }
+.eyebrow { font: 700 11px/1 var(--body); letter-spacing: .16em; color: var(--accent); margin: 0 0 12px; }
+.lede { color: var(--muted); max-width: 66ch; margin: 0; }
+section { margin-top: 44px; padding-top: 22px; border-top: 1px solid var(--rule); }
+p { max-width: 68ch; }
+.note { font-size: 13px; color: var(--muted); }
+.answer { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 18px 20px; margin-top: 24px; }
+.answer p { margin: 0; }
+.cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 18px; }
+.cat { background: var(--surface); border: 1px solid var(--rule); border-top: 4px solid var(--c); border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; }
+.cat .name { font-weight: 700; color: var(--c); }
+.cat .big { font-family: var(--mono); font-size: 30px; }
+.cat .sub { font-size: 12.5px; color: var(--muted); }
+.ippan { --c: var(--c-ippan); } .shinba { --c: var(--c-shinba); } .mishori { --c: var(--c-mishori); }
+.tbl { overflow-x: auto; margin: 10px 0; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; background: var(--surface); }
+th, td { padding: 7px 10px; border-bottom: 1px solid var(--rule); text-align: right; white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+th { font-size: 12px; color: var(--muted); font-weight: 500; }
+td.l { text-align: left; white-space: normal; min-width: 14em; }
+.bar { display: flex; align-items: center; gap: 8px; }
+.bar i { display: block; height: 10px; background: var(--hot); border-radius: 2px; }
+.bars { display: grid; gap: 4px; margin: 8px 0 4px; }
+.bars .row { display: grid; grid-template-columns: 8.5em 1fr 3.6em; align-items: center; gap: 8px; font-size: 13px; }
+.bars .track { background: var(--cool-soft); height: 12px; border-radius: 2px; position: relative; }
+.bars .fill { position: absolute; inset: 0 auto 0 0; background: var(--hot); border-radius: 2px; }
+.bars .v { font-family: var(--mono); font-size: 12.5px; text-align: right; }
+.pill { display: inline-block; font-size: 11.5px; padding: 2px 8px; border-radius: 999px; background: var(--cool-soft); color: var(--ink); }
+.pill.no { background: var(--hot-soft); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+.grid2 > div { min-width: 0; }
+ol.top { padding-left: 1.4em; margin: 8px 0; }
+ol.top li { margin: 4px 0; }
+code { font-family: var(--mono); font-size: 12.5px; }
+a { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+
+<main>
+  <p class="eyebrow">JRA平地 3連複 / 払戻1万円以上を「荒れ」とする</p>
+  <h1>3連複 荒れ度の数値化</h1>
+  <p class="lede">一般(新馬・未勝利以外)・新馬・未勝利の3区分それぞれで、3連複が1万円以上になる割合を過去15年分で集計し、発走前に分かる情報から荒れやすさを予測するスコアを作った。2026年7/11〜9/27のレースでは、馬柱由来のサインで上乗せがあるか、予想が外れて荒れた理由は何かも調べた。逆に3連複が1,000円以下に収まる「荒れない指数」も同じ手順で作った(<a href="#katai">下の節</a>)。作成 2026-10-05。</p>
+
+  <div class="answer">
+    <p><b>結論:</b> 荒れるかどうかの大部分は、単勝オッズの形と頭数で決まる。オッズを使ったスコアで上位10%のレースは一般で67.6%が荒れ、下位10%は5.9%しか荒れない。馬柱の印・スピード指数・調教評価などのサイン10個は、オッズに足しても予測を改善しなかった。</p>
+  </div>
+
+  <div class="cats">
+    <div class="cat ippan"><span class="name">一般</span><span class="big">37.3%</span><span class="sub">28,309レース中10,556(95%区間 36.7〜37.9)</span><span class="sub">3連複の中央値 6,050円</span></div>
+    <div class="cat shinba"><span class="name">新馬</span><span class="big">32.4%</span><span class="sub">4,377レース中1,419(31.0〜33.8)</span><span class="sub">3連複の中央値 4,670円</span></div>
+    <div class="cat mishori"><span class="name">未勝利</span><span class="big">29.6%</span><span class="sub">17,218レース中5,088(28.9〜30.2)</span><span class="sub">3連複の中央値 4,320円</span></div>
+  </div>
+  <p class="note">2011〜2025年、障害戦を除く49,904レース。年ごとの全体の割合は30.5%(2024年)〜38.0%(2014年)。</p>
+
+  <section>
+    <h2>荒れ度スコアの当たり具合</h2>
+    <p>ロジスティック回帰で区分ごとにスコアを作った。2011〜2022年で学習し、使っていない2023〜2025年で評価。AUCは0.5が当てずっぽう、1.0が完全予測。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>区分</th><th>条件のみ</th><th>条件+オッズ</th><th>オッズのみ</th><th>確率のずれ(ECE)</th><th>スコア下位10%</th><th>スコア上位10%</th></tr></thead>
+      <tbody>
+        <tr><td>一般</td><td>0.691</td><td>0.730 <span class="note">[0.718–0.744]</span></td><td>0.730</td><td>1.5pt</td><td>5.9%</td><td>67.6%</td></tr>
+        <tr><td>新馬</td><td>0.719</td><td>0.748 <span class="note">[0.714–0.782]</span></td><td>0.754</td><td>2.1pt</td><td>3.3%</td><td>58.2%</td></tr>
+        <tr><td>未勝利</td><td>0.638</td><td>0.692 <span class="note">[0.672–0.711]</span></td><td>0.698</td><td>2.7pt</td><td>6.3%</td><td>53.6%</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">「条件」はコース(競馬場×芝ダ×距離帯)・クラス・年齢条件・頭数・ハンデ戦(推定)・牝馬限定・馬場状態・天候・月・開催日目。「オッズ」は確定単勝オッズから作った1〜3番人気のオッズ、オッズ差、エントロピー、ジニ係数、上位3頭の支持率、10倍未満の頭数、Harville推定。下位/上位10%は「条件+オッズ」の実際の万馬券率。オッズを使う場合、条件を足しても精度はほぼ変わらない。</p>
+  </section>
+
+  <section>
+    <h2>効いた要因トップ10</h2>
+    <p>要因を1つずつ入れたときの説明力(1000レースあたりのAIC改善)の順。3区分ともほぼ同じ顔ぶれ。</p>
+    <ol class="top">
+      <li><b>Harville推定の「安い組が来る確率」</b>: 単勝オッズから全3頭組の確率を計算し、払戻1万円未満になりそうな組が来る確率を合計したもの。一般で最も低い2割は58.9%、最も高い2割は11.9%が荒れる。</li>
+      <li><b>頭数</b>: 8頭以下5.0% → 17〜18頭57.3%(一般)。</li>
+      <li><b>上位3頭の支持率合計</b></li>
+      <li><b>1番人気のオッズ</b>: 1.5倍以下16.0% → 4.1〜6.0倍58.4%(一般)。</li>
+      <li><b>オッズのエントロピー</b>(人気の散らばり)</li>
+      <li><b>コース</b>: 小倉・新潟・福島の芝1200m以下が53〜56%、京都芝1700〜2000mは21%(一般)。</li>
+      <li><b>距離帯</b>: 一般で1200m以下が46.1%。</li>
+      <li><b>オッズのジニ係数</b>(人気の偏り)</li>
+      <li><b>競馬場</b>(新馬で差が大きい)</li>
+      <li><b>月・年齢条件</b>(新馬)、<b>2-3番人気のオッズ比</b></li>
+    </ol>
+
+    <div class="grid2">
+      <div>
+        <h3>頭数別の万馬券率(一般)</h3>
+        <div class="bars">
+          <div class="row"><span>8頭以下</span><span class="track"><span class="fill" style="width:5.0%"></span></span><span class="v">5.0%</span></div>
+          <div class="row"><span>9〜10頭</span><span class="track"><span class="fill" style="width:13.3%"></span></span><span class="v">13.3%</span></div>
+          <div class="row"><span>11〜12頭</span><span class="track"><span class="fill" style="width:25.6%"></span></span><span class="v">25.6%</span></div>
+          <div class="row"><span>13〜14頭</span><span class="track"><span class="fill" style="width:36.1%"></span></span><span class="v">36.1%</span></div>
+          <div class="row"><span>15〜16頭</span><span class="track"><span class="fill" style="width:47.5%"></span></span><span class="v">47.5%</span></div>
+          <div class="row"><span>17〜18頭</span><span class="track"><span class="fill" style="width:57.3%"></span></span><span class="v">57.3%</span></div>
+        </div>
+        <p class="note">棒の全幅が100%。新馬は2.4%→48.9%、未勝利は4.7%→39.9%。</p>
+      </div>
+      <div>
+        <h3>1番人気オッズ別の万馬券率(一般)</h3>
+        <div class="bars">
+          <div class="row"><span>1.5倍以下</span><span class="track"><span class="fill" style="width:16.0%"></span></span><span class="v">16.0%</span></div>
+          <div class="row"><span>1.6〜2.0倍</span><span class="track"><span class="fill" style="width:25.7%"></span></span><span class="v">25.7%</span></div>
+          <div class="row"><span>2.1〜2.5倍</span><span class="track"><span class="fill" style="width:31.7%"></span></span><span class="v">31.7%</span></div>
+          <div class="row"><span>2.6〜3.0倍</span><span class="track"><span class="fill" style="width:37.2%"></span></span><span class="v">37.2%</span></div>
+          <div class="row"><span>3.1〜4.0倍</span><span class="track"><span class="fill" style="width:46.0%"></span></span><span class="v">46.0%</span></div>
+          <div class="row"><span>4.1〜6.0倍</span><span class="track"><span class="fill" style="width:58.4%"></span></span><span class="v">58.4%</span></div>
+        </div>
+        <p class="note">6.1倍以上は件数が少ないため省略。</p>
+      </div>
+    </div>
+
+    <h3>差が小さかった条件(一般/新馬/未勝利)</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>条件</th><th>一般</th><th>新馬</th><th>未勝利</th></tr></thead>
+      <tbody>
+        <tr><td>クラス</td><td>1勝35.4% / 2勝36.6% / 3勝42.3% / OP 39.1% / 重賞45.2%</td><td>-</td><td>-</td></tr>
+        <tr><td>ハンデ戦(推定)</td><td>50.0%(非ハンデ36.8%)</td><td>-</td><td>-</td></tr>
+        <tr><td>牝馬限定(全頭牝)</td><td>37.3%(混合37.3%)</td><td>38.6%(31.7%)</td><td>30.3%(29.4%)</td></tr>
+        <tr><td>馬場 良/稍重/重/不良</td><td>36.8 / 37.0 / 39.7 / 43.0%</td><td>31.0 / 34.3 / 37.5 / 48.4%</td><td>29.6 / 28.5 / 31.4 / 28.9%</td></tr>
+        <tr><td>開催日目 1-2日 → 9日以降</td><td>36.9% → 37.8%</td><td>28.4% → 32.5%</td><td>29.3% → 32.4%</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>2026年7/11〜9/27(790レース)</h2>
+    <p>ファクター検証データベースの794レースから障害戦4つを除いた。一般の400レースは本番の3連複印の検証範囲(いわゆる404レースから障害戦4つを除いたもの)と同じ。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>区分</th><th>レース数</th><th>万馬券率</th><th>95%区間</th><th>15年平均</th><th>15年スコアのAUC(オッズあり/なし)</th></tr></thead>
+      <tbody>
+        <tr><td>一般</td><td>400</td><td>36.0%</td><td>31.4〜40.8</td><td>37.3%</td><td>0.728 / 0.689</td></tr>
+        <tr><td>新馬</td><td>97</td><td>26.8%</td><td>19.0〜36.4</td><td>32.4%</td><td>0.725 / 0.710</td></tr>
+        <tr><td>未勝利</td><td>293</td><td>28.7%</td><td>23.8〜34.1</td><td>29.6%</td><td>0.738 / 0.740</td></tr>
+      </tbody>
+    </table></div>
+    <p>2011〜2022年で学習したスコアは、2026年にもそのまま通用した。</p>
+
+    <h3>馬柱サイン10個の上乗せ</h3>
+    <p>15年スコアに次の10個を足し、開催日を1日ずつ抜いて当てる交差検証で比べた。◎の割れ方、1番人気への◎の割合、4番人気以下への◎の割合、スピード指数(最高)の1位と3位の差、スピード指数(近5走平均)のばらつき、6番人気以下で調教評価A/Bの頭数、予想1位馬の人気、予想順位と人気の順位相関、1番人気の凡走予測順位、上位3人気の初コース・初距離・前走なしの頭数。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>区分</th><th>15年スコア</th><th>+10サイン</th><th>logloss差の合計 [95%区間]</th><th>判定</th></tr></thead>
+      <tbody>
+        <tr><td>一般</td><td>0.724</td><td>0.727</td><td>−0.1 [−5.6, +5.2]</td><td><span class="pill">判別できず</span></td></tr>
+        <tr><td>新馬</td><td>0.709</td><td>0.684</td><td>−2.4 [−7.2, +2.0]</td><td><span class="pill no">判別できず(悪化寄り)</span></td></tr>
+        <tr><td>未勝利</td><td>0.732</td><td>0.719</td><td>−5.9 [−18.4, +3.9]</td><td><span class="pill no">判別できず(悪化寄り)</span></td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">数値はAUC。logloss差は正なら改善。区間は開催日単位のブートストラップ。サインを1個ずつ足した場合も区間が0より上に出たものは無く、0より下(悪化)が9件。未勝利のスピード指数の拮抗(単独のAUC 0.70相当)や人気薄の調教A/B頭数(0.64〜0.65)は単独では効いて見えるが、オッズと強く連動しているため、オッズに足すと消える。</p>
+  </section>
+
+  <section>
+    <h2>予想が外れて荒れたレース</h2>
+    <p>予想は2通りで判定した。(a) 予想順位の上位5頭で3連複BOX(3区分すべて)。(b) 本番の3連複印(◎〇▲)のフォーメーション(一般400レースのみ)。どちらも検証用の一括計算で、モデルの重みを決めた期間と重なる。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>区分</th><th>予想</th><th>的中×荒れた</th><th>的中×荒れない</th><th>外れ×荒れた</th><th>外れ×荒れない</th></tr></thead>
+      <tbody>
+        <tr><td>一般</td><td>上位5頭BOX</td><td>8</td><td>57</td><td>136</td><td>199</td></tr>
+        <tr><td>一般</td><td>3連複印</td><td>26</td><td>119</td><td>118</td><td>137</td></tr>
+        <tr><td>新馬</td><td>上位5頭BOX</td><td>0</td><td>28</td><td>26</td><td>43</td></tr>
+        <tr><td>未勝利</td><td>上位5頭BOX</td><td>4</td><td>87</td><td>80</td><td>122</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>外れ×荒れたの理由(上位5頭BOX基準)</h3>
+    <p class="note">結果データから機械的に判定。1レースで複数当てはまる。「主」は E→C→D→F→G→A→B の順で最初に当てはまったもの。荒れたレースでは A と B はほぼ必ず起きるため、他の理由を先に見ている。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>理由</th><th>判定のしかた</th><th>一般 該当/主</th><th>新馬 該当/主</th><th>未勝利 該当/主</th></tr></thead>
+      <tbody>
+        <tr><td>A 人気馬凡走</td><td class="l">1番人気が4着以下、または上位3人気のうち2頭以上が4着以下</td><td>124 / 23</td><td>23 / 0</td><td>73 / 27</td></tr>
+        <tr><td>B 穴馬激走</td><td class="l">7番人気以下で予想6位以下の馬が3着以内</td><td>107 / 1</td><td>20 / 0</td><td>71 / 2</td></tr>
+        <tr><td>C 展開ずれ</td><td class="l">3着以内の馬の実際の4角位置とAI展開予想の差が、平均で頭数の30%以上</td><td>38 / 30</td><td>11 / 11</td><td>21 / 20</td></tr>
+        <tr><td>D 馬場・枠の偏り</td><td class="l">3着以内が全て1〜3枠か全て6〜8枠、または重・不良馬場</td><td>26 / 18</td><td>8 / 6</td><td>16 / 12</td></tr>
+        <tr><td>E 当日アクシデント</td><td class="l">予想上位5頭か上位3人気が取消・除外・中止・失格、または馬体重±20kg以上</td><td>16 / 16</td><td>0 / 0</td><td>4 / 4</td></tr>
+        <tr><td>F データ不足</td><td class="l">3着以内に過去走データの無い馬、または初芝ダかつ初距離の馬</td><td>71 / 37</td><td>26 / 9</td><td>14 / 8</td></tr>
+        <tr><td>G モデルの弱点</td><td class="l">人気上位5頭なら3着以内の馬を2頭以上含むのに、予想上位5頭は1頭以下</td><td>36 / 11</td><td>8 / 0</td><td>13 / 7</td></tr>
+        <tr><td>合計</td><td class="l"></td><td>136</td><td>26</td><td>80</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="katai">
+    <h2>逆指数: 荒れない(3連複1,000円以下)</h2>
+    <p>同じレース・同じ手順で、目的を「3連複の払戻が1,000円以下」に替えて計算した。数字が高いほど堅く収まりやすい。</p>
+    <div class="cats">
+      <div class="cat ippan"><span class="name">一般</span><span class="big">8.1%</span><span class="sub">28,309レース中2,302(95%区間 7.8〜8.5)</span><span class="sub">2026年7/11〜9/27: 7.3%(400レース中29)</span></div>
+      <div class="cat shinba"><span class="name">新馬</span><span class="big">12.0%</span><span class="sub">4,377レース中526(11.1〜13.0)</span><span class="sub">2026年7/11〜9/27: 13.4%(97レース中13)</span></div>
+      <div class="cat mishori"><span class="name">未勝利</span><span class="big">12.8%</span><span class="sub">17,218レース中2,199(12.3〜13.3)</span><span class="sub">2026年7/11〜9/27: 17.4%(293レース中51)</span></div>
+    </div>
+    <p class="note">2011〜2025年。全体の割合は2014・2015年の7.3%から2024年の12.8%へ上がっている(年ごとの頭数の減少と同じ向き)。</p>
+
+    <h3>荒れない指数の当たり具合(2023〜2025年で評価)</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>区分</th><th>条件のみ</th><th>条件+オッズ</th><th>オッズのみ</th><th>確率のずれ(ECE)</th><th>指数下位10%</th><th>指数上位10%</th><th>2026年7〜9月のAUC</th></tr></thead>
+      <tbody>
+        <tr><td>一般</td><td>0.839</td><td>0.911 <span class="note">[0.901–0.920]</span></td><td>0.912</td><td>1.4pt</td><td>0.0%</td><td>49.5%</td><td>0.901</td></tr>
+        <tr><td>新馬</td><td>0.829</td><td>0.871 <span class="note">[0.841–0.899]</span></td><td>0.872</td><td>1.6pt</td><td>0.0%</td><td>56.0%</td><td>0.899</td></tr>
+        <tr><td>未勝利</td><td>0.717</td><td>0.837 <span class="note">[0.821–0.853]</span></td><td>0.842</td><td>1.2pt</td><td>0.0%</td><td>51.0%</td><td>0.885</td></tr>
+      </tbody>
+    </table></div>
+    <p>荒れない方が荒れる方よりずっと当てやすい(AUC 0.84〜0.91)。指数の下位10%では1,000円以下は一度も出ておらず、上位10%では約半数が1,000円以下。2026年の790レースでも0.89〜0.90で通用した。</p>
+
+    <h3>効いた要因(上位)</h3>
+    <ol class="top">
+      <li><b>上位3頭の支持率合計</b>: 一般で最も低い2割は0.0%、最も高い2割は33.0%が1,000円以下。</li>
+      <li><b>Harville推定の「安い組が来る確率」</b></li>
+      <li><b>頭数</b>: 8頭以下 45.3% → 17〜18頭 1.0%(一般)。未勝利は8頭以下で55.2%。</li>
+      <li><b>1番人気のオッズ</b>: 1.5倍以下 26.5%、3.1〜4.0倍 1.5%、4.1倍以上はほぼ0%(一般)。</li>
+      <li><b>オッズのエントロピー</b>、<b>10倍未満の頭数</b>(2〜3頭が最も堅く、6頭以上はほぼ0%)</li>
+      <li><b>コース</b>: 一般で阪神・京都の芝2100〜2400mが19〜20%、新潟・福島の芝1200m以下は2%台。未勝利は東京芝1700〜2000mが25.5%。</li>
+    </ol>
+    <p class="note">クラスは重賞5.1%・3勝6.2%がやや低く、ハンデ戦(推定)は3.4%。牝馬限定・馬場状態・開催日目の差は小さい。</p>
+
+    <h3>馬柱サインの上乗せ</h3>
+    <p>荒れ度と同じ10個のサインを足したが、上乗せは無かった。一般はAUC 0.885→0.890で判別できず、新馬は0.884→0.824で悪化(区間が0より下)、未勝利は0.881→0.867で判別できず。単独では「6番人気以下の調教A/B頭数が少ない」(一般でAUC 0.83相当)や「1番人気への◎の割合」(0.70)が効いて見えるが、オッズとの相関が強く、オッズに足すと消える。</p>
+
+    <h3>予想上位5頭BOXと堅い決着</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>区分</th><th>的中×1,000円以下</th><th>的中×1,000円超</th><th>外れ×1,000円以下</th><th>外れ×1,000円超</th></tr></thead>
+      <tbody>
+        <tr><td>一般</td><td>17</td><td>48</td><td>12</td><td>323</td></tr>
+        <tr><td>新馬</td><td>7</td><td>21</td><td>6</td><td>63</td></tr>
+        <tr><td>未勝利</td><td>38</td><td>53</td><td>13</td><td>189</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">1,000円以下で決着したレースのうち、予想上位5頭BOXで取れたのは一般17/29・新馬7/13・未勝利38/51。3連複印フォーメーション(一般)では23/29。</p>
+  </section>
+
+  <section id="combo">
+    <h2>荒れ度指数 × 荒れない指数</h2>
+    <p>2つの指数(どちらも2011〜2022年で学習した「条件+オッズ」版)を組み合わせ、学習に使っていない2023〜2025年と2026年7〜9月で確かめた。</p>
+    <div class="answer"><p><b>結論:</b> 2つの指数はほぼ裏表で、順位相関は−0.88〜−0.93。組み合わせても、荒れの予測も堅い決着の予測も良くならない。荒れの予測には荒れ度指数、1,000円以下の予測には荒れない指数を、それぞれ単独で使えば十分。</p></div>
+
+    <h3>組み合わせたときの当たり具合(AUC、2023〜2025年)</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>区分</th><th>荒れ: 荒れ度指数だけ</th><th>荒れ: 合成指数</th><th>堅い: 荒れない指数だけ</th><th>堅い: 合成指数</th><th>2指数の順位相関</th></tr></thead>
+      <tbody>
+        <tr><td>一般</td><td>0.730</td><td>0.723 <span class="note">(差 −0.007、区間 −0.013〜−0.002)</span></td><td>0.911</td><td>0.912 <span class="note">(+0.001)</span></td><td>−0.91</td></tr>
+        <tr><td>新馬</td><td>0.748</td><td>0.743 <span class="note">(−0.005)</span></td><td>0.871</td><td>0.875 <span class="note">(+0.004)</span></td><td>−0.89</td></tr>
+        <tr><td>未勝利</td><td>0.692</td><td>0.685 <span class="note">(−0.007)</span></td><td>0.837</td><td>0.838 <span class="note">(+0.000)</span></td><td>−0.89</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">合成指数 = logit(荒れ度) − logit(荒れない)。当てはめ無しでそのまま評価した。2023年で重みを決めて2024〜2025年で確かめる方法でも、もう一方の指数を足したときのAUCの変化は−0.006〜+0.001。2026年7〜9月でも同じ傾向だった(一般の荒れ 0.728→0.724、堅い 0.901→0.906)。差が区間ごと0より上に出た組み合わせは無い。</p>
+
+    <h3>4つの区画に分けた場合</h3>
+    <p>それぞれの指数を学習期間の中央値で「高/低」に分けた。指数が逆向きにそろう2区画にレースの84〜86%が入る。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>区分</th><th>区画</th><th>レースの割合</th><th>万馬券率</th><th>1,000円以下率</th><th>その間</th><th>3連複の中央値</th></tr></thead>
+      <tbody>
+        <tr><td>一般</td><td>荒れ度 高 × 荒れない 低</td><td>35.6%</td><td>55.2%</td><td>0.1%</td><td>44.7%</td><td>11,625円</td></tr>
+        <tr><td>一般</td><td>荒れ度 低 × 荒れない 高</td><td>50.5%</td><td>20.9%</td><td>18.5%</td><td>60.5%</td><td>2,940円</td></tr>
+        <tr><td>一般</td><td>両方 高</td><td>6.9%</td><td>44.2%</td><td>2.1%</td><td>53.7%</td><td>8,120円</td></tr>
+        <tr><td>一般</td><td>両方 低</td><td>6.9%</td><td>33.4%</td><td>0.0%</td><td>66.6%</td><td>5,370円</td></tr>
+        <tr><td>新馬</td><td>荒れ度 高 × 荒れない 低</td><td>39.9%</td><td>47.8%</td><td>0.8%</td><td>51.4%</td><td>9,325円</td></tr>
+        <tr><td>新馬</td><td>荒れ度 低 × 荒れない 高</td><td>45.4%</td><td>13.1%</td><td>28.2%</td><td>58.7%</td><td>1,990円</td></tr>
+        <tr><td>新馬</td><td>両方 高 / 両方 低</td><td>5.7% / 9.0%</td><td>34.6% / 24.4%</td><td>7.7% / 3.7%</td><td>57.7% / 72.0%</td><td>3,550円 / 4,695円</td></tr>
+        <tr><td>未勝利</td><td>荒れ度 高 × 荒れない 低</td><td>31.7%</td><td>42.6%</td><td>1.0%</td><td>56.4%</td><td>7,890円</td></tr>
+        <tr><td>未勝利</td><td>荒れ度 低 × 荒れない 高</td><td>52.6%</td><td>17.1%</td><td>27.1%</td><td>55.8%</td><td>2,130円</td></tr>
+        <tr><td>未勝利</td><td>両方 高 / 両方 低</td><td>6.3% / 9.4%</td><td>38.1% / 27.1%</td><td>7.8% / 4.0%</td><td>54.1% / 68.9%</td><td>5,005円 / 3,800円</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">2023〜2025年(一般5,617・新馬908・未勝利3,463レース)。2026年7〜9月でも同じ形で、一般の「荒れ度 高 × 荒れない 低」は万馬券率56.6%・1,000円以下0%(136レース)、「荒れ度 低 × 荒れない 高」は23.1%・13.7%(212レース)。「荒れ度 高 × 荒れない 低」なら1,000円以下はほぼ起きない(一般で2,002レース中2件)ので、堅い決着を外す目安には使える。ただしこれは荒れない指数だけで判断しても同じで、組み合わせたから得られる情報ではない。2指数が食い違う区画は1,000円〜1万円の中間に寄るが、件数が少ない。5×5の格子は <code>out_combined/grid5x5.csv</code>。</p>
+  </section>
+
+  <section id="payout">
+    <h2>レースごとの指数と予想3連複払戻額</h2>
+    <p>荒れ指数・荒れない指数に加えて、同じ材料(レース条件+単勝オッズの形)から3連複払戻額の目安を出せるようにした。払戻額は1点に決まらないので、中央値と「半分のレースがこの範囲に入る」幅(25〜75%)で出す。2011〜2022年で学習し、使っていない期間で精度を確かめた。</p>
+
+    <h3>例: 2026年9月27日 阪神</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>R</th><th>レース</th><th>頭数</th><th>1番人気</th><th>荒れ指数</th><th>荒れない指数</th><th>予想払戻(中央値)</th><th>25〜75%の幅</th><th>実際</th></tr></thead>
+      <tbody>
+        <tr><td>2</td><td>2歳未勝利 芝1600</td><td>8</td><td>2.4倍</td><td>8%</td><td>39%</td><td>1,520円</td><td>690〜2,870円</td><td>2,200円</td></tr>
+        <tr><td>4</td><td>2歳未勝利 芝2000</td><td>7</td><td>2.6倍</td><td>8%</td><td>59%</td><td>1,360円</td><td>560〜2,690円</td><td>710円</td></tr>
+        <tr><td>5</td><td>2歳新馬 芝1400</td><td>10</td><td>2.3倍</td><td>15%</td><td>22%</td><td>2,580円</td><td>940〜6,610円</td><td>66,440円</td></tr>
+        <tr><td>6</td><td>2歳新馬 ダ1800</td><td>16</td><td>2.2倍</td><td>71%</td><td>0%</td><td>11,930円</td><td>4,060〜33,750円</td><td>12,260円</td></tr>
+        <tr><td>9</td><td>兵庫特別(2勝) 芝2400</td><td>11</td><td>1.3倍</td><td>14%</td><td>11%</td><td>1,890円</td><td>1,180〜4,660円</td><td>2,090円</td></tr>
+        <tr><td>11</td><td>ポートアイランドS(L) 芝1600</td><td>16</td><td>4.0倍</td><td>65%</td><td>0%</td><td>14,190円</td><td>7,690〜33,550円</td><td>81,020円</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">指数は確率(%)。5Rのように指数が低くても大きく荒れるレースはある。2026年1/4〜9/27の全2,521レースの一覧は <code>out_payout/races_2026.csv</code>。</p>
+
+    <h3>払戻額の当たり具合</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>区分</th><th>期間</th><th>レース数</th><th>予想と実際の順位相関</th><th>外れ幅の中央値</th><th>実際が予想の½〜2倍</th><th>実際が25〜75%の幅に入る</th></tr></thead>
+      <tbody>
+        <tr><td>一般</td><td>2023〜2025年</td><td>5,617</td><td>0.52</td><td>2.3倍</td><td>42.4%</td><td>51.6%</td></tr>
+        <tr><td>新馬</td><td>2023〜2025年</td><td>908</td><td>0.55</td><td>2.2倍</td><td>43.3%</td><td>52.6%</td></tr>
+        <tr><td>未勝利</td><td>2023〜2025年</td><td>3,463</td><td>0.46</td><td>2.5倍</td><td>38.8%</td><td>50.1%</td></tr>
+        <tr><td>全体</td><td>2026年1/4〜9/27</td><td>2,521</td><td>0.51</td><td>2.4倍</td><td>41.8%</td><td>50.3%</td></tr>
+      </tbody>
+    </table></div>
+    <p>25〜75%の幅にはねらいどおり約半数が入り、幅の示し方は正確。ただし1レースの払戻額をぴったり当てる精度ではなく、外れ幅の中央値は2倍強ある。「このレースはだいたい何千円台か、1万円を超えそうか」を見る目安として使うもの。予想中央値の帯ごとに見ると、一般で予想1,000円以下のレースは実際の中央値640円・1,000円以下が64.5%、予想1万〜2万円のレースは中央値13,865円・万馬券率60.3%。</p>
+    <p class="note">学習と評価には確定単勝オッズを使っている。発走前に使う場合は、その時点の単勝オッズ(watch_odds.py で取得しているもの)を入れることになり、締切前に人気が動いた分だけ精度は下がる。</p>
+  </section>
+
+  <section>
+    <h2>データと注意点</h2>
+    <ul>
+      <li>使ったデータは取得済みのレース結果・払戻・ファクター検証データベース・馬柱だけ。netkeibaへの新たなアクセスはしていない。2015年・2016年1〜8月も揃っていたため、欠けた期間は無い。</li>
+      <li>予測には発走前に分かる情報(レース条件・確定単勝オッズ・馬柱)だけを使った。着順・通過順・上がり・当日馬体重は、外れ理由の診断にだけ使った。</li>
+      <li>クラスの旧表記は 500万下→1勝、1000万下→2勝、1600万下→3勝 にそろえた。</li>
+      <li>障害戦は、名前に「障害」がある競走に加え、芝コース扱いで記録されている「○○ジャンプS」「○○JS」も除外した。過去の分析で同じ混入がないか確認しておくと安心。</li>
+      <li>ハンデ戦と牝馬限定は元データに表記が無いため推定。ハンデ戦は見習い騎手の減量と区別できないので少なめに拾っている(一般で約1,000レース)。</li>
+      <li>スクリプトと集計CSVは <code>analysis/arere_2026_10_05/</code>(s1〜s3 と out/ フォルダ、README.md)。</li>
+    </ul>
+  </section>
+</main>
