@@ -6,7 +6,9 @@
   - 結果未取得の日: data/odds_history_tansho/{year}/{date}.csv の各レース最新チェックポイントの単勝オッズ
     (無い馬は newspaper の bias_win_odds)。レース条件は race_names_{date}.csv(予想パイプラインのscratchpad)と
     data/newspaper/{race_id}.csv(性齢・斤量)。馬場状態・天候は未確定なので「不明」として扱う。
-モデル: out/s1_models.pkl・out_katai/s1_models.pkl(条件+オッズ)と out_payout/payout_models.pkl。いずれも2011〜2022年で学習。
+モデル: 荒れ指数=out/s1_models.pkl(条件+オッズ)、荒れない指数=out_katai/s1_models_v2.pkl(2026-10-05切替の改良版:
+割引Harville λ=0.9/0.8・「1,000円以下になりそうな組の確率」追加・直近8年半減の重み。s9_build_katai_v2.py)、
+予想払戻額=out_payout/payout_models.pkl。いずれも2011〜2022年で学習。
 
 使い方:
   python s6_race_scores.py 20261003 20261004 [--race-names-dir DIR]
@@ -24,6 +26,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import s1_build_races as B  # noqa: E402
 import s2_stats_model as S  # noqa: E402
+import s7_improve as I  # noqa: E402
 
 sys.stdout.reconfigure(encoding="utf-8")
 HERE = Path(__file__).resolve().parent
@@ -43,6 +46,9 @@ def records_from_results(date):
     recs = []
     for rid, g in d.groupby("race_id", sort=False):
         r = B.race_record(rid, g)
+        if r is not None:
+            st = g[~g["finish_pos"].astype(str).isin(["取", "除"])]
+            r["_odds"] = pd.to_numeric(st["odds_final"], errors="coerce").to_numpy()
         if r is not None and "fav_odds" in r:
             r["odds_source"] = "確定オッズ"
             recs.append(r)
@@ -79,6 +85,8 @@ def records_pre_race(date, rn_dir):
         })
         g = g[pd.to_numeric(g["odds_final"], errors="coerce") > 0]  # 取消・除外(オッズ無し)を除く
         rec = B.race_record(rid, g)
+        if rec is not None:
+            rec["_odds"] = pd.to_numeric(g["odds_final"], errors="coerce").to_numpy()
         if rec is not None and "fav_odds" in rec:
             rec["odds_source"] = src
             recs.append(rec)
@@ -97,7 +105,9 @@ def score(recs):
     df = pd.DataFrame(recs)
     X = S.add_bins(S.prep_numeric(df))
     m_a = pickle.load(open(HERE / "out" / "s1_models.pkl", "rb"))
-    m_k = pickle.load(open(HERE / "out_katai" / "s1_models.pkl", "rb"))
+    kv2 = pickle.load(open(HERE / "out_katai" / "s1_models_v2.pkl", "rb"))
+    feats = I.lam_features(dict(zip(df["race_id"], df["_odds"])), *kv2["lam"])
+    Xk = I.make_X(X, feats)
     pm = pickle.load(open(HERE / "out_payout" / "payout_models.pkl", "rb"))
     df["arere"] = np.nan
     df["katai"] = np.nan
@@ -105,7 +115,7 @@ def score(recs):
         msk = (df["category"] == cat).to_numpy()
         if msk.any():
             df.loc[msk, "arere"] = m_a[(cat, MODEL)].predict_proba(X[msk])[:, 1]
-            df.loc[msk, "katai"] = m_k[(cat, MODEL)].predict_proba(X[msk])[:, 1]
+            df.loc[msk, "katai"] = kv2["models"][(cat, MODEL)].predict_proba(Xk[msk])[:, 1]
     F = X[pm["num_cols"]].copy()
     for c in pm["cat_cols"]:
         F[c] = pd.Categorical(X[c].astype(str), categories=pm["cat_levels"][c])
