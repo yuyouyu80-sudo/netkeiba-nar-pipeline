@@ -88,5 +88,15 @@
   ],
   "output": "r3b_final_dry.txt",
   "output_sha256": "87a2a0877b75dc74e7cdf3bf8fc948396bf47d604ff66e9cc13528b87a64b820"
+ },
+ {
+  "script": "radar_v2_dl_condition_encoder.py",
+  "mode": "confirm (5)",
+  "started": "2026-10-07 06:11:09",
+  "finished": "2026-10-07 06:49:32",
+  "git_commit": "a76fee61fe8a2f3f4f06cb177e342082db31a042",
+  "git_dirty_files": [],
+  "output": "radar_v2_dl_eval.json",
+  "output_sha256": "d87d3b7f164e19d7375d6d64a5fca9f451c4b8b74b076fcc0b0452712a927069"
  }
 ]
