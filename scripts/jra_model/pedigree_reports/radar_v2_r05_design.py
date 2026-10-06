@@ -185,11 +185,11 @@ def main():
     cache = C.OUT_DIR / f"runs_le{MAX_YEAR}.parquet"
     if cache.exists():
         runs = pd.read_parquet(cache)
-        meta = json.loads((C.OUT_DIR / f"runs_le{MAX_YEAR}_meta.json").read_text(encoding="utf-8"))
+        meta = json.loads((C.OUT_DIR / f"runs_le{MAX_YEAR}_meta.txt").read_text(encoding="utf-8"))
     else:
         runs, meta = C.load_runs(max_year=MAX_YEAR)
         runs.to_parquet(cache, index=False)
-        (C.OUT_DIR / f"runs_le{MAX_YEAR}_meta.json").write_text(json.dumps(meta), encoding="utf-8")
+        (C.OUT_DIR / f"runs_le{MAX_YEAR}_meta.txt").write_text(json.dumps(meta), encoding="utf-8")
     assert runs["year"].max() <= MAX_YEAR
     log(f"出走行 {len(runs)}、{meta}")
     ped = C.load_ped_ids(runs["horse_id"].unique().tolist(), C.OUT_DIR / "ped_ids_v2.parquet")
