@@ -36,8 +36,8 @@ THRESH_YEARS = (2011, 2020)   # 馬場指数・ペースの3分位の閾値を�
 LEVEL_AXES = {"surface": "surface", "dbucket": "dbucket", "circ": "circ_tier", "elev": "elev_tier",
               "straight": "straight_tier", "turn": "turn_dir", "turf_type": "turf_type", "rest": "rest_bucket",
               "class_high": "class_high", "track": "track_tier", "going": "going2"}
-TRAIT_AXES = ["front", "kire", "logd"]
-SIRE_FIRST_AXES = {"front", "kire", "logd"}   # 事前登録 §3: 父の値(無ければ父父→母父)
+TRAIT_AXES = ["front", "kire", "logd", "perf_adj"]   # perf_adj = 父の総合力(主仮説の基準モデル用、レーダーの軸ではない)
+SIRE_FIRST_AXES = {"front", "kire", "logd", "perf_adj"}   # 事前登録 §3: 父の値(無ければ父父→母父)
 MIN_HORSES_HALF = 10
 
 
@@ -138,17 +138,18 @@ def horse_level_values(runs: pd.DataFrame) -> dict:
     return hv
 
 
-def build_tables(runs: pd.DataFrame, ped: pd.DataFrame, horses=None) -> dict:
+def build_tables(runs: pd.DataFrame, ped: pd.DataFrame, horses=None, return_hv=False):
     if horses is not None:
         runs = runs[runs["horse_id"].isin(horses)]
-    out = {}
+    out, hvs = {}, {}
     for key, h in horse_level_values(runs).items():
         if len(h) < 20:
             continue
         hc = C.center_horse_values(h)
+        hvs[key] = hc
         for role, rc in C.ROLES:
             out[key + (role,)] = C.ancestor_table(hc, ped, rc)
-    return out
+    return (out, hvs) if return_hv else out
 
 
 def shrink_tables(tables: dict) -> tuple[dict, dict]:
@@ -314,8 +315,13 @@ def main():
             t0 = time.time()
             win = runs if Y == "display" else runs[runs["year"] <= Y - 1]
             v = run_values(win, win)
-            tables = build_tables(v, ped)
+            tables, hvs = build_tables(v, ped, return_hv=True)
             info = save_tables(tables, TABLE_DIR / f"anc_{Y}.parquet")
+            # 「血統のみ」の値から本人の走を除くため、その年(表示用は2026年)に走る馬の馬単位の値(xc, w)を保存
+            part = set(runs.loc[runs["year"] == (2026 if Y == "display" else Y), "horse_id"])
+            hrows = [hc.loc[hc.index.isin(part), ["xc", "w"]].assign(axis=k[0], level=k[1]).reset_index()
+                     for k, hc in hvs.items()]
+            pd.concat(hrows, ignore_index=True).to_parquet(TABLE_DIR / f"hv_{Y}.parquet", index=False)
             info.update({"window_end": str(win["date"].max().date()), "n_runs": int(len(win)),
                          "sec": round(time.time() - t0, 1)})
             meta["tables"][str(Y)] = info
