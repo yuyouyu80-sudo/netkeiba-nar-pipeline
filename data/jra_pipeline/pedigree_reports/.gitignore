@@ -1,3 +1,7 @@
 *
 !.gitignore
 !race_conditions_check.csv
+!RADAR_V2_*.md
+!radar_v2/
+radar_v2/*
+!radar_v2/*.json
