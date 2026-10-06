@@ -1,0 +1,68 @@
+[
+ {
+  "script": "radar_v2_eval.py",
+  "mode": "dry",
+  "retrospective": true,
+  "started": "2026-10-06 19:49頃",
+  "finished": "2026-10-06 19:51頃",
+  "git_commit": "017c92fe",
+  "git_dirty_files": [
+   "radar_v2_eval.py(k_h の係数期間・E3 の前後半の分け方を修正済み、未コミット)"
+  ],
+  "output": null,
+  "result": "AssertionError(β2=0 の整合チェック。testD.head(5000) で最後のレースが途中で切れ、3頭未満で NaN)",
+  "seen": "k_h と各年の特徴量の行数のみ"
+ },
+ {
+  "script": "radar_v2_eval.py",
+  "mode": "dry",
+  "retrospective": true,
+  "started": "2026-10-06 19:52頃",
+  "finished": "2026-10-06 19:56:09",
+  "git_commit": "017c92fe",
+  "git_dirty_files": [
+   "radar_v2_eval.py(PL を3頭以上のレースに限定、整合チェックをレース単位に、nanmean 警告の抑制)"
+  ],
+  "output": "radar_v2_eval_dry.txt(次の試運転で上書き、残っていない)",
+  "seen": "2018〜2020年の主仮説 +0.01318 [0.01033, 0.01626]、副次、同芝ダ内プラセボ 平均0.0037/最大0.0051、E3、参考ROI",
+  "changed_after": "プラセボの判定を2種類に分ける、副次(2)に初芝・初ダを追加、Holm の手順を実装(追補2)"
+ },
+ {
+  "script": "radar_v2_eval.py",
+  "mode": "dry",
+  "retrospective": true,
+  "started": "2026-10-06 19:59頃",
+  "finished": "2026-10-06 20:04:12",
+  "git_commit": "017c92fe",
+  "git_dirty_files": [
+   "radar_v2_eval.py(追補2の内容を実装済み、20:04:43 に bc5ed18e としてコミット)"
+  ],
+  "output": "radar_v2_eval_dry.txt(Git管理外)",
+  "seen": "全レース版プラセボ 平均−0.00004、Holm 判定、副次(2)(2a)(2b)"
+ },
+ {
+  "script": "radar_v2_eval.py",
+  "mode": "confirm",
+  "retrospective": true,
+  "started": "2026-10-06 20:04:54頃",
+  "finished": "2026-10-06 20:12:09",
+  "git_commit": "bc5ed18e",
+  "git_dirty_files": [],
+  "output": "radar_v2_eval.json",
+  "output_sha256": "4e5b9ec3e2f465643a37722e678c35ebaf1e05c95cdc9ce9ffca1819f5102966",
+  "note": "2021〜2026年の確認はこの1回のみ。017c92fe(19:40)〜bc5ed18e(20:04)の間に本番モードで実行したことはない(上の3回はすべて --dry)。結果は 8610183b でコミット。"
+ },
+ {
+  "script": "radar_v2_eval_addendum.py",
+  "mode": "explore(after confirm)",
+  "started": "2026-10-06 21:05:53",
+  "finished": "2026-10-06 21:13:04",
+  "git_commit": "8610183b8c944cf580604c5fe40a57094f03a26a",
+  "git_dirty_files": [
+   "M scripts/jra_model/pedigree_reports/radar_v2_eval.py",
+   "?? scripts/jra_model/pedigree_reports/radar_v2_eval_addendum.py"
+  ],
+  "output": "radar_v2_eval_addendum.json",
+  "output_sha256": "0b8b74a83efdc0f188b1c384528e4a355cb1b3ac4347d2dcea9383ad8c8fe677"
+ }
+]

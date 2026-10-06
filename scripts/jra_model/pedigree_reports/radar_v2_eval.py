@@ -325,9 +325,8 @@ def compare(fit_df, test_df, base, extra, name, blocks_col="block"):
             "ci95_year_block": block_boot(d, years, n=N_BOOT), "by_year": by_year, "_delta": d, "_race_ids": t0.race_ids}
 
 
-# ------------------------------------------------------------------ メイン
-def main():
-    t0 = time.time()
+# ------------------------------------------------------------------ 特徴量表(本番 bc5ed18e の main 前半をそのまま関数にしたもの、2026-10-06 追補3)
+def build_D():
     runs = pd.read_parquet(A.RUNS)
     th = A.fixed_thresholds(runs)
     runs = A.add_tiers(runs, th)
@@ -355,7 +354,60 @@ def main():
     D = D.merge(od[["race_id", "horse_id", "odds", "pop"]], on=["race_id", "horse_id"], how="left")
     D["logp"] = np.log((1 / D["odds"]) / D.groupby("race_id")["odds"].transform(lambda s: (1 / s).sum()))
     D["block"] = D["date"].dt.strftime("%Y%m%d") + "_" + D["race_id"].str[4:6]
-    D = D[D["field"] >= 5]
+    D = D[D["field"] >= 5]   # field は完走頭数で load_runs が既に5頭以上に絞っているため、実質的に何もしない(レビューで確認)
+    if DRY:   # 試運転は2020年までの行だけを使う(読み込みは全期間だが、評価に入る行は2020年まで)
+        assert D["year"].max() <= 2020, D["year"].max()
+    return runs, req, kh, D
+
+
+def holm(fam: dict, alpha: float = 0.025) -> dict:
+    """Holm の逐次棄却(片側)。fam = {名前: p}。小さい p から α/(m−i+1) と比べ、通らなかった時点で以降はすべて不合格。"""
+    order = sorted(fam, key=lambda k: fam[k])
+    out, stop = {}, False
+    for i, k in enumerate(order):
+        thr = alpha / (len(order) - i)
+        ok = (not stop) and fam[k] <= thr
+        stop = stop or not ok
+        out[k] = {"p": fam[k], "threshold": round(thr, 5), "pass": ok}
+    return out
+
+
+def file_sha(paths) -> str:
+    return hashlib.sha256(b"".join(hashlib.sha256(Path(f).read_bytes()).digest() for f in sorted(paths))).hexdigest()
+
+
+def manifest() -> dict:
+    """再現用の記録(追補3で強化: 未コミット変更の有無・スクリプト自体・本人除外表・基準・信頼度・scipy)。"""
+    import scipy
+    git = lambda *a: subprocess.run(["git", *a], capture_output=True, text=True, cwd=C.PROJECT_ROOT).stdout.strip()  # noqa: E731
+    here = Path(__file__).resolve().parent
+    return {
+        "git_commit": git("rev-parse", "HEAD"),
+        "git_dirty_files": [l for l in git("status", "--porcelain", "--", "scripts/jra_model/pedigree_reports").splitlines() if l],
+        "scripts_sha256": {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(here.glob("radar_v2_*.py"))},
+        "runs_manifest": json.loads((C.OUT_DIR / "runs_all_manifest.json").read_text(encoding="utf-8"))["results_sha256"],
+        "runs_all_parquet_sha256": file_sha([A.RUNS]),
+        "tables_sha256": file_sha(glob.glob(str(A.TABLE_DIR / "anc_*.parquet"))),
+        "hv_tables_sha256": file_sha(glob.glob(str(A.TABLE_DIR / "hv_*.parquet"))),
+        "race_req_sha256": file_sha([C.OUT_DIR / "race_req.parquet", C.OUT_DIR / "race_req_meta.json"]),
+        "inner_validation_sha256": file_sha([C.OUT_DIR / "r2_inner_validation.json"]),
+        "python": platform.python_version(), "numpy": np.__version__, "pandas": pd.__version__, "scipy": scipy.__version__,
+        "seed": SEED, "dry": DRY,
+        "prereg_sha256": hashlib.sha256((C.PROJECT_ROOT / "data/jra_pipeline/pedigree_reports/RADAR_V2_PREREG_2026_10_06.md").read_bytes()).hexdigest()}
+
+
+def append_ledger(entry: dict):
+    """実行台帳(radar_v2/run_ledger.json、Git管理)。本番(確認)を何回回したかの証跡。"""
+    p = C.OUT_DIR / "run_ledger.json"
+    led = json.loads(p.read_text(encoding="utf-8")) if p.exists() else []
+    led.append(entry)
+    p.write_text(json.dumps(led, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+# ------------------------------------------------------------------ メイン
+def main():
+    t0 = time.time()
+    runs, req, kh, D = build_D()
     fitD = D[D["year"].between(*FIT)]
     testD = D[D["year"].between(*TEST)]
     res = {"fit_years": FIT, "test_years": TEST, "n_fit_races": int(fitD["race_id"].nunique()),
@@ -405,15 +457,8 @@ def main():
     # (5) DL挑戦モデルは R3b で別に評価するため、ここでは p=1 と置く(他の判定が最も厳しくなる側)。追補2。
     fam = {s["key"]: s["p_one_sided"] for s in sec if s.get("key")}
     fam["5"] = 1.0
-    order = sorted(fam, key=lambda k: fam[k])
-    holm, stop = {}, False
-    for i, k in enumerate(order):
-        thr = 0.025 / (len(order) - i)
-        ok = (not stop) and fam[k] <= thr
-        stop = stop or not ok
-        holm[k] = {"p": fam[k], "threshold": round(thr, 5), "pass": ok}
     res["secondary"] = sec
-    res["holm"] = holm
+    res["holm"] = holm(fam)
     res["secondary_note"] = "(5) DL挑戦モデル v3 は R3b で別に評価し、Holm はその結果を入れて確定する(ここでは p=1 の仮置き)。"
 
     # プラセボ(事前登録 §6 と追補2)
@@ -512,19 +557,19 @@ def main():
         ref[str(band)] = rows
     res["reference_by_popularity"] = ref
 
-    # manifest
-    files = sorted(glob.glob(str(A.TABLE_DIR / "anc_*.parquet")))
-    res["manifest"] = {
-        "git_commit": subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, cwd=C.PROJECT_ROOT).stdout.strip(),
-        "runs_manifest": json.loads((C.OUT_DIR / "runs_all_manifest.json").read_text(encoding="utf-8"))["results_sha256"],
-        "tables_sha256": hashlib.sha256(b"".join(hashlib.sha256(Path(f).read_bytes()).digest() for f in files)).hexdigest(),
-        "python": platform.python_version(), "numpy": np.__version__, "pandas": pd.__version__, "seed": SEED,
-        "prereg_sha256": hashlib.sha256((C.PROJECT_ROOT / "data/jra_pipeline/pedigree_reports/RADAR_V2_PREREG_2026_10_06.md").read_bytes()).hexdigest()}
+    res["manifest"] = manifest()
     res["elapsed_sec"] = round(time.time() - t0, 1)
     OUT.write_text(json.dumps(res, ensure_ascii=False, indent=1, default=lambda o: o.item() if hasattr(o, "item") else str(o)),
                    encoding="utf-8")
+    append_ledger({"script": "radar_v2_eval.py", "mode": "dry" if DRY else "confirm", "started": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t0)),
+                   "finished": time.strftime("%Y-%m-%d %H:%M:%S"), "git_commit": res["manifest"]["git_commit"],
+                   "git_dirty_files": res["manifest"]["git_dirty_files"], "output": OUT.name,
+                   "output_sha256": hashlib.sha256(OUT.read_bytes()).hexdigest()})
     log("wrote", OUT)
 
 
 if __name__ == "__main__":
+    # 2021〜2026年の確認は1回だけ(2026-10-06 実施済み、commit 8610183b)。結果があるときは本番の再実行を拒否する。
+    if not DRY and (C.OUT_DIR / "radar_v2_eval.json").exists() and "--i-know-this-reuses-the-test-period" not in sys.argv:
+        sys.exit("radar_v2_eval.json は既にあります(2021〜2026年は確認に使用済み)。再実行は探索扱いになるため既定では拒否します。")
     main()

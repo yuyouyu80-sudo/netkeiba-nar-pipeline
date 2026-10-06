@@ -1,0 +1,2070 @@
+{
+ "status": "探索(R4本番の結果を見た後に計算。確認検証ではない)",
+ "fit_years": [
+  2018,
+  2020
+ ],
+ "test_years": [
+  2021,
+  2026
+ ],
+ "reproduced_main": {
+  "name": "主仮説の再現",
+  "base": [
+   "S"
+  ],
+  "extra": [
+   "F"
+  ],
+  "beta_base_only": [
+   0.3233
+  ],
+  "beta_full": [
+   0.3059,
+   0.1686
+  ],
+  "n_races": 19209,
+  "dll_per_race": 0.00655,
+  "ci95_block": [
+   0.00401,
+   0.00904
+  ],
+  "p_one_sided": 0.0005,
+  "se_block": 0.001242,
+  "by_year": {
+   "2021": 0.00282,
+   "2022": 0.00753,
+   "2023": 0.00894,
+   "2024": 0.00602,
+   "2025": 0.00466,
+   "2026": 0.01017
+  }
+ },
+ "axis_single": {
+  "脚質(要求×脚質)": {
+   "name": "S → +F_front",
+   "base": [
+    "S"
+   ],
+   "extra": [
+    "F_front"
+   ],
+   "beta_base_only": [
+    0.3233
+   ],
+   "beta_full": [
+    0.3202,
+    0.0812
+   ],
+   "n_races": 19209,
+   "dll_per_race": -0.0001,
+   "ci95_block": [
+    -0.00106,
+    0.00081
+   ],
+   "p_one_sided": 0.5932,
+   "se_block": 0.000474,
+   "by_year": {
+    "2021": -0.00045,
+    "2022": -0.00073,
+    "2023": 0.00165,
+    "2024": 0.00089,
+    "2025": -0.00184,
+    "2026": -9e-05
+   }
+  },
+  "キレ(要求×キレ)": {
+   "name": "S → +F_kire",
+   "base": [
+    "S"
+   ],
+   "extra": [
+    "F_kire"
+   ],
+   "beta_base_only": [
+    0.3233
+   ],
+   "beta_full": [
+    0.3212,
+    0.1289
+   ],
+   "n_races": 19209,
+   "dll_per_race": 0.00074,
+   "ci95_block": [
+    0.00011,
+    0.00136
+   ],
+   "p_one_sided": 0.01049,
+   "se_block": 0.000319,
+   "by_year": {
+    "2021": 0.00038,
+    "2022": 0.00104,
+    "2023": -0.00119,
+    "2024": 0.00014,
+    "2025": 0.00173,
+    "2026": 0.0028
+   }
+  },
+  "芝ダ": {
+   "name": "S → +F_surf",
+   "base": [
+    "S"
+   ],
+   "extra": [
+    "F_surf"
+   ],
+   "beta_base_only": [
+    0.3233
+   ],
+   "beta_full": [
+    0.3136,
+    0.3627
+   ],
+   "n_races": 19209,
+   "dll_per_race": 0.01102,
+   "ci95_block": [
+    0.00881,
+    0.01334
+   ],
+   "p_one_sided": 0.0005,
+   "se_block": 0.001163,
+   "by_year": {
+    "2021": 0.00886,
+    "2022": 0.0136,
+    "2023": 0.01364,
+    "2024": 0.00847,
+    "2025": 0.00875,
+    "2026": 0.01331
+   }
+  },
+  "距離帯": {
+   "name": "S → +F_db",
+   "base": [
+    "S"
+   ],
+   "extra": [
+    "F_db"
+   ],
+   "beta_base_only": [
+    0.3233
+   ],
+   "beta_full": [
+    0.3185,
+    0.2537
+   ],
+   "n_races": 19209,
+   "dll_per_race": 0.0005,
+   "ci95_block": [
+    -0.00034,
+    0.00131
+   ],
+   "p_one_sided": 0.11944,
+   "se_block": 0.000424,
+   "by_year": {
+    "2021": -0.00105,
+    "2022": 0.00109,
+    "2023": 0.00077,
+    "2024": -0.0004,
+    "2025": 0.00145,
+    "2026": 0.00134
+   }
+  },
+  "新馬": {
+   "name": "S → +F_deb",
+   "base": [
+    "S"
+   ],
+   "extra": [
+    "F_deb"
+   ],
+   "beta_base_only": [
+    0.3233
+   ],
+   "beta_full": [
+    0.3189,
+    0.937
+   ],
+   "n_races": 19209,
+   "dll_per_race": 0.0032,
+   "ci95_block": [
+    0.00184,
+    0.00456
+   ],
+   "p_one_sided": 0.0005,
+   "se_block": 0.000689,
+   "by_year": {
+    "2021": 0.00143,
+    "2022": 0.00192,
+    "2023": 0.00245,
+    "2024": 0.00478,
+    "2025": 0.00555,
+    "2026": 0.00303
+   }
+  }
+ },
+ "axis_drop_one": {
+  "脚質(要求×脚質)": {
+   "name": "S → +(F − F_front)",
+   "base": [
+    "S"
+   ],
+   "extra": [
+    "F_minus_F_front"
+   ],
+   "beta_base_only": [
+    0.3233
+   ],
+   "beta_full": [
+    0.3054,
+    0.2696
+   ],
+   "n_races": 19209,
+   "dll_per_race": 0.01168,
+   "ci95_block": [
+    0.00926,
+    0.01415
+   ],
+   "p_one_sided": 0.0005,
+   "se_block": 0.00122,
+   "by_year": {
+    "2021": 0.00694,
+    "2022": 0.0152,
+    "2023": 0.00956,
+    "2024": 0.00803,
+    "2025": 0.01419,
+    "2026": 0.0175
+   }
+  },
+  "キレ(要求×キレ)": {
+   "name": "S → +(F − F_kire)",
+   "base": [
+    "S"
+   ],
+   "extra": [
+    "F_minus_F_kire"
+   ],
+   "beta_base_only": [
+    0.3233
+   ],
+   "beta_full": [
+    0.3087,
+    0.1691
+   ],
+   "n_races": 19209,
+   "dll_per_race": 0.00563,
+   "ci95_block": [
+    0.00328,
+    0.00796
+   ],
+   "p_one_sided": 0.0005,
+   "se_block": 0.001205,
+   "by_year": {
+    "2021": 0.00244,
+    "2022": 0.00601,
+    "2023": 0.01039,
+    "2024": 0.00583,
+    "2025": 0.00252,
+    "2026": 0.00687
+   }
+  },
+  "芝ダ": {
+   "name": "S → +(F − F_surf)",
+   "base": [
+    "S"
+   ],
+   "extra": [
+    "F_minus_F_surf"
+   ],
+   "beta_base_only": [
+    0.3233
+   ],
+   "beta_full": [
+    0.3145,
+    0.1125
+   ],
+   "n_races": 19209,
+   "dll_per_race": 0.00112,
+   "ci95_block": [
+    -0.00038,
+    0.00258
+   ],
+   "p_one_sided": 0.06397,
+   "se_block": 0.00074,
+   "by_year": {
+    "2021": -0.00061,
+    "2022": 0.00065,
+    "2023": 0.00189,
+    "2024": 0.00178,
+    "2025": 0.00033,
+    "2026": 0.00314
+   }
+  },
+  "距離帯": {
+   "name": "S → +(F − F_db)",
+   "base": [
+    "S"
+   ],
+   "extra": [
+    "F_minus_F_db"
+   ],
+   "beta_base_only": [
+    0.3233
+   ],
+   "beta_full": [
+    0.309,
+    0.1708
+   ],
+   "n_races": 19209,
+   "dll_per_race": 0.00623,
+   "ci95_block": [
+    0.00392,
+    0.00859
+   ],
+   "p_one_sided": 0.0005,
+   "se_block": 0.001192,
+   "by_year": {
+    "2021": 0.00362,
+    "2022": 0.00675,
+    "2023": 0.00859,
+    "2024": 0.00617,
+    "2025": 0.00363,
+    "2026": 0.00935
+   }
+  },
+  "新馬": {
+   "name": "S → +(F − F_deb)",
+   "base": [
+    "S"
+   ],
+   "extra": [
+    "F_minus_F_deb"
+   ],
+   "beta_base_only": [
+    0.3233
+   ],
+   "beta_full": [
+    0.3072,
+    0.164
+   ],
+   "n_races": 19209,
+   "dll_per_race": 0.0056,
+   "ci95_block": [
+    0.00314,
+    0.00797
+   ],
+   "p_one_sided": 0.0005,
+   "se_block": 0.001197,
+   "by_year": {
+    "2021": 0.00226,
+    "2022": 0.00681,
+    "2023": 0.00806,
+    "2024": 0.00478,
+    "2025": 0.00322,
+    "2026": 0.0093
+   }
+  }
+ },
+ "axis_free_beta": {
+  "name": "S → +5軸(β を自由に推定)",
+  "base": [
+   "S"
+  ],
+  "extra": [
+   "F_front",
+   "F_kire",
+   "F_surf",
+   "F_db",
+   "F_deb"
+  ],
+  "beta_base_only": [
+   0.3233
+  ],
+  "beta_full": [
+   0.3014,
+   0.0779,
+   0.1178,
+   0.3568,
+   0.1844,
+   0.867
+  ],
+  "n_races": 19209,
+  "dll_per_race": 0.01513,
+  "ci95_block": [
+   0.01233,
+   0.01809
+  ],
+  "p_one_sided": 0.0005,
+  "se_block": 0.001473,
+  "by_year": {
+   "2021": 0.0094,
+   "2022": 0.01652,
+   "2023": 0.01708,
+   "2024": 0.01388,
+   "2025": 0.01538,
+   "2026": 0.01948
+  }
+ },
+ "main_without_long_bucket": {
+  "name": "S → +F(長距離帯を除く)",
+  "base": [
+   "S"
+  ],
+  "extra": [
+   "F_nolong"
+  ],
+  "beta_base_only": [
+   0.3233
+  ],
+  "beta_full": [
+   0.306,
+   0.1682
+  ],
+  "n_races": 19209,
+  "dll_per_race": 0.00657,
+  "ci95_block": [
+   0.00405,
+   0.00906
+  ],
+  "p_one_sided": 0.0005,
+  "se_block": 0.001238,
+  "by_year": {
+   "2021": 0.00282,
+   "2022": 0.0075,
+   "2023": 0.00898,
+   "2024": 0.00605,
+   "2025": 0.0047,
+   "2026": 0.01018
+  }
+ },
+ "main_by_race_class": {
+  "新馬戦": {
+   "n_races": 1699,
+   "dll_per_race": 0.03323,
+   "share_of_total_dll": 0.449
+  },
+  "未勝利戦": {
+   "n_races": 6734,
+   "dll_per_race": 0.0081,
+   "share_of_total_dll": 0.433
+  },
+  "1勝クラス以上": {
+   "n_races": 10776,
+   "dll_per_race": 0.00138,
+   "share_of_total_dll": 0.118
+  }
+ },
+ "main_year_sign_test": {
+  "n_years": 6,
+  "n_positive": 6,
+  "p_one_sided": 0.0156,
+  "note": "年ブロックのブートストラップCIはクラスタ6個で狭く出すぎるため、符号検定を併記"
+ },
+ "own_alternatives": {
+  "基準 [S, 本人の過去平均, 過去走の有無] → +F_own": {
+   "name": "基準 [S, 本人の過去平均, 過去走の有無] → +F_own",
+   "base": [
+    "S",
+    "own_mean",
+    "has_own"
+   ],
+   "extra": [
+    "F_own"
+   ],
+   "beta_base_only": [
+    0.1962,
+    4.2786,
+    0.6552
+   ],
+   "beta_full": [
+    0.191,
+    4.336,
+    0.5771,
+    0.0851
+   ],
+   "n_races": 19209,
+   "dll_per_race": 0.02546,
+   "ci95_block": [
+    0.02201,
+    0.02854
+   ],
+   "p_one_sided": 0.0005,
+   "se_block": 0.001685,
+   "by_year": {
+    "2021": 0.02207,
+    "2022": 0.02743,
+    "2023": 0.02403,
+    "2024": 0.02254,
+    "2025": 0.02558,
+    "2026": 0.0328
+   }
+  },
+  "基準 [S, 本人の過去平均, 過去走の有無] → +F(血統のみ)": {
+   "name": "基準 [S, 本人の過去平均, 過去走の有無] → +F(血統のみ)",
+   "base": [
+    "S",
+    "own_mean",
+    "has_own"
+   ],
+   "extra": [
+    "F"
+   ],
+   "beta_base_only": [
+    0.1962,
+    4.2786,
+    0.6552
+   ],
+   "beta_full": [
+    0.1833,
+    4.2639,
+    0.651,
+    0.134
+   ],
+   "n_races": 19209,
+   "dll_per_race": 0.00297,
+   "ci95_block": [
+    0.00107,
+    0.00496
+   ],
+   "p_one_sided": 0.0025,
+   "se_block": 0.000979,
+   "by_year": {
+    "2021": -0.0001,
+    "2022": 0.00427,
+    "2023": 0.00469,
+    "2024": 0.00265,
+    "2025": 0.00207,
+    "2026": 0.00464
+   }
+  },
+  "基準 S_own → +F(血統のみ)": {
+   "name": "基準 S_own → +F(血統のみ)",
+   "base": [
+    "S_own"
+   ],
+   "extra": [
+    "F"
+   ],
+   "beta_base_only": [
+    0.6245
+   ],
+   "beta_full": [
+    0.6195,
+    0.0767
+   ],
+   "n_races": 19209,
+   "dll_per_race": 0.00024,
+   "ci95_block": [
+    -0.00085,
+    0.00134
+   ],
+   "p_one_sided": 0.34183,
+   "se_block": 0.000562,
+   "by_year": {
+    "2021": -0.0013,
+    "2022": 0.00168,
+    "2023": 0.00177,
+    "2024": -0.00026,
+    "2025": -0.00105,
+    "2026": 0.00067
+   }
+  },
+  "基準 S_own+近走3走 → +F_own": {
+   "name": "基準 S_own+近走3走 → +F_own",
+   "base": [
+    "S_own",
+    "form3",
+    "no_form"
+   ],
+   "extra": [
+    "F_own"
+   ],
+   "beta_base_only": [
+    0.3623,
+    2.1075,
+    0.3137
+   ],
+   "beta_full": [
+    0.3775,
+    1.9999,
+    0.3016,
+    0.0587
+   ],
+   "n_races": 19209,
+   "dll_per_race": 0.01174,
+   "ci95_block": [
+    0.00938,
+    0.01372
+   ],
+   "p_one_sided": 0.0005,
+   "se_block": 0.00114,
+   "by_year": {
+    "2021": 0.01036,
+    "2022": 0.01381,
+    "2023": 0.01118,
+    "2024": 0.00974,
+    "2025": 0.01128,
+    "2026": 0.01472
+   }
+  },
+  "基準 S_own+近走3走 → +F(血統のみ)": {
+   "name": "基準 S_own+近走3走 → +F(血統のみ)",
+   "base": [
+    "S_own",
+    "form3",
+    "no_form"
+   ],
+   "extra": [
+    "F"
+   ],
+   "beta_base_only": [
+    0.3623,
+    2.1075,
+    0.3137
+   ],
+   "beta_full": [
+    0.3518,
+    2.1385,
+    0.3293,
+    0.1093
+   ],
+   "n_races": 19209,
+   "dll_per_race": 0.00174,
+   "ci95_block": [
+    0.00018,
+    0.00333
+   ],
+   "p_one_sided": 0.01299,
+   "se_block": 0.000796,
+   "by_year": {
+    "2021": 0.00036,
+    "2022": 0.0035,
+    "2023": 0.00305,
+    "2024": 0.00084,
+    "2025": 0.00052,
+    "2026": 0.0023
+   }
+  }
+ },
+ "own_with_market": {
+  "name": "市場+S_own → +F_own",
+  "base": [
+   "logp",
+   "S_own"
+  ],
+  "extra": [
+   "F_own"
+  ],
+  "beta_base_only": [
+   0.8454,
+   0.0071
+  ],
+  "beta_full": [
+   0.8424,
+   0.0097,
+   0.0101
+  ],
+  "n_races": 19209,
+  "dll_per_race": 0.00046,
+  "ci95_block": [
+   6e-05,
+   0.00081
+  ],
+  "p_one_sided": 0.01049,
+  "se_block": 0.000194,
+  "by_year": {
+   "2021": -0.00019,
+   "2022": 0.00041,
+   "2023": 0.0004,
+   "2024": 0.00031,
+   "2025": 0.00057,
+   "2026": 0.00148
+  }
+ },
+ "effect_size": {
+  "mean_field": 13.76,
+  "LL_uniform": -7.5411,
+  "S": {
+   "LL_per_race": -7.4889,
+   "gain_vs_uniform": 0.0523,
+   "mcfadden_r2": 0.00693,
+   "winner_stage_logp": -2.5684,
+   "top1_accuracy": 0.107
+  },
+  "S+F": {
+   "LL_per_race": -7.4823,
+   "gain_vs_uniform": 0.0588,
+   "mcfadden_r2": 0.0078,
+   "winner_stage_logp": -2.5662,
+   "top1_accuracy": 0.1091
+  },
+  "市場": {
+   "LL_per_race": -6.0382,
+   "gain_vs_uniform": 1.503,
+   "mcfadden_r2": 0.1993,
+   "winner_stage_logp": -1.9323,
+   "top1_accuracy": 0.3403
+  },
+  "dLL_over_S_gain": 0.126,
+  "dLL_over_market_gain": 0.0044,
+  "winner_stage_dLL": 0.0022,
+  "note": "主仮説のΔLLを、父の総合力(S)が一様に対して得た改善・市場(確定オッズ)の改善と比べた比。1着の段は PL の第1段だけ。"
+ },
+ "placebo_review": {
+  "within_literal_s6": {
+   "mean": 0.00246,
+   "2se": 0.001198,
+   "pass": false,
+   "note": "§6 の文言(平均が0の±2SE以内)を同じ芝ダ内のプラセボにそのまま当てると不合格。芝ダ軸の寄与が残るため(追補2)。"
+  },
+  "within_vs_surface_only": {
+   "surface_only_dll": 0.01102,
+   "note": "同じ芝ダ内のプラセボの平均は、芝ダ項を雑音で薄めた分でほぼ説明できる(DLエンジニアの指摘)。"
+  },
+  "all_mean": -3e-05,
+  "all_se_of_mean_of_20": 1.1e-05,
+  "all_expected_noise_one_param": -5e-05,
+  "all_actual_above_max": true,
+  "note": "全レース版は、別の芝ダの値を当てると逆向きの信号になり打ち消し合うため、平均≈0は構造上ほぼ当然で情報は弱い。雑音1変数の期待値は0でなく約 −1/(2·N_fit)。要求ベクトル q の妥当性はこのプラセボでは裏付けられない。"
+ },
+ "E4_tables_v2": {
+  "2021": {
+   "front|-": {
+    "n_anc": 225,
+    "share_pos": 0.467,
+    "abs_median_over_sd": 0.062,
+    "pass": true
+   },
+   "kire|-": {
+    "n_anc": 225,
+    "share_pos": 0.458,
+    "abs_median_over_sd": 0.077,
+    "pass": true
+   },
+   "debut|-": {
+    "n_anc": 183,
+    "share_pos": 0.41,
+    "abs_median_over_sd": 0.323,
+    "pass": false
+   },
+   "surface|芝": {
+    "n_anc": 187,
+    "share_pos": 0.492,
+    "abs_median_over_sd": 0.009,
+    "pass": true
+   },
+   "surface|ダ": {
+    "n_anc": 199,
+    "share_pos": 0.598,
+    "abs_median_over_sd": 0.173,
+    "pass": true
+   },
+   "dbucket|短距離(~1400m)": {
+    "n_anc": 189,
+    "share_pos": 0.529,
+    "abs_median_over_sd": 0.072,
+    "pass": true
+   },
+   "dbucket|マイル(1401-1800m)": {
+    "n_anc": 190,
+    "share_pos": 0.442,
+    "abs_median_over_sd": 0.111,
+    "pass": true
+   },
+   "dbucket|中距離(1801-2200m)": {
+    "n_anc": 106,
+    "share_pos": 0.434,
+    "abs_median_over_sd": 0.106,
+    "pass": true
+   },
+   "dbucket|長距離(2201m~)": {
+    "n_anc": 47,
+    "share_pos": 0.489,
+    "abs_median_over_sd": 0.009,
+    "pass": true
+   },
+   "perf_adj|-": {
+    "n_anc": 225,
+    "share_pos": 0.338,
+    "abs_median_over_sd": 0.434,
+    "pass": false
+   }
+  },
+  "2022": {
+   "front|-": {
+    "n_anc": 239,
+    "share_pos": 0.498,
+    "abs_median_over_sd": 0.004,
+    "pass": true
+   },
+   "kire|-": {
+    "n_anc": 239,
+    "share_pos": 0.477,
+    "abs_median_over_sd": 0.048,
+    "pass": true
+   },
+   "debut|-": {
+    "n_anc": 199,
+    "share_pos": 0.387,
+    "abs_median_over_sd": 0.28,
+    "pass": false
+   },
+   "surface|芝": {
+    "n_anc": 200,
+    "share_pos": 0.46,
+    "abs_median_over_sd": 0.052,
+    "pass": true
+   },
+   "surface|ダ": {
+    "n_anc": 213,
+    "share_pos": 0.596,
+    "abs_median_over_sd": 0.166,
+    "pass": true
+   },
+   "dbucket|短距離(~1400m)": {
+    "n_anc": 200,
+    "share_pos": 0.52,
+    "abs_median_over_sd": 0.036,
+    "pass": true
+   },
+   "dbucket|マイル(1401-1800m)": {
+    "n_anc": 200,
+    "share_pos": 0.46,
+    "abs_median_over_sd": 0.117,
+    "pass": true
+   },
+   "dbucket|中距離(1801-2200m)": {
+    "n_anc": 115,
+    "share_pos": 0.443,
+    "abs_median_over_sd": 0.115,
+    "pass": true
+   },
+   "dbucket|長距離(2201m~)": {
+    "n_anc": 52,
+    "share_pos": 0.577,
+    "abs_median_over_sd": 0.256,
+    "pass": false
+   },
+   "perf_adj|-": {
+    "n_anc": 239,
+    "share_pos": 0.351,
+    "abs_median_over_sd": 0.414,
+    "pass": false
+   }
+  },
+  "2023": {
+   "front|-": {
+    "n_anc": 254,
+    "share_pos": 0.472,
+    "abs_median_over_sd": 0.028,
+    "pass": true
+   },
+   "kire|-": {
+    "n_anc": 254,
+    "share_pos": 0.472,
+    "abs_median_over_sd": 0.026,
+    "pass": true
+   },
+   "debut|-": {
+    "n_anc": 212,
+    "share_pos": 0.373,
+    "abs_median_over_sd": 0.247,
+    "pass": true
+   },
+   "surface|芝": {
+    "n_anc": 212,
+    "share_pos": 0.462,
+    "abs_median_over_sd": 0.05,
+    "pass": true
+   },
+   "surface|ダ": {
+    "n_anc": 230,
+    "share_pos": 0.609,
+    "abs_median_over_sd": 0.211,
+    "pass": true
+   },
+   "dbucket|短距離(~1400m)": {
+    "n_anc": 212,
+    "share_pos": 0.519,
+    "abs_median_over_sd": 0.02,
+    "pass": true
+   },
+   "dbucket|マイル(1401-1800m)": {
+    "n_anc": 218,
+    "share_pos": 0.459,
+    "abs_median_over_sd": 0.118,
+    "pass": true
+   },
+   "dbucket|中距離(1801-2200m)": {
+    "n_anc": 125,
+    "share_pos": 0.432,
+    "abs_median_over_sd": 0.195,
+    "pass": true
+   },
+   "dbucket|長距離(2201m~)": {
+    "n_anc": 54,
+    "share_pos": 0.593,
+    "abs_median_over_sd": 0.23,
+    "pass": true
+   },
+   "perf_adj|-": {
+    "n_anc": 254,
+    "share_pos": 0.346,
+    "abs_median_over_sd": 0.444,
+    "pass": false
+   }
+  },
+  "2024": {
+   "front|-": {
+    "n_anc": 269,
+    "share_pos": 0.461,
+    "abs_median_over_sd": 0.049,
+    "pass": true
+   },
+   "kire|-": {
+    "n_anc": 269,
+    "share_pos": 0.483,
+    "abs_median_over_sd": 0.051,
+    "pass": true
+   },
+   "debut|-": {
+    "n_anc": 226,
+    "share_pos": 0.389,
+    "abs_median_over_sd": 0.235,
+    "pass": true
+   },
+   "surface|芝": {
+    "n_anc": 226,
+    "share_pos": 0.5,
+    "abs_median_over_sd": 0.001,
+    "pass": true
+   },
+   "surface|ダ": {
+    "n_anc": 241,
+    "share_pos": 0.618,
+    "abs_median_over_sd": 0.208,
+    "pass": true
+   },
+   "dbucket|短距離(~1400m)": {
+    "n_anc": 228,
+    "share_pos": 0.509,
+    "abs_median_over_sd": 0.013,
+    "pass": true
+   },
+   "dbucket|マイル(1401-1800m)": {
+    "n_anc": 234,
+    "share_pos": 0.449,
+    "abs_median_over_sd": 0.098,
+    "pass": true
+   },
+   "dbucket|中距離(1801-2200m)": {
+    "n_anc": 138,
+    "share_pos": 0.428,
+    "abs_median_over_sd": 0.202,
+    "pass": true
+   },
+   "dbucket|長距離(2201m~)": {
+    "n_anc": 56,
+    "share_pos": 0.607,
+    "abs_median_over_sd": 0.289,
+    "pass": false
+   },
+   "perf_adj|-": {
+    "n_anc": 269,
+    "share_pos": 0.342,
+    "abs_median_over_sd": 0.437,
+    "pass": false
+   }
+  },
+  "2025": {
+   "front|-": {
+    "n_anc": 294,
+    "share_pos": 0.469,
+    "abs_median_over_sd": 0.061,
+    "pass": true
+   },
+   "kire|-": {
+    "n_anc": 294,
+    "share_pos": 0.486,
+    "abs_median_over_sd": 0.034,
+    "pass": true
+   },
+   "debut|-": {
+    "n_anc": 244,
+    "share_pos": 0.398,
+    "abs_median_over_sd": 0.242,
+    "pass": true
+   },
+   "surface|芝": {
+    "n_anc": 239,
+    "share_pos": 0.49,
+    "abs_median_over_sd": 0.015,
+    "pass": true
+   },
+   "surface|ダ": {
+    "n_anc": 257,
+    "share_pos": 0.615,
+    "abs_median_over_sd": 0.187,
+    "pass": true
+   },
+   "dbucket|短距離(~1400m)": {
+    "n_anc": 241,
+    "share_pos": 0.51,
+    "abs_median_over_sd": 0.012,
+    "pass": true
+   },
+   "dbucket|マイル(1401-1800m)": {
+    "n_anc": 249,
+    "share_pos": 0.454,
+    "abs_median_over_sd": 0.114,
+    "pass": true
+   },
+   "dbucket|中距離(1801-2200m)": {
+    "n_anc": 147,
+    "share_pos": 0.422,
+    "abs_median_over_sd": 0.189,
+    "pass": true
+   },
+   "dbucket|長距離(2201m~)": {
+    "n_anc": 58,
+    "share_pos": 0.603,
+    "abs_median_over_sd": 0.222,
+    "pass": true
+   },
+   "perf_adj|-": {
+    "n_anc": 294,
+    "share_pos": 0.354,
+    "abs_median_over_sd": 0.382,
+    "pass": false
+   }
+  },
+  "2026": {
+   "front|-": {
+    "n_anc": 310,
+    "share_pos": 0.471,
+    "abs_median_over_sd": 0.064,
+    "pass": true
+   },
+   "kire|-": {
+    "n_anc": 310,
+    "share_pos": 0.468,
+    "abs_median_over_sd": 0.089,
+    "pass": true
+   },
+   "debut|-": {
+    "n_anc": 254,
+    "share_pos": 0.386,
+    "abs_median_over_sd": 0.265,
+    "pass": false
+   },
+   "surface|芝": {
+    "n_anc": 255,
+    "share_pos": 0.494,
+    "abs_median_over_sd": 0.01,
+    "pass": true
+   },
+   "surface|ダ": {
+    "n_anc": 272,
+    "share_pos": 0.588,
+    "abs_median_over_sd": 0.19,
+    "pass": true
+   },
+   "dbucket|短距離(~1400m)": {
+    "n_anc": 256,
+    "share_pos": 0.531,
+    "abs_median_over_sd": 0.039,
+    "pass": true
+   },
+   "dbucket|マイル(1401-1800m)": {
+    "n_anc": 264,
+    "share_pos": 0.466,
+    "abs_median_over_sd": 0.1,
+    "pass": true
+   },
+   "dbucket|中距離(1801-2200m)": {
+    "n_anc": 159,
+    "share_pos": 0.447,
+    "abs_median_over_sd": 0.136,
+    "pass": true
+   },
+   "dbucket|長距離(2201m~)": {
+    "n_anc": 61,
+    "share_pos": 0.607,
+    "abs_median_over_sd": 0.222,
+    "pass": true
+   },
+   "perf_adj|-": {
+    "n_anc": 310,
+    "share_pos": 0.358,
+    "abs_median_over_sd": 0.396,
+    "pass": false
+   }
+  },
+  "display": {
+   "front|-": {
+    "n_anc": 317,
+    "share_pos": 0.473,
+    "abs_median_over_sd": 0.06,
+    "pass": true
+   },
+   "kire|-": {
+    "n_anc": 317,
+    "share_pos": 0.47,
+    "abs_median_over_sd": 0.091,
+    "pass": true
+   },
+   "debut|-": {
+    "n_anc": 264,
+    "share_pos": 0.383,
+    "abs_median_over_sd": 0.256,
+    "pass": false
+   },
+   "surface|芝": {
+    "n_anc": 265,
+    "share_pos": 0.494,
+    "abs_median_over_sd": 0.016,
+    "pass": true
+   },
+   "surface|ダ": {
+    "n_anc": 285,
+    "share_pos": 0.593,
+    "abs_median_over_sd": 0.165,
+    "pass": true
+   },
+   "dbucket|短距離(~1400m)": {
+    "n_anc": 267,
+    "share_pos": 0.532,
+    "abs_median_over_sd": 0.059,
+    "pass": true
+   },
+   "dbucket|マイル(1401-1800m)": {
+    "n_anc": 273,
+    "share_pos": 0.462,
+    "abs_median_over_sd": 0.126,
+    "pass": true
+   },
+   "dbucket|中距離(1801-2200m)": {
+    "n_anc": 169,
+    "share_pos": 0.426,
+    "abs_median_over_sd": 0.195,
+    "pass": true
+   },
+   "dbucket|長距離(2201m~)": {
+    "n_anc": 66,
+    "share_pos": 0.545,
+    "abs_median_over_sd": 0.173,
+    "pass": true
+   },
+   "perf_adj|-": {
+    "n_anc": 317,
+    "share_pos": 0.35,
+    "abs_median_over_sd": 0.364,
+    "pass": false
+   }
+  }
+ },
+ "E1_split_half_window_le2025": {
+  "front": {
+   "v2_raw": {
+    "10-49": {
+     "n_sires": 176,
+     "r_half": 0.65883,
+     "SB": 0.79433
+    },
+    "50-149": {
+     "n_sires": 109,
+     "r_half": 0.74159,
+     "SB": 0.85163
+    },
+    "150-": {
+     "n_sires": 67,
+     "r_half": 0.92403,
+     "SB": 0.96052
+    },
+    "10-": {
+     "n_sires": 352,
+     "r_half": 0.70123,
+     "SB": 0.82438
+    }
+   },
+   "v2_shrunk": {
+    "10-49": {
+     "n_sires": 176,
+     "r_half": 0.66718,
+     "SB": 0.80037
+    },
+    "50-149": {
+     "n_sires": 109,
+     "r_half": 0.74173,
+     "SB": 0.85172
+    },
+    "150-": {
+     "n_sires": 67,
+     "r_half": 0.9241,
+     "SB": 0.96055
+    },
+    "10-": {
+     "n_sires": 352,
+     "r_half": 0.71186,
+     "SB": 0.83168
+    }
+   },
+   "v1_raw": {
+    "10-49": {
+     "n_sires": 21,
+     "r_half": -0.09326,
+     "SB": -0.20572
+    },
+    "50-149": {
+     "n_sires": 97,
+     "r_half": 0.01234,
+     "SB": 0.02438
+    },
+    "150-": {
+     "n_sires": 67,
+     "r_half": 0.3654,
+     "SB": 0.53523
+    },
+    "10-": {
+     "n_sires": 185,
+     "r_half": 0.05083,
+     "SB": 0.09674
+    }
+   },
+   "v1_shrunk": {
+    "10-49": {
+     "n_sires": 21,
+     "r_half": -0.12537,
+     "SB": -0.28667
+    },
+    "50-149": {
+     "n_sires": 97,
+     "r_half": 0.0702,
+     "SB": 0.13119
+    },
+    "150-": {
+     "n_sires": 67,
+     "r_half": 0.77914,
+     "SB": 0.87586
+    },
+    "10-": {
+     "n_sires": 185,
+     "r_half": 0.5037,
+     "SB": 0.66994
+    }
+   },
+   "v1_tau2_pt2": 2.36136
+  },
+  "kire": {
+   "v2_raw": {
+    "10-49": {
+     "n_sires": 176,
+     "r_half": 0.22795,
+     "SB": 0.37127
+    },
+    "50-149": {
+     "n_sires": 109,
+     "r_half": 0.5193,
+     "SB": 0.6836
+    },
+    "150-": {
+     "n_sires": 67,
+     "r_half": 0.81026,
+     "SB": 0.89518
+    },
+    "10-": {
+     "n_sires": 352,
+     "r_half": 0.31965,
+     "SB": 0.48445
+    }
+   },
+   "v2_shrunk": {
+    "10-49": {
+     "n_sires": 176,
+     "r_half": 0.22598,
+     "SB": 0.36865
+    },
+    "50-149": {
+     "n_sires": 109,
+     "r_half": 0.51784,
+     "SB": 0.68234
+    },
+    "150-": {
+     "n_sires": 67,
+     "r_half": 0.81043,
+     "SB": 0.89529
+    },
+    "10-": {
+     "n_sires": 352,
+     "r_half": 0.34031,
+     "SB": 0.50781
+    }
+   },
+   "v1_raw": {
+    "10-49": {
+     "n_sires": 21,
+     "r_half": -0.09826,
+     "SB": -0.21794
+    },
+    "50-149": {
+     "n_sires": 97,
+     "r_half": 0.01984,
+     "SB": 0.03891
+    },
+    "150-": {
+     "n_sires": 67,
+     "r_half": 0.35881,
+     "SB": 0.52813
+    },
+    "10-": {
+     "n_sires": 185,
+     "r_half": 0.05356,
+     "SB": 0.10167
+    }
+   },
+   "v1_shrunk": {
+    "10-49": {
+     "n_sires": 21,
+     "r_half": -0.13205,
+     "SB": -0.30429
+    },
+    "50-149": {
+     "n_sires": 97,
+     "r_half": 0.09287,
+     "SB": 0.16996
+    },
+    "150-": {
+     "n_sires": 67,
+     "r_half": 0.76559,
+     "SB": 0.86724
+    },
+    "10-": {
+     "n_sires": 185,
+     "r_half": 0.62023,
+     "SB": 0.7656
+    }
+   },
+   "v1_tau2_pt2": 2.67392
+  },
+  "debut": {
+   "v2_raw": {
+    "10-49": {
+     "n_sires": 140,
+     "r_half": 0.30477,
+     "SB": 0.46717
+    },
+    "50-149": {
+     "n_sires": 97,
+     "r_half": 0.51098,
+     "SB": 0.67635
+    },
+    "150-": {
+     "n_sires": 47,
+     "r_half": 0.69216,
+     "SB": 0.81808
+    },
+    "10-": {
+     "n_sires": 284,
+     "r_half": 0.37649,
+     "SB": 0.54703
+    }
+   },
+   "v2_shrunk": {
+    "10-49": {
+     "n_sires": 140,
+     "r_half": 0.31242,
+     "SB": 0.4761
+    },
+    "50-149": {
+     "n_sires": 97,
+     "r_half": 0.53785,
+     "SB": 0.69949
+    },
+    "150-": {
+     "n_sires": 47,
+     "r_half": 0.6989,
+     "SB": 0.82276
+    },
+    "10-": {
+     "n_sires": 284,
+     "r_half": 0.47761,
+     "SB": 0.64646
+    }
+   },
+   "v1_raw": {
+    "10-49": {
+     "n_sires": 121,
+     "r_half": 0.388,
+     "SB": 0.55908
+    },
+    "50-149": {
+     "n_sires": 109,
+     "r_half": 0.11991,
+     "SB": 0.21414
+    },
+    "150-": {
+     "n_sires": 67,
+     "r_half": 0.53065,
+     "SB": 0.69336
+    },
+    "10-": {
+     "n_sires": 297,
+     "r_half": 0.36674,
+     "SB": 0.53667
+    }
+   },
+   "v1_shrunk": {
+    "10-49": {
+     "n_sires": 121,
+     "r_half": 0.20688,
+     "SB": 0.34284
+    },
+    "50-149": {
+     "n_sires": 109,
+     "r_half": 0.14741,
+     "SB": 0.25695
+    },
+    "150-": {
+     "n_sires": 67,
+     "r_half": 0.58111,
+     "SB": 0.73507
+    },
+    "10-": {
+     "n_sires": 297,
+     "r_half": 0.34516,
+     "SB": 0.51319
+    }
+   },
+   "v1_tau2_pt2": 6.98814
+  },
+  "surface|芝": {
+   "v2_raw": {
+    "10-49": {
+     "n_sires": 162,
+     "r_half": 0.5803,
+     "SB": 0.73442
+    },
+    "50-149": {
+     "n_sires": 81,
+     "r_half": 0.8751,
+     "SB": 0.93339
+    },
+    "150-": {
+     "n_sires": 45,
+     "r_half": 0.91216,
+     "SB": 0.95406
+    },
+    "10-": {
+     "n_sires": 288,
+     "r_half": 0.67017,
+     "SB": 0.80251
+    }
+   },
+   "v2_shrunk": {
+    "10-49": {
+     "n_sires": 162,
+     "r_half": 0.58749,
+     "SB": 0.74015
+    },
+    "50-149": {
+     "n_sires": 81,
+     "r_half": 0.87298,
+     "SB": 0.93218
+    },
+    "150-": {
+     "n_sires": 45,
+     "r_half": 0.91207,
+     "SB": 0.95402
+    },
+    "10-": {
+     "n_sires": 288,
+     "r_half": 0.68789,
+     "SB": 0.81509
+    }
+   },
+   "v1_raw": {
+    "10-49": {
+     "n_sires": 165,
+     "r_half": 0.31524,
+     "SB": 0.47937
+    },
+    "50-149": {
+     "n_sires": 109,
+     "r_half": 0.66669,
+     "SB": 0.80002
+    },
+    "150-": {
+     "n_sires": 67,
+     "r_half": 0.83586,
+     "SB": 0.91059
+    },
+    "10-": {
+     "n_sires": 341,
+     "r_half": 0.47751,
+     "SB": 0.64637
+    }
+   },
+   "v1_shrunk": {
+    "10-49": {
+     "n_sires": 165,
+     "r_half": 0.47747,
+     "SB": 0.64633
+    },
+    "50-149": {
+     "n_sires": 109,
+     "r_half": 0.4952,
+     "SB": 0.66239
+    },
+    "150-": {
+     "n_sires": 67,
+     "r_half": 0.7819,
+     "SB": 0.8776
+    },
+    "10-": {
+     "n_sires": 341,
+     "r_half": 0.51876,
+     "SB": 0.68313
+    }
+   },
+   "v1_tau2_pt2": 2.16878
+  },
+  "surface|ダ": {
+   "v2_raw": {
+    "10-49": {
+     "n_sires": 161,
+     "r_half": 0.35335,
+     "SB": 0.52218
+    },
+    "50-149": {
+     "n_sires": 98,
+     "r_half": 0.65026,
+     "SB": 0.78807
+    },
+    "150-": {
+     "n_sires": 49,
+     "r_half": 0.91259,
+     "SB": 0.9543
+    },
+    "10-": {
+     "n_sires": 308,
+     "r_half": 0.47451,
+     "SB": 0.64362
+    }
+   },
+   "v2_shrunk": {
+    "10-49": {
+     "n_sires": 161,
+     "r_half": 0.37815,
+     "SB": 0.54878
+    },
+    "50-149": {
+     "n_sires": 98,
+     "r_half": 0.65111,
+     "SB": 0.78869
+    },
+    "150-": {
+     "n_sires": 49,
+     "r_half": 0.91298,
+     "SB": 0.95451
+    },
+    "10-": {
+     "n_sires": 308,
+     "r_half": 0.52148,
+     "SB": 0.68549
+    }
+   },
+   "v1_raw": {
+    "10-49": {
+     "n_sires": 168,
+     "r_half": 0.31513,
+     "SB": 0.47924
+    },
+    "50-149": {
+     "n_sires": 109,
+     "r_half": 0.51187,
+     "SB": 0.67713
+    },
+    "150-": {
+     "n_sires": 67,
+     "r_half": 0.59326,
+     "SB": 0.74471
+    },
+    "10-": {
+     "n_sires": 344,
+     "r_half": 0.35853,
+     "SB": 0.52782
+    }
+   },
+   "v1_shrunk": {
+    "10-49": {
+     "n_sires": 168,
+     "r_half": 0.27433,
+     "SB": 0.43055
+    },
+    "50-149": {
+     "n_sires": 109,
+     "r_half": 0.38712,
+     "SB": 0.55817
+    },
+    "150-": {
+     "n_sires": 67,
+     "r_half": 0.62351,
+     "SB": 0.7681
+    },
+    "10-": {
+     "n_sires": 344,
+     "r_half": 0.30764,
+     "SB": 0.47053
+    }
+   },
+   "v1_tau2_pt2": 0.91406
+  },
+  "dbucket|短距離(~1400m)": {
+   "v2_raw": {
+    "10-49": {
+     "n_sires": 153,
+     "r_half": 0.18275,
+     "SB": 0.30902
+    },
+    "50-149": {
+     "n_sires": 92,
+     "r_half": 0.27099,
+     "SB": 0.42642
+    },
+    "150-": {
+     "n_sires": 38,
+     "r_half": 0.72268,
+     "SB": 0.83902
+    },
+    "10-": {
+     "n_sires": 283,
+     "r_half": 0.23129,
+     "SB": 0.37568
+    }
+   },
+   "v2_shrunk": {
+    "10-49": {
+     "n_sires": 153,
+     "r_half": 0.15923,
+     "SB": 0.27472
+    },
+    "50-149": {
+     "n_sires": 92,
+     "r_half": 0.27297,
+     "SB": 0.42887
+    },
+    "150-": {
+     "n_sires": 38,
+     "r_half": 0.72084,
+     "SB": 0.83778
+    },
+    "10-": {
+     "n_sires": 283,
+     "r_half": 0.24243,
+     "SB": 0.39025
+    }
+   },
+   "v1_raw": {
+    "10-49": {
+     "n_sires": 168,
+     "r_half": 0.09015,
+     "SB": 0.16538
+    },
+    "50-149": {
+     "n_sires": 109,
+     "r_half": 0.03633,
+     "SB": 0.07011
+    },
+    "150-": {
+     "n_sires": 67,
+     "r_half": 0.38091,
+     "SB": 0.55168
+    },
+    "10-": {
+     "n_sires": 344,
+     "r_half": 0.1072,
+     "SB": 0.19364
+    }
+   },
+   "v1_shrunk": {
+    "10-49": {
+     "n_sires": 168,
+     "r_half": 0.17704,
+     "SB": 0.30082
+    },
+    "50-149": {
+     "n_sires": 109,
+     "r_half": 0.07766,
+     "SB": 0.14413
+    },
+    "150-": {
+     "n_sires": 67,
+     "r_half": 0.53259,
+     "SB": 0.69502
+    },
+    "10-": {
+     "n_sires": 344,
+     "r_half": 0.20171,
+     "SB": 0.3357
+    }
+   },
+   "v1_tau2_pt2": 0.57969
+  },
+  "dbucket|マイル(1401-1800m)": {
+   "v2_raw": {
+    "10-49": {
+     "n_sires": 160,
+     "r_half": 0.25833,
+     "SB": 0.41059
+    },
+    "50-149": {
+     "n_sires": 91,
+     "r_half": 0.64669,
+     "SB": 0.78544
+    },
+    "150-": {
+     "n_sires": 50,
+     "r_half": 0.7888,
+     "SB": 0.88193
+    },
+    "10-": {
+     "n_sires": 301,
+     "r_half": 0.37411,
+     "SB": 0.54452
+    }
+   },
+   "v2_shrunk": {
+    "10-49": {
+     "n_sires": 160,
+     "r_half": 0.25768,
+     "SB": 0.40978
+    },
+    "50-149": {
+     "n_sires": 91,
+     "r_half": 0.64613,
+     "SB": 0.78503
+    },
+    "150-": {
+     "n_sires": 50,
+     "r_half": 0.78919,
+     "SB": 0.88218
+    },
+    "10-": {
+     "n_sires": 301,
+     "r_half": 0.40933,
+     "SB": 0.58088
+    }
+   },
+   "v1_raw": {
+    "10-49": {
+     "n_sires": 172,
+     "r_half": -0.05992,
+     "SB": -0.12748
+    },
+    "50-149": {
+     "n_sires": 109,
+     "r_half": 0.07732,
+     "SB": 0.14354
+    },
+    "150-": {
+     "n_sires": 67,
+     "r_half": 0.32021,
+     "SB": 0.48508
+    },
+    "10-": {
+     "n_sires": 348,
+     "r_half": -0.02687,
+     "SB": -0.05523
+    }
+   },
+   "v1_tau2_pt2": -0.71598
+  },
+  "dbucket|中距離(1801-2200m)": {
+   "v2_raw": {
+    "10-49": {
+     "n_sires": 128,
+     "r_half": 0.36278,
+     "SB": 0.53241
+    },
+    "50-149": {
+     "n_sires": 37,
+     "r_half": 0.60084,
+     "SB": 0.75065
+    },
+    "150-": {
+     "n_sires": 21,
+     "r_half": 0.71022,
+     "SB": 0.83056
+    },
+    "10-": {
+     "n_sires": 186,
+     "r_half": 0.41876,
+     "SB": 0.59032
+    }
+   },
+   "v2_shrunk": {
+    "10-49": {
+     "n_sires": 128,
+     "r_half": 0.3601,
+     "SB": 0.52952
+    },
+    "50-149": {
+     "n_sires": 37,
+     "r_half": 0.60019,
+     "SB": 0.75015
+    },
+    "150-": {
+     "n_sires": 21,
+     "r_half": 0.71088,
+     "SB": 0.83101
+    },
+    "10-": {
+     "n_sires": 186,
+     "r_half": 0.43076,
+     "SB": 0.60214
+    }
+   },
+   "v1_raw": {
+    "10-49": {
+     "n_sires": 88,
+     "r_half": 0.10795,
+     "SB": 0.19486
+    },
+    "50-149": {
+     "n_sires": 103,
+     "r_half": -0.10128,
+     "SB": -0.22539
+    },
+    "150-": {
+     "n_sires": 67,
+     "r_half": 0.14033,
+     "SB": 0.24611
+    },
+    "10-": {
+     "n_sires": 258,
+     "r_half": 0.03953,
+     "SB": 0.07606
+    }
+   },
+   "v1_shrunk": {
+    "10-49": {
+     "n_sires": 88,
+     "r_half": 0.04531,
+     "SB": 0.0867
+    },
+    "50-149": {
+     "n_sires": 103,
+     "r_half": 0.12149,
+     "SB": 0.21666
+    },
+    "150-": {
+     "n_sires": 67,
+     "r_half": 0.11518,
+     "SB": 0.20657
+    },
+    "10-": {
+     "n_sires": 258,
+     "r_half": 0.14078,
+     "SB": 0.24681
+    }
+   },
+   "v1_tau2_pt2": 0.70289
+  },
+  "dbucket|長距離(2201m~)": {
+   "v2_raw": {
+    "10-49": {
+     "n_sires": 62,
+     "r_half": 0.41028,
+     "SB": 0.58185
+    },
+    "50-149": {
+     "n_sires": 16,
+     "r_half": 0.58135,
+     "SB": 0.73526
+    },
+    "150-": {
+     "n_sires": 2,
+     "r_half": null,
+     "SB": null
+    },
+    "10-": {
+     "n_sires": 80,
+     "r_half": 0.41696,
+     "SB": 0.58852
+    }
+   },
+   "v2_shrunk": {
+    "10-49": {
+     "n_sires": 62,
+     "r_half": 0.36843,
+     "SB": 0.53847
+    },
+    "50-149": {
+     "n_sires": 16,
+     "r_half": 0.5744,
+     "SB": 0.72967
+    },
+    "150-": {
+     "n_sires": 2,
+     "r_half": null,
+     "SB": null
+    },
+    "10-": {
+     "n_sires": 80,
+     "r_half": 0.38072,
+     "SB": 0.55148
+    }
+   },
+   "v1_raw": {
+    "10-49": {
+     "n_sires": 12,
+     "r_half": 0.38212,
+     "SB": 0.55295
+    },
+    "50-149": {
+     "n_sires": 50,
+     "r_half": -0.2231,
+     "SB": -0.57435
+    },
+    "150-": {
+     "n_sires": 62,
+     "r_half": -0.14582,
+     "SB": -0.34143
+    },
+    "10-": {
+     "n_sires": 124,
+     "r_half": -0.11611,
+     "SB": -0.26272
+    }
+   },
+   "v1_shrunk": {
+    "10-49": {
+     "n_sires": 12,
+     "r_half": -0.03951,
+     "SB": -0.08226
+    },
+    "50-149": {
+     "n_sires": 50,
+     "r_half": 0.09837,
+     "SB": 0.17912
+    },
+    "150-": {
+     "n_sires": 62,
+     "r_half": 0.20911,
+     "SB": 0.34589
+    },
+    "10-": {
+     "n_sires": 124,
+     "r_half": 0.14864,
+     "SB": 0.2588
+    }
+   },
+   "v1_tau2_pt2": 0.92114
+  }
+ },
+ "E4_v1_window_le2025": {
+  "front": {
+   "n_anc": 264,
+   "share_pos": 0.909,
+   "abs_median_over_sd": 1.283,
+   "pass": false
+  },
+  "kire": {
+   "n_anc": 264,
+   "share_pos": 0.091,
+   "abs_median_over_sd": 1.277,
+   "pass": false
+  },
+  "debut": {
+   "n_anc": 304,
+   "share_pos": 0.368,
+   "abs_median_over_sd": 0.223,
+   "pass": true
+  },
+  "surface|芝": {
+   "n_anc": 309,
+   "share_pos": 0.44,
+   "abs_median_over_sd": 0.085,
+   "pass": true
+  },
+  "surface|ダ": {
+   "n_anc": 309,
+   "share_pos": 0.56,
+   "abs_median_over_sd": 0.069,
+   "pass": true
+  },
+  "dbucket|短距離(~1400m)": {
+   "n_anc": 310,
+   "share_pos": 0.452,
+   "abs_median_over_sd": 0.061,
+   "pass": true
+  },
+  "dbucket|マイル(1401-1800m)": {
+   "n_anc": 310,
+   "share_pos": 0.445,
+   "abs_median_over_sd": 0.07,
+   "pass": true
+  },
+  "dbucket|中距離(1801-2200m)": {
+   "n_anc": 292,
+   "share_pos": 0.452,
+   "abs_median_over_sd": 0.087,
+   "pass": true
+  },
+  "dbucket|長距離(2201m~)": {
+   "n_anc": 207,
+   "share_pos": 0.546,
+   "abs_median_over_sd": 0.068,
+   "pass": true
+  }
+ },
+ "I2_req_2021_2026": {
+  "front": {
+   "n_course_keys": 89,
+   "Q": 1142.7,
+   "df": 88,
+   "I2": 0.923
+  },
+  "kire": {
+   "n_course_keys": 89,
+   "Q": 2324.8,
+   "df": 88,
+   "I2": 0.962
+  }
+ },
+ "not_done": {
+  "two_stage_shrinkage_by_lineage": "§2 の系統を親にする2段階縮約の感度分析は未実施(系統カテゴリの軸は追補1で不採用、主は全体0)。",
+  "req_from_pedigree_lift": "§5 の血統値リフト版の基準(感度分析)は未実施。",
+  "race_req_E4_v1_lift": "レース基準の v1 リフトとの比較は R−0.5(2020年まで)で実施済み、テスト期間では未実施。"
+ },
+ "manifest": {
+  "git_commit": "8610183b8c944cf580604c5fe40a57094f03a26a",
+  "git_dirty_files": [
+   "M scripts/jra_model/pedigree_reports/radar_v2_eval.py",
+   "?? scripts/jra_model/pedigree_reports/radar_v2_eval_addendum.py"
+  ],
+  "scripts_sha256": {
+   "radar_v2_aptitude.py": "471884c68c4d869eaf989f8043869ab74bb6401688d9755cf3e39a6d22f0a047",
+   "radar_v2_build_runs.py": "efb868b2be4ae1670ec82227f53eec686c37ad15f1d2295405b17a4fb1d17465",
+   "radar_v2_common.py": "c2c2213a896a0fd0eb5ccba54f68f358d124481056a80bded55ecd2b8d4eb44f",
+   "radar_v2_eval.py": "9065c9ef05dc18666418037c58d93b2ad39f7e65bf7c9fa24d13144998ba45c6",
+   "radar_v2_eval_addendum.py": "b01c37a5c13e0fea6c7812aaa5878675f295014ad128fbdc0dd48bd1c384717c",
+   "radar_v2_minimal_check.py": "b171730ce051d2f181c6d38161bfa79c4bf9b9bcf53f93ac7e428202d11ef9bc",
+   "radar_v2_r05_design.py": "b4a8af2db09008e6721a278cd290b00f0db6a84fe99b05f9add8dcaefb905c38",
+   "radar_v2_reference.py": "48431e4564710f87dde08ff200aff73a37b6cb682f462d0478150c8a0f667aad"
+  },
+  "runs_manifest": "94c67382a45598506583a627610014f8d2834157227f4cc4fa793dfc58df7ddc",
+  "runs_all_parquet_sha256": "4ef1d687723603f4a35dc98a9bd7e4461fb194df5cb8c8acc8b6639e501f46d9",
+  "tables_sha256": "c4d1a9bd6eebe99ec9ebf79aa0a3fb245f682a8417456d724455c8c6cad61dc1",
+  "hv_tables_sha256": "bf9ec767360641f5a994b24f3a6be3dedb11258fb6a3bfd56607f4dd2fefb333",
+  "race_req_sha256": "ac52f9425d8be1f90b20c4e7ddae4a07a6c2819c2e09dda34c925c3cfef0d572",
+  "inner_validation_sha256": "9b1e8a9bcbb9e5c3e384c9af9d2b37a4f93588dcbe0f2f68d6b0c4a7b0234d38",
+  "python": "3.12.10",
+  "numpy": "2.5.1",
+  "pandas": "3.0.3",
+  "scipy": "1.18.0",
+  "seed": 20261006,
+  "dry": false,
+  "prereg_sha256": "e13de00bed4dbcedee0c7dc8c9dae6f4411392970a5dff08dbafb6faa3f9f468"
+ },
+ "elapsed_sec": 430.6
+}
