@@ -352,6 +352,38 @@ def final(D, years=range(2021, 2027), out=None):
     log("primary (5)", res["primary_5"]["dll_per_race"], res["primary_5"]["ci95_block"])
 
 
+def export(D):
+    """表示用(R5): 2026年の評価と同じ学習(2014〜2025年、同じ設定・seed)で v3 を作り、2026年の各レースの要求と各馬の適合度 G を書き出す。
+    あわせて、学んだ要求を条件の区分ごとに平均した表(探索、何を学んだかの記述)を出す。"""
+    sel = json.loads(TUNE_OUT.read_text(encoding="utf-8"))["selected"]
+    tr, te = fold(D, 2026)
+    st = norm_stats(tr)
+    btr, bte = Batch(tr, st), Batch(te, st)
+    ms = [train(btr, sel["l2"], sel["epochs"], s, hidden=True) for s in SEEDS]
+    torch.save({"state_dicts": [m.state_dict() for m in ms], "norm_stats": st, "selected": sel}, C.OUT_DIR / "v3_models_2026.pt")
+    with torch.no_grad():
+        req = torch.stack([m.req(bte.all()) for m in ms]).mean(0).numpy()
+        b1 = float(np.mean([m.b1.item() for m in ms]))
+        u = ens_u(ms, bte.all()).numpy()
+    G = u - b1 * bte.S.numpy()
+    first = te.drop_duplicates("race_id").set_index("race_id").loc[bte.race_ids]
+    races = {}
+    dd = te.sort_values(["race_id", "pos", "umaban_num"])
+    dd = dd[dd.groupby("race_id")["race_id"].transform("size") >= 3]
+    for i, rid in enumerate(bte.race_ids):
+        rows = dd[dd["race_id"] == rid]
+        races[rid] = {"req": {c: round(float(req[i, j]), 4) for j, c in enumerate(ZCOLS)},
+                      "horses": {h: round(float(G[i, k]), 4) for k, h in enumerate(rows["horse_id"])}}
+    # 何を学んだか(2026年のレース、区分ごとの要求の平均)
+    R = pd.DataFrame(req, columns=ZCOLS, index=bte.race_ids)
+    R["区分"] = np.where(first["debut"] > 0, "新馬戦", np.where(first["class_ord"] == 0, "未勝利戦", "1勝以上")) + "・" + first["surface"].to_numpy()
+    learned = {k: {c: round(float(v), 3) for c, v in g[ZCOLS].mean().items()} | {"n_races": int(len(g))} for k, g in R.groupby("区分")}
+    out = {"b1": round(b1, 4), "selected": sel, "zcols": ZCOLS, "races": races, "learned_by_group": learned,
+           "note": "表示用。2026年の確認評価と同じ学習設定(2014〜2025年、seed 3本の平均)。learned_by_group は探索(何を学んだかの記述)。"}
+    (C.OUT_DIR / "v3_export_2026.json").write_text(json.dumps(out, ensure_ascii=False), encoding="utf-8")
+    log("export", len(races), "races", learned)
+
+
 def ok_race(X):
     return X.groupby("race_id")["logp"].transform(lambda s: bool(np.isfinite(s).all()))
 
@@ -374,6 +406,8 @@ def main():
         final(D, years=(2019, 2020), out=C.OUT_DIR / "r3b_final_dry.txt")
     elif "--final" in sys.argv:
         final(D)
+    elif "--export" in sys.argv:
+        export(D)
 
 
 if __name__ == "__main__":

@@ -102,13 +102,14 @@ footer { color: var(--muted); font-size: 12px; }
         <li>父の総合力だけのモデルに「適合度」を足すと、着順の予測が良くなる(1レースあたり <b class="mono" id="v-main"></b>)。</li>
         <li>効いているのはほぼ <b>芝ダ適性</b> と <b>新馬適性</b>。新馬戦・未勝利戦で特に効く。</li>
         <li>1位予想の的中率は <span class="mono" id="v-top1"></span>(父の総合力のみ → +適合度)。</li>
+        <li id="v-dl-li"><b>DL版の適合度</b>(レース条件から「求められる血統」を学ぶ小さなネット)は、v2の基準よりさらに予測を良くした(<b class="mono" id="v-dl"></b>、6年すべてで正)。</li>
       </ul>
     </div>
     <div>
       <h3>確かめられなかったこと</h3>
       <ul>
         <li><b>「レースが求める脚質・キレに血統が合う馬が来る」ことは未確認</b>。脚質・キレの列は、血統の傾向の記述として見てください。</li>
-        <li><b>オッズに対する上積みは無し</b>(<span class="mono" id="v-mkt"></span>)。人気に織り込まれている情報です。</li>
+        <li><b>オッズに対する上積みは、v2の適合度では無し</b>(<span class="mono" id="v-mkt"></span>)。DL版はごく小さな上積み(<span class="mono" id="v-dlmkt"></span>、結果を見た後の探索で、確認ではない)。</li>
         <li>当日のトラックバイアス・馬場の変化は入っていません。</li>
       </ul>
     </div>
@@ -122,12 +123,14 @@ footer { color: var(--muted); font-size: 12px; }
   <div class="controls" style="margin-top:10px">
     <div><span class="label">馬の値</span><span class="seg" id="seg-mode"><button data-v="ped" aria-pressed="true">血統のみ</button><button data-v="own">血統+実績</button></span></div>
     <div><span class="label">想定ペース</span><span class="seg" id="seg-pace"><button data-v="全体" aria-pressed="true">指定なし</button><button data-v="速い">速い</button><button data-v="平均">平均</button><button data-v="遅い">遅い</button></span></div>
-    <div><span class="label">並び</span><span class="seg" id="seg-sort"><button data-v="fit" aria-pressed="true">適合度</button><button data-v="umaban">馬番</button></span></div>
+    <div><span class="label">並び</span><span class="seg" id="seg-sort"><button data-v="fit" aria-pressed="true">適合度</button><button data-v="dl">DL適合度</button><button data-v="umaban">馬番</button></span></div>
     <div><span class="label">着順</span><span class="seg" id="seg-fin"><button data-v="hide" aria-pressed="true">隠す</button><button data-v="show">表示</button></span></div>
   </div>
 </section>
 
 <section id="race"></section>
+
+<section id="learned"></section>
 
 <section>
   <h2>列の読み方</h2>
@@ -137,6 +140,7 @@ footer { color: var(--muted); font-size: 12px; }
         <li>値は「父(芝ダ・距離帯は父・母父・父父の平均)の産駒が、その条件で普段よりどれだけ走るか」を、真の差のばらつき(τ)を1とした単位で表したもの。0が平均、±1で血統間の典型的な差。</li>
         <li><b>適合度</b> = 各軸の値 × レースの要求 × 軸の信頼度 の合計(R4で検証した式)。想定ペースを変えると脚質・キレの要求が変わります。</li>
         <li><b>血統+実績</b>: その日より前の本人の走で血統の値を更新(走数が多いほど本人の値に寄る)。芝ダ・距離帯は「本人の芝ダ・距離帯別の成績差」です。</li>
+        <li><b>DL適合度</b>: レース条件(競馬場・芝ダ・距離・内外回り・馬場・クラス・頭数・過去のペース傾向・出走馬の過去の位置取り)から、9本の血統の値それぞれに掛ける重みを学習したもの。血統のみで計算します(切替の影響を受けません)。</li>
       </ul>
     </div>
     <div>
@@ -210,7 +214,10 @@ function renderRace() {
   const race = D.races.find(r => r.race_id === state.race);
   const el = $("#race");
   const hs = race.horses.map(h => ({ ...h, F: fit(race, h) }));
-  if (state.sort === "fit") hs.sort((a, b) => b.F - a.F); else hs.sort((a, b) => a.umaban - b.umaban);
+  if (state.sort === "fit") hs.sort((a, b) => b.F - a.F);
+  else if (state.sort === "dl") hs.sort((a, b) => (b.v3 ?? -99) - (a.v3 ?? -99));
+  else hs.sort((a, b) => a.umaban - b.umaban);
+  const dmax = Math.max(0.3, ...hs.map(h => Math.abs(h.v3 ?? 0)));
   const fmax = Math.max(0.3, ...hs.map(h => Math.abs(h.F)));
   if (!state.sel && hs.length) state.sel = hs[0].umaban;
   const cols = [["S", "父の総合力"], ["front", "脚質(前)"], ["kire", "キレ"], ["surface", race.surface === "芝" ? "芝適性" : "ダ適性"],
@@ -223,15 +230,16 @@ function renderRace() {
     <div class="chip">芝ダ: <b>${race.surface}</b> <span class="meta">その芝ダの適性を加点</span></div>
     <div class="chip">距離帯: <b>${race.dbucket || "—"}</b></div>
   </div>
+  ${race.v3_req ? v3ReqHTML(race) : ""}
   <p class="meta">要求の単位: 2018〜2020年のレースの基準のばらつきを1とする。想定ペース「${state.pace === "全体" ? "指定なし" : state.pace}」${state.fin === "show" && race.actual_pace ? "・実際のペース: " + race.actual_pace : ""}。適合度は脚質・キレ・芝ダ・距離帯・新馬の合計で、父の総合力(強さ)は含みません。</p>
-  <div class="scroll"><table><thead><tr><th>馬番</th><th>馬名<span class="sub">父 / 母父</span></th><th>適合度</th>`;
+  <div class="scroll"><table><thead><tr><th>馬番</th><th>馬名<span class="sub">父 / 母父</span></th><th>適合度</th><th>DL適合度<span class="st st-予測">予測</span></th>`;
   cols.forEach(([a, l]) => { html += `<th class="${faint(a, race) ? "faint" : ""}">${l}<span class="st st-${statusOf(a)}">${statusOf(a)}</span></th>`; });
   html += `${state.fin === "show" ? "<th>着順</th>" : ""}</tr></thead><tbody>`;
   hs.forEach(h => {
     const v = vals(h), key = h.umaban;
     html += `<tr class="hrow ${state.sel === key ? "sel" : ""}" data-k="${key}"><td class="num">${h.umaban}</td>
       <td>${h.horse_name}<span class="sub">${h.sire || "—"} / ${h.bms || "—"}${state.mode === "own" ? (h.own ? " ・前走まで" + h.own.n_prev + "走" : " ・実績なし(血統のみ)") : ""}</span></td>
-      <td>${bar(h.F, fmax, "fitbar")}</td>`;
+      <td>${bar(h.F, fmax, "fitbar")}</td><td>${bar(h.v3, dmax, "fitbar")}</td>`;
     cols.forEach(([a]) => { html += `<td class="${faint(a, race) ? "faint" : ""}">${bar(v[a])}</td>`; });
     if (state.fin === "show") html += `<td class="fin ${h.finish && h.finish <= 3 ? "top3" : ""}">${h.finish ?? (h.ran ? "—" : "中止/取消")}</td>`;
     html += "</tr>";
@@ -243,6 +251,24 @@ function renderRace() {
   el.querySelectorAll("tr.hrow").forEach(tr => tr.onclick = () => { state.sel = Number(tr.dataset.k); renderRace(); });
 }
 
+const ZL = {"z_front": "脚質(前)", "z_kire": "キレ", "z_s|芝": "芝", "z_s|ダ": "ダ", "z_b|短距離(~1400m)": "短距離", "z_b|マイル(1401-1800m)": "マイル",
+            "z_b|中距離(1801-2200m)": "中距離", "z_b|長距離(2201m~)": "長距離", "z_debut": "新馬"};
+function v3ReqHTML(race) {
+  const r = race.v3_req, mx = Math.max(0.2, ...Object.values(r).map(Math.abs));
+  let s = `<div style="margin-bottom:8px"><span class="label">DLが学んだこのレースの要求(各血統の値への重み)</span><div class="chips">`;
+  Object.keys(ZL).forEach(k => { s += `<div class="chip">${ZL[k]} ${bar(r[k], mx)}</div>`; });
+  return s + `</div></div>`;
+}
+function renderLearned() {
+  const L = D.v3_learned; if (!L) { $("#learned").hidden = true; return; }
+  const keys = Object.keys(ZL);
+  const mx = Math.max(0.2, ...Object.values(L).flatMap(g => keys.map(k => Math.abs(g[k]))));
+  let s = `<h2>DLが学んだ要求(区分ごとの平均、2026年のレース)</h2><p class="meta">各血統の値に掛かる重みの平均。結果を見た後の記述(探索)で、確認検証ではありません。</p><div class="scroll"><table><tr><th>区分</th><th>レース数</th>`;
+  keys.forEach(k => s += `<th>${ZL[k]}</th>`);
+  s += `</tr>`;
+  Object.entries(L).sort().forEach(([g, v]) => { s += `<tr><td>${g}</td><td class="num">${v.n_races}</td>`; keys.forEach(k => s += `<td>${bar(v[k], mx)}</td>`); s += `</tr>`; });
+  $("#learned").innerHTML = s + `</table></div>`;
+}
 function radarSVG(race, h) {
   const labels = ["父の総合力", "脚質(前)", "キレ", race.surface === "芝" ? "芝適性" : "ダ適性", "距離帯", "新馬"];
   const W = 340, cx = 170, cy = 165, R = 115, lim = 2.5, n = AX.length;
@@ -291,12 +317,14 @@ function seg(id, key) {
   $("#v-n").textContent = V.main.n_races.toLocaleString();
   $("#v-main").textContent = fmt(V.main.dll, 4) + " [" + V.main.ci.map(x => x.toFixed(4)).join(", ") + "]";
   $("#v-mkt").textContent = fmt(V.market.dll, 5);
+  if (V.dl) { $("#v-dl").textContent = fmt(V.dl.dll, 4) + " [" + V.dl.ci.map(x => x.toFixed(4)).join(", ") + "]"; $("#v-dlmkt").textContent = fmt(V.dl.market, 4) + " [" + V.dl.market_ci.map(x => x.toFixed(4)).join(", ") + "]"; }
+  else { $("#v-dl-li").hidden = true; $("#v-dlmkt").textContent = "—"; }
   $("#v-top1").textContent = (V.top1.S * 100).toFixed(1) + "% → " + (V.top1["S+F"] * 100).toFixed(1) + "%";
   $("#foot").innerHTML = `時点表: ${D.table_window_end}までのデータ(${D.table_year}年用)。検証: 事前登録 RADAR_V2_PREREG_2026_10_06.md(追補1〜3)、radar_v2_eval.json・radar_v2_eval_addendum.json` + (V.dl ? `、DL挑戦モデル: ${fmt(V.dl.dll, 4)} [${V.dl.ci.map(x => x.toFixed(4)).join(", ")}]` : "") + "。";
   seg("#seg-mode", "mode"); seg("#seg-pace", "pace"); seg("#seg-sort", "sort"); seg("#seg-fin", "fin");
   state.race = (D.races.find(r => !r.skipped) || {}).race_id;
   try { const s = localStorage.getItem("rv2_race"); if (s && D.races.find(r => r.race_id === s && !r.skipped)) state.race = s; } catch (e) {}
-  render();
+  render(); renderLearned();
   document.addEventListener("click", () => { try { localStorage.setItem("rv2_race", state.race); } catch (e) {} });
 })();
 </script>

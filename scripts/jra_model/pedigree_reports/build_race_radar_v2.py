@@ -76,6 +76,8 @@ def main():
     T = E.Tables(year)
     sd = {a: E.REQ_META[f"sd_req_{a}_2018_2020"] for a in ["front", "kire"]}
     meta = axis_meta()
+    v3p = C.OUT_DIR / f"v3_export_{year}.json"
+    v3 = json.loads(v3p.read_text(encoding="utf-8")) if v3p.exists() else None
     out = {"race_date": today["today"], "table_year": year, "table_window_end": f"{year - 1}年末",
            "axes": meta, "sd_req": sd, "rel": {"front": E.rel("front"), "kire": E.rel("kire"), "debut": E.rel("debut"),
                                                 "surface": {s: E.rel("surface", s) for s in ["芝", "ダ"]},
@@ -104,7 +106,9 @@ def main():
                 "distance": distance, "dbucket": bucket, "is_debut": debut, "q": q,
                 "req_rule": {a: (rq[f"rule_{a}"] if rq is not None else None) for a in ["front", "kire"]},
                 "req_n": {a: (int(rq[f"n_matched_{a}"]) if rq is not None else None) for a in ["front", "kire"]},
-                "actual_pace": (rq["pace_tier"] if rq is not None else None), "horses": []}
+                "actual_pace": (rq["pace_tier"] if rq is not None else None), "horses": [],
+                "v3_req": (v3["races"][rid]["req"] if v3 and rid in v3["races"] else None)}
+        v3h = v3["races"][rid]["horses"] if v3 and rid in v3["races"] else {}
         # 出走表の全馬(完走していない馬は runs に無いので、血統のみを時点表から直接出す)
         ent = pd.DataFrame(tr["horses"])
         miss = ent[~ent["horse_id"].isin(g["horse_id"])]
@@ -135,7 +139,8 @@ def main():
                 own = {"S": r3(src["S_own"]), "front": r3(src["zo_front"]), "kire": r3(src["zo_kire"]),
                        "surface": r3(src["zo_surface"]), "dbucket": r3(src["zo_dbucket"]), "debut": r3(src["z_debut"]),
                        "n_prev": int(src["perf_adj_pn"]) if np.isfinite(src["perf_adj_pn"]) else 0}
-            race["horses"].append({"umaban": int(h["umaban"]), "horse_name": h["horse_name"], "sire": h.get("sire_name"),
+            race["horses"].append({"umaban": int(h["umaban"]), "horse_id": hid, "v3": v3h.get(hid),
+                                   "horse_name": h["horse_name"], "sire": h.get("sire_name"),
                                    "bms": h.get("bms_name"), "finish": int(src["pos"]) if ran else None, "ran": ran,
                                    "ped": ped, "own": own})
         race["horses"].sort(key=lambda x: x["umaban"])
@@ -153,7 +158,13 @@ def main():
     dl = C.OUT_DIR / "radar_v2_dl_eval.json"
     if dl.exists():
         d = json.loads(dl.read_text(encoding="utf-8"))
-        out["validation"]["dl"] = {"dll": d["primary_5"]["dll_per_race"], "ci": d["primary_5"]["ci95_block"]}
+        out["validation"]["dl"] = {"dll": d["primary_5"]["dll_per_race"], "ci": d["primary_5"]["ci95_block"],
+                                   "vs_C0": d["vs_C0"]["v3"]["dll_per_race"], "v2_vs_C0": d["vs_C0"]["C2"]["dll_per_race"],
+                                   "market": d["market"]["v3"]["dll_per_race"], "market_ci": d["market"]["v3"]["ci95_block"],
+                                   "holm": d["holm_final"]}
+    if v3:
+        out["v3_learned"] = v3["learned_by_group"]
+        out["v3_zcols"] = v3["zcols"]
     OUT.write_text(json.dumps(out, ensure_ascii=False), encoding="utf-8")
     print("wrote", OUT, round(OUT.stat().st_size / 1024), "KB")
 
