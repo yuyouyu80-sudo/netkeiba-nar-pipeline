@@ -64,5 +64,29 @@
   ],
   "output": "radar_v2_eval_addendum.json",
   "output_sha256": "0b8b74a83efdc0f188b1c384528e4a355cb1b3ac4347d2dcea9383ad8c8fe677"
+ },
+ {
+  "script": "radar_v2_dl_condition_encoder.py",
+  "mode": "confirm (5) — 中断",
+  "started": "2026-10-07 00:0x頃",
+  "finished": "2026-10-07 00:1x頃",
+  "git_commit": "787e7b6f",
+  "git_dirty_files": [],
+  "output": null,
+  "result": "TypeError(g_score で ens_u に Batch をそのまま渡した配線のバグ)。2021年の学習・C0〜v3 の計算後、市場比較の途中で停止。年ごとの結果のログ出力の前で、結果は何も表示・保存されていない",
+  "seen": "なし(スタックトレースのみ)",
+  "changed_after": "バグ修正、--final-dry(同じ処理を2019・2020年で通す配線確認)を追加。2021〜2026年の (5) は未見のまま"
+ },
+ {
+  "script": "radar_v2_dl_condition_encoder.py",
+  "mode": "dry (2019-2020)",
+  "started": "2026-10-07 06:03:44",
+  "finished": "2026-10-07 06:10:21",
+  "git_commit": "787e7b6f3c489f536d190887b489cf99368fab02",
+  "git_dirty_files": [
+   "M scripts/jra_model/pedigree_reports/radar_v2_dl_condition_encoder.py"
+  ],
+  "output": "r3b_final_dry.txt",
+  "output_sha256": "87a2a0877b75dc74e7cdf3bf8fc948396bf47d604ff66e9cc13528b87a64b820"
  }
 ]

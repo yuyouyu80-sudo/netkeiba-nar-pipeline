@@ -271,15 +271,15 @@ def tune(D):
     log("selected", res["selected"])
 
 
-def final(D):
-    if FINAL_OUT.exists():
+def final(D, years=range(2021, 2027), out=None):
+    out = out or FINAL_OUT
+    if out == FINAL_OUT and FINAL_OUT.exists():
         sys.exit(f"{FINAL_OUT.name} は既にあります(2021〜2026年の (5) は1回だけ)。")
     sel = json.loads(TUNE_OUT.read_text(encoding="utf-8"))["selected"]
     t0 = time.time()
     per = {k: [] for k in ["C0", "C1", "C2", "C3", "v3", "C2_mkt0", "C2_mkt", "v3_mkt"]}
-    rids, blocks, years = [], [], []
     betas = {}
-    for Y in range(2021, 2027):
+    for Y in years:
         tr, te = fold(D, Y)
         st = norm_stats(tr)
         btr, bte = Batch(tr, st), Batch(te, st)
@@ -294,7 +294,7 @@ def final(D):
         # 市場を入れた比較: 学習年の v3 の適合度 G = u − β1·S を固定し、[logp, S] → +G を学習年で推定
         def g_score(models, df):
             b = Batch(df, st)
-            u = ens_u(models, b).numpy()
+            u = ens_u(models, b.all()).numpy()
             b1m = float(np.mean([m.b1.item() for m in models]))
             g = u - b1m * b.S.numpy()
             out = pd.Series(np.nan, index=df.index)
@@ -338,16 +338,17 @@ def final(D):
     R4 = json.loads((C.OUT_DIR / "radar_v2_eval.json").read_text(encoding="utf-8"))
     fam = {k: v["p"] for k, v in R4["holm"].items()}
     fam["5"] = res["primary_5"]["p_one_sided"]
+    res["years"] = list(years)
     res["holm_final"] = E.holm(fam)
     res["manifest"] = E.manifest() | {"torch": torch.__version__, "dl_table_sha256": E.file_sha([TABLE]),
                                        "tune_sha256": E.file_sha([TUNE_OUT])}
     res["elapsed_sec"] = round(time.time() - t0, 1)
-    FINAL_OUT.write_text(json.dumps(res, ensure_ascii=False, indent=1, default=lambda o: o.item() if hasattr(o, "item") else str(o)),
+    out.write_text(json.dumps(res, ensure_ascii=False, indent=1, default=lambda o: o.item() if hasattr(o, "item") else str(o)),
                          encoding="utf-8")
-    E.append_ledger({"script": "radar_v2_dl_condition_encoder.py", "mode": "confirm (5)",
+    E.append_ledger({"script": "radar_v2_dl_condition_encoder.py", "mode": "confirm (5)" if out == FINAL_OUT else "dry (2019-2020)",
                      "started": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t0)), "finished": time.strftime("%Y-%m-%d %H:%M:%S"),
                      "git_commit": res["manifest"]["git_commit"], "git_dirty_files": res["manifest"]["git_dirty_files"],
-                     "output": FINAL_OUT.name, "output_sha256": hashlib.sha256(FINAL_OUT.read_bytes()).hexdigest()})
+                     "output": out.name, "output_sha256": hashlib.sha256(out.read_bytes()).hexdigest()})
     log("primary (5)", res["primary_5"]["dll_per_race"], res["primary_5"]["ci95_block"])
 
 
@@ -356,6 +357,9 @@ def ok_race(X):
 
 
 def main():
+    if sys.platform == "win32":   # 長い学習の途中で PC がスリープしないように(ES_CONTINUOUS | ES_SYSTEM_REQUIRED)
+        import ctypes
+        ctypes.windll.kernel32.SetThreadExecutionState(0x80000000 | 0x00000001)
     if "--build" in sys.argv:
         build()
         return
@@ -364,6 +368,10 @@ def main():
         smoke(D)
     elif "--tune" in sys.argv:
         tune(D)
+    elif "--final-dry" in sys.argv:   # 本番と同じ処理を2019・2020年(検証の期間)だけで通す配線確認
+        D = D[D["year"] <= 2020]
+        assert D["year"].max() <= 2020
+        final(D, years=(2019, 2020), out=C.OUT_DIR / "r3b_final_dry.txt")
     elif "--final" in sys.argv:
         final(D)
 
