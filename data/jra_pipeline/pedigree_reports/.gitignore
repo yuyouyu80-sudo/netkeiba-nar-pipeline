@@ -5,3 +5,5 @@
 !radar_v2/
 radar_v2/*
 !radar_v2/*.json
+!radar_v2/prospective/
+!radar_v2/prospective/*.json

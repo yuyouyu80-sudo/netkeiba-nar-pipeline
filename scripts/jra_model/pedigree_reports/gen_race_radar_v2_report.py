@@ -1,15 +1,24 @@
 # -*- coding: utf-8 -*-
-"""血統レーダー v2 の R5: race_radar_v2_data.json から HTML レポートを作る(2026-10-06)。
-出力: data/jra_pipeline/pedigree_reports/race_radar_v2_report.html(Artifact として公開する本体)
+"""血統レーダー v2 のレポート(R5 → R6 で複数日・全競馬場に一般化、2026-10-07)。
+
+入力: radar_v2/live/race_radar_v2_{date}.json(radar_v2_live.py、出走表から作った値)を日付ごとに並べ、検証の要約・DLが学んだ要求・
+前向き検証の途中集計(radar_v2/prospective_eval.json があれば)を足す。
+使い方: python gen_race_radar_v2_report.py --days 20261003 20261004 [--out path.html]
+出力(既定): data/jra_pipeline/pedigree_reports/race_radar_v2_report.html(Artifact として公開する本体)
 """
+import argparse
 import json
+import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import radar_v2_common as C  # noqa: E402
+
 BASE = Path(__file__).resolve().parents[3] / "data" / "jra_pipeline" / "pedigree_reports"
-DATA = BASE / "race_radar_v2_data.json"
+LIVE = C.OUT_DIR / "live"
 OUT = BASE / "race_radar_v2_report.html"
 
-TEMPLATE = r"""<title>血統レーダー v2</title>
+TEMPLATE = r"""<title>血統レーダーチャート</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -89,8 +98,8 @@ footer { color: var(--muted); font-size: 12px; }
 <div class="wrap">
 <header>
   <div class="kicker">JRA / 血統レーダー v2 / <span id="hdr-date"></span></div>
-  <h1>血統レーダー v2 — 中山 <span id="hdr-date2"></span></h1>
-  <p class="meta">15年分(2011〜)で測り方を作り直した版。血統の値はレース前年末までのデータ・本人の走を除いて作成。旧版(v1)のレポートはそのまま残しています。</p>
+  <h1>血統レーダー v2 — JRA全場</h1>
+  <p class="meta">15年分(2011〜)で測り方を作り直した版。血統の値はレース前年末までのデータ・本人の走を除き、レースの要求・実績はその日より前の走だけで作っています(出走表から作るので、発走前にも同じ値が出ます)。2026年10月7日に旧版(v1、中山9/26)をこの版へ差し替えました。</p>
 </header>
 
 <section class="verdict">
@@ -118,17 +127,26 @@ footer { color: var(--muted); font-size: 12px; }
 
 <section>
   <div class="controls">
+    <div><span class="label">開催日</span><span class="tabs" id="tabs-day"></span></div>
+  </div>
+  <div class="controls" style="margin-top:8px">
+    <div><span class="label">競馬場</span><span class="tabs" id="tabs-venue"></span></div>
+  </div>
+  <div class="controls" style="margin-top:8px">
     <div><span class="label">レース</span><span class="tabs" id="tabs"></span></div>
   </div>
   <div class="controls" style="margin-top:10px">
     <div><span class="label">馬の値</span><span class="seg" id="seg-mode"><button data-v="ped" aria-pressed="true">血統のみ</button><button data-v="own">血統+実績</button></span></div>
     <div><span class="label">想定ペース</span><span class="seg" id="seg-pace"><button data-v="全体" aria-pressed="true">指定なし</button><button data-v="速い">速い</button><button data-v="平均">平均</button><button data-v="遅い">遅い</button></span></div>
+    <div><span class="label">馬場(DL)</span><span class="seg" id="seg-going"><button data-v="auto" aria-pressed="true">自動</button><button data-v="良">良</button><button data-v="稍重">稍重</button><button data-v="重">重</button><button data-v="不良">不良</button></span></div>
     <div><span class="label">並び</span><span class="seg" id="seg-sort"><button data-v="fit" aria-pressed="true">適合度</button><button data-v="dl">DL適合度</button><button data-v="umaban">馬番</button></span></div>
-    <div><span class="label">着順</span><span class="seg" id="seg-fin"><button data-v="hide" aria-pressed="true">隠す</button><button data-v="show">表示</button></span></div>
+    <div id="fin-ctl"><span class="label">着順</span><span class="seg" id="seg-fin"><button data-v="hide" aria-pressed="true">隠す</button><button data-v="show">表示</button></span></div>
   </div>
 </section>
 
 <section id="race"></section>
+
+<section id="pros"></section>
 
 <section id="learned"></section>
 
@@ -140,7 +158,8 @@ footer { color: var(--muted); font-size: 12px; }
         <li>値は「父(芝ダ・距離帯は父・母父・父父の平均)の産駒が、その条件で普段よりどれだけ走るか」を、真の差のばらつき(τ)を1とした単位で表したもの。0が平均、±1で血統間の典型的な差。</li>
         <li><b>適合度</b> = 各軸の値 × レースの要求 × 軸の信頼度 の合計(R4で検証した式)。想定ペースを変えると脚質・キレの要求が変わります。</li>
         <li><b>血統+実績</b>: その日より前の本人の走で血統の値を更新(走数が多いほど本人の値に寄る)。芝ダ・距離帯は「本人の芝ダ・距離帯別の成績差」です。</li>
-        <li><b>DL適合度</b>: レース条件(競馬場・芝ダ・距離・内外回り・馬場・クラス・頭数・過去のペース傾向・出走馬の過去の位置取り)から、9本の血統の値それぞれに掛ける重みを学習したもの。血統のみで計算します(切替の影響を受けません)。</li>
+        <li><b>DL適合度</b>: レース条件(競馬場・芝ダ・距離・内外回り・馬場・クラス・頭数・過去のペース傾向・出走馬の過去の位置取り)から、9本の血統の値それぞれに掛ける重みを学習したもの。血統のみで計算します(切替の影響を受けません)。馬場は発走前には分からないため4通り計算してあり、「自動」は結果のある日は実際の馬場、まだの日は良です。</li>
+        <li>「血統表未取得」の馬は、馬柱の父・母父の名前から血統IDを引いています(父父は父から)。</li>
       </ul>
     </div>
     <div>
@@ -148,7 +167,7 @@ footer { color: var(--muted); font-size: 12px; }
         <li><span class="st-予測"><b>予測</b></span>: 予測上の価値を確認(芝ダ)。</li>
         <li><span class="st-記述"><b>記述</b></span>: 偏りと信頼性は旧版より大きく改善したが、予測上の価値は未確認(脚質・キレ)。</li>
         <li><span class="st-参考"><b>参考</b></span>: 距離帯(はっきりしない、長距離帯は信頼度低)・新馬(効くが偏りが一部残る)。薄く表示。</li>
-        <li>レースの要求は、同じコース・クラス・開催日目の過去レース(足りなければ段階的に広げる)の上位3頭と出走馬平均の差から作っています。</li>
+        <li>レースの要求は、同じコース・クラス・開催日目の過去レース(足りなければ段階的に広げる)の上位3頭と出走馬平均の差から作っています。想定ペース別の要求は、そのペースだった過去レースだけで作ります(2026-10-07に、実際のペース以外の区分がほぼ0になる表示の不具合を直しました。評価に使った「指定なし」は不変)。</li>
       </ul>
     </div>
   </div>
@@ -160,10 +179,16 @@ footer { color: var(--muted); font-size: 12px; }
 <script>
 const D = __DATA__;
 const AX = ["S", "front", "kire", "surface", "dbucket", "debut"];
-const state = { race: null, mode: "ped", pace: "全体", sort: "fit", fin: "hide", sel: null };
+const state = { day: null, venue: null, race: null, mode: "ped", pace: "全体", going: "auto", sort: "fit", fin: "hide", sel: null };
 const $ = (s, el = document) => el.querySelector(s);
 const fmt = (x, d = 2) => (x === null || x === undefined || !isFinite(x)) ? "—" : (x > 0 ? "+" : "") + x.toFixed(d);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const dayObj = () => D.days.find(d => d.date === state.day);
+const raceObj = () => dayObj().races.find(r => r.race_id === state.race);
+const GOINGS = ["良", "稍重", "重", "不良"];
 
+function goingOf(race) { return state.going !== "auto" ? state.going : (GOINGS.includes(race.actual_going) ? race.actual_going : "良"); }
+function v3of(h, race) { return h.v3 ? h.v3[goingOf(race)] : null; }
 function relOf(axis, race) {
   if (axis === "surface") return D.rel.surface[race.surface] || 0;
   if (axis === "dbucket") return D.rel.dbucket[race.dbucket] || 0;
@@ -190,63 +215,85 @@ function faint(a, race) {
   if (a === "dbucket" && race.dbucket && race.dbucket.startsWith("長距離")) return true;
   return statusOf(a) === "参考";
 }
+function wd(ds) { return "日月火水木金土"[new Date(ds + "T00:00:00").getDay()]; }
 
+function tabBtn(text, pressed, onclick, title, disabled) {
+  const b = document.createElement("button");
+  b.textContent = text; if (title) b.title = title;
+  b.setAttribute("aria-pressed", String(pressed)); b.disabled = !!disabled; b.onclick = onclick;
+  return b;
+}
+function pickVenue() {
+  const vs = [...new Set(dayObj().races.map(r => r.venue))];
+  if (!vs.includes(state.venue)) state.venue = vs[0];
+  return vs;
+}
+function pickRace() {
+  const rs = dayObj().races.filter(r => r.venue === state.venue);
+  if (!rs.find(r => r.race_id === state.race && !r.skipped)) state.race = (rs.find(r => !r.skipped) || {}).race_id;
+  return rs;
+}
 function renderTabs() {
-  const t = $("#tabs");
-  t.innerHTML = "";
-  D.races.forEach(r => {
-    const b = document.createElement("button");
-    b.textContent = r.race_number + "R";
-    b.title = r.race_name;
-    if (r.skipped) { b.disabled = true; b.title += "(" + r.skipped + ")"; }
-    b.setAttribute("aria-pressed", String(state.race === r.race_id));
-    b.onclick = () => { state.race = r.race_id; state.sel = null; render(); };
-    t.appendChild(b);
-  });
+  const td = $("#tabs-day"); td.innerHTML = "";
+  D.days.forEach(d => td.appendChild(tabBtn(d.date.slice(5).replace("-", "/") + "(" + wd(d.date) + ")", d.date === state.day,
+    () => { state.day = d.date; state.sel = null; pickVenue(); pickRace(); render(); }, d.has_results ? "結果あり" : "発走前")));
+  const tv = $("#tabs-venue"); tv.innerHTML = "";
+  pickVenue().forEach(v => tv.appendChild(tabBtn(v, v === state.venue, () => { state.venue = v; state.sel = null; pickRace(); render(); })));
+  const t = $("#tabs"); t.innerHTML = "";
+  pickRace().forEach(r => t.appendChild(tabBtn(r.race_number + "R", r.race_id === state.race,
+    () => { state.race = r.race_id; state.sel = null; render(); }, r.race_name + (r.skipped ? "(" + r.skipped + ")" : ""), r.skipped)));
+  $("#fin-ctl").hidden = !dayObj().has_results;
 }
 
 function reqChip(label, v, extra) {
   const word = v === null ? "—" : v > 0.5 ? "強く求める" : v > 0.15 ? "やや求める" : v < -0.5 ? "不利(逆)" : v < -0.15 ? "やや不利" : "ほぼ中立";
   return `<div class="chip">${label}: <b>${fmt(v)}</b> <span class="meta">${word}${extra ? " / " + extra : ""}</span></div>`;
 }
+const CLS = { 0: "未勝利・新馬", 1: "1勝クラス", 2: "2勝クラス", 3: "3勝クラス", 4: "オープン", 5: "G3", 6: "G2", 7: "G1" };
 
 function renderRace() {
-  const race = D.races.find(r => r.race_id === state.race);
+  const race = raceObj();
   const el = $("#race");
-  const hs = race.horses.map(h => ({ ...h, F: fit(race, h) }));
+  if (!race) { el.innerHTML = "<p class='meta'>表示できるレースがありません。</p>"; return; }
+  const showFin = state.fin === "show" && dayObj().has_results;
+  const hs = race.horses.map(h => ({ ...h, F: fit(race, h), V3: v3of(h, race) }));
   if (state.sort === "fit") hs.sort((a, b) => b.F - a.F);
-  else if (state.sort === "dl") hs.sort((a, b) => (b.v3 ?? -99) - (a.v3 ?? -99));
+  else if (state.sort === "dl") hs.sort((a, b) => (b.V3 ?? -99) - (a.V3 ?? -99));
   else hs.sort((a, b) => a.umaban - b.umaban);
-  const dmax = Math.max(0.3, ...hs.map(h => Math.abs(h.v3 ?? 0)));
+  const dmax = Math.max(0.3, ...hs.map(h => Math.abs(h.V3 ?? 0)));
   const fmax = Math.max(0.3, ...hs.map(h => Math.abs(h.F)));
   if (!state.sel && hs.length) state.sel = hs[0].umaban;
   const cols = [["S", "父の総合力"], ["front", "脚質(前)"], ["kire", "キレ"], ["surface", race.surface === "芝" ? "芝適性" : "ダ適性"],
                 ["dbucket", "距離帯(" + (race.dbucket || "").replace(/\(.*\)/, "") + ")"], ["debut", "新馬"]];
   const rule = a => `${race.req_rule[a] || "—"}・${race.req_n[a] ?? "—"}件`;
-  let html = `<h2>${race.race_number}R ${race.race_name} <span class="meta">${race.surface}${race.distance}m${race.is_debut ? "・新馬戦" : ""}</span></h2>
+  const g = goingOf(race);
+  const cls = race.is_debut ? "新馬" : (CLS[race.class_ord] ?? "クラス不明");
+  let html = `<h2>${esc(race.venue)} ${race.race_number}R ${esc(race.race_name)} <span class="meta">${race.surface}${race.distance}m・${cls}${race.start_time ? "・" + race.start_time + "発走" : ""}</span></h2>
   <div class="chips" style="margin-bottom:10px">
     ${reqChip("脚質(前に行く)の要求", q(race, "front"), rule("front"))}
     ${reqChip("キレの要求", q(race, "kire"), rule("kire"))}
     <div class="chip">芝ダ: <b>${race.surface}</b> <span class="meta">その芝ダの適性を加点</span></div>
     <div class="chip">距離帯: <b>${race.dbucket || "—"}</b></div>
+    <div class="chip">DLの馬場: <b>${g}</b> <span class="meta">${state.going === "auto" ? (GOINGS.includes(race.actual_going) ? "実際の馬場" : "発走前のため良と仮定") : "手動で選択"}</span></div>
   </div>
   ${race.v3_req ? v3ReqHTML(race) : ""}
-  <p class="meta">要求の単位: 2018〜2020年のレースの基準のばらつきを1とする。想定ペース「${state.pace === "全体" ? "指定なし" : state.pace}」${state.fin === "show" && race.actual_pace ? "・実際のペース: " + race.actual_pace : ""}。適合度は脚質・キレ・芝ダ・距離帯・新馬の合計で、父の総合力(強さ)は含みません。</p>
+  <p class="meta">要求の単位: 2018〜2020年のレースの基準のばらつきを1とする。想定ペース「${state.pace === "全体" ? "指定なし" : state.pace}」。適合度は脚質・キレ・芝ダ・距離帯・新馬の合計で、父の総合力(強さ)は含みません。</p>
   <div class="scroll"><table><thead><tr><th>馬番</th><th>馬名<span class="sub">父 / 母父</span></th><th>適合度</th><th>DL適合度<span class="st st-予測">予測</span></th>`;
   cols.forEach(([a, l]) => { html += `<th class="${faint(a, race) ? "faint" : ""}">${l}<span class="st st-${statusOf(a)}">${statusOf(a)}</span></th>`; });
-  html += `${state.fin === "show" ? "<th>着順</th>" : ""}</tr></thead><tbody>`;
+  html += `${showFin ? "<th>着順</th>" : ""}</tr></thead><tbody>`;
   hs.forEach(h => {
     const v = vals(h), key = h.umaban;
+    const src = h.ped_src === "名前から" ? " ・血統表未取得(名前から)" : h.ped_src === "不明" ? " ・血統不明" : "";
     html += `<tr class="hrow ${state.sel === key ? "sel" : ""}" data-k="${key}"><td class="num">${h.umaban}</td>
-      <td>${h.horse_name}<span class="sub">${h.sire || "—"} / ${h.bms || "—"}${state.mode === "own" ? (h.own ? " ・前走まで" + h.own.n_prev + "走" : " ・実績なし(血統のみ)") : ""}</span></td>
-      <td>${bar(h.F, fmax, "fitbar")}</td><td>${bar(h.v3, dmax, "fitbar")}</td>`;
+      <td>${esc(h.horse_name)}<span class="sub">${esc(h.sire || "—")} / ${esc(h.bms || "—")}${src}${state.mode === "own" ? " ・前走まで" + (h.own ? h.own.n_prev : 0) + "走" : ""}</span></td>
+      <td>${bar(h.F, fmax, "fitbar")}</td><td>${bar(h.V3, dmax, "fitbar")}</td>`;
     cols.forEach(([a]) => { html += `<td class="${faint(a, race) ? "faint" : ""}">${bar(v[a])}</td>`; });
-    if (state.fin === "show") html += `<td class="fin ${h.finish && h.finish <= 3 ? "top3" : ""}">${h.finish ?? (h.ran ? "—" : "中止/取消")}</td>`;
+    if (showFin) html += `<td class="fin ${h.finish && h.finish <= 3 ? "top3" : ""}">${h.finish ?? esc(h.finish_raw || "—")}</td>`;
     html += "</tr>";
   });
   html += `</tbody></table></div>`;
   const sh = hs.find(h => h.umaban === state.sel) || hs[0];
-  html += `<div class="radar-wrap" style="margin-top:14px"><div>${radarSVG(race, sh)}</div><div id="detail">${detail(race, sh)}</div></div>`;
+  if (sh) html += `<div class="radar-wrap" style="margin-top:14px"><div>${radarSVG(race, sh)}</div><div id="detail">${detail(race, sh)}</div></div>`;
   el.innerHTML = html;
   el.querySelectorAll("tr.hrow").forEach(tr => tr.onclick = () => { state.sel = Number(tr.dataset.k); renderRace(); });
 }
@@ -254,8 +301,9 @@ function renderRace() {
 const ZL = {"z_front": "脚質(前)", "z_kire": "キレ", "z_s|芝": "芝", "z_s|ダ": "ダ", "z_b|短距離(~1400m)": "短距離", "z_b|マイル(1401-1800m)": "マイル",
             "z_b|中距離(1801-2200m)": "中距離", "z_b|長距離(2201m~)": "長距離", "z_debut": "新馬"};
 function v3ReqHTML(race) {
-  const r = race.v3_req, mx = Math.max(0.2, ...Object.values(r).map(Math.abs));
-  let s = `<div style="margin-bottom:8px"><span class="label">DLが学んだこのレースの要求(各血統の値への重み)</span><div class="chips">`;
+  const r = race.v3_req[goingOf(race)]; if (!r) return "";
+  const mx = Math.max(0.2, ...Object.values(r).map(Math.abs));
+  let s = `<div style="margin-bottom:8px"><span class="label">DLが学んだこのレースの要求(各血統の値への重み、馬場: ${goingOf(race)})</span><div class="chips">`;
   Object.keys(ZL).forEach(k => { s += `<div class="chip">${ZL[k]} ${bar(r[k], mx)}</div>`; });
   return s + `</div></div>`;
 }
@@ -269,11 +317,26 @@ function renderLearned() {
   Object.entries(L).sort().forEach(([g, v]) => { s += `<tr><td>${g}</td><td class="num">${v.n_races}</td>`; keys.forEach(k => s += `<td>${bar(v[k], mx)}</td>`); s += `</tr>`; });
   $("#learned").innerHTML = s + `</table></div>`;
 }
+function renderPros() {
+  const P = D.prospective;
+  let s = `<h2>前向きの記録(2026年10月7日以降の開催)</h2>`;
+  s += `<p>発走前に出走表から作った値をレースごとに保存し(最初の記録が正本)、結果が出てから答え合わせします(事前登録 追補6)。係数は確認評価で決めた値に固定します。</p>
+  <ul><li><b>P1</b>: DL版(v3)対 v2の基準+軸ごとの係数(C2)。<b>2027年3月28日までの開催分で1回だけ判定</b>(見込み約1,600レース)。</li>
+  <li><b>P2</b>: v2の主仮説(父の総合力+適合度 対 父の総合力のみ)。効果が小さいため <b>2027年12月28日までの開催分で1回だけ判定</b>(見込み約4,300レース。効果が小さいため、この件数でも検出力は6割ほど)。</li>
+  <li>判定は各 片側p &lt; 0.0125(2つの比較の分を補正)。途中の数字は記述のみで、途中で判定はしません。</li></ul>`;
+  if (!P || !P.coverage || !P.coverage.days) s += `<p class="note">まだ記録はありません。最初の記録は10月10日(土)の開催からです。</p>`;
+  else {
+    const c = P.coverage;
+    s += `<p class="meta">記録 ${c.days}日・${c.races_recorded}レース(発走前 ${c.races_before_start}、結果あり ${c.races_with_results})</p>`;
+    ["P1", "P2"].forEach(k => { const x = P[k]; if (x && x.n_races) s += `<div class="chip" style="margin:4px 0">${k} ${esc(x.name)}: <b>${fmt(x.dll_per_race, 4)}</b> [${x.ci95_block ? x.ci95_block.map(v => v.toFixed(4)).join(", ") : "—"}] / ${x.n_races}レース ${x.final ? (x.pass ? "(判定: 合格)" : "(判定: 不合格)") : "(途中、記述のみ)"}</div>`; });
+  }
+  $("#pros").innerHTML = s;
+}
 function radarSVG(race, h) {
   const labels = ["父の総合力", "脚質(前)", "キレ", race.surface === "芝" ? "芝適性" : "ダ適性", "距離帯", "新馬"];
   const W = 340, cx = 170, cy = 165, R = 115, lim = 2.5, n = AX.length;
   const pt = (i, v) => { const r = (Math.max(-lim, Math.min(lim, v ?? 0)) + lim) / (2 * lim) * R; const a = -Math.PI / 2 + i * 2 * Math.PI / n; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; };
-  let s = `<svg viewBox="0 0 ${W} 330" width="100%" role="img" aria-label="${h.horse_name}のレーダー">`;
+  let s = `<svg viewBox="0 0 ${W} 330" width="100%" role="img" aria-label="${esc(h.horse_name)}のレーダー">`;
   [-2, -1, 0, 1, 2].forEach(g => {
     const p = AX.map((_, i) => pt(i, g).join(",")).join(" ");
     s += `<polygon points="${p}" fill="none" stroke="var(--line)" stroke-width="${g === 0 ? 1.6 : 0.8}" ${g === 0 ? 'stroke-dasharray="3 3"' : ""}/>`;
@@ -296,11 +359,11 @@ function detail(race, h) {
   const parts = [["脚質", relOf("front", race) * (q(race, "front") || 0) * (v.front || 0)], ["キレ", relOf("kire", race) * (q(race, "kire") || 0) * (v.kire || 0)],
                  ["芝ダ", relOf("surface", race) * (v.surface || 0)], ["距離帯", relOf("dbucket", race) * (v.dbucket || 0)],
                  ["新馬", race.is_debut ? relOf("debut", race) * (v.debut || 0) : 0]];
-  let s = `<h3>${h.umaban} ${h.horse_name}</h3><p class="meta">父 ${h.sire || "—"} / 母父 ${h.bms || "—"}</p>`;
+  let s = `<h3>${h.umaban} ${esc(h.horse_name)}</h3><p class="meta">父 ${esc(h.sire || "—")} / 母父 ${esc(h.bms || "—")}</p>`;
   s += `<table><tr><th>適合度の内訳</th><th>寄与</th></tr>`;
   parts.forEach(([l, x]) => { s += `<tr><td>${l}</td><td>${bar(x, 1.0)}</td></tr>`; });
   s += `<tr><td><b>合計</b></td><td class="num"><b>${fmt(fit(race, h), 3)}</b></td></tr></table>`;
-  if (state.mode === "own" && !h.own) s += `<p class="note">この馬は今回の出走記録が無いため(取消・中止など)、血統のみを表示しています。</p>`;
+  if (state.mode === "own" && h.own && h.own.n_prev === 0) s += `<p class="note">この馬は過去の出走が無いため、血統のみの値と同じです。</p>`;
   return s;
 }
 
@@ -311,8 +374,7 @@ function seg(id, key) {
   });
 }
 (function init() {
-  const d = D.race_date.replace(/-/g, "/").slice(5);
-  $("#hdr-date").textContent = D.race_date; $("#hdr-date2").textContent = d;
+  $("#hdr-date").textContent = D.days.map(d => d.date.slice(5).replace("-", "/")).join("・");
   const V = D.validation;
   $("#v-n").textContent = V.main.n_races.toLocaleString();
   $("#v-main").textContent = fmt(V.main.dll, 4) + " [" + V.main.ci.map(x => x.toFixed(4)).join(", ") + "]";
@@ -320,22 +382,56 @@ function seg(id, key) {
   if (V.dl) { $("#v-dl").textContent = fmt(V.dl.dll, 4) + " [" + V.dl.ci.map(x => x.toFixed(4)).join(", ") + "]"; $("#v-dlmkt").textContent = fmt(V.dl.market, 4) + " [" + V.dl.market_ci.map(x => x.toFixed(4)).join(", ") + "]"; }
   else { $("#v-dl-li").hidden = true; $("#v-dlmkt").textContent = "—"; }
   $("#v-top1").textContent = (V.top1.S * 100).toFixed(1) + "% → " + (V.top1["S+F"] * 100).toFixed(1) + "%";
-  $("#foot").innerHTML = `時点表: ${D.table_window_end}までのデータ(${D.table_year}年用)。検証: 事前登録 RADAR_V2_PREREG_2026_10_06.md(追補1〜3)、radar_v2_eval.json・radar_v2_eval_addendum.json` + (V.dl ? `、DL挑戦モデル: ${fmt(V.dl.dll, 4)} [${V.dl.ci.map(x => x.toFixed(4)).join(", ")}]` : "") + "。";
-  seg("#seg-mode", "mode"); seg("#seg-pace", "pace"); seg("#seg-sort", "sort"); seg("#seg-fin", "fin");
-  state.race = (D.races.find(r => !r.skipped) || {}).race_id;
-  try { const s = localStorage.getItem("rv2_race"); if (s && D.races.find(r => r.race_id === s && !r.skipped)) state.race = s; } catch (e) {}
-  render(); renderLearned();
-  document.addEventListener("click", () => { try { localStorage.setItem("rv2_race", state.race); } catch (e) {} });
+  $("#foot").innerHTML = `時点表: ${D.table_window_end}までのデータ(${D.table_year}年用)。作成: ${D.generated_at}。検証: 事前登録 RADAR_V2_PREREG_2026_10_06.md(追補1〜6)、radar_v2_eval.json・radar_v2_eval_addendum.json・radar_v2_dl_eval.json。`;
+  seg("#seg-mode", "mode"); seg("#seg-pace", "pace"); seg("#seg-going", "going"); seg("#seg-sort", "sort"); seg("#seg-fin", "fin");
+  state.day = D.days[D.days.length - 1].date;
+  try { const s = JSON.parse(localStorage.getItem("rv2_pos") || "null"); if (s && D.days.find(d => d.date === s.day)) Object.assign(state, { day: s.day, venue: s.venue, race: s.race }); } catch (e) {}
+  pickVenue(); pickRace();
+  render(); renderLearned(); renderPros();
+  document.addEventListener("click", () => { try { localStorage.setItem("rv2_pos", JSON.stringify({ day: state.day, venue: state.venue, race: state.race })); } catch (e) {} });
 })();
 </script>
 """
 
 
+def common() -> dict:
+    """検証の要約・軸の区分・DLが学んだ要求(日付によらない部分)。"""
+    import build_race_radar_v2 as B
+    import radar_v2_eval as E
+    R4 = json.loads((C.OUT_DIR / "radar_v2_eval.json").read_text(encoding="utf-8"))
+    AD = json.loads((C.OUT_DIR / "radar_v2_eval_addendum.json").read_text(encoding="utf-8"))
+    out = {"axes": B.axis_meta(), "table_year": 2026, "table_window_end": "2025年末",
+           "rel": {"front": E.rel("front"), "kire": E.rel("kire"), "debut": E.rel("debut"),
+                   "surface": {s: E.rel("surface", s) for s in ["芝", "ダ"]}, "dbucket": {b: E.rel("dbucket", b) for b in E.BUCKETS}},
+           "validation": {"main": {"dll": R4["main"]["dll_per_race"], "ci": R4["main"]["ci95_block"], "n_races": R4["n_test_races"]},
+                          "market": {"dll": R4["secondary"][-1]["dll_per_race"], "ci": R4["secondary"][-1]["ci95_block"]},
+                          "top1": {"S": AD["effect_size"]["S"]["top1_accuracy"], "S+F": AD["effect_size"]["S+F"]["top1_accuracy"]}}}
+    d = json.loads((C.OUT_DIR / "radar_v2_dl_eval.json").read_text(encoding="utf-8"))
+    out["validation"]["dl"] = {"dll": d["primary_5"]["dll_per_race"], "ci": d["primary_5"]["ci95_block"],
+                               "market": d["market"]["v3"]["dll_per_race"], "market_ci": d["market"]["v3"]["ci95_block"]}
+    v3 = json.loads((C.OUT_DIR / "v3_export_2026.json").read_text(encoding="utf-8"))
+    out["v3_learned"] = v3["learned_by_group"]
+    pe = C.OUT_DIR / "prospective_eval.json"
+    out["prospective"] = json.loads(pe.read_text(encoding="utf-8")) if pe.exists() else None
+    return out
+
+
 def main():
-    data = json.loads(DATA.read_text(encoding="utf-8"))
+    import time
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--days", nargs="+", required=True)
+    ap.add_argument("--out", type=Path, default=OUT)
+    a = ap.parse_args()
+    data = common()
+    data["days"] = []
+    for d in sorted(a.days):
+        day = json.loads((LIVE / f"race_radar_v2_{d}.json").read_text(encoding="utf-8"))
+        day.pop("check_vs_r5", None)
+        data["days"].append(day)
+    data["generated_at"] = time.strftime("%Y-%m-%d %H:%M")
     html = TEMPLATE.replace("__DATA__", json.dumps(data, ensure_ascii=False))
-    OUT.write_text(html, encoding="utf-8")
-    print("wrote", OUT, round(OUT.stat().st_size / 1024), "KB")
+    a.out.write_text(html, encoding="utf-8")
+    print("wrote", a.out, round(a.out.stat().st_size / 1024), "KB")
 
 
 if __name__ == "__main__":
