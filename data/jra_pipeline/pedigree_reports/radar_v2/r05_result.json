@@ -1,0 +1,625 @@
+{
+ "meta": {
+  "rows_read": 493339,
+  "drift_dropped": 76,
+  "addendum1_dropped": 0,
+  "jump_rows_dropped": 15907,
+  "non_finish_rows_dropped": 3202
+ },
+ "n_runs": 474010,
+ "anc_years": "2011-2017",
+ "check_debut": "2018-2020",
+ "n_check_horses": 14450,
+ "first_corner_share": {
+  "3": 0.538,
+  "1": 0.396,
+  "2": 0.057,
+  "0": 0.01
+ },
+ "front_missing": 0.01,
+ "kire_missing": 0.01,
+ "eb": {
+  "front/sire": {
+   "k": 6.1,
+   "tau": 0.0783
+  },
+  "front/bms": {
+   "k": 9.51,
+   "tau": 0.06349
+  },
+  "front/ss": {
+   "k": 7.98,
+   "tau": 0.0696
+  },
+  "kire/sire": {
+   "k": 10.98,
+   "tau": 0.02129
+  },
+  "kire/bms": {
+   "k": 12.87,
+   "tau": 0.01966
+  },
+  "kire/ss": {
+   "k": 17.73,
+   "tau": 0.01687
+  },
+  "D1/sire": {
+   "k": 3.06,
+   "tau": 0.08691
+  },
+  "D1/bms": {
+   "k": 5.19,
+   "tau": 0.07302
+  },
+  "D1/ss": {
+   "k": 4.17,
+   "tau": 0.07823
+  },
+  "D2/sire": {
+   "k": 13.52,
+   "tau": 0.34638
+  },
+  "D2/bms": {
+   "k": 13.85,
+   "tau": 0.33982
+  },
+  "D2/ss": {
+   "k": 20.84,
+   "tau": 0.27988
+  },
+  "D3|短距離(~1400m)/sire": {
+   "k": 24.8,
+   "tau": 0.01953
+  },
+  "D3|短距離(~1400m)/bms": {
+   "k": 24.75,
+   "tau": 0.01949
+  },
+  "D3|短距離(~1400m)/ss": {
+   "k": 42.41,
+   "tau": 0.015
+  },
+  "D3|マイル(1401-1800m)/sire": {
+   "k": 11.33,
+   "tau": 0.03492
+  },
+  "D3|マイル(1401-1800m)/bms": {
+   "k": 16.82,
+   "tau": 0.02872
+  },
+  "D3|マイル(1401-1800m)/ss": {
+   "k": 13.11,
+   "tau": 0.03269
+  },
+  "D3|中距離(1801-2200m)/sire": {
+   "k": 16.02,
+   "tau": 0.03871
+  },
+  "D3|中距離(1801-2200m)/bms": {
+   "k": 15.44,
+   "tau": 0.03953
+  },
+  "D3|中距離(1801-2200m)/ss": {
+   "k": 21.61,
+   "tau": 0.03359
+  },
+  "D3|長距離(2201m~)/sire": {
+   "k": 10.72,
+   "tau": 0.05471
+  },
+  "D3|長距離(2201m~)/bms": {
+   "k": 16.74,
+   "tau": 0.04397
+  },
+  "D3|長距離(2201m~)/ss": {
+   "k": 8.21,
+   "tau": 0.06331
+  },
+  "S|芝/sire": {
+   "k": 8.28,
+   "tau": 0.03949
+  },
+  "S|芝/bms": {
+   "k": 12.98,
+   "tau": 0.03195
+  },
+  "S|芝/ss": {
+   "k": 8.16,
+   "tau": 0.0403
+  },
+  "S|ダ/sire": {
+   "k": 19.95,
+   "tau": 0.0236
+  },
+  "S|ダ/bms": {
+   "k": 15.07,
+   "tau": 0.02719
+  },
+  "S|ダ/ss": {
+   "k": 27.94,
+   "tau": 0.02005
+  }
+ },
+ "E4_ancestor": {
+  "front": {
+   "n_anc": 180,
+   "share_pos": 0.461,
+   "abs_median_over_sd": 0.098,
+   "pass": true
+  },
+  "kire": {
+   "n_anc": 180,
+   "share_pos": 0.444,
+   "abs_median_over_sd": 0.149,
+   "pass": true
+  },
+  "D1": {
+   "n_anc": 180,
+   "share_pos": 0.433,
+   "abs_median_over_sd": 0.238,
+   "pass": true
+  },
+  "D2": {
+   "n_anc": 156,
+   "share_pos": 0.5,
+   "abs_median_over_sd": 0.002,
+   "pass": true
+  },
+  "D3|短距離(~1400m)": {
+   "n_anc": 152,
+   "share_pos": 0.507,
+   "abs_median_over_sd": 0.013,
+   "pass": true
+  },
+  "D3|マイル(1401-1800m)": {
+   "n_anc": 150,
+   "share_pos": 0.44,
+   "abs_median_over_sd": 0.178,
+   "pass": true
+  },
+  "D3|中距離(1801-2200m)": {
+   "n_anc": 80,
+   "share_pos": 0.475,
+   "abs_median_over_sd": 0.07,
+   "pass": true
+  },
+  "D3|長距離(2201m~)": {
+   "n_anc": 37,
+   "share_pos": 0.595,
+   "abs_median_over_sd": 0.323,
+   "pass": false
+  },
+  "S|芝": {
+   "n_anc": 148,
+   "share_pos": 0.527,
+   "abs_median_over_sd": 0.087,
+   "pass": true
+  },
+  "S|ダ": {
+   "n_anc": 159,
+   "share_pos": 0.572,
+   "abs_median_over_sd": 0.09,
+   "pass": true
+  },
+  "v1:front": {
+   "n_anc": 164,
+   "share_pos": 0.896,
+   "abs_median_over_sd": 0.982
+  },
+  "v1:kire": {
+   "n_anc": 164,
+   "share_pos": 0.104,
+   "abs_median_over_sd": 0.941
+  },
+  "v1:D3|短距離(~1400m)": {
+   "n_anc": 478,
+   "share_pos": 0.502,
+   "abs_median_over_sd": 0.004
+  },
+  "v1:D3|マイル(1401-1800m)": {
+   "n_anc": 436,
+   "share_pos": 0.454,
+   "abs_median_over_sd": 0.0
+  },
+  "v1:D3|中距離(1801-2200m)": {
+   "n_anc": 253,
+   "share_pos": 0.387,
+   "abs_median_over_sd": 0.114
+  },
+  "v1:D3|長距離(2201m~)": {
+   "n_anc": 127,
+   "share_pos": 0.543,
+   "abs_median_over_sd": 0.09
+  }
+ },
+ "E1": {
+  "front/sire": {
+   "v2_sb": 0.775,
+   "n_anc": 198,
+   "same_set_n": 99,
+   "same_set_v1_sb": 0.06,
+   "same_set_v2_sb": 0.853
+  },
+  "front/bms": {
+   "v2_sb": 0.416,
+   "n_anc": 257,
+   "same_set_n": 104,
+   "same_set_v1_sb": -0.425,
+   "same_set_v2_sb": 0.767
+  },
+  "front/ss": {
+   "v2_sb": 0.778,
+   "n_anc": 107,
+   "same_set_n": 68,
+   "same_set_v1_sb": 0.131,
+   "same_set_v2_sb": 0.861
+  },
+  "kire/sire": {
+   "v2_sb": 0.36,
+   "n_anc": 198,
+   "same_set_n": 99,
+   "same_set_v1_sb": 0.06,
+   "same_set_v2_sb": 0.633
+  },
+  "kire/bms": {
+   "v2_sb": 0.238,
+   "n_anc": 257,
+   "same_set_n": 104,
+   "same_set_v1_sb": -0.427,
+   "same_set_v2_sb": 0.404
+  },
+  "kire/ss": {
+   "v2_sb": 0.288,
+   "n_anc": 107,
+   "same_set_n": 68,
+   "same_set_v1_sb": 0.117,
+   "same_set_v2_sb": 0.758
+  },
+  "D1/sire": {
+   "v2_sb": 0.919,
+   "n_anc": 198
+  },
+  "D1/bms": {
+   "v2_sb": 0.706,
+   "n_anc": 257
+  },
+  "D1/ss": {
+   "v2_sb": 0.949,
+   "n_anc": 107
+  },
+  "D2/sire": {
+   "v2_sb": 0.179,
+   "n_anc": 175
+  },
+  "D2/bms": {
+   "v2_sb": -0.132,
+   "n_anc": 216
+  },
+  "D2/ss": {
+   "v2_sb": -0.141,
+   "n_anc": 100
+  },
+  "D3|短距離(~1400m)/sire": {
+   "v2_sb": 0.383,
+   "n_anc": 167,
+   "same_set_n": 167,
+   "same_set_v1_sb": 0.264,
+   "same_set_v2_sb": 0.383
+  },
+  "D3|短距離(~1400m)/bms": {
+   "v2_sb": 0.085,
+   "n_anc": 192,
+   "same_set_n": 192,
+   "same_set_v1_sb": 0.031,
+   "same_set_v2_sb": 0.085
+  },
+  "D3|短距離(~1400m)/ss": {
+   "v2_sb": 0.311,
+   "n_anc": 94,
+   "same_set_n": 94,
+   "same_set_v1_sb": 0.088,
+   "same_set_v2_sb": 0.311
+  },
+  "D3|マイル(1401-1800m)/sire": {
+   "v2_sb": 0.389,
+   "n_anc": 177,
+   "same_set_n": 177,
+   "same_set_v1_sb": 0.116,
+   "same_set_v2_sb": 0.389
+  },
+  "D3|マイル(1401-1800m)/bms": {
+   "v2_sb": 0.239,
+   "n_anc": 209,
+   "same_set_n": 209,
+   "same_set_v1_sb": -0.059,
+   "same_set_v2_sb": 0.239
+  },
+  "D3|マイル(1401-1800m)/ss": {
+   "v2_sb": 0.468,
+   "n_anc": 99,
+   "same_set_n": 99,
+   "same_set_v1_sb": 0.209,
+   "same_set_v2_sb": 0.468
+  },
+  "D3|中距離(1801-2200m)/sire": {
+   "v2_sb": 0.643,
+   "n_anc": 96,
+   "same_set_n": 96,
+   "same_set_v1_sb": 0.25,
+   "same_set_v2_sb": 0.643
+  },
+  "D3|中距離(1801-2200m)/bms": {
+   "v2_sb": -0.005,
+   "n_anc": 111,
+   "same_set_n": 111,
+   "same_set_v1_sb": -0.168,
+   "same_set_v2_sb": -0.005
+  },
+  "D3|中距離(1801-2200m)/ss": {
+   "v2_sb": 0.688,
+   "n_anc": 59,
+   "same_set_n": 59,
+   "same_set_v1_sb": 0.475,
+   "same_set_v2_sb": 0.688
+  },
+  "D3|長距離(2201m~)/sire": {
+   "v2_sb": 0.072,
+   "n_anc": 43,
+   "same_set_n": 43,
+   "same_set_v1_sb": -0.384,
+   "same_set_v2_sb": 0.072
+  },
+  "D3|長距離(2201m~)/bms": {
+   "v2_sb": 0.058,
+   "n_anc": 40,
+   "same_set_n": 40,
+   "same_set_v1_sb": -0.274,
+   "same_set_v2_sb": 0.058
+  },
+  "D3|長距離(2201m~)/ss": {
+   "v2_sb": 0.024,
+   "n_anc": 30,
+   "same_set_n": 30,
+   "same_set_v1_sb": -0.743,
+   "same_set_v2_sb": 0.024
+  },
+  "S|芝/sire": {
+   "v2_sb": 0.786,
+   "n_anc": 167
+  },
+  "S|芝/bms": {
+   "v2_sb": 0.55,
+   "n_anc": 207
+  },
+  "S|芝/ss": {
+   "v2_sb": 0.71,
+   "n_anc": 97
+  },
+  "S|ダ/sire": {
+   "v2_sb": 0.753,
+   "n_anc": 182
+  },
+  "S|ダ/bms": {
+   "v2_sb": 0.41,
+   "n_anc": 209
+  },
+  "S|ダ/ss": {
+   "v2_sb": 0.756,
+   "n_anc": 101
+  }
+ },
+ "E2_horse": {
+  "front": {
+   "n": 10554,
+   "v2_3line_r": 0.161,
+   "v2_3line_ci": [
+    0.1269,
+    0.1927
+   ],
+   "v2_sire_r": 0.175,
+   "v1_r": -0.008,
+   "v2_minus_v1_ci": [
+    0.1282,
+    0.2193
+   ],
+   "v1_shrunk_r": -0.006,
+   "v2_minus_v1_shrunk_ci": [
+    0.1323,
+    0.2113
+   ]
+  },
+  "kire": {
+   "n": 10554,
+   "v2_3line_r": 0.085,
+   "v2_3line_ci": [
+    0.0523,
+    0.1215
+   ],
+   "v2_sire_r": 0.102,
+   "v1_r": -0.016,
+   "v2_minus_v1_ci": [
+    0.0545,
+    0.16
+   ],
+   "v1_shrunk_r": -0.006,
+   "v2_minus_v1_shrunk_ci": [
+    0.0419,
+    0.1582
+   ]
+  },
+  "D1": {
+   "n": 10554,
+   "v2_3line_r": 0.409,
+   "v2_3line_ci": [
+    0.3346,
+    0.4649
+   ],
+   "v2_sire_r": 0.449
+  },
+  "D2": {
+   "n": 9971,
+   "v2_3line_r": 0.006,
+   "v2_3line_ci": [
+    -0.0197,
+    0.0305
+   ],
+   "v2_sire_r": 0.02,
+   "target_split_half_r": 0.051,
+   "target_split_half_n": 4929
+  }
+ },
+ "E2_first_in_band": {
+  "n_runs": 10615,
+  "D3_bucket_diff": {
+   "r": 0.038,
+   "n": 10560,
+   "ci": [
+    0.0164,
+    0.058
+   ]
+  },
+  "D2_slope_x_change": {
+   "r": 0.018,
+   "n": 10590,
+   "ci": [
+    -0.0028,
+    0.0388
+   ]
+  },
+  "D1_closer_to_mean_distance": {
+   "r": 0.003,
+   "n": 10602,
+   "ci": [
+    -0.0175,
+    0.0229
+   ]
+  },
+  "D3_bucket_diff_precision": {
+   "r": 0.031,
+   "n": 10560,
+   "ci": [
+    0.0141,
+    0.0487
+   ]
+  },
+  "D3_bucket_diff_sire_only": {
+   "r": 0.03,
+   "n": 8183,
+   "ci": [
+    0.0058,
+    0.0561
+   ]
+  }
+ },
+ "E2_first_in_surface": {
+  "n_runs": 6499,
+  "3line": {
+   "r": 0.111,
+   "n": 6471,
+   "ci": [
+    0.0801,
+    0.1439
+   ]
+  },
+  "sire_only": {
+   "r": 0.099,
+   "n": 5168,
+   "ci": [
+    0.0594,
+    0.1392
+   ]
+  },
+  "precision": {
+   "r": 0.097,
+   "n": 6471,
+   "ci": [
+    0.0643,
+    0.1271
+   ]
+  }
+ },
+ "three_line_weights": {
+  "front": {
+   "weights": {
+    "sire": 0.594,
+    "bms": 0.355,
+    "ss": 0.238,
+    "const": -0.003
+   },
+   "eval_2020_r_equal": 0.126,
+   "eval_2020_r_weighted": 0.135,
+   "eval_2020_r_sire_only": 0.17,
+   "eval_2020_r_precision": 0.112,
+   "n_eval": 2411
+  },
+  "kire": {
+   "weights": {
+    "sire": 0.567,
+    "bms": 0.244,
+    "ss": -0.129,
+    "const": -0.007
+   },
+   "eval_2020_r_equal": 0.089,
+   "eval_2020_r_weighted": 0.079,
+   "eval_2020_r_sire_only": 0.09,
+   "eval_2020_r_precision": 0.056,
+   "n_eval": 2411
+  },
+  "D1": {
+   "weights": {
+    "sire": 0.796,
+    "bms": 0.49,
+    "ss": 0.143,
+    "const": 7.355
+   },
+   "eval_2020_r_equal": 0.343,
+   "eval_2020_r_weighted": 0.384,
+   "eval_2020_r_sire_only": 0.437,
+   "eval_2020_r_precision": 0.294,
+   "n_eval": 2411
+  }
+ },
+ "E4_race_lift": {
+  "front": {
+   "v1": {
+    "n_races": 9981,
+    "share_lift_pos": 0.516,
+    "mean_lift_in_sd": 0.03,
+    "I2_inv_var": 0.031,
+    "n_course_keys": 78,
+    "E3_2018_19_vs_2020_r": -0.143,
+    "E3_n": 71
+   },
+   "v2": {
+    "n_races": 9981,
+    "share_lift_pos": 0.486,
+    "mean_lift_in_sd": 0.007,
+    "I2_inv_var": 0.691,
+    "n_course_keys": 78,
+    "E3_2018_19_vs_2020_r": 0.356,
+    "E3_n": 71
+   }
+  },
+  "kire": {
+   "v1": {
+    "n_races": 9981,
+    "share_lift_pos": 0.483,
+    "mean_lift_in_sd": -0.03,
+    "I2_inv_var": 0.054,
+    "n_course_keys": 78,
+    "E3_2018_19_vs_2020_r": -0.134,
+    "E3_n": 71
+   },
+   "v2": {
+    "n_races": 9981,
+    "share_lift_pos": 0.607,
+    "mean_lift_in_sd": 0.14,
+    "I2_inv_var": 0.709,
+    "n_course_keys": 78,
+    "E3_2018_19_vs_2020_r": 0.449,
+    "E3_n": 71
+   }
+  }
+ },
+ "elapsed_sec": 44.2
+}
