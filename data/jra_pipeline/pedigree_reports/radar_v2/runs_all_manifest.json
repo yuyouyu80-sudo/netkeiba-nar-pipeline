@@ -1,0 +1,52 @@
+{
+ "built_at": "2026-10-06 19:30",
+ "rows_read": 767780,
+ "drift_dropped": 76,
+ "addendum1_dropped": 0,
+ "jump_rows_dropped": 24135,
+ "non_finish_rows_dropped": 5003,
+ "n_result_files": 1708,
+ "results_sha256": "94c67382a45598506583a627610014f8d2834157227f4cc4fa793dfc58df7ddc",
+ "n_runs": 738347,
+ "n_races": 52464,
+ "max_date": "2026-10-04",
+ "runs_by_year": {
+  "2011": 47243,
+  "2012": 47896,
+  "2013": 48103,
+  "2014": 48385,
+  "2015": 48089,
+  "2016": 48155,
+  "2017": 47426,
+  "2018": 46707,
+  "2019": 45622,
+  "2020": 46384,
+  "2021": 45989,
+  "2022": 45501,
+  "2023": 45887,
+  "2024": 45423,
+  "2025": 46146,
+  "2026": 35391
+ },
+ "missing": {
+  "front_raw": 0.0093,
+  "kire_raw": 0.0,
+  "pace": 0.0,
+  "track_index_num": 0.0068,
+  "going2": 0.0,
+  "rest_bucket": 0.1088,
+  "class_ord": 0.0,
+  "circ_tier": 0.0,
+  "ped_S_horse_id": 0.0003,
+  "ped_DS_horse_id": 0.0003,
+  "ped_SS_horse_id": 0.0003
+ },
+ "turn_type_counts": {
+  "単一": 40959,
+  "外回り": 3788,
+  "内回り": 2731,
+  "内外": 2658,
+  "unknown": 2328
+ },
+ "elapsed_sec": 255.4
+}

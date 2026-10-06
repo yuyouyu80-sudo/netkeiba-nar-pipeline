@@ -1,0 +1,734 @@
+{
+ "anc_years": "2011-2017",
+ "check": "2018-2020年デビュー馬",
+ "n_check_horses": 14450,
+ "axes": {
+  "surface": {
+   "levels": {
+    "ダ": {
+     "E4": {
+      "n_anc": 159,
+      "share_pos": 0.572,
+      "abs_median_over_sd": 0.09,
+      "pass": true
+     },
+     "E1_sire_sb": 0.753,
+     "E1_n_anc": 182,
+     "k_sire": 19.95,
+     "tau_sire": 0.0236
+    },
+    "芝": {
+     "E4": {
+      "n_anc": 148,
+      "share_pos": 0.527,
+      "abs_median_over_sd": 0.087,
+      "pass": true
+     },
+     "E1_sire_sb": 0.786,
+     "E1_n_anc": 167,
+     "k_sire": 8.28,
+     "tau_sire": 0.03949
+    }
+   },
+   "first_time": {
+    "n_runs": 6471,
+    "r": 0.111,
+    "ci": [
+     0.0801,
+     0.1439
+    ]
+   },
+   "judge": {
+    "E1_median": 0.77,
+    "E4_all_pass": true,
+    "E4_failed_levels": [],
+    "ci_lower": 0.0801,
+    "pass": true
+   }
+  },
+  "dbucket": {
+   "levels": {
+    "マイル(1401-1800m)": {
+     "E4": {
+      "n_anc": 150,
+      "share_pos": 0.44,
+      "abs_median_over_sd": 0.178,
+      "pass": true
+     },
+     "E1_sire_sb": 0.389,
+     "E1_n_anc": 177,
+     "k_sire": 11.33,
+     "tau_sire": 0.03492
+    },
+    "中距離(1801-2200m)": {
+     "E4": {
+      "n_anc": 80,
+      "share_pos": 0.475,
+      "abs_median_over_sd": 0.07,
+      "pass": true
+     },
+     "E1_sire_sb": 0.643,
+     "E1_n_anc": 96,
+     "k_sire": 16.02,
+     "tau_sire": 0.03871
+    },
+    "短距離(~1400m)": {
+     "E4": {
+      "n_anc": 152,
+      "share_pos": 0.507,
+      "abs_median_over_sd": 0.013,
+      "pass": true
+     },
+     "E1_sire_sb": 0.383,
+     "E1_n_anc": 167,
+     "k_sire": 24.8,
+     "tau_sire": 0.01953
+    },
+    "長距離(2201m~)": {
+     "E4": {
+      "n_anc": 37,
+      "share_pos": 0.595,
+      "abs_median_over_sd": 0.323,
+      "pass": false
+     },
+     "E1_sire_sb": 0.072,
+     "E1_n_anc": 43,
+     "k_sire": 10.72,
+     "tau_sire": 0.05471
+    }
+   },
+   "first_time": {
+    "n_runs": 10560,
+    "r": 0.038,
+    "ci": [
+     0.0164,
+     0.058
+    ]
+   },
+   "judge": {
+    "E1_median": 0.386,
+    "E4_all_pass": false,
+    "E4_failed_levels": [
+     "長距離(2201m~)"
+    ],
+    "ci_lower": 0.0164,
+    "pass": false
+   }
+  },
+  "circ": {
+   "levels": {
+    "大回り": {
+     "E4": {
+      "n_anc": 171,
+      "share_pos": 0.485,
+      "abs_median_over_sd": 0.039,
+      "pass": true
+     },
+     "E1_sire_sb": 0.317,
+     "E1_n_anc": 191,
+     "k_sire": 21.91,
+     "tau_sire": 0.01765
+    },
+    "小回り": {
+     "E4": {
+      "n_anc": 152,
+      "share_pos": 0.513,
+      "abs_median_over_sd": 0.03,
+      "pass": true
+     },
+     "E1_sire_sb": -0.037,
+     "E1_n_anc": 169,
+     "k_sire": 25.57,
+     "tau_sire": 0.02838
+    }
+   },
+   "first_time": {
+    "n_runs": 8593,
+    "r": 0.025,
+    "ci": [
+     0.0001,
+     0.0489
+    ]
+   },
+   "judge": {
+    "E1_median": 0.14,
+    "E4_all_pass": true,
+    "E4_failed_levels": [],
+    "ci_lower": 0.0001,
+    "pass": false
+   }
+  },
+  "elev": {
+   "levels": {
+    "平坦": {
+     "E4": {
+      "n_anc": 169,
+      "share_pos": 0.497,
+      "abs_median_over_sd": 0.006,
+      "pass": true
+     },
+     "E1_sire_sb": 0.029,
+     "E1_n_anc": 191,
+     "k_sire": 12.75,
+     "tau_sire": 0.03076
+    },
+    "急坂": {
+     "E4": {
+      "n_anc": 167,
+      "share_pos": 0.503,
+      "abs_median_over_sd": 0.002,
+      "pass": true
+     },
+     "E1_sire_sb": -0.013,
+     "E1_n_anc": 189,
+     "k_sire": 16.03,
+     "tau_sire": 0.02763
+    }
+   },
+   "first_time": {
+    "n_runs": 10293,
+    "r": 0.017,
+    "ci": [
+     -0.0027,
+     0.0372
+    ]
+   },
+   "judge": {
+    "E1_median": 0.008,
+    "E4_all_pass": true,
+    "E4_failed_levels": [],
+    "ci_lower": -0.0027,
+    "pass": false
+   }
+  },
+  "straight": {
+   "levels": {
+    "直線短": {
+     "E4": {
+      "n_anc": 158,
+      "share_pos": 0.532,
+      "abs_median_over_sd": 0.073,
+      "pass": true
+     },
+     "E1_sire_sb": 0.361,
+     "E1_n_anc": 179,
+     "k_sire": 17.61,
+     "tau_sire": 0.03119
+    },
+    "直線長": {
+     "E4": {
+      "n_anc": 171,
+      "share_pos": 0.485,
+      "abs_median_over_sd": 0.028,
+      "pass": true
+     },
+     "E1_sire_sb": 0.305,
+     "E1_n_anc": 188,
+     "k_sire": 17.84,
+     "tau_sire": 0.0218
+    }
+   },
+   "first_time": {
+    "n_runs": 9240,
+    "r": 0.014,
+    "ci": [
+     -0.0074,
+     0.0379
+    ]
+   },
+   "judge": {
+    "E1_median": 0.333,
+    "E4_all_pass": true,
+    "E4_failed_levels": [],
+    "ci_lower": -0.0074,
+    "pass": false
+   }
+  },
+  "turn": {
+   "levels": {
+    "右回り": {
+     "E4": {
+      "n_anc": 171,
+      "share_pos": 0.52,
+      "abs_median_over_sd": 0.051,
+      "pass": true
+     },
+     "E1_sire_sb": 0.212,
+     "E1_n_anc": 192,
+     "k_sire": 20.16,
+     "tau_sire": 0.01871
+    },
+    "左回り": {
+     "E4": {
+      "n_anc": 154,
+      "share_pos": 0.494,
+      "abs_median_over_sd": 0.011,
+      "pass": true
+     },
+     "E1_sire_sb": 0.098,
+     "E1_n_anc": 170,
+     "k_sire": 25.06,
+     "tau_sire": 0.02664
+    }
+   },
+   "first_time": {
+    "n_runs": 9180,
+    "r": 0.012,
+    "ci": [
+     -0.008,
+     0.032
+    ]
+   },
+   "judge": {
+    "E1_median": 0.155,
+    "E4_all_pass": true,
+    "E4_failed_levels": [],
+    "ci_lower": -0.008,
+    "pass": false
+   }
+  },
+  "turf_type": {
+   "levels": {
+    "洋芝": {
+     "E4": {
+      "n_anc": 55,
+      "share_pos": 0.564,
+      "abs_median_over_sd": 0.124,
+      "pass": true
+     },
+     "E1_sire_sb": 0.227,
+     "E1_n_anc": 69,
+     "k_sire": 16.9,
+     "tau_sire": 0.0479
+    },
+    "野芝": {
+     "E4": {
+      "n_anc": 147,
+      "share_pos": 0.544,
+      "abs_median_over_sd": 0.065,
+      "pass": true
+     },
+     "E1_sire_sb": 0.806,
+     "E1_n_anc": 167,
+     "k_sire": 8.74,
+     "tau_sire": 0.04022
+    }
+   },
+   "first_time": {
+    "n_runs": 1285,
+    "r": 0.003,
+    "ci": [
+     -0.0582,
+     0.0657
+    ]
+   },
+   "judge": {
+    "E1_median": 0.517,
+    "E4_all_pass": true,
+    "E4_failed_levels": [],
+    "ci_lower": -0.0582,
+    "pass": false
+   }
+  },
+  "rest": {
+   "levels": {
+    "中間隔(22-89日)": {
+     "E4": {
+      "n_anc": 165,
+      "share_pos": 0.497,
+      "abs_median_over_sd": 0.006,
+      "pass": true
+     },
+     "E1_sire_sb": 0.324,
+     "E1_n_anc": 181,
+     "k_sire": 14.53,
+     "tau_sire": 0.03098
+    },
+    "休み明け(90日以上)": {
+     "E4": {
+      "n_anc": 124,
+      "share_pos": 0.444,
+      "abs_median_over_sd": 0.108,
+      "pass": true
+     },
+     "E1_sire_sb": 0.352,
+     "E1_n_anc": 147,
+     "k_sire": 15.23,
+     "tau_sire": 0.04891
+    },
+    "連闘・中1-2週(21日以下)": {
+     "E4": {
+      "n_anc": 153,
+      "share_pos": 0.497,
+      "abs_median_over_sd": 0.0,
+      "pass": true
+     },
+     "E1_sire_sb": 0.082,
+     "E1_n_anc": 166,
+     "k_sire": 16.83,
+     "tau_sire": 0.03365
+    }
+   },
+   "first_time": {
+    "n_runs": 13435,
+    "r": 0.002,
+    "ci": [
+     -0.0158,
+     0.0202
+    ]
+   },
+   "judge": {
+    "E1_median": 0.324,
+    "E4_all_pass": true,
+    "E4_failed_levels": [],
+    "ci_lower": -0.0158,
+    "pass": false
+   }
+  },
+  "class_high": {
+   "levels": {
+    "OP以上": {
+     "E4": {
+      "n_anc": 39,
+      "share_pos": 0.436,
+      "abs_median_over_sd": 0.22,
+      "pass": true
+     },
+     "E1_sire_sb": 0.447,
+     "E1_n_anc": 48,
+     "k_sire": 9.56,
+     "tau_sire": 0.05233
+    },
+    "条件戦": {
+     "E4": {
+      "n_anc": 172,
+      "share_pos": 0.297,
+      "abs_median_over_sd": 0.518,
+      "pass": false
+     },
+     "E1_sire_sb": 0.33,
+     "E1_n_anc": 192,
+     "k_sire": 19.86,
+     "tau_sire": 0.00922
+    }
+   },
+   "first_time": {
+    "n_runs": 1274,
+    "r": 0.034,
+    "ci": [
+     -0.0237,
+     0.0875
+    ]
+   },
+   "judge": {
+    "E1_median": 0.389,
+    "E4_all_pass": false,
+    "E4_failed_levels": [
+     "条件戦"
+    ],
+    "ci_lower": -0.0237,
+    "pass": false
+   }
+  },
+  "track": {
+   "levels": {
+    "時計かかる": {
+     "E4": {
+      "n_anc": 164,
+      "share_pos": 0.506,
+      "abs_median_over_sd": 0.003,
+      "pass": true
+     },
+     "E1_sire_sb": 0.025,
+     "E1_n_anc": 179,
+     "k_sire": 16.54,
+     "tau_sire": 0.03235
+    },
+    "標準": {
+     "E4": {
+      "n_anc": 158,
+      "share_pos": 0.481,
+      "abs_median_over_sd": 0.052,
+      "pass": true
+     },
+     "E1_sire_sb": 0.391,
+     "E1_n_anc": 174,
+     "k_sire": 17.98,
+     "tau_sire": 0.03519
+    },
+    "高速": {
+     "E4": {
+      "n_anc": 158,
+      "share_pos": 0.494,
+      "abs_median_over_sd": 0.022,
+      "pass": true
+     },
+     "E1_sire_sb": 0.351,
+     "E1_n_anc": 177,
+     "k_sire": 19.15,
+     "tau_sire": 0.03046
+    }
+   },
+   "first_time": {
+    "n_runs": 17822,
+    "r": 0.005,
+    "ci": [
+     -0.0082,
+     0.02
+    ]
+   },
+   "judge": {
+    "E1_median": 0.351,
+    "E4_all_pass": true,
+    "E4_failed_levels": [],
+    "ci_lower": -0.0082,
+    "pass": false
+   }
+  },
+  "going": {
+   "levels": {
+    "良": {
+     "E4": {
+      "n_anc": 171,
+      "share_pos": 0.433,
+      "abs_median_over_sd": 0.072,
+      "pass": true
+     },
+     "E1_sire_sb": 0.356,
+     "E1_n_anc": 192,
+     "k_sire": 18.54,
+     "tau_sire": 0.01808
+    },
+    "道悪": {
+     "E4": {
+      "n_anc": 155,
+      "share_pos": 0.574,
+      "abs_median_over_sd": 0.098,
+      "pass": true
+     },
+     "E1_sire_sb": 0.22,
+     "E1_n_anc": 178,
+     "k_sire": 24.0,
+     "tau_sire": 0.02994
+    }
+   },
+   "first_time": {
+    "n_runs": 9962,
+    "r": 0.007,
+    "ci": [
+     -0.0203,
+     0.0348
+    ]
+   },
+   "judge": {
+    "E1_median": 0.288,
+    "E4_all_pass": true,
+    "E4_failed_levels": [],
+    "ci_lower": -0.0203,
+    "pass": false
+   }
+  },
+  "front": {
+   "levels": {
+    "-": {
+     "E4": {
+      "n_anc": 180,
+      "share_pos": 0.461,
+      "abs_median_over_sd": 0.098,
+      "pass": true
+     },
+     "E1_sire_sb": 0.775,
+     "E1_n_anc": 198,
+     "k_sire": 6.1,
+     "tau_sire": 0.0783
+    }
+   },
+   "horse": {
+    "n": 10534,
+    "r": 0.166,
+    "ci": [
+     0.1245,
+     0.2018
+    ]
+   },
+   "judge": {
+    "E1_median": 0.775,
+    "E4_all_pass": true,
+    "E4_failed_levels": [],
+    "ci_lower": 0.1245,
+    "pass": true
+   }
+  },
+  "kire": {
+   "levels": {
+    "-": {
+     "E4": {
+      "n_anc": 180,
+      "share_pos": 0.444,
+      "abs_median_over_sd": 0.149,
+      "pass": true
+     },
+     "E1_sire_sb": 0.36,
+     "E1_n_anc": 198,
+     "k_sire": 10.98,
+     "tau_sire": 0.02129
+    }
+   },
+   "horse": {
+    "n": 10534,
+    "r": 0.092,
+    "ci": [
+     0.0535,
+     0.1312
+    ]
+   },
+   "judge": {
+    "E1_median": 0.36,
+    "E4_all_pass": true,
+    "E4_failed_levels": [],
+    "ci_lower": 0.0535,
+    "pass": true
+   }
+  },
+  "logd": {
+   "levels": {
+    "-": {
+     "E4": {
+      "n_anc": 180,
+      "share_pos": 0.433,
+      "abs_median_over_sd": 0.238,
+      "pass": true
+     },
+     "E1_sire_sb": 0.919,
+     "E1_n_anc": 198,
+     "k_sire": 3.06,
+     "tau_sire": 0.08691
+    }
+   },
+   "horse": {
+    "n": 10534,
+    "r": 0.401,
+    "ci": [
+     0.3231,
+     0.4637
+    ]
+   },
+   "judge": {
+    "E1_median": 0.919,
+    "E4_all_pass": true,
+    "E4_failed_levels": [],
+    "ci_lower": 0.3231,
+    "pass": true
+   }
+  },
+  "debut": {
+   "levels": {
+    "-": {
+     "E4": {
+      "n_anc": 145,
+      "share_pos": 0.441,
+      "abs_median_over_sd": 0.232,
+      "pass": true
+     },
+     "E1_sire_sb": 0.548,
+     "E1_n_anc": 161,
+     "k_sire": 22.3,
+     "tau_sire": 0.06052
+    }
+   },
+   "horse": {
+    "n": 10913,
+    "r": 0.059,
+    "ci": [
+     0.0357,
+     0.0785
+    ]
+   },
+   "judge": {
+    "E1_median": 0.548,
+    "E4_all_pass": true,
+    "E4_failed_levels": [],
+    "ci_lower": 0.0357,
+    "pass": true
+   }
+  },
+  "growth": {
+   "levels": {
+    "-": {
+     "E4": {
+      "n_anc": 87,
+      "share_pos": 0.437,
+      "abs_median_over_sd": 0.07,
+      "pass": true
+     },
+     "E1_sire_sb": 0.191,
+     "E1_n_anc": 97,
+     "k_sire": 10.8,
+     "tau_sire": 0.07416
+    }
+   },
+   "horse": {
+    "n": 3729,
+    "r": 0.018,
+    "ci": [
+     -0.0176,
+     0.0504
+    ]
+   },
+   "judge": {
+    "E1_median": 0.191,
+    "E4_all_pass": true,
+    "E4_failed_levels": [],
+    "ci_lower": -0.0176,
+    "pass": false
+   }
+  }
+ },
+ "thresholds": {
+  "track": {
+   "ダ": [
+    -6.0,
+    0.0
+   ],
+   "芝": [
+    -9.0,
+    -2.0
+   ]
+  },
+  "pace": {
+   "ダ|マイル(1401-1800m)": [
+    -0.5666666666666647,
+    -0.1416666666666663
+   ],
+   "ダ|中距離(1801-2200m)": [
+    -0.36888888888889115,
+    0.02166666666666849
+   ],
+   "ダ|短距離(~1400m)": [
+    -1.1833333333333336,
+    -0.783333333333335
+   ],
+   "ダ|長距離(2201m~)": [
+    -0.12333333333333371,
+    0.25333333333333424
+   ],
+   "芝|マイル(1401-1800m)": [
+    -0.041666666666666664,
+    0.466666666666665
+   ],
+   "芝|中距離(1801-2200m)": [
+    0.10833333333333428,
+    0.6066666666666674
+   ],
+   "芝|短距離(~1400m)": [
+    -0.783333333333335,
+    -0.41666666666666785
+   ],
+   "芝|長距離(2201m~)": [
+    0.3000000000000007,
+    0.7522222222222225
+   ]
+  }
+ },
+ "elapsed_sec": 99.2
+}

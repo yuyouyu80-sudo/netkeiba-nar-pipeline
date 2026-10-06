@@ -45,7 +45,8 @@ W_CAP = 5
 
 USECOLS = ["race_id", "race_number", "race_name", "surface", "distance_m", "race_date", "racecourse",
            "finish_pos", "umaban", "horse_id", "sex_age", "last_3f", "time", "odds_final", "jockey_name",
-           "corner1_rank", "corner2_rank", "corner3_rank", "corner4_rank", "corner4_is_leader"]
+           "corner1_rank", "corner2_rank", "corner3_rank", "corner4_rank", "corner4_is_leader",
+           "going", "track_index"]
 
 
 def is_jump(race_name: pd.Series) -> pd.Series:
@@ -140,14 +141,22 @@ def load_runs(max_year: int | None = None) -> tuple[pd.DataFrame, dict]:
     df["career"] = g.cumcount()
     df["career_band"] = pd.cut(df["career"], [-1, 0, 3, 9, 1000], labels=["0", "1-3", "4-9", "10+"]).astype(str)
     df["prev_logd"] = g["logd"].shift(1)
+    df["rest_days"] = (df["date"] - g["date"].shift(1)).dt.days
     df["prev_class"] = g["class_ord"].shift(1)
     cc = np.sign(df["class_ord"] - df["prev_class"])
     df["class_change"] = np.where(df["prev_class"].isna() | df["class_ord"].isna(), "na",
                                   np.where(cc > 0, "up", np.where(cc < 0, "down", "same")))
     df["first_in_band"] = ~df.duplicated(["horse_id", "dbucket"])
+    df["going2"] = np.where(df["going"] == "良", "良", np.where(df["going"].isin(["稍重", "重", "不良"]), "道悪", None))
+    df["track_index_num"] = pd.to_numeric(df["track_index"], errors="coerce")
+    df["rest_bucket"] = df["rest_days"].map(PROF.rest_bucket)
+    df["class_high"] = np.where(df["class_ord"].isna(), None, np.where(df["class_ord"] >= 4, "OP以上", "条件戦"))
+    df["is_debut_race"] = df["race_name"].fillna("").str.contains("新馬")
     keep = ["race_id", "horse_id", "race_name", "date", "year", "surface", "distance", "logd", "dbucket", "age_band",
             "career", "career_band", "class_ord", "class_change", "prev_logd", "first_in_band", "course_key",
-            "first_corner", "um_bin", "field", "pos", "perf", "is_win", "front_raw", "front4", "kire_raw", "leader"]
+            "first_corner", "um_bin", "field", "pos", "perf", "is_win", "front_raw", "front4", "kire_raw", "leader",
+            "racecourse", "distance_m", "race_number", "umaban", "going", "going2", "track_index_num", "rest_days", "rest_bucket",
+            "class_high", "is_debut_race", "age"]
     return df[keep].reset_index(drop=True), meta
 
 
@@ -260,3 +269,55 @@ def cluster_boot_corr(pred, y, cluster, n_boot=1000, seed=0):
         m = np.concatenate([groups[i] for i in pick])
         out.append(np.corrcoef(m[:, 0], m[:, 1])[0, 1])
     return [round(float(np.percentile(out, 2.5)), 4), round(float(np.percentile(out, 97.5)), 4)]
+
+
+# ------------------------------------------------------------------ R1: コース形態・内外回り・ペース
+COURSE_MASTER = PROJECT_ROOT / "data" / "jra_course_master.csv"
+TURN_TYPE = PROJECT_ROOT / "data" / "jra_course_turn_type.csv"
+LAP_DIR = PROJECT_ROOT / "data" / "lap_times"
+
+
+def add_course_features(df: pd.DataFrame) -> pd.DataFrame:
+    """コース形態(周長・高低差・直線長の中央値で2区分、洋芝、回り)と内外回り(jra_course_turn_type.csv)。"""
+    cm = pd.read_csv(COURSE_MASTER, dtype=str, encoding="utf-8")
+    rows = []
+    for _, r in cm.iterrows():
+        for sfc, pre in (("芝", "turf"), ("ダ", "dirt")):
+            rows.append({"racecourse": r["venue"], "surface": sfc, "turn_dir": r["turn_direction"],
+                         "circ": pd.to_numeric(r[f"{pre}_circumference_m"], errors="coerce"),
+                         "elev": pd.to_numeric(r[f"{pre}_elevation_m"], errors="coerce"),
+                         "straight": pd.to_numeric(r[f"{pre}_straight_m"], errors="coerce")})
+    c = pd.DataFrame(rows)
+    for col, hi, lo in (("circ", "大回り", "小回り"), ("elev", "急坂", "平坦"), ("straight", "直線長", "直線短")):
+        med = c.groupby("surface")[col].transform("median")
+        c[f"{col}_tier"] = np.where(c[col].isna(), None, np.where(c[col] >= med, hi, lo))
+    c["turf_type"] = np.where(c["surface"] == "芝", np.where(c["racecourse"].isin(["札幌", "函館"]), "洋芝", "野芝"), None)
+    df = df.merge(c[["racecourse", "surface", "turn_dir", "circ_tier", "elev_tier", "straight_tier", "turf_type"]],
+                  on=["racecourse", "surface"], how="left")
+    tt = pd.read_csv(TURN_TYPE, dtype=str, encoding="utf-8")
+    tt["surface"] = tt["surface"].map({"芝": "芝", "ダート": "ダ"})
+    tt = tt.rename(columns={"venue": "racecourse"})[["racecourse", "surface", "distance_m", "turn_type"]]
+    df["distance_m"] = df["distance_m"].astype(str).str.replace(r"\.0$", "", regex=True)
+    df = df.merge(tt, on=["racecourse", "surface", "distance_m"], how="left")
+    df["turn_type"] = df["turn_type"].fillna("単一")
+    # 同等レースのキー: 内外が分かる場合は内外まで含める(「内外」「unknown」は混在として明記)
+    df["course_key_io"] = df["racecourse"] + "|" + df["surface"] + "|" + df["distance_m"] + "|" + df["turn_type"]
+    return df
+
+
+def lap_pace(years) -> pd.DataFrame:
+    """race_id ごとのペース指標 = 前半の区間平均(第1区間を除く) − 最後の3区間の平均(秒/200m)。負=前半が速い。"""
+    frames = []
+    for y in years:
+        for p in sorted((LAP_DIR / str(y)).glob("*.csv")):
+            frames.append(pd.read_csv(p, dtype={"race_id": str}))
+    lt = pd.concat(frames, ignore_index=True).sort_values(["race_id", "segment_index"])
+    out = []
+    for rid, g in lt.groupby("race_id"):
+        v = g["lap_time_sec"].to_numpy(float)
+        n = len(v)
+        if n < 5:
+            continue
+        half = v[1:int(np.ceil(n / 2))]
+        out.append((rid, float(half.mean() - v[-3:].mean())))
+    return pd.DataFrame(out, columns=["race_id", "pace"])
