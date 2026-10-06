@@ -19,6 +19,7 @@ import platform
 import subprocess
 import sys
 import time
+import warnings
 from pathlib import Path
 
 import numpy as np
@@ -125,7 +126,9 @@ def v1_values(win: pd.DataFrame, df: pd.DataFrame) -> pd.DataFrame:
         for i, b in enumerate(BUCKETS):
             vals[f"dbucket|{b}"].append(np.where(j[f"b_{i}_n"] >= 10, (j[f"b_{i}_w"] / j[f"b_{i}_n"] - ov) * 100, np.nan))
     for k, lst in vals.items():
-        m = np.nanmean(np.vstack(lst), axis=0)
+        with warnings.catch_warnings():   # 3系統とも下限N未満の馬は NaN(全NaN列の警告は想定内)
+            warnings.simplefilter("ignore", RuntimeWarning)
+            m = np.nanmean(np.vstack(lst), axis=0)
         out[k] = m / np.nanstd(m)   # 標準化(このテスト年の出走馬の間のSD)
     return out
 
@@ -142,9 +145,10 @@ def features_for_year(runs: pd.DataFrame, req: pd.DataFrame, Y: int) -> pd.DataF
     df["z_debut"] = T.z(df, "debut", "-")
     df["z_surface"] = np.nan
     df["r_surface"] = 0.0
-    for s in ["芝", "ダ"]:
+    for s in ["芝", "ダ"]:   # 両方の芝ダの値(全レース版プラセボで別の芝ダを当てるため)
+        df[f"z_s|{s}"] = T.z(df, "surface", s)
         m = df["surface"] == s
-        df.loc[m, "z_surface"] = T.z(df[m], "surface", s)
+        df.loc[m, "z_surface"] = df.loc[m, f"z_s|{s}"]
         df.loc[m, "r_surface"] = rel("surface", s)
     for b in BUCKETS:   # 全距離帯の値(プラセボで別のレースの距離帯を当てるため)
         df[f"z_b|{b}"] = T.z(df, "dbucket", b)
@@ -171,15 +175,17 @@ def features_for_year(runs: pd.DataFrame, req: pd.DataFrame, Y: int) -> pd.DataF
     return df
 
 
-def fit_score(df, q_front=None, q_kire=None, z_dbucket=None, r_dbucket=None, debut=None):
+def fit_score(df, q_front=None, q_kire=None, z_dbucket=None, r_dbucket=None, debut=None, z_surface=None, r_surface=None):
     q_front = df["q_front"] if q_front is None else q_front
     q_kire = df["q_kire"] if q_kire is None else q_kire
     z_dbucket = df["z_dbucket"] if z_dbucket is None else z_dbucket
     r_dbucket = df["r_dbucket"] if r_dbucket is None else r_dbucket
     debut = df["is_debut_race"] if debut is None else debut
+    z_surface = df["z_surface"] if z_surface is None else z_surface
+    r_surface = df["r_surface"] if r_surface is None else r_surface
     return (rel("front") * q_front.fillna(0) * df["z_front"].fillna(0)
             + rel("kire") * q_kire.fillna(0) * df["z_kire"].fillna(0)
-            + df["r_surface"] * df["z_surface"].fillna(0)
+            + r_surface * z_surface.fillna(0)
             + r_dbucket * z_dbucket.fillna(0)
             + rel("debut") * debut.astype(float) * df["z_debut"].fillna(0))
 
@@ -231,7 +237,7 @@ def add_own(runs: pd.DataFrame, df: pd.DataFrame, Y: int, kh: dict) -> pd.DataFr
 
 def estimate_kh(runs: pd.DataFrame) -> dict:
     """k_h = 馬内の走のばらつき / 馬の真の値のばらつき(2018〜2020年の走、係数は2017年末まで)。"""
-    v = A.run_values(runs[runs["year"] <= 2017], runs[runs["year"].between(*FIT)])
+    v = A.run_values(runs[runs["year"] <= FIT[0] - 1], runs[runs["year"].between(*FIT)])
     out = {}
     for col in ["perf_adj", "front", "kire"]:
         g = v.dropna(subset=[col]).groupby("horse_id")[col]
@@ -248,6 +254,7 @@ def estimate_kh(runs: pd.DataFrame) -> dict:
 class PL:
     def __init__(self, df: pd.DataFrame, feats: list):
         d = df.sort_values(["race_id", "pos", "umaban_num"])
+        d = d[d.groupby("race_id")["race_id"].transform("size") >= 3]   # 上位3頭を選べるレースだけ
         self.race_ids, idx = np.unique(d["race_id"].to_numpy(), return_index=True)
         counts = np.diff(np.append(idx, len(d)))
         R, N = len(counts), int(counts.max())
@@ -287,7 +294,7 @@ class PL:
         return r.x
 
 
-def block_boot(delta: np.ndarray, blocks: np.ndarray, n=N_BOOT, seed=SEED):
+def block_boot(delta: np.ndarray, blocks: np.ndarray, n=N_BOOT, seed=SEED, with_p=False):
     df = pd.DataFrame({"d": delta, "b": blocks})
     g = df.groupby("b")["d"].agg(["sum", "count"])
     s, c = g["sum"].to_numpy(), g["count"].to_numpy()
@@ -296,7 +303,10 @@ def block_boot(delta: np.ndarray, blocks: np.ndarray, n=N_BOOT, seed=SEED):
     for i in range(n):
         pick = rng.integers(0, len(s), len(s))
         out[i] = s[pick].sum() / c[pick].sum()
-    return [round(float(np.percentile(out, 2.5)), 5), round(float(np.percentile(out, 97.5)), 5)]
+    ci = [round(float(np.percentile(out, 2.5)), 5), round(float(np.percentile(out, 97.5)), 5)]
+    if with_p:   # 片側 p(ΔLL ≤ 0 の割合、+1 補正)と SE
+        return ci, float((np.sum(out <= 0) + 1) / (n + 1)), float(np.std(out))
+    return ci
 
 
 def compare(fit_df, test_df, base, extra, name, blocks_col="block"):
@@ -308,9 +318,10 @@ def compare(fit_df, test_df, base, extra, name, blocks_col="block"):
     blocks = test_df.drop_duplicates("race_id").set_index("race_id").loc[t0.race_ids, blocks_col].to_numpy()
     years = pd.Series(t0.race_ids).str[:4].to_numpy()
     by_year = pd.Series(d).groupby(years).mean().round(5).to_dict()
+    ci, p, se = block_boot(d, blocks, with_p=True)
     return {"name": name, "base": base, "extra": extra, "beta_base_only": [round(float(x), 4) for x in b0],
             "beta_full": [round(float(x), 4) for x in b1], "n_races": int(len(d)),
-            "dll_per_race": round(float(d.mean()), 5), "ci95_block": block_boot(d, blocks),
+            "dll_per_race": round(float(d.mean()), 5), "ci95_block": ci, "p_one_sided": round(p, 5), "se_block": round(se, 6),
             "ci95_year_block": block_boot(d, years, n=N_BOOT), "by_year": by_year, "_delta": d, "_race_ids": t0.race_ids}
 
 
@@ -321,6 +332,8 @@ def main():
     th = A.fixed_thresholds(runs)
     runs = A.add_tiers(runs, th)
     runs["umaban_num"] = pd.to_numeric(runs["umaban"], errors="coerce")
+    # 初芝・初ダ(first_in_band と同じ作り方: 2011年以降の完走の走で、その芝ダの最初の走)
+    runs["first_in_surface"] = ~runs.sort_values(["horse_id", "date", "race_id"]).duplicated(["horse_id", "surface"])
     req = pd.read_parquet(C.OUT_DIR / "race_req.parquet")
     # 確定オッズ(市場の副次比較用)
     od = []
@@ -350,7 +363,9 @@ def main():
            "coverage": {c: round(float(testD[c].notna().mean()), 3) for c in ["S", "z_front", "z_kire", "z_surface", "z_dbucket", "z_debut", "q_front", "logp"]}}
 
     # 整合: β2=0 なら A1 の尤度は A0 と一致
-    p0, p1 = PL(testD.head(5000), ["S"]), PL(testD.head(5000), ["S", "F"])
+    sub = testD[testD["race_id"].isin(testD["race_id"].drop_duplicates().head(400))]
+    p0, p1 = PL(sub, ["S"]), PL(sub, ["S", "F"])
+    assert np.isfinite(p0.race_ll(np.array([0.3]))).all()
     assert np.allclose(p0.race_ll(np.array([0.3])), p1.race_ll(np.array([0.3, 0.0])))
 
     main_h = compare(fitD, testD, ["S"], ["F"], "主仮説: 父の総合力 → +適合度(血統のみ)")
@@ -363,15 +378,19 @@ def main():
     rid_young = set(testD.loc[testD["career"] <= 3, "race_id"])
     d_main = pd.Series(main_h["_delta"], index=main_h["_race_ids"])
     blocks = testD.drop_duplicates("race_id").set_index("race_id")["block"]
-    for name, rids in [("(1) キャリア0〜3走の馬を含むレース", rid_young),
-                       ("(1b) 新馬・未勝利戦", set(testD.loc[testD["class_ord"] == 0, "race_id"]))]:
+    def subset(name, rids, key=None):
         dd = d_main[d_main.index.isin(rids)]
-        sec.append({"name": name, "n_races": int(len(dd)), "dll_per_race": round(float(dd.mean()), 5),
-                    "ci95_block": block_boot(dd.to_numpy(), blocks.loc[dd.index].to_numpy())})
-    fs = set(testD.loc[(testD["career"] >= 1) & testD["first_in_band"], "race_id"])
-    dd = d_main[d_main.index.isin(fs)]
-    sec.append({"name": "(2) 距離帯の初出走の馬を含むレース", "n_races": int(len(dd)), "dll_per_race": round(float(dd.mean()), 5),
-                "ci95_block": block_boot(dd.to_numpy(), blocks.loc[dd.index].to_numpy())})
+        ci, p, se = block_boot(dd.to_numpy(), blocks.loc[dd.index].to_numpy(), with_p=True)
+        return {"name": name, "key": key, "n_races": int(len(dd)), "dll_per_race": round(float(dd.mean()), 5),
+                "ci95_block": ci, "p_one_sided": round(p, 5), "se_block": round(se, 6)}
+    exp = testD["career"] >= 1
+    fsurf = set(testD.loc[exp & testD["first_in_surface"], "race_id"])
+    fband = set(testD.loc[exp & testD["first_in_band"], "race_id"])
+    sec.append(subset("(1) キャリア0〜3走の馬を含むレース", rid_young, "1"))
+    sec.append(subset("(1b) 参考: 新馬・未勝利戦", set(testD.loc[testD["class_ord"] == 0, "race_id"])))
+    sec.append(subset("(2) 初芝・初ダ・初距離帯の馬(キャリア1走以上)を含むレース", fsurf | fband, "2"))
+    sec.append(subset("(2a) 参考: 初芝・初ダの馬を含むレース", fsurf))
+    sec.append(subset("(2b) 参考: 初距離帯の馬を含むレース", fband))
     c3 = compare(fitD, testD, ["S", "F_v1"], ["F"], "(3) v1の適合度に対する v2 の上積み(同じ形)")
     c3b = compare(fitD, testD, ["S"], ["F_v1"], "(3b) 参考: v1の適合度だけの ΔLL")
     c4 = compare(fitD, testD, ["S_own"], ["F_own"], "(4) 血統+実績: 自身の総合力 → +適合度(実績合成)")
@@ -380,38 +399,71 @@ def main():
     c6 = compare(fitD[ok_race(fitD)], testD[ok_race(testD)], ["logp", "S"], ["F"], "(6) 市場(確定オッズ)+父の総合力 → +適合度")
     for c in [c3, c3b, c4, c4b, c6]:
         sec.append({k: v for k, v in c.items() if not k.startswith("_")})
-    # Holm(主要副次 (1)(2)(3)(4)(6)、片側: CI下限>0 の判定を、順に α を厳しくして)
+    for s, key in zip(sec[-5:], ["3", None, "4", None, "6"]):
+        s["key"] = key
+    # Holm(事前登録 §6 の主要副次 (1)〜(6)、m=6、片側 α=0.025 = 95%CI下限>0 と同じ水準)。
+    # (5) DL挑戦モデルは R3b で別に評価するため、ここでは p=1 と置く(他の判定が最も厳しくなる側)。追補2。
+    fam = {s["key"]: s["p_one_sided"] for s in sec if s.get("key")}
+    fam["5"] = 1.0
+    order = sorted(fam, key=lambda k: fam[k])
+    holm, stop = {}, False
+    for i, k in enumerate(order):
+        thr = 0.025 / (len(order) - i)
+        ok = (not stop) and fam[k] <= thr
+        stop = stop or not ok
+        holm[k] = {"p": fam[k], "threshold": round(thr, 5), "pass": ok}
     res["secondary"] = sec
-    res["secondary_note"] = "(5) DL挑戦モデル v3 は R3b で別に評価する。Holm 補正は p 値の代わりに、95%CI下限>0 を順に判定し、通らなかった時点で以降を探索扱いとする。"
+    res["holm"] = holm
+    res["secondary_note"] = "(5) DL挑戦モデル v3 は R3b で別に評価し、Holm はその結果を入れて確定する(ここでは p=1 の仮置き)。"
 
-    # プラセボ: 同じ芝ダの別のレースの基準(脚質・キレの要求、距離帯、新馬かどうか)を当てる
+    # プラセボ(事前登録 §6 と追補2)
+    #  within: 同じ芝ダの別のレースの基準(脚質・キレの要求、距離帯、新馬かどうか)を当てる。芝ダの軸は自分のレースのまま残るため、
+    #          平均は構造上0にならない。判定は「実測 > プラセボの最大」。
+    #  all:    全レースの間で入れ替え、芝ダも別のレースのものを当てる。判定は「平均が0の±2SE以内」(SE=1回のプラセボのブロックSEの平均)。
     rng = np.random.default_rng(SEED)
-    plac = []
-    for rep in range(N_PLACEBO):
-        P = []
-        for part in (fitD, testD):
-            races = part.drop_duplicates("race_id")[["race_id", "surface", "q_front", "q_kire", "dbucket", "is_debut_race"]]
-            donor = races.copy()
-            for s, idx in races.groupby("surface").groups.items():
-                perm = rng.permutation(len(idx))
-                donor.loc[idx, ["q_front", "q_kire", "dbucket", "is_debut_race"]] = races.loc[idx, ["q_front", "q_kire", "dbucket", "is_debut_race"]].to_numpy()[perm]
-            dmap = donor.set_index("race_id")
-            q = part["race_id"].map(dmap["q_front"]), part["race_id"].map(dmap["q_kire"])
-            db = part["race_id"].map(dmap["dbucket"])
-            zb = pd.Series(np.nan, index=part.index)
-            rb = pd.Series(0.0, index=part.index)
-            for b in BUCKETS:
-                m = db == b
-                zb[m] = part.loc[m, f"z_b|{b}"]
-                rb[m] = rel("dbucket", b)
-            deb = part["race_id"].map(dmap["is_debut_race"]).astype(bool)
-            P.append(part.assign(F_p=fit_score(part, q[0], q[1], zb, rb, deb)))
-        cp = compare(P[0], P[1], ["S"], ["F_p"], f"placebo{rep}")
-        plac.append(cp["dll_per_race"])
-    res["placebo"] = {"dll_per_race": plac, "mean": round(float(np.mean(plac)), 5), "sd": round(float(np.std(plac)), 5),
-                      "max": round(float(np.max(plac)), 5), "actual_above_max": bool(res["main"]["dll_per_race"] > max(plac)),
-                      "note": "同じ芝ダの中で入れ替えるため、芝ダの軸の寄与はプラセボでも残る(事前登録 §6 のとおり)"}
-    log("placebo", res["placebo"]["mean"], res["placebo"]["max"])
+    cols = ["q_front", "q_kire", "dbucket", "is_debut_race", "surface"]
+
+    def placebo_score(part, within):
+        races = part.drop_duplicates("race_id")[["race_id"] + cols]
+        donor = races.copy()
+        groups = races.groupby("surface").groups.values() if within else [races.index]
+        for idx in groups:
+            perm = rng.permutation(len(idx))
+            donor.loc[idx, cols] = races.loc[idx, cols].to_numpy()[perm]
+        dmap = donor.set_index("race_id")
+        q = part["race_id"].map(dmap["q_front"]).astype(float), part["race_id"].map(dmap["q_kire"]).astype(float)
+        db = part["race_id"].map(dmap["dbucket"])
+        zb, rb = pd.Series(np.nan, index=part.index), pd.Series(0.0, index=part.index)
+        for b in BUCKETS:
+            m = db == b
+            zb[m] = part.loc[m, f"z_b|{b}"]
+            rb[m] = rel("dbucket", b)
+        sf = part["race_id"].map(dmap["surface"])
+        zs, rs = pd.Series(np.nan, index=part.index), pd.Series(0.0, index=part.index)
+        for s in ["芝", "ダ"]:
+            m = sf == s
+            zs[m] = part.loc[m, f"z_s|{s}"]
+            rs[m] = rel("surface", s)
+        deb = part["race_id"].map(dmap["is_debut_race"]).astype(bool)
+        return fit_score(part, q[0], q[1], zb, rb, deb, zs, rs)
+
+    res["placebo"] = {}
+    for kind in ["within", "all"]:
+        plac, ses = [], []
+        for rep in range(N_PLACEBO):
+            P = [part.assign(F_p=placebo_score(part, kind == "within")) for part in (fitD, testD)]
+            cp = compare(P[0], P[1], ["S"], ["F_p"], f"placebo_{kind}{rep}")
+            plac.append(cp["dll_per_race"])
+            ses.append(cp["se_block"])
+        mean, se = float(np.mean(plac)), float(np.mean(ses))
+        res["placebo"][kind] = {"dll_per_race": plac, "mean": round(mean, 5), "sd": round(float(np.std(plac)), 5),
+                                "max": round(float(np.max(plac)), 5), "se_single": round(se, 6),
+                                "actual_above_max": bool(res["main"]["dll_per_race"] > max(plac)),
+                                "mean_within_2se": bool(abs(mean) <= 2 * se)}
+        log("placebo", kind, res["placebo"][kind]["mean"], res["placebo"][kind]["max"], se)
+    res["placebo"]["judgement"] = {"actual_above_max(within)": res["placebo"]["within"]["actual_above_max"],
+                                   "mean_within_2se(all)": res["placebo"]["all"]["mean_within_2se"],
+                                   "pass": res["placebo"]["within"]["actual_above_max"] and res["placebo"]["all"]["mean_within_2se"]}
 
     # 頑健性: 出走数上位20種牡馬を1頭ずつ含むレースを除いたときの主仮説の ΔLL
     top_sires = testD["ped_S_horse_id"].value_counts().head(20).index
@@ -422,12 +474,13 @@ def main():
         jk.append(round(float(dd.mean()), 5))
     res["jackknife_top20_sires"] = {"min": min(jk), "max": max(jk), "values": jk}
 
-    # E3: 実際のレースのリフトのコース別の平均、2021〜2023 vs 2024〜2026
+    # E3: 実際のレースのリフトのコース別の平均、テスト期間の前半 vs 後半(本番は2021〜2023 vs 2024〜2026)
     rq = req[req["year"].between(*TEST)]
-    e3 = {}
+    mid = (TEST[0] + TEST[1]) // 2
+    e3 = {"split": f"{TEST[0]}-{mid} vs {mid + 1}-{TEST[1]}"}
     for a in ["front", "kire"]:
-        e = rq[rq["year"] <= 2023].groupby("course_key_io")[f"lift_{a}"].agg(["mean", "count"])
-        l = rq[rq["year"] >= 2024].groupby("course_key_io")[f"lift_{a}"].agg(["mean", "count"])
+        e = rq[rq["year"] <= mid].groupby("course_key_io")[f"lift_{a}"].agg(["mean", "count"])
+        l = rq[rq["year"] > mid].groupby("course_key_io")[f"lift_{a}"].agg(["mean", "count"])
         j = e.join(l, lsuffix="_e", rsuffix="_l", how="inner")
         j = j[(j["count_e"] >= 30) & (j["count_l"] >= 15)]
         r, n = C.corr(j["mean_e"], j["mean_l"])
