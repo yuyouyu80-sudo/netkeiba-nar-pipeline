@@ -98,5 +98,33 @@
   "git_dirty_files": [],
   "output": "radar_v2_dl_eval.json",
   "output_sha256": "d87d3b7f164e19d7375d6d64a5fca9f451c4b8b74b076fcc0b0452712a927069"
+ },
+ {
+  "script": "radar_v2_stamina_eval.py",
+  "mode": "dry (2018-2020)",
+  "started": "2026-10-07 20:11:30",
+  "finished": "2026-10-07 20:23:48",
+  "git_commit": "0c88c05d08ff0d4a85c055aefde02ccef50d2cc5",
+  "git_dirty_files": [
+   "?? scripts/jra_model/pedigree_reports/radar_v2_stamina.py",
+   "?? scripts/jra_model/pedigree_reports/radar_v2_stamina_eval.py"
+  ],
+  "output": "stamina_eval_dry.txt",
+  "output_sha256": "31bcaf750374be3bbd954049a8e7ca32f2a8c0c51338e84d929bd4bd599c7946"
+ },
+ {
+  "script": "radar_v2_stamina_eval.py",
+  "mode": "dry (2018-2020)",
+  "started": "2026-10-07 20:24:40",
+  "finished": "2026-10-07 20:42:10",
+  "git_commit": "0c88c05d08ff0d4a85c055aefde02ccef50d2cc5",
+  "git_dirty_files": [
+   "?? scripts/jra_model/pedigree_reports/radar_v2_stamina.py",
+   "?? scripts/jra_model/pedigree_reports/radar_v2_stamina_eval.py",
+   "?? scripts/jra_model/pedigree_reports/radar_v2_stamina_live.py",
+   "?? scripts/jra_model/pedigree_reports/register_radar_v2_stamina_task.ps1"
+  ],
+  "output": "stamina_eval_dry.txt",
+  "output_sha256": "42605ea3769592c69d39ef6118538bdc2a900307b422def41f53e7813dd9e84f"
  }
 ]
