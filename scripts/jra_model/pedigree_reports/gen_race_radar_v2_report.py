@@ -4,6 +4,7 @@
 入力: radar_v2/live/race_radar_v2_{date}.json(radar_v2_live.py、出走表から作った値)を日付ごとに並べ、検証の要約・DLが学んだ要求・
 前向き検証の途中集計(radar_v2/prospective_eval.json があれば)を足す。
 使い方: python gen_race_radar_v2_report.py --days 20261003 20261004 [--out path.html]
+  日付を足すときは先に radar_v2_live.py --date D と radar_v2_stamina_live.py --date D --display(スタミナの列、追補7 S5、無ければ列を出さない)を実行する。
 出力(既定): data/jra_pipeline/pedigree_reports/race_radar_v2_report.html(Artifact として公開する本体)
 """
 import argparse
@@ -126,6 +127,7 @@ footer { color: var(--muted); font-size: 12px; }
       <ul>
         <li><b>「レースが求める脚質・キレに血統が合う馬が来る」ことは未確認</b>。脚質・キレの列は、血統の傾向の記述として見てください。</li>
         <li><b>オッズに対する上積みは、v2の適合度では無し</b>(<span class="mono" id="v-mkt"></span>)。DL版はごく小さな上積み(<span class="mono" id="v-dlmkt"></span>、結果を見た後の探索で、確認ではない)。</li>
+        <li id="v-stam-li"><b>血統から推したスタミナ</b>(持続力・距離延長への反応)が「レースの要求に合う馬ほど来る」ことは未確認(2021〜2026年、<span class="mono" id="v-stam"></span>、事前に決めた基準 p&lt;0.025 に届かず。効果が小さいと見つけにくい検定で、効果なしという意味ではありません)。上がりのかかる展開での脚は、血統から予測できません(父の値が産駒を分けると再現しない)。</li>
         <li>当日のトラックバイアス・馬場の変化は入っていません。</li>
       </ul>
     </div>
@@ -167,13 +169,14 @@ footer { color: var(--muted); font-size: 12px; }
         <li><b>血統+実績</b>: その日より前の本人の走で血統の値を更新(走数が多いほど本人の値に寄る)。芝ダ・距離帯は「本人の芝ダ・距離帯別の成績差」です。</li>
         <li><b>DL適合度</b>: レース条件(競馬場・芝ダ・距離・内外回り・馬場・クラス・頭数・過去のペース傾向・出走馬の過去の位置取り)から、9本の血統の値それぞれに掛ける重みを学習したもの。血統のみで計算します(切替の影響を受けません)。馬場は発走前には分からないため4通り計算してあり、「自動」は結果のある日は実際の馬場、まだの日は良です。</li>
         <li>「血統表未取得」の馬は、馬柱の父・母父の名前から血統IDを引いています(父父は父から)。</li>
+        <li><b>スタミナ(血統から)</b>: <b>持続力</b>=前半が速い消耗戦のレースほど、産駒が普段より走るか(脚質の有利不利は除いてある)。<b>距離延長への反応</b>=同じ距離帯の中で、前走から距離を延ばして来た時に普段より走るか(前走の成績による反動は除いてある)。<b>上がりのかかる展開</b>=上がり3Fが標準より遅いレースほど走るか。持続力の要求は、コース・クラス・頭数・出走馬の過去の位置取り・馬場から発走前に予測したペースです。</li>
       </ul>
     </div>
     <div>
       <ul>
         <li><span class="st-予測"><b>予測</b></span>: 予測上の価値を確認(芝ダ)。</li>
-        <li><span class="st-記述"><b>記述</b></span>: 偏りと信頼性は旧版より大きく改善したが、予測上の価値は未確認(脚質・キレ)。</li>
-        <li><span class="st-参考"><b>参考</b></span>: 距離帯(はっきりしない、長距離帯は信頼度低)・新馬(効くが偏りが一部残る)。薄く表示。</li>
+        <li><span class="st-記述"><b>記述</b></span>: 偏りと信頼性は旧版より大きく改善したが、予測上の価値は未確認(脚質・キレ)。スタミナの持続力・距離延長への反応も、血統の傾向としては再現するが、予測上の価値は2021〜2026年の確認で未確認。</li>
+        <li><span class="st-参考"><b>参考</b></span>: 距離帯(はっきりしない、長距離帯は信頼度低)・新馬(効くが偏りが一部残る)・上がりのかかる展開(血統から予測できない)。薄く表示。</li>
         <li>レースの要求は、同じコース・クラス・開催日目の過去レース(足りなければ段階的に広げる)の上位3頭と出走馬平均の差から作っています。想定ペース別の要求は、そのペースだった過去レースだけで作ります(2026-10-07に、実際のペース以外の区分がほぼ0になる表示の不具合を直しました。評価に使った「指定なし」は不変)。</li>
       </ul>
     </div>
@@ -299,10 +302,45 @@ function renderRace() {
     html += "</tr>";
   });
   html += `</tbody></table></div>`;
+  html += stamHTML(race, hs, showFin);
   const sh = hs.find(h => h.umaban === state.sel) || hs[0];
   if (sh) html += `<div class="radar-wrap" style="margin-top:14px"><div>${radarSVG(race, sh)}</div><div id="detail">${detail(race, sh)}</div></div>`;
   el.innerHTML = html;
   el.querySelectorAll("tr.hrow").forEach(tr => tr.onclick = () => { state.sel = Number(tr.dataset.k); renderRace(); });
+}
+
+function distChange(st) {
+  if (!st) return '<span class="na">—</span>';
+  if (st.prev_d === null) return '<span class="meta">初出走</span>';
+  const pct = Math.round((race_d - st.prev_d) / st.prev_d * 100);
+  const s = `${st.prev_d}→${race_d}m`;
+  if (st.ext) return `<b>延長</b> <span class="meta">${s}(+${pct}%)</span>`;
+  if (st.short) return `短縮 <span class="meta">${s}(${pct}%)</span>`;
+  return `<span class="meta">同程度(前走${st.prev_d}m)</span>`;
+}
+let race_d = 0;
+function stamHTML(race, hs, showFin) {
+  if (!race.stam) return "";
+  race_d = race.distance;
+  const g = goingOf(race), qa = race.stam.qA ? race.stam.qA[g] : null;
+  let s = `<h3 style="margin-top:16px">スタミナ(血統から)<span class="meta" style="font-weight:400"> — 事前登録 追補7。並びは上の表と同じ</span></h3>
+  <div class="chips" style="margin:6px 0 8px">
+    ${reqChip("持続力の要求(前半が速い消耗戦になりやすさ)", qa, "馬場: " + g + "・コース/クラス/出走馬の過去の位置取りから発走前に予測")}
+  </div>
+  <div class="scroll"><table><thead><tr><th>馬番</th><th>馬名</th><th>今回の距離</th>
+    <th>持続力<span class="st st-記述">記述</span><span class="sub">消耗戦での上積み</span></th>
+    <th>距離延長への反応<span class="st st-記述">記述</span><span class="sub">延ばした時の上積み</span></th>
+    <th class="faint">上がりのかかる展開<span class="st st-参考">参考</span><span class="sub">血統から予測できない</span></th>
+    ${showFin ? "<th>着順</th>" : ""}</tr></thead><tbody>`;
+  hs.forEach(h => {
+    const st = race.stam.horses[h.horse_id];
+    s += `<tr class="hrow ${state.sel === h.umaban ? "sel" : ""}" data-k="${h.umaban}"><td class="num">${h.umaban}</td><td>${esc(h.horse_name)}</td>
+      <td>${distChange(st)}</td><td>${bar(st ? st.A : null)}</td>
+      <td class="${st && st.ext ? "" : "faint"}">${bar(st ? st.B : null)}</td><td class="faint">${bar(st ? st.C : null)}</td>
+      ${showFin ? `<td class="fin ${h.finish && h.finish <= 3 ? "top3" : ""}">${h.finish ?? esc(h.finish_raw || "—")}</td>` : ""}</tr>`;
+  });
+  s += `</tbody></table></div><p class="meta">値は血統の値(父・母父・父父の平均、前年末までのデータ、本人の走を除く)を祖先間の真の差のばらつきで割ったもの。0が平均。距離延長への反応は、今回延長する馬だけ濃く表示しています。3つを足した「スタミナ指数」は作っていません(足し方を確かめていないため)。</p>`;
+  return s;
 }
 
 const MARU = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱";
@@ -384,6 +422,11 @@ function detail(race, h) {
   parts.forEach(([l, x]) => { s += `<tr><td>${l}</td><td>${bar(x, 1.0)}</td></tr>`; });
   s += `<tr><td><b>合計</b></td><td class="num"><b>${fmt(fit(race, h), 3)}</b></td></tr></table>`;
   if (state.mode === "own" && h.own && h.own.n_prev === 0) s += `<p class="note">この馬は過去の出走が無いため、血統のみの値と同じです。</p>`;
+  const st = race.stam && race.stam.horses[h.horse_id];
+  if (st) s += `<table style="margin-top:8px"><tr><th>スタミナ(血統から)</th><th>値</th></tr>
+    <tr><td>持続力 <span class="st-記述">記述</span></td><td>${bar(st.A)}</td></tr>
+    <tr><td>距離延長への反応 <span class="st-記述">記述</span></td><td>${bar(st.B)}</td></tr>
+    <tr><td>上がりのかかる展開 <span class="st-参考">参考</span></td><td>${bar(st.C)}</td></tr></table>`;
   return s;
 }
 
@@ -401,8 +444,10 @@ function seg(id, key) {
   $("#v-mkt").textContent = fmt(V.market.dll, 5);
   if (V.dl) { $("#v-dl").textContent = fmt(V.dl.dll, 4) + " [" + V.dl.ci.map(x => x.toFixed(4)).join(", ") + "]"; $("#v-dlmkt").textContent = fmt(V.dl.market, 4) + " [" + V.dl.market_ci.map(x => x.toFixed(4)).join(", ") + "]"; }
   else { $("#v-dl-li").hidden = true; $("#v-dlmkt").textContent = "—"; }
+  if (V.stamina) $("#v-stam").textContent = fmt(V.stamina.dll, 4) + " [" + V.stamina.ci.map(x => x.toFixed(4)).join(", ") + "]、p=" + V.stamina.p.toFixed(3);
+  else $("#v-stam-li").hidden = true;
   $("#v-top1").textContent = (V.top1.S * 100).toFixed(1) + "% → " + (V.top1["S+F"] * 100).toFixed(1) + "%";
-  $("#foot").innerHTML = `時点表: ${D.table_window_end}までのデータ(${D.table_year}年用)。作成: ${D.generated_at}。検証: 事前登録 RADAR_V2_PREREG_2026_10_06.md(追補1〜6)、radar_v2_eval.json・radar_v2_eval_addendum.json・radar_v2_dl_eval.json。`;
+  $("#foot").innerHTML = `時点表: ${D.table_window_end}までのデータ(${D.table_year}年用)。作成: ${D.generated_at}。検証: 事前登録 RADAR_V2_PREREG_2026_10_06.md(追補1〜7)、radar_v2_eval.json・radar_v2_eval_addendum.json・radar_v2_dl_eval.json・radar_v2_stamina_eval.json。`;
   seg("#seg-mode", "mode"); seg("#seg-pace", "pace"); seg("#seg-going", "going"); seg("#seg-sort", "sort"); seg("#seg-fin", "fin");
   state.day = D.days[D.days.length - 1].date;
   try { const s = JSON.parse(localStorage.getItem("rv2_pos") || "null"); if (s && D.days.find(d => d.date === s.day)) Object.assign(state, { day: s.day, venue: s.venue, race: s.race }); } catch (e) {}
@@ -431,6 +476,10 @@ def common() -> dict:
                                "market": d["market"]["v3"]["dll_per_race"], "market_ci": d["market"]["v3"]["ci95_block"]}
     v3 = json.loads((C.OUT_DIR / "v3_export_2026.json").read_text(encoding="utf-8"))
     out["v3_learned"] = v3["learned_by_group"]
+    st = C.OUT_DIR / "radar_v2_stamina_eval.json"
+    if st.exists():
+        se = json.loads(st.read_text(encoding="utf-8"))["omnibus"]
+        out["validation"]["stamina"] = {"dll": se["dll_per_race"], "ci": se["ci95_block"], "p": se["p_one_sided"]}
     pe = C.OUT_DIR / "prospective_eval.json"
     out["prospective"] = json.loads(pe.read_text(encoding="utf-8")) if pe.exists() else None
     return out
@@ -469,6 +518,12 @@ def main():
         day = json.loads((LIVE / f"race_radar_v2_{d}.json").read_text(encoding="utf-8"))
         day.pop("check_vs_r5", None)
         add_results(day, d)
+        sp = LIVE / f"stamina_{d}.json"   # radar_v2_stamina_live.py --display(追補7、S5)
+        if sp.exists():
+            stam = json.loads(sp.read_text(encoding="utf-8"))["races"]
+            for race in day["races"]:
+                if race["race_id"] in stam:
+                    race["stam"] = stam[race["race_id"]]
         data["days"].append(day)
     data["generated_at"] = time.strftime("%Y-%m-%d %H:%M")
     html = TEMPLATE.replace("__DATA__", json.dumps(data, ensure_ascii=False))

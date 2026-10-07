@@ -148,12 +148,29 @@ def check(D: pd.Timestamp, out: dict) -> dict:
     return rep
 
 
+def display(D: pd.Timestamp, out: dict) -> Path:
+    """レーダーのページ用(gen_race_radar_v2_report.py が読む): レースごとの q_A(4通りの馬場)と、各馬の z_A・z_B・z_C・今回の距離変更。"""
+    df = out["df"]
+    races = {}
+    for rid, g in df.groupby("race_id"):
+        races[rid] = {"qA": {gg: r4(out["q4"][gg].get(rid)) for gg in S.GOINGS},
+                      "horses": {h["horse_id"]: {"A": r4(h["z_stamA"]), "B": r4(h["z_stamB"]), "C": r4(h["z_stamC"]),
+                                                 "ext": bool(h["ext"]), "short": bool(h["short"]), "ext_amt": r4(h["ext_amt"]),
+                                                 "prev_d": None if pd.isna(h["prev_logd"]) else int(round(float(np.exp(h["prev_logd"]))))}
+                                 for _, h in g.iterrows()}}
+    p = C.OUT_DIR / "live" / f"stamina_{D.strftime('%Y%m%d')}.json"
+    p.write_text(json.dumps({"date": str(D.date()), "table_year": D.year, "races": races}, ensure_ascii=False), encoding="utf-8")
+    log("wrote", p.name, len(races), "レース")
+    return p
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--date", required=True)
     ap.add_argument("--race-names", type=Path)
     ap.add_argument("--record", action="store_true")
     ap.add_argument("--check", action="store_true")
+    ap.add_argument("--display", action="store_true", help="レーダーのページ用の値(radar_v2/live/stamina_{date}.json)")
     ap.add_argument("--date-today", action="store_true")
     a = ap.parse_args() if "--date-today" not in sys.argv else ap.parse_args(sys.argv[1:] + ["--date", time.strftime("%Y%m%d")])
     D = pd.Timestamp(a.date)
@@ -171,6 +188,8 @@ def main():
     if a.check:
         rep = check(D, out)
         (C.OUT_DIR / "live" / f"stamina_check_{D.strftime('%Y%m%d')}.json").write_text(json.dumps(rep, ensure_ascii=False, indent=1), encoding="utf-8")
+    if a.display:
+        display(D, out)
     if a.record:
         record(D, out, a.race_names)
 
