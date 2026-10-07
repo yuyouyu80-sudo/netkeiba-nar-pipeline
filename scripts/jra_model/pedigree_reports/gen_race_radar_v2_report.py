@@ -85,6 +85,13 @@ tr.hrow { cursor: pointer; } tr.hrow:hover { background: var(--accent-soft); } t
 .na { color: var(--muted); font-size: 12px; }
 .fin { font-family: var(--font-mono); font-weight: 700; }
 .fin.top3 { color: var(--accent); }
+.rhead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 20px; margin-bottom: 10px; }
+.rhead h2 { margin: 0; }
+.res { font-size: 13px; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.res-top { display: flex; flex-wrap: wrap; gap: 2px 12px; }
+.res-h b, .res-pay b { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.res-h b { color: var(--accent); }
+.res-pay .label { margin-right: 4px; }
 .radar-wrap { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 16px; align-items: start; }
 @media (max-width: 720px) { .radar-wrap { grid-template-columns: 1fr; } }
 svg text { fill: var(--muted); font-size: 11px; font-family: var(--font-body); }
@@ -140,7 +147,7 @@ footer { color: var(--muted); font-size: 12px; }
     <div><span class="label">想定ペース</span><span class="seg" id="seg-pace"><button data-v="全体" aria-pressed="true">指定なし</button><button data-v="速い">速い</button><button data-v="平均">平均</button><button data-v="遅い">遅い</button></span></div>
     <div><span class="label">馬場(DL)</span><span class="seg" id="seg-going"><button data-v="auto" aria-pressed="true">自動</button><button data-v="良">良</button><button data-v="稍重">稍重</button><button data-v="重">重</button><button data-v="不良">不良</button></span></div>
     <div><span class="label">並び</span><span class="seg" id="seg-sort"><button data-v="fit" aria-pressed="true">適合度</button><button data-v="dl">DL適合度</button><button data-v="umaban">馬番</button></span></div>
-    <div id="fin-ctl"><span class="label">着順</span><span class="seg" id="seg-fin"><button data-v="hide" aria-pressed="true">隠す</button><button data-v="show">表示</button></span></div>
+    <div id="fin-ctl"><span class="label">着順</span><span class="seg" id="seg-fin"><button data-v="hide">隠す</button><button data-v="show" aria-pressed="true">表示</button></span></div>
   </div>
 </section>
 
@@ -179,7 +186,7 @@ footer { color: var(--muted); font-size: 12px; }
 <script>
 const D = __DATA__;
 const AX = ["S", "front", "kire", "surface", "dbucket", "debut"];
-const state = { day: null, venue: null, race: null, mode: "ped", pace: "全体", going: "auto", sort: "fit", fin: "hide", sel: null };
+const state = { day: null, venue: null, race: null, mode: "ped", pace: "全体", going: "auto", sort: "fit", fin: "show", sel: null };
 const $ = (s, el = document) => el.querySelector(s);
 const fmt = (x, d = 2) => (x === null || x === undefined || !isFinite(x)) ? "—" : (x > 0 ? "+" : "") + x.toFixed(d);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -249,7 +256,7 @@ function reqChip(label, v, extra) {
   const word = v === null ? "—" : v > 0.5 ? "強く求める" : v > 0.15 ? "やや求める" : v < -0.5 ? "不利(逆)" : v < -0.15 ? "やや不利" : "ほぼ中立";
   return `<div class="chip">${label}: <b>${fmt(v)}</b> <span class="meta">${word}${extra ? " / " + extra : ""}</span></div>`;
 }
-const CLS = { 0: "未勝利・新馬", 1: "1勝クラス", 2: "2勝クラス", 3: "3勝クラス", 4: "オープン", 5: "G3", 6: "G2", 7: "G1" };
+const CLS = { 0: "未勝利", 1: "1勝クラス", 2: "2勝クラス", 3: "3勝クラス", 4: "オープン", 5: "G3", 6: "G2", 7: "G1" };
 
 function renderRace() {
   const race = raceObj();
@@ -268,7 +275,7 @@ function renderRace() {
   const rule = a => `${race.req_rule[a] || "—"}・${race.req_n[a] ?? "—"}件`;
   const g = goingOf(race);
   const cls = race.is_debut ? "新馬" : (CLS[race.class_ord] ?? "クラス不明");
-  let html = `<h2>${esc(race.venue)} ${race.race_number}R ${esc(race.race_name)} <span class="meta">${race.surface}${race.distance}m・${cls}${race.start_time ? "・" + race.start_time + "発走" : ""}</span></h2>
+  let html = `<div class="rhead"><h2>${esc(race.venue)} ${race.race_number}R ${esc(race.race_name)} <span class="meta">${race.surface}${race.distance}m・${cls}${race.start_time ? "・" + race.start_time + "発走" : ""}</span></h2>${showFin ? resultHTML(race) : ""}</div>
   <div class="chips" style="margin-bottom:10px">
     ${reqChip("脚質(前に行く)の要求", q(race, "front"), rule("front"))}
     ${reqChip("キレの要求", q(race, "kire"), rule("kire"))}
@@ -296,6 +303,19 @@ function renderRace() {
   if (sh) html += `<div class="radar-wrap" style="margin-top:14px"><div>${radarSVG(race, sh)}</div><div id="detail">${detail(race, sh)}</div></div>`;
   el.innerHTML = html;
   el.querySelectorAll("tr.hrow").forEach(tr => tr.onclick = () => { state.sel = Number(tr.dataset.k); renderRace(); });
+}
+
+const MARU = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱";
+const yen = v => "¥" + Number(v).toLocaleString();
+function resultHTML(race) {
+  if (!race.top5 || !race.top5.length) return `<div class="res"><span class="meta">結果はまだありません</span></div>`;
+  let s = `<div class="res"><div class="res-top">`;
+  race.top5.forEach(([p, u, n, pop]) => { s += `<span class="res-h"><b>${p}着</b> ${MARU[u - 1] || u} ${esc(n)}${pop ? `<span class="meta">(${pop}人気)</span>` : ""}</span>`; });
+  s += `</div>`;
+  const P = race.pay || {};
+  const fmtPay = k => (P[k] || []).map(([c, v, pop]) => `${MARU[Number(c) - 1] || c} <b>${yen(v)}</b>${pop ? `<span class="meta">(${pop}人気)</span>` : ""}`).join("、");
+  if (P["単勝"] || P["複勝"]) s += `<div class="res-pay"><span class="label">単勝</span>${fmtPay("単勝") || "—"}　<span class="label">複勝</span>${fmtPay("複勝") || "—"}</div>`;
+  return s + `</div>`;
 }
 
 const ZL = {"z_front": "脚質(前)", "z_kire": "キレ", "z_s|芝": "芝", "z_s|ダ": "ダ", "z_b|短距離(~1400m)": "短距離", "z_b|マイル(1401-1800m)": "マイル",
@@ -416,6 +436,27 @@ def common() -> dict:
     return out
 
 
+def add_results(day: dict, d: str):
+    """結果のある日: 各レースの1〜5着(馬番・馬名・人気)と単勝・複勝の払戻を足す(表示のみ、値の計算には使わない)。"""
+    import pandas as pd
+    res_p = C.RESULTS_DIR / d[:4] / f"{d}.csv"
+    pay_p = C.PROJECT_ROOT / "data" / "payouts" / d[:4] / f"{d}.csv"
+    if not res_p.exists():
+        return
+    r = pd.read_csv(res_p, dtype=str)
+    r["pos"] = C.parse_finish(r["finish_pos"])
+    pay = pd.read_csv(pay_p, dtype=str) if pay_p.exists() else None
+    for race in day["races"]:
+        rid = race["race_id"]
+        g = r[(r["race_id"] == rid) & (r["pos"] <= 5)].sort_values(["pos", "umaban"], key=lambda s: pd.to_numeric(s, errors="coerce"))
+        race["top5"] = [[int(p), int(u), n, int(pp) if str(pp).isdigit() else None]
+                        for p, u, n, pp in zip(g["pos"], g["umaban"], g["horse_name"], g["popularity"])]
+        if pay is not None:
+            pr = pay[(pay["race_id"] == rid) & pay["bet_type"].isin(["単勝", "複勝"])]
+            race["pay"] = {k: [[c, int(v), int(pp) if str(pp).isdigit() else None] for c, v, pp in zip(x["combination"], x["payout"], x["popularity"])]
+                           for k, x in pr.groupby("bet_type")}
+
+
 def main():
     import time
     ap = argparse.ArgumentParser()
@@ -427,6 +468,7 @@ def main():
     for d in sorted(a.days):
         day = json.loads((LIVE / f"race_radar_v2_{d}.json").read_text(encoding="utf-8"))
         day.pop("check_vs_r5", None)
+        add_results(day, d)
         data["days"].append(day)
     data["generated_at"] = time.strftime("%Y-%m-%d %H:%M")
     html = TEMPLATE.replace("__DATA__", json.dumps(data, ensure_ascii=False))
