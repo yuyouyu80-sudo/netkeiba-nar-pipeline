@@ -126,5 +126,15 @@
   ],
   "output": "stamina_eval_dry.txt",
   "output_sha256": "42605ea3769592c69d39ef6118538bdc2a900307b422def41f53e7813dd9e84f"
+ },
+ {
+  "script": "radar_v2_stamina_eval.py",
+  "mode": "confirm (追補7)",
+  "started": "2026-10-07 20:43:24",
+  "finished": "2026-10-07 21:31:26",
+  "git_commit": "b68c310410bce7cccf2c6a3f5200e510951717ae",
+  "git_dirty_files": [],
+  "output": "radar_v2_stamina_eval.json",
+  "output_sha256": "9727b7fad04e4402e5335625457297668916797725ba2a5609c53845d66e6fee"
  }
 ]
