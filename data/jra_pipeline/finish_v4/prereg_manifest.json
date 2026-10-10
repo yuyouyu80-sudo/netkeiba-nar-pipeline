@@ -1,0 +1,24 @@
+{
+ "made": "2026-10-11 07:35:23",
+ "git_head": "336de0d08a16db35c6ba8e8ad6920419e82cb1d4",
+ "skip_pcov_threshold": 0.2716627812525135,
+ "skip_rule": "主ルール N20 の買い目の確率の合計が、開発の下位20%点未満なら見送り(副次・記述)",
+ "inputs": {
+  "files": {
+   "data/jra_pipeline/pedigree_reports/radar_v2/runs_all.parquet": "870e2ce947375668825ac1cbed8f8cd9a52a9e2b47018dc442b9e074aa42e76a",
+   "data/jra_pipeline/pedigree_reports/radar_v2/dl_table.parquet": "967857ec2f4b65b02b357cfcd474d968c8298493d53fbddfe1c79ffdeabf8009",
+   "data/jra_pipeline/pedigree_reports/radar_v2/runs_ext.parquet": "464ff569c7ab31f0ac556b97a8cc32687b1eb049bc16a6e40b70bcaba08c5d2f",
+   "data/jra_pipeline/pedigree_reports/radar_v2/stamina_race.parquet": "8ab57db2107a754ba1ad8ada936fc64ccd7e23d2a5e4f56d1133ac93c607badb",
+   "data/jra_pipeline/pedigree_reports/radar_v2/race_req.parquet": "a31fd216c9dee9f55b081fce7d6f604c8f247535cdd16434f94393a910c7389c",
+   "data/jra_pipeline/pedigree_reports/radar_v2/stamina_l3.parquet": "8c50c99ae4a18ac8545d0b26dbe9249a8caa3fd42fc1fe4872d41e0aff256557",
+   "data/jra_pipeline/pedigree_reports/radar_v2/ability_tune.json": "1991be4f8ce6ae1a422479d9d51b04ff20693d3bb1eef5154d0571d1cbc0466c",
+   "data/jra_pipeline/finish_v4/ability_v2_tune.json": "98e0d3c77446e78162dd8b6f352667e6c1dc834e6cfdd9b29e20b7e54dd12ba2",
+   "data/jra_pipeline/finish_v4/dam_ids.parquet": "46f323491f168733a2b68d3c45a95e8016c15712bbb132e393280e2fbf5f92eb"
+  },
+  "dirs": {
+   "data/race_results": "1efa2a0c23697d1425828864c45f2294d292d5477cf18a79a33054e45a347009",
+   "data/payouts": "f1d076a0c96b4dc98444139e1a9c6207667d3e01255550416c6def150ce70f00",
+   "data/pedigree": "8c707d0ae3765ac7ee66e2165b9eed67ec78d9616fa1f2fe60299527b0eb7452"
+  }
+ }
+}

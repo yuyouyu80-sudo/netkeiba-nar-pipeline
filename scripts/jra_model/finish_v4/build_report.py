@@ -86,6 +86,7 @@ def main():
     mk, mk0 = J("dev_f0_market.json"), J("dev_f0_market_finishers_only.json")
     proxy, cov = J("f0_odds_proxy_check.json"), J("birth_coverage.json")
     tune, ev = J("ability_v2_tune.json"), J("ability_v2_eval_dev.json")
+    f3, f3m, dry = J("f3_eval_dev.json"), J("f3_market.json"), J("final_dry_result.json")
     R = mk["rules"]
     nf = met["nonfinish"]
 
@@ -184,10 +185,84 @@ def main():
         tcar=table(["キャリア", "走数", "生年月日あり"], car_rows, "num"), cov_made=esc(cov["made"]),
         fr_n=f'{cov["foreign"]["n"]:,}', fr_jd=cov["foreign"]["born_jul_dec"],
         f2=f2_html or "<p>実行中。</p>", f2_summary=f2_summary(ev),
+        f3=f3_html(f3), f3m=f3m_html(f3m), f5=f5_html(dry, True),
     )
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(html_out, encoding="utf-8", newline="\n")
     print("wrote", OUT, len(html_out))
+
+
+def cib(c, d=4):
+    return f'<br><span class="sub">[{c[0]:+.{d}f}, {c[1]:+.{d}f}]</span>'
+
+
+def f3_html(f3) -> str:
+    if not f3:
+        return "<p>実行中。</p>"
+    l2 = "、".join(f"{k}: {v:.5f}" for k, v in f3["l2_grid"].items())
+    h = f"<p>L2 は全部入りで 2018・2019年だけを見て選びました({esc(l2)} → <b>{f3['l2']}</b>。差はごく小さい)。</p>"
+    rows = []
+    for k, m in f3["final_vs_M5"].items():
+        if k == "M5":
+            rows.append(["M5(能力値入り)", num(m["ll"], 4), "—", num(m["combo_logscore"], 4), "—", pct(m["hit"]["N10"]), pct(m["hit"]["N20"]), "—"])
+        else:
+            d, c, t = m["dll_vs_M5"], m["combo_vs_M5"], m["hit10_vs_M5"]
+            rows.append(["完成形 FINAL", num(m["ll"], 4), num(d["mean"], 4, True) + cib(d["ci_bca"]), num(m["combo_logscore"], 4),
+                         num(c["mean"], 4, True) + cib(c["ci_bca"]), pct(m["hit"]["N10"]), pct(m["hit"]["N20"]), pt(t["mean"]) + f'<br><span class="sub">{ci_pt(t["ci_bca"])}</span>'])
+    m6 = f3["final_vs_M6"]["M6"]
+    rows.insert(1, ["M6(F2 の4つまで)", "—", "—", num(m6["combo_logscore"], 4), "—", pct(m6["hit"]["N10"]), pct(m6["hit"]["N20"]), "—"])
+    h += table(["モデル", "着順の対数尤度/R", "M5との差 [95%]", "組の対数スコア", "M5との差 [95%]", "10点の的中率", "20点の的中率", "10点 M5との差"], rows, "num")
+    ab = []
+    for g in f3["groups"]:
+        v = f3["vs_FULL"][f"FULL−{g}"]["combo_vs_FULL"]
+        ab.append([esc(g), f'{len(f3["groups"][g])}', num(v["mean"], 4, True) + cib(v["ci_bca"]),
+                   '<span class="chip good">残す</span>' if g in f3["kept_groups"] else '<span class="chip neu">外す</span>'])
+    h += "<h4>外して比べる(全部入りから1群ずつ外したときの組の対数スコアの変化)</h4>" + table(["群", "本数", "外したときの差 [95%]", "凍結の規則"], ab, "num")
+    mc = f3.get("mc")
+    if mc:
+        h += (f"<p>不確かさを使う版(能力値を平均±SDから32回引いて組の確率を平均): 2018・2019年の組の対数スコアは、そのまま {mc['deterministic_select']:.5f} に対し "
+              f"s=0.5 で {mc['s_grid']['0.5']:.5f}、s=1.0 で {mc['s_grid']['1.0']:.5f}。良くならなかったので<b>使わない</b>。</p>")
+    return h
+
+
+def f3m_html(f3m) -> str:
+    if not f3m:
+        return "<p>実行中。</p>"
+    R = f3m["rules"]
+    rows = []
+    for rule, lab in [("N10", "10点"), ("N20", "20点"), ("N30", "30点")]:
+        for who, wl in [("mkt", "人気どおり"), ("u_M5_pl", "M5"), ("u_M6_pl", "M6"), ("u_FINAL_pl", "完成形 FINAL")]:
+            r = R[f"{who}_{rule}"]
+            u = r["uplift"]
+            rows.append([esc(lab), esc(wl), pct(r["hit_rate"]), pct(r["roi"]["ratio"]), pct(r["expected_roi_market"]),
+                         pt(u["ratio"]), ci_pt(u["ci_bca"]), verdict_chip(*u["ci_bca"]),
+                         "—" if r["median_market_rank"] is None else f'{r["median_market_rank"]:.0f}位'])
+    inc = f3m["increment_logit"]
+    h = table(["点数", "予想", "的中率", "回収率", "人気から見た期待", "上積み", "95%区間", "判定", "買った組の人気(中央値)"], rows, "num")
+    h += (f"<p>オッズに無い情報(完成形): a = {inc['a']:.3f}(SE {inc['a_se_cluster']:.3f}、z = {inc['z_a']:.1f})、人気だけの式に比べて1レースあたり "
+          f"+{inc['dll_per_race_vs_market_only']:.4f}(M5 では +0.0085)。</p>")
+    return h
+
+
+def f5_html(dry, prereg_ok) -> str:
+    if not dry:
+        return "<p>試運転は実行中。</p>"
+    h2, h1b, h4 = dry["H2"], dry["H1b"], dry["H4"]
+    a, b = h2["combo_logscore_FINAL_minus_M1"], h2["hit_N20_FINAL_minus_M1"]
+    rows = [["H2(本命)", "組の対数スコア FINAL − M1", num(a["mean"], 4, True) + cib(a["ci_bca"]), verdict_chip(*a["ci_bca"])],
+            ["", "20点の的中 FINAL − M1", pt(b["mean"]) + f'<br><span class="sub">{ci_pt(b["ci_bca"])}</span>', verdict_chip(*b["ci_bca"])],
+            ["H1b", "着順の対数尤度 FINAL − M5", num(h1b["ll_FINAL_minus_M5"]["mean"], 4, True) + cib(h1b["ll_FINAL_minus_M5"]["ci_bca"]),
+             verdict_chip(*h1b["ll_FINAL_minus_M5"]["ci_bca"])],
+            ["H4", "オッズに無い情報 a", f'{h4["increment"]["a"]:.3f}(z {h4["increment"]["z_a"]:.1f})',
+             '<span class="chip good">上回る</span>' if h4["increment"]["z_a"] > 1.96 else '<span class="chip neu">区別できない</span>'],
+            ["H3(推定)", "20点の人気をそろえた上積み", pt(dry["H3_estimate"]["uplift"]["ratio"]) + f'<br><span class="sub">{ci_pt(dry["H3_estimate"]["uplift"]["ci_bca"])}</span>',
+             esc(dry["H3_estimate"]["label"])]]
+    h = table(["仮説", "中身", "試運転(2018〜2020年)", "結果"], rows, "num")
+    sk = dry.get("skip")
+    if sk:
+        h += (f"<p>見送り(副次): 20点の買い目の確率の合計が下位20%のレースを見送ると、買ったレースの回収率は {pct(sk['FINAL']['roi_bought'])}"
+              f"(上積み {pt(sk['FINAL']['uplift_bought']['ratio'])})。人気どおりに同じ割合を見送った場合は {pct(sk['mkt']['roi_bought'])}。</p>")
+    return h
 
 
 def f2_summary(ev) -> str:

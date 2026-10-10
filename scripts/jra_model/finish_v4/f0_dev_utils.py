@@ -35,6 +35,10 @@ SPECS = {"M1": ["S_own", "F_own"],
          "M5": ["S_own", "F_own", "ext", "short", "ext_amt", "ab_mu", "ab_sd", "ab_new", "kin", "d_kin", "rest_long", "last_fig"]}
 AB_COLS = ["ab_mu", "ab_sd", "ab_new", "ew_mu", "last_fig", "kin", "d_kin", "rest_long"]
 NS = list(range(1, 51))
+# F3 用: 血統の値(z、時点表 Y−1年末まで・本人除外)とレースの条件(発走前に分かる量)。dl_table と同じ列
+PED_Z = ["S", "z_front", "z_kire", "z_s|芝", "z_s|ダ", "z_b|短距離(~1400m)", "z_b|マイル(1401-1800m)", "z_b|中距離(1801-2200m)",
+         "z_b|長距離(2201m~)", "z_debut"]
+RACE_COND = ["is_dirt", "logd", "class_n", "debut", "n_start"]
 log = AB.log
 
 
@@ -69,27 +73,25 @@ def load_aug_runs(aug: pd.DataFrame) -> pd.DataFrame:
     return runs.sort_values(["horse_id", "date", "race_id"]).reset_index(drop=True)
 
 
-def ghost_features(tp: dict, runs_fin: pd.DataFrame, D: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
+def ghost_features(tp: dict, runs_fin: pd.DataFrame, D: pd.DataFrame, max_year: int = 2020, kh: dict | None = None) -> tuple[pd.DataFrame, dict]:
     """中止の行(D にあるレースだけ)の発走前の特徴量。係数はすべて完走馬だけの表で推定し、中止の行を足した表に当てる。"""
     import radar_v2_eval as E   # Tables・add_own・features_for_year だけを年を明示して使う(build_D は呼ばない)
     import radar_v2_stamina as S
     base_all = pd.read_parquet(A.RUNS)
     th = A.fixed_thresholds(base_all)
-    aug, meta = NF.augment(base_all, AB.DEV_END)
+    aug, meta = NF.augment(base_all, max_year)
     aug = aug[~aug["nonfinish"] | aug["race_id"].isin(set(D["race_id"]))]
-    assert aug["year"].max() <= 2020
+    assert aug["year"].max() <= max_year
     bra = A.add_tiers(aug, th)
     bra["umaban_num"] = pd.to_numeric(bra["umaban"], errors="coerce")
-    bfin = A.add_tiers(base_all[base_all["year"] <= AB.DEV_END], th)
-    bfin["umaban_num"] = pd.to_numeric(bfin["umaban"], errors="coerce")
     req = pd.read_parquet(C.OUT_DIR / "race_req.parquet")
-    kh = E.estimate_kh(bfin)
+    kh = kh or kh_fixed()
     own = []
-    for Y in range(TRAIN_START, AB.DEV_END + 1):
+    for Y in range(TRAIN_START, max_year + 1):
         gY = bra[bra["nonfinish"] & (bra["year"] == Y)]
         df = E.features_for_year(pd.concat([bra[(bra["year"] < Y)], gY]), req, Y)
         f = E.add_own(bra[bra["year"] <= Y], df, Y, kh)
-        own.append(f[["race_id", "horse_id", "S_own", "F_own"]])
+        own.append(f[["race_id", "horse_id", "S_own", "F_own"] + PED_Z])
     own = pd.concat(own).set_index(["race_id", "horse_id"])
     ra = load_aug_runs(aug)
     R = pd.read_parquet(C.OUT_DIR / "stamina_race.parquet")
@@ -97,7 +99,7 @@ def ghost_features(tp: dict, runs_fin: pd.DataFrame, D: pd.DataFrame) -> tuple[p
     flags = flags[ra["nonfinish"].to_numpy()].set_index(["race_id", "horse_id"])[["ext", "short", "ext_amt"]]
     abf = []
     S_fin, S_aug = AB.sire_S(runs_fin), AB.sire_S(ra)    # 年ごとの時点表なので、全期間で一度に作ってよい
-    for Y in range(TRAIN_START, AB.DEV_END + 1):
+    for Y in range(TRAIN_START, max_year + 1):
         rf, rA = runs_fin[runs_fin["year"] <= Y], ra[ra["year"] <= Y]
         P_ = AB.fit_fig(rf, Y - 1)
         fig_f = AB.apply_fig(rf, P_)
@@ -116,8 +118,10 @@ def ghost_features(tp: dict, runs_fin: pd.DataFrame, D: pd.DataFrame) -> tuple[p
         abf.append(pd.concat([rA.loc[m, ["race_id", "horse_id"]], st.loc[m, AB_COLS]], axis=1))
         log("ghost ability", Y, int(m.sum()))
     abf = pd.concat(abf).set_index(["race_id", "horse_id"])
-    gh = ra[ra["nonfinish"] & ra["year"].between(TRAIN_START, AB.DEV_END)].copy()
+    gh = ra[ra["nonfinish"] & ra["year"].between(TRAIN_START, max_year)].copy()
     G = gh[["race_id", "horse_id", "year", "umaban_num", "is_debut_race", "class_ord"]].copy()
+    rc = D.drop_duplicates("race_id").set_index("race_id")[RACE_COND]       # レースの条件は同じレースの行から
+    G = G.join(rc, on="race_id")
     G["pos"] = np.nan
     G["block"] = gh["date"].dt.strftime("%Y%m%d") + "_" + gh["race_id"].str[4:6]
     G = G.join(own, on=["race_id", "horse_id"]).join(flags, on=["race_id", "horse_id"]).join(abf, on=["race_id", "horse_id"])
@@ -133,26 +137,65 @@ def ghost_features(tp: dict, runs_fin: pd.DataFrame, D: pd.DataFrame) -> tuple[p
 TABLES_CACHE = OUT_DIR / "dev_tables.parquet"   # 評価年ごとの特徴量の表(学習+評価の行、Git管理外)。F2 以降の比較の土台
 
 
-def dev_tables() -> tuple[dict, dict]:
+def kh_fixed() -> dict:
+    """血統と本人の実績を合わせる縮約の強さ。2020年末までの走だけで推定して固定(確認期間の行を使わない)。"""
+    import radar_v2_eval as E
+    base_all = pd.read_parquet(A.RUNS)
+    b = A.add_tiers(base_all[base_all["year"] <= 2020], A.fixed_thresholds(base_all))
+    b["umaban_num"] = pd.to_numeric(b["umaban"], errors="coerce")
+    return E.estimate_kh(b)
+
+
+def eval_table(tp: dict, max_year: int, kh: dict) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """radar_v2_ability.build_eval_table と同じ処理を、最後の年を指定して行う(2020 なら同じ結果)。"""
+    import radar_v2_eval as E
+    import radar_v2_stamina as S
+    runs = AB.load(max_year)
+    dl = pd.read_parquet(C.OUT_DIR / "dl_table.parquet")
+    dl = dl[dl["year"].between(TRAIN_START, max_year)]
+    base_runs = pd.read_parquet(A.RUNS)
+    base_runs = A.add_tiers(base_runs[base_runs["year"] <= max_year], A.fixed_thresholds(base_runs))
+    base_runs["umaban_num"] = pd.to_numeric(base_runs["umaban"], errors="coerce")
+    assert dl["year"].max() <= max_year and base_runs["year"].max() <= max_year and runs["year"].max() <= max_year
+    req = pd.read_parquet(C.OUT_DIR / "race_req.parquet")
+    R = pd.read_parquet(C.OUT_DIR / "stamina_race.parquet")
+    flags = S.add_run_cols(runs[["race_id", "horse_id", "logd", "prev_logd", "dbucket"]].assign(perf_adj=np.nan), R)
+    flags = flags.set_index(["race_id", "horse_id"])[["ext", "short", "ext_amt"]]
+    own = []
+    for Y in range(TRAIN_START, max_year + 1):
+        f = E.add_own(base_runs, E.features_for_year(base_runs, req, Y), Y, kh)
+        own.append(f[["race_id", "horse_id", "S_own", "F_own"]])
+        log("own", Y)
+    own = pd.concat(own).set_index(["race_id", "horse_id"])
+    D = dl.join(own, on=["race_id", "horse_id"]).join(flags, on=["race_id", "horse_id"])
+    for c in ["ext", "short"]:
+        D[c] = D[c].fillna(False).astype(float)
+    D["ext_amt"] = D["ext_amt"].fillna(0.0)
+    return runs, D
+
+
+def dev_tables(years=YEARS, max_year: int = 2020, cache: Path = None) -> tuple[dict, dict]:
     """{評価年 Y: 2014〜Y年の行(完走馬+中止の行)と M5 までの特徴量}。能力値の係数は Y−1年末まで。"""
+    cache = cache or TABLES_CACHE
+    assert max(years) <= max_year
     tp = json.loads(AB.TUNE_OUT.read_text(encoding="utf-8"))
-    runs, D = AB.build_eval_table(tp)
-    assert D["year"].max() <= 2020 and runs["year"].max() <= 2020
-    G, gmeta = ghost_features(tp, runs, D)
+    kh = kh_fixed()
+    runs, D = eval_table(tp, max_year, kh)
+    G, gmeta = ghost_features(tp, runs, D, max_year, kh)
     D = D.assign(nonfinish=False)
-    keep = ["race_id", "horse_id", "year", "pos", "umaban_num", "block", "is_debut_race", "class_ord", "nonfinish"] + \
+    keep = ["race_id", "horse_id", "year", "pos", "umaban_num", "block", "is_debut_race", "class_ord", "nonfinish"] + PED_Z + RACE_COND + \
         sorted(set(SPECS["M5"]) | set(AB_COLS))
     tabs = {}
-    for Y in YEARS:
+    for Y in years:
         F = AB.ability_features(runs[runs["year"] <= Y], Y, tp).set_index(["race_id", "horse_id"])[AB_COLS]
         tabs[Y] = pd.concat([D[D["year"] <= Y].join(F, on=["race_id", "horse_id"]), G[G["year"] <= Y]], ignore_index=True)[keep]
-    pd.concat([t.assign(eval_year=Y) for Y, t in tabs.items()], ignore_index=True).to_parquet(TABLES_CACHE, index=False)
+    pd.concat([t.assign(eval_year=Y) for Y, t in tabs.items()], ignore_index=True).to_parquet(cache, index=False)
     return tabs, gmeta
 
 
-def load_tables() -> dict:
-    T = pd.read_parquet(TABLES_CACHE)
-    assert T["year"].max() <= 2020
+def load_tables(cache: Path = None, max_year: int = 2020) -> dict:
+    T = pd.read_parquet(cache or TABLES_CACHE)
+    assert T["year"].max() <= max_year
     return {int(Y): g.drop(columns="eval_year") for Y, g in T.groupby("eval_year")}
 
 
@@ -219,6 +262,13 @@ def metrics(U: pd.DataFrame, pay: dict, lam: dict) -> dict:
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--tables-only", action="store_true", help="dev_tables.parquet だけを作り直す(当てはめ・指標は省く)")
+    if ap.parse_args().tables_only:
+        _, gmeta = dev_tables()
+        log("wrote dev_tables.parquet", gmeta)
+        return
     t0 = time.time()
     U, params, gmeta = build()
     U.to_parquet(OUT_DIR / "dev_utils.parquet", index=False)

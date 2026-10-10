@@ -28,7 +28,7 @@ NS = [10, 20, 30]
 CUMS = [0.3, 0.4, 0.5]
 CAP = 30
 RULES = [f"N{n}" for n in NS] + [f"C{int(c * 100)}" for c in CUMS]
-MODELS = ["u_M1_set", "u_M5_set", "u_M5_pl"]
+MODELS_F0 = ["u_M1_set", "u_M5_set", "u_M5_pl"]
 LAYER_NAMES = ["10頭以下", "11〜14頭", "15〜18頭"]
 log = F0.log
 
@@ -46,10 +46,14 @@ def band_label(n: int) -> str:
     return LAYER_NAMES[0] if n <= 10 else (LAYER_NAMES[1] if n <= 14 else LAYER_NAMES[2])
 
 
-def main():
+def main(utils="dev_utils.parquet", params_file="dev_f0_metrics.json", models=None, logit_model="u_M5_set",
+         out_name="dev_f0_market.json"):
+    """utils の効用の列(models)を、市場の物差しで評価する。F3 以降は --utils f3_utils.parquet などで呼ぶ。"""
     t0 = time.time()
-    U = pd.read_parquet(F0.OUT_DIR / "dev_utils.parquet")
-    params = json.loads((F0.OUT_DIR / "dev_f0_metrics.json").read_text(encoding="utf-8"))["params"]
+    MODELS = models or MODELS_F0
+    U = pd.read_parquet(F0.OUT_DIR / utils)
+    params = json.loads((F0.OUT_DIR / params_file).read_text(encoding="utf-8"))
+    params = params.get("params", params)
     assert U["year"].max() <= 2020
     odds = MY.load_odds(range(2014, 2021))
     assert odds["year"].max() <= 2020
@@ -100,6 +104,7 @@ def main():
                 rec[f"mkt_act_{rule}"] = sum(w.get(int(x), 0) for x in kk)
                 rec[f"mkt_exp_{rule}"] = float(e_m[ii].sum())
                 rec[f"mkt_k_{rule}"] = len(kk)
+                rec[f"mkt_pcov_{rule}"] = float(p_m[ii].sum())
             for mname in MODELS:
                 _, name, kind = mname.split("_")
                 lm = tuple(params[f"{Y}_{name}_{kind}"]["lam"])
@@ -111,8 +116,9 @@ def main():
                     rec[f"{mname}_act_{rule}"] = sum(w.get(int(x), 0) for x in kk)
                     rec[f"{mname}_exp_{rule}"] = float(sum(ex_of.get(int(x), 0.0) for x in kk))
                     rec[f"{mname}_k_{rule}"] = len(kk)
+                    rec[f"{mname}_pcov_{rule}"] = float(pp[pick(pp, rule)].sum())   # 買った組の確率の合計(見送りの判定用)
                     rec[f"{mname}_mrank_{rule}"] = float(np.median([rank_of.get(int(x), len(p_m)) for x in kk]))
-                if mname == "u_M5_set" and same:   # 増分情報のロジット用(全組、候補が市場と同じレース)
+                if mname == logit_model and same:   # 増分情報のロジット用(全組、候補が市場と同じレース)
                     lpk = np.array([pm_of.get(int(x), np.nan) for x in kk_all])
                     widx = [i for i, x in enumerate(kk_all.tolist()) if x in w]
                     if widx and np.isfinite(lpk).all():
@@ -120,8 +126,9 @@ def main():
             rows.append(rec)
         log("year", Y, "races", sum(r["year"] == Y for r in rows), round(time.time() - t0), "秒")
     R = pd.DataFrame(rows)
-    R.to_parquet(F0.OUT_DIR / "dev_f0_market_races.parquet", index=False)
-    res = {"years": F0.YEARS, "n_races": int(len(R)), "market_fit": meta, "cap": CAP,
+    R.to_parquet(F0.OUT_DIR / out_name.replace(".json", "_races.parquet"), index=False)
+    res = {"years": F0.YEARS, "n_races": int(len(R)), "market_fit": meta, "cap": CAP, "utils": utils, "models": MODELS,
+           "logit_model": logit_model,
            "candidates_same_as_market": {"same": int(n_same), "diff": int(n_diff)},
            "n_races_with_nonfinish": int(R["has_nonfinish"].sum()), "rules": {}}
     blk = R["block"].to_numpy()
@@ -160,8 +167,8 @@ def main():
     res["increment_logit"] = increment_logit(logit)
     log("increment", res["increment_logit"])
     res["elapsed_sec"] = round(time.time() - t0, 1)
-    (F0.OUT_DIR / "dev_f0_market.json").write_text(json.dumps(res, ensure_ascii=False, indent=1, default=float), encoding="utf-8")
-    log("wrote dev_f0_market.json")
+    (F0.OUT_DIR / out_name).write_text(json.dumps(res, ensure_ascii=False, indent=1, default=float), encoding="utf-8")
+    log("wrote", out_name)
 
 
 def load_popularity(years) -> dict:
@@ -233,4 +240,12 @@ def increment_logit(items) -> dict:
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--utils", default="dev_utils.parquet")
+    ap.add_argument("--params", default="dev_f0_metrics.json")
+    ap.add_argument("--models", nargs="*", default=None)
+    ap.add_argument("--logit-model", default="u_M5_set")
+    ap.add_argument("--out", default="dev_f0_market.json")
+    a = ap.parse_args()
+    main(a.utils, a.params, a.models, a.logit_model, a.out)
