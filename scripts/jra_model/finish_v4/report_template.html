@@ -1,0 +1,211 @@
+<title>着順予想 finish_v4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@600;700&display=swap">
+<style>
+:root{
+  --bg:#f6f4ee; --paper:#fffdf8; --fg:#1f2a24; --muted:#5d675f; --line:#dcd6c8; --soft:#ece7da;
+  --accent:#1f6b4a; --accent-soft:#e2efe7; --warn:#9a5b12; --warn-soft:#f6ead6; --bad:#a23a32; --bad-soft:#f5e1de;
+  --c1:#1f6b4a; --c2:#8a8f87; --c3:#b0731f; --bar:#6f9f86;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#161b18; --paper:#1d2420; --fg:#e7ebe6; --muted:#a3ada5; --line:#34403a; --soft:#25302a;
+  --accent:#6fc59a; --accent-soft:#1f3a2c; --warn:#e3a95a; --warn-soft:#3a2e1c; --bad:#ec8a80; --bad-soft:#3d2421;
+  --c1:#6fc59a; --c2:#9aa39c; --c3:#e3a95a; --bar:#4f8f6e; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#161b18; --paper:#1d2420; --fg:#e7ebe6; --muted:#a3ada5; --line:#34403a; --soft:#25302a;
+  --accent:#6fc59a; --accent-soft:#1f3a2c; --warn:#e3a95a; --warn-soft:#3a2e1c; --bad:#ec8a80; --bad-soft:#3d2421;
+  --c1:#6fc59a; --c2:#9aa39c; --c3:#e3a95a; --bar:#4f8f6e; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:"Noto Sans JP",system-ui,sans-serif;font-size:15px;line-height:1.75;
+  padding-inline:16px;padding-block:28px 64px}
+main{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:26px}
+h1,h2,h3{font-family:"Noto Serif JP",serif;text-wrap:balance;line-height:1.35;margin:0}
+h1{font-size:1.85rem}
+h2{font-size:1.32rem;padding-bottom:6px;border-bottom:2px solid var(--accent)}
+h3{font-size:1.08rem;margin-top:6px}
+h4{font-size:.95rem;margin:14px 0 4px;color:var(--muted)}
+p,ul{margin:0;max-width:72ch}
+ul{padding-left:1.3em}
+li+li{margin-top:3px}
+section{display:flex;flex-direction:column;gap:12px}
+.lead{color:var(--muted);font-size:.93rem}
+.kicker{font-size:.76rem;letter-spacing:.12em;color:var(--accent);font-weight:700}
+.box{background:var(--paper);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:6px;padding:14px 18px}
+.box.warn{border-left-color:var(--warn)}
+.box ul{max-width:none}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:.86rem;font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--soft);text-align:left;vertical-align:top;white-space:nowrap}
+th{background:var(--soft);font-weight:500;font-size:.8rem;color:var(--muted)}
+table.num td:not(:first-child){text-align:right}
+tbody tr:last-child td{border-bottom:0}
+.sub{font-size:.75rem;color:var(--muted)}
+.chip{display:inline-block;font-size:.72rem;padding:1px 8px;border-radius:999px;font-weight:500}
+.chip.good{background:var(--accent-soft);color:var(--accent)}
+.chip.bad{background:var(--bad-soft);color:var(--bad)}
+.chip.neu{background:var(--soft);color:var(--muted)}
+.chip.done{background:var(--accent-soft);color:var(--accent)}
+.chip.wait{background:var(--warn-soft);color:var(--warn)}
+.chip.todo{background:var(--soft);color:var(--muted)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.grid2>*{min-width:0}
+figure{margin:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:4px}
+svg.chart{width:100%;height:auto;display:block}
+svg .grid{stroke:var(--soft);stroke-width:1}
+svg .ax{fill:var(--muted);font-size:11px}
+svg .val{fill:var(--fg);font-size:10.5px}
+svg .bar{fill:var(--bar)}
+svg .ref{stroke:var(--warn);stroke-width:1.4;stroke-dasharray:5 4}
+svg .refl{fill:var(--warn);font-size:11px}
+svg .ln{fill:none;stroke-width:2.2}
+svg .ln.c1{stroke:var(--c1)} svg .ln.c2{stroke:var(--c2)} svg .ln.c3{stroke:var(--c3)}
+svg .pt.c1{fill:var(--c1)} svg .pt.c2{fill:var(--c2)} svg .pt.c3{fill:var(--c3)}
+svg .lab{font-size:11.5px;font-weight:500} svg .lab.c1{fill:var(--c1)} svg .lab.c2{fill:var(--c2)} svg .lab.c3{fill:var(--c3)}
+dl.gl{display:grid;grid-template-columns:max-content 1fr;gap:4px 16px;margin:0;font-size:.9rem}
+dl.gl dt{font-weight:500}
+dl.gl dd{margin:0;color:var(--muted)}
+@media (max-width:560px){dl.gl{grid-template-columns:1fr} dl.gl dd{margin-bottom:6px} h1{font-size:1.5rem}}
+</style>
+
+<main>
+<header>
+  <div class="kicker">JRA 着順予想 · 3連複の印の改善 · 2026-10-11</div>
+  <h1>着順予想 finish_v4 — 生年月日を含めた底上げのプランと経過</h1>
+  <p class="lead">プラン第3版(シニアエンジニアと Fable 5.1 のレビュー反映済み)と、F0〜F2 の作業内容・結果。開発の評価はすべて2018〜2020年(2021年以降は確認のために取ってあり、見ていません)。市場(オッズ)は評価の物差しにだけ使い、予想・印・見送りには使いません。</p>
+</header>
+
+<section class="box">
+  <h3>いまの結論</h3>
+  <ul>
+    <li><b>評価の土台(F0)は完成。</b>競走中止の馬も買い目の候補に入れ、オッズ側と候補の馬が全 $same レースで一致しました(不一致 $diff)。</li>
+    <li><b>的中率は血統+実績より上がったが、人気どおりには届かず、回収率の上積みも見えない。</b>能力値入りの予想(M5)は、確率の高い順に買うと人気どおりより的中率が低く、回収率は人気どおりと同じか少し下(下の表)。人気をそろえた上積みは、どの買い方でも0と区別できません。</li>
+    <li><b>オッズに無い情報はある。</b>オッズだけの組の確率にモデルを足すと、はっきり良くなります(係数 a=$inc_a、z=$inc_z)。ただし量は小さく、1レースあたり +$inc_dll。</li>
+    <li><b>生年月日はまだ使えない。</b>2014〜2020年の2〜3歳の走でカバー率 $cov_run(基準98%)。しかも上位に来た馬ほど先に取得されていて、このまま使うと結果が漏れます。そろうまで月齢は待ちます。</li>
+    <li><b>能力値の改良(F2):</b> $f2_summary</li>
+  </ul>
+</section>
+
+<section>
+  <h2>1. プラン(第3版)</h2>
+  <p>依頼は「生年月日も含めて、的中率・回収率を底上げする」。決めたこと(2026-10-10、ユーザーの決定):</p>
+  <ul>
+    <li>2008年生まれ以降の生年月日がそろう前提で、最善のプランを作る。回収率の対象は3連複(現行の印の改善)。新しい印は新馬・未勝利も含む全平地戦。</li>
+    <li>単勝オッズなどの市場の予想は、予想・印・見送りに使わない。確定単勝オッズと発走前の3連複オッズは<b>評価の物差しとしてだけ</b>使う。騎手・馬体重も使わない。</li>
+    <li>目標の中心は的中率と「組の確率の当たり方」。回収率は「同じ人気の組を買った場合」と比べた上積みで測り、絶対値と、買った組の人気の構成を必ず並べる。</li>
+  </ul>
+  <div class="tw"><table>
+    <thead><tr><th>段階</th><th>内容</th><th>状態</th></tr></thead>
+    <tbody>
+      <tr><td>F0 評価の土台</td><td>組の確率(2・3着の補正つき)、中止・取消・同着の扱い、市場の物差し(評価だけ)、陰性対照、オッズに無い情報の量</td><td><span class="chip done">済</span></td></tr>
+      <tr><td>F1 生年月日の準備</td><td>生年月日・生産者の表、月齢を使ってよいかの基準(2014〜2020年の2〜3歳で98%)</td><td><span class="chip wait">表は済・基準未達で待ち</span></td></tr>
+      <tr><td>F2 能力値の改良</td><td>芝・ダ別の状態、父の産駒の能力の月次更新、母のきょうだい、主戦距離との差(生産者・月齢はF1待ち)</td><td><span class="chip done">開発評価済</span></td></tr>
+      <tr><td>F3 統合モデル</td><td>PL(2・3着の補正・弱い正則化)、不確かさを使う版、外して比べる、完成形の凍結の規則</td><td><span class="chip todo">次</span></td></tr>
+      <tr><td>F4 3連複の印</td><td>確率の高い順に買う規則、印の JSON に買い目(tickets)、精算の拡張、見送り(副次)</td><td><span class="chip todo">未着手</span></td></tr>
+      <tr><td>F5 事前登録・確認</td><td>2021〜2025年で1回だけ確認(固定順序 H2→H1b→H4)、2026年は記述、前向きの記録1年</td><td><span class="chip todo">未着手</span></td></tr>
+      <tr><td>F6 本番への反映</td><td>「着順予想３」(仮)として並べて表示(確認の後、ユーザーの確認の上で)</td><td><span class="chip todo">未着手</span></td></tr>
+    </tbody></table></div>
+  <p class="lead">期間の使い方: 開発=2020年まで / 確認=2021-01〜2025-12 を事前登録の後に1回だけ / 2026年1〜10月=確認の後に一度だけ見る記述 / 前向き=凍結後に記録して1年後に判定。</p>
+</section>
+
+<section>
+  <h2>2. F0 評価の土台</h2>
+  <h3>2-1. 競走中止の馬を候補に入れた</h3>
+  <p>これまでの評価は完走した馬だけから組を作っていたため、「どの馬が中止するか」を前もって知っていたのと同じで、的中率が少し甘く出ていました。発走した馬(確定単勝オッズがある馬)は全員を候補にし、中止・失格の馬を含む組は外れとして数えます。出走取消・除外は候補に入れず、記録した後に取消になった場合は精算で返還にします(F4)。</p>
+  <ul>
+    <li>中止の行: 2011〜2020年で $nf_rows 行。学習・評価に使ったのは $nf_used 行(評価の3年で $nf_test 行、$nf_races レース)。</li>
+    <li>中止馬の発走前の特徴量(能力値・血統+実績・斤量・距離の変更)は、完走馬と同じ作り方で作りました。係数は完走馬だけで推定し、完走馬の値は1つも変わらないようにしています(テストで確認)。</li>
+    <li>中止馬のいるレースの10点の的中率: 人気どおり $nf_hit_m、M5 $nf_hit_5。</li>
+  </ul>
+  <h4>前(完走馬だけ)と後(発走した全馬)— 2018〜2020年、約1万レース</h4>
+  $t01
+  <p class="lead">上積み=「実際の払戻 −(同じ人気の組の平均の払戻)」を賭け金で割ったもの。人気どおりに買ったときに0になるよう作ってあります(陰性対照)。</p>
+
+  <h3>2-2. 買い方6通りの比較(人気をそろえた上積み)</h3>
+  <p>組の確率の高い順に「決まった点数」買う方式と、「確率の合計が決まった値に達するまで」買う方式(上限30点)。陰性対照は人気(オッズ)の側で同じ規則を当てたものです。</p>
+  $trules
+  <ul>
+    <li>人気どおりの上積みは、どの規則でも区間が0を含みます。物差しは狂っていません。</li>
+    <li>累積の方式は、M5 では固定の点数より上積みが悪い傾向です(自信のあるレースほど人気の組に寄るため)。主ルールの候補は固定の点数を中心にします。</li>
+  </ul>
+
+  <h3>2-3. 層ごと(10点買い)</h3>
+  $tlayer
+  <p class="lead">少頭数では M5 の上積みがプラス寄り、15頭以上ではマイナス寄りですが、どれも区間が0を含みます(層は事前に決めた5つだけ)。</p>
+
+  <div class="grid2">
+    <figure>$hit_chart
+      <figcaption>点数ごとの的中率(2018〜2020年)。組の対数スコアは M5 $m5_ls、M1 $m1_ls(当て推量 $uni_ls)。人気どおりはまだ大きく上です。</figcaption></figure>
+    <figure>$ev_chart
+      <figcaption>発走前の3連複オッズで見た、組の確率の10分位ごとの100円あたりの期待払戻(左=人気薄、右=人気)。人気薄の組ほど割に合わない構造が、実際のオッズでもはっきり出ています。</figcaption></figure>
+  </div>
+
+  <h3>2-4. オッズに無い情報の量</h3>
+  <p>組の確率を「a×log(モデル)+ b×log(人気)」で表す式を、2018〜2020年の全組で当てはめました。a が0より大きければ、モデルは人気に無い情報を持っています。</p>
+  <ul>
+    <li>a = $inc_a(SE $inc_se、日付×競馬場でまとめた頑健な SE)、z = $inc_z。b = $inc_b。</li>
+    <li>人気だけの式に比べた改善は1レースあたり +$inc_dll。人気(b)がほぼ全体を決めていて、モデルの寄与は小さい。</li>
+  </ul>
+
+  <h3>2-5. 物差しの点検</h3>
+  <ul>
+    <li><b>当たり組の実際の人気との対応:</b> 払戻の表の「人気」と、確定単勝オッズから作った組の確率の順位は、順位相関 $pop_sp。2倍以内に収まる割合 $pop_x2($pop_n 組)。</li>
+    <li><b>発走前の3連複オッズとの対応($px_n レース、2026-10-03〜):</b> 組の確率の順位相関の中央値 $px_sp、上位10組の重なり $px_ov。ただし傾きは $px_sl で、実際の3連複の市場は単勝から作る確率より人気薄を高く見ています(単勝からの近似は人気の差を広げすぎ)。控除率の中央値 $px_to。</li>
+    <li>このずれは「人気をそろえた上積み」の基準(実際の払戻の平均)には入っているので、評価の結論は変わりません。発走前の3連複オッズの記録は続けます。</li>
+  </ul>
+</section>
+
+<section>
+  <h2>3. F1 生年月日の準備</h2>
+  <p>収集用の会話が取得した <b>$cov_prof 頭</b>の馬のプロフィール(うち生年月日あり $cov_bd 頭)から、生年月日と生産者の表を作りました。馬主は使いません(取得した時点の馬主で、昔のレースの時点の値ではないため)。集計は $cov_made 時点。</p>
+  <div class="grid2">
+    <figure>$cov_chart<figcaption>2〜3歳の走のうち、生年月日がある割合(年ごと)。2020年はほぼ全部、古い年ほど少ない。</figcaption></figure>
+    <div style="display:flex;flex-direction:column;gap:10px;min-width:0">
+      $tpos
+      $tcar
+    </div>
+  </div>
+  <div class="box warn">
+    <ul>
+      <li><b>基準に未達:</b> 2014〜2020年の2〜3歳の $cov_n 走のうち、生年月日がある走は $cov_run(基準 98%)。出走馬全員の生年月日がそろうレースは $cov_cc。</li>
+      <li><b>欠け方が結果と関係している:</b> 1〜3着に来た走ほど生年月日がある(上の表)。この状態で月齢を使うと「取得済み=好走しやすい」という情報が入り込みます。プランどおり、欠けの印や平均で埋める方法は使いません。</li>
+      <li>月齢(F2-6)と生産者(F2-4)は、カバー率が98%に届いてから入れます。それまでは他の段階を先に進めます。</li>
+      <li>外国産(horse_id の5〜6桁目が「10」以外)は $fr_n 頭、うち7〜12月生まれ(南半球産)は $fr_jd 頭。月齢の効果は内国産に限るか、外国産の印を付けます。</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>4. F2 能力値の改良(生年月日を使わない分)</h2>
+  <p>これまでの能力値(タイムから作る走ごとの能力値と、1次元のカルマンフィルタ)に、次の4つを足しました。どれも「その日より前」の情報だけで作り、テストで確かめています。</p>
+  <ul>
+    <li><b>芝・ダ別の状態:</b> 芝とダートの能力を別々に持ち、相関でつなぐ。初芝・初ダの馬は、もう一方の成績から相関の分だけ推し量ります。</li>
+    <li><b>父の産駒の能力(月ごと):</b> 前月末までの産駒の能力値を、年齢・時期・芝ダの平均を引いてから父ごとに平均(本人は除き、走の少ない父は0へ縮める)。初出走の予想の起点にも入れます。</li>
+    <li><b>母のきょうだい:</b> 同じ母の他の馬の能力から、父の分を引いたもの(本人は除き、強く縮める)。</li>
+    <li><b>主戦距離との差:</b> 今回の距離と、それまでの距離の平均との差(対数)とその大きさ。</li>
+  </ul>
+  $f2
+  <p>回収率・オッズへの上積みは、F2 の改良を1つのモデルにまとめた後(F3)に、F0 と同じ物差しで測ります。</p>
+  <p class="lead">着順の対数尤度は「実際の上位3頭の着順に付けた確率」の log の平均(大きいほど良い)。95%区間は日付×競馬場のブロックの再抽出(BCa)。評価は2018〜2020年、学習は2014年〜前年。</p>
+</section>
+
+<section>
+  <h2>5. 次の作業</h2>
+  <ul>
+    <li><b>F3 統合モデル:</b> F2 で効いたものを PL(2・3着の補正・弱い正則化)にまとめ、不確かさ(能力値の SD)から組の確率を平均する版と比べる。外して比べ、「完成形」を凍結する規則を決める。</li>
+    <li><b>F4 3連複の印:</b> 主ルールは固定の点数(10・20・30点)を中心に。印の JSON に買い目を持たせ、精算(同着・返還)を広げる。</li>
+    <li><b>F5 事前登録:</b> 2021〜2025年の確認は1回だけ。順番は H2(組の当たり方と同じ点数の的中率)→ H1b(F2〜F3で足した分)→ H4(オッズに無い情報)。回収率の上積みは推定として区間で書く。</li>
+    <li><b>生年月日:</b> 収集が進んだら <code>birth_data.py</code> を流し直し、98% に届いた時点で月齢・生産者を入れる。</li>
+  </ul>
+</section>
+
+<section>
+  <h2>用語</h2>
+  <dl class="gl">
+    <dt>M1 / M5</dt><dd>M1=血統+本人の実績。M5=M1+能力値・斤量・休み明け・距離の変更・前走の能力値。</dd>
+    <dt>組の対数スコア</dt><dd>実際の3連複の組に付けていた確率の log の平均。大きいほど良い。当て推量(全組同じ確率)より上かで見る。</dd>
+    <dt>人気をそろえた上積み</dt><dd>買った組と同じくらいの人気の組が、過去に平均でいくら払い戻されたかを基準にした差。人気薄ほど回収率が低い構造の分を取り除くための測り方。</dd>
+    <dt>陰性対照</dt><dd>人気どおりに買ったときに上積みが0になるかの確認。0にならなければ物差しが狂っている。</dd>
+    <dt>累積30%まで</dt><dd>組の確率の合計が30%に達するまで、高い順に買う(上限30点)。</dd>
+  </dl>
+</section>
+</main>
