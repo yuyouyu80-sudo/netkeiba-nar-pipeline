@@ -16,5 +16,14 @@
   "H2": true,
   "H1b": true,
   "H4": true
+ },
+ {
+  "mode": "final",
+  "time": "2026-10-11 08:47:35",
+  "git_head": "48a95ce20123cf1ccb28f49de152780a4c015021",
+  "result": "final_result.json",
+  "H2": true,
+  "H1b": true,
+  "H4": true
  }
 ]

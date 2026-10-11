@@ -87,6 +87,7 @@ def main():
     proxy, cov = J("f0_odds_proxy_check.json"), J("birth_coverage.json")
     tune, ev = J("ability_v2_tune.json"), J("ability_v2_eval_dev.json")
     f3, f3m, dry = J("f3_eval_dev.json"), J("f3_market.json"), J("final_dry_result.json")
+    fin = J("final_result.json")
     R = mk["rules"]
     nf = met["nonfinish"]
 
@@ -185,7 +186,7 @@ def main():
         tcar=table(["キャリア", "走数", "生年月日あり"], car_rows, "num"), cov_made=esc(cov["made"]),
         fr_n=f'{cov["foreign"]["n"]:,}', fr_jd=cov["foreign"]["born_jul_dec"],
         f2=f2_html or "<p>実行中。</p>", f2_summary=f2_summary(ev),
-        f3=f3_html(f3), f3m=f3m_html(f3m), f5=f5_html(dry, True),
+        f3=f3_html(f3), f3m=f3m_html(f3m), f5=f5_html(dry, True), final=final_html(fin),
     )
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(html_out, encoding="utf-8", newline="\n")
@@ -244,7 +245,7 @@ def f3m_html(f3m) -> str:
     return h
 
 
-def f5_html(dry, prereg_ok) -> str:
+def f5_html(dry, prereg_ok, col="試運転(2018〜2020年)") -> str:
     if not dry:
         return "<p>試運転は実行中。</p>"
     h2, h1b, h4 = dry["H2"], dry["H1b"], dry["H4"]
@@ -257,11 +258,40 @@ def f5_html(dry, prereg_ok) -> str:
              '<span class="chip good">上回る</span>' if h4["increment"]["z_a"] > 1.96 else '<span class="chip neu">区別できない</span>'],
             ["H3(推定)", "20点の人気をそろえた上積み", pt(dry["H3_estimate"]["uplift"]["ratio"]) + f'<br><span class="sub">{ci_pt(dry["H3_estimate"]["uplift"]["ci_bca"])}</span>',
              esc(dry["H3_estimate"]["label"])]]
-    h = table(["仮説", "中身", "試運転(2018〜2020年)", "結果"], rows, "num")
+    h = table(["仮説", "中身", col, "結果"], rows, "num")
     sk = dry.get("skip")
     if sk:
         h += (f"<p>見送り(副次): 20点の買い目の確率の合計が下位20%のレースを見送ると、買ったレースの回収率は {pct(sk['FINAL']['roi_bought'])}"
               f"(上積み {pt(sk['FINAL']['uplift_bought']['ratio'])})。人気どおりに同じ割合を見送った場合は {pct(sk['mkt']['roi_bought'])}。</p>")
+    return h
+
+
+def final_html(fin) -> str:
+    if not fin:
+        return "<p>未実行。</p>"
+    h = f"<p>対象 {fin['n_races_ll']:,} レース(候補の馬はオッズ側と全レースで一致)。各年の係数はその前年までで推定し直しました。</p>"
+    h += f5_html({k: v for k, v in fin.items() if k != "skip"}, True, "確認(2021〜2025年)")
+    R = fin["rules"]
+    rows = []
+    for rule, lab in [("N10", "10点"), ("N20", "20点(主)"), ("N30", "30点")]:
+        for who, wl in [("mkt", "人気どおり"), ("M1", "血統+実績 M1"), ("M5", "M5"), ("M6", "M6"), ("FINAL", "完成形 FINAL")]:
+            r = R[f"{who}_{rule}"]
+            u = r["uplift"]
+            rows.append([esc(lab), esc(wl), pct(r["hit_rate"]), pct(r["roi"]["ratio"]), pct(r["expected_roi_market"]), pt(u["ratio"]),
+                         ci_pt(u["ci_bca"]), verdict_chip(*u["ci_bca"]), pct(r["roi_excl_50k"]),
+                         "—" if r["median_market_rank"] is None else f'{r["median_market_rank"]:.0f}位'])
+    h += "<h4>買い方ごとの成績(2021〜2025年)</h4>" + table(
+        ["点数", "予想", "的中率", "回収率", "人気から見た期待", "上積み", "95%区間", "判定", "5万円超を除く回収率", "買った組の人気(中央値)"], rows, "num")
+    f = R["FINAL_N20"]
+    yr = [[str(y), pt(v)] for y, v in f["by_year_uplift"].items()]
+    lay = [[esc(k), f'{v["n"]:,}', pct(v["hit_rate"]), pct(v["roi"]), pt(v["uplift"])] for k, v in f["by_layer"].items()]
+    h += '<div class="grid2"><div style="min-width:0"><h4>完成形20点の年ごとの上積み</h4>' + table(["年", "上積み"], yr, "num") + \
+         '</div><div style="min-width:0"><h4>完成形20点の層ごと</h4>' + table(["層", "レース数", "的中率", "回収率", "上積み"], lay, "num") + "</div></div>"
+    sk = fin.get("skip")
+    if sk:
+        h += (f"<p>見送り(副次): 20点の買い目の確率の合計が開発の下位20%点未満のレース({pct(sk['FINAL']['skip_rate'])})を見送ると、"
+              f"買ったレースの回収率 {pct(sk['FINAL']['roi_bought'])}・上積み {pt(sk['FINAL']['uplift_bought']['ratio'])} {ci_pt(sk['FINAL']['uplift_bought']['ci_bca'])}。"
+              f"見送りで回収率は良くなりませんでした(人気どおりに同じ割合を見送った場合 {pct(sk['mkt']['roi_bought'])})。</p>")
     return h
 
 
