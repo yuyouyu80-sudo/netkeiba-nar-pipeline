@@ -37,7 +37,8 @@ LEDGER = OUT / "run_ledger.json"
 MANIFEST = OUT / "prereg_manifest.json"
 TAG = "finish_v4_prereg"
 MODES = {"final_dry": {"years": (2018, 2019, 2020), "max_year": 2020},
-         "final": {"years": (2021, 2022, 2023, 2024, 2025), "max_year": 2025}}
+         "final": {"years": (2021, 2022, 2023, 2024, 2025), "max_year": 2025},
+         "y2026": {"years": (2026,), "max_year": 2026}}   # 確認の後に一度だけ見る記述の層(事前登録 §7、合否なし)
 FROZEN = {"spec": MD.SPECS["FULL"], "l2": 0.0, "mc": False, "main_rule": SR.MAIN_RULE, "sub_rules": list(SR.SUB_RULES),
           "skip_pcov_threshold": None}     # 見送りの閾値は freeze で開発の値から決めて manifest に書く
 COMPARE = {"M1": F0.SPECS["M1"], "M5": F0.SPECS["M5"], "M6": MD.SPECS["M6"], "FINAL": FROZEN["spec"]}
@@ -161,6 +162,9 @@ def run(mode: str, skip_thr: float | None) -> dict:
             CM[k].append(cm)
             U[k], lams[k] = u, lam
             log(mode, Y, k, "ll", round(float(ll.mean()), 4), "combo", round(float(cm["logscore"].mean()), 4), round(time.time() - t0), "秒")
+        if mode == "y2026":   # 現行の印との対照(同じレース・点数をそろえる)のために、完成形の効用を残す
+            te[["race_id", "horse_id", "umaban_num", "nonfinish", "pos"]].assign(u_FINAL=U["FINAL"]).to_parquet(OUT / "y2026_utils.parquet", index=False)
+            (OUT / "y2026_lam.json").write_text(json.dumps(list(lams["FINAL"])), encoding="utf-8")
         # 市場の物差し(評価だけ)
         trm = odds[odds["year"].between(2014, Y - 1)]
         gamma, mlam = MY.fit_market(trm)
@@ -313,17 +317,21 @@ def main():
     g.add_argument("--final-dry", action="store_true")
     g.add_argument("--freeze", action="store_true")
     g.add_argument("--final", action="store_true")
+    g.add_argument("--y2026", action="store_true", help="確認の後: 2026年1〜10月の層(記述のみ)")
     a = ap.parse_args()
     if a.freeze:
         freeze()
         return
-    mode = "final" if a.final else "final_dry"
+    mode = "final" if a.final else ("y2026" if a.y2026 else "final_dry")
+    if a.y2026:
+        assert (OUT / "final_result.json").exists(), "2026年の層は確認(--final)の後にだけ見る"
+        assert not (OUT / "y2026_result.json").exists(), "2026年の層は一度だけ見る"
     result = OUT / f"{mode}_result.json"
     thr = None
     if a.final:
         guard_final(result)
         thr = json.loads(MANIFEST.read_text(encoding="utf-8"))["skip_pcov_threshold"]
-    elif MANIFEST.exists():
+    if not a.final and MANIFEST.exists():
         thr = json.loads(MANIFEST.read_text(encoding="utf-8"))["skip_pcov_threshold"]
     res = run(mode, thr)
     res["git_head"] = git("rev-parse", "HEAD")

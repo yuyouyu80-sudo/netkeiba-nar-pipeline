@@ -25,5 +25,14 @@
   "H2": true,
   "H1b": true,
   "H4": true
+ },
+ {
+  "mode": "y2026",
+  "time": "2026-10-11 12:47:39",
+  "git_head": "3995b3a0a2600e76757a4aad206c8edfe9113d28",
+  "result": "y2026_result.json",
+  "H2": true,
+  "H1b": true,
+  "H4": true
  }
 ]

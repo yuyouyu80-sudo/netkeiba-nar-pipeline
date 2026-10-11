@@ -2,3 +2,7 @@
 !.gitignore
 !*.json
 !*.md
+!prospective/
+!prospective/*.json
+!live/
+!live/check_*.json

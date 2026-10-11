@@ -1,0 +1,23 @@
+{
+ "date": "2026-10-04",
+ "n_live": 348,
+ "n_matched": 347,
+ "corr_u": 0.9942906013653556,
+ "max_abs_diff": 1.0341230995418553,
+ "median_abs_diff": 0.00015832914091440387,
+ "ticket_overlap_mean": 0.7391304347826086,
+ "n_horses_ped_missing_in_ref": 85,
+ "by_ped_gap": {
+  "ref_ped_complete": {
+   "n_races": 17,
+   "ticket_overlap_mean": 1.0,
+   "max_abs_diff": 0.012790413801075484
+  },
+  "ref_ped_missing": {
+   "n_races": 6,
+   "ticket_overlap_mean": 0.0,
+   "max_abs_diff": 1.0341230995418553
+  }
+ },
+ "n_kin_diff": 1
+}

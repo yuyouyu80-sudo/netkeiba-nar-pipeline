@@ -88,6 +88,7 @@ def main():
     tune, ev = J("ability_v2_tune.json"), J("ability_v2_eval_dev.json")
     f3, f3m, dry = J("f3_eval_dev.json"), J("f3_market.json"), J("final_dry_result.json")
     fin = J("final_result.json")
+    y26, cmp_, lchk = J("y2026_result.json"), J("y2026_compare.json"), J("live/check_20261004.json")
     R = mk["rules"]
     nf = met["nonfinish"]
 
@@ -186,7 +187,7 @@ def main():
         tcar=table(["キャリア", "走数", "生年月日あり"], car_rows, "num"), cov_made=esc(cov["made"]),
         fr_n=f'{cov["foreign"]["n"]:,}', fr_jd=cov["foreign"]["born_jul_dec"],
         f2=f2_html or "<p>実行中。</p>", f2_summary=f2_summary(ev),
-        f3=f3_html(f3), f3m=f3m_html(f3m), f5=f5_html(dry, True), final=final_html(fin),
+        f3=f3_html(f3), f3m=f3m_html(f3m), f5=f5_html(dry, True), final=final_html(fin), y2026=y2026_html(y26, cmp_), live=live_html(lchk),
     )
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(html_out, encoding="utf-8", newline="\n")
@@ -266,11 +267,11 @@ def f5_html(dry, prereg_ok, col="試運転(2018〜2020年)") -> str:
     return h
 
 
-def final_html(fin) -> str:
+def final_html(fin, period="2021〜2025年", col="確認") -> str:
     if not fin:
         return "<p>未実行。</p>"
     h = f"<p>対象 {fin['n_races_ll']:,} レース(候補の馬はオッズ側と全レースで一致)。各年の係数はその前年までで推定し直しました。</p>"
-    h += f5_html({k: v for k, v in fin.items() if k != "skip"}, True, "確認(2021〜2025年)")
+    h += f5_html({k: v for k, v in fin.items() if k != "skip"}, True, f"{col}({period})")
     R = fin["rules"]
     rows = []
     for rule, lab in [("N10", "10点"), ("N20", "20点(主)"), ("N30", "30点")]:
@@ -280,7 +281,7 @@ def final_html(fin) -> str:
             rows.append([esc(lab), esc(wl), pct(r["hit_rate"]), pct(r["roi"]["ratio"]), pct(r["expected_roi_market"]), pt(u["ratio"]),
                          ci_pt(u["ci_bca"]), verdict_chip(*u["ci_bca"]), pct(r["roi_excl_50k"]),
                          "—" if r["median_market_rank"] is None else f'{r["median_market_rank"]:.0f}位'])
-    h += "<h4>買い方ごとの成績(2021〜2025年)</h4>" + table(
+    h += f"<h4>買い方ごとの成績({period})</h4>" + table(
         ["点数", "予想", "的中率", "回収率", "人気から見た期待", "上積み", "95%区間", "判定", "5万円超を除く回収率", "買った組の人気(中央値)"], rows, "num")
     f = R["FINAL_N20"]
     yr = [[str(y), pt(v)] for y, v in f["by_year_uplift"].items()]
@@ -292,6 +293,61 @@ def final_html(fin) -> str:
         h += (f"<p>見送り(副次): 20点の買い目の確率の合計が開発の下位20%点未満のレース({pct(sk['FINAL']['skip_rate'])})を見送ると、"
               f"買ったレースの回収率 {pct(sk['FINAL']['roi_bought'])}・上積み {pt(sk['FINAL']['uplift_bought']['ratio'])} {ci_pt(sk['FINAL']['uplift_bought']['ci_bca'])}。"
               f"見送りで回収率は良くなりませんでした(人気どおりに同じ割合を見送った場合 {pct(sk['mkt']['roi_bought'])})。</p>")
+    return h
+
+
+def y2026_html(y26, cmp_) -> str:
+    if not y26:
+        return "<p>未実行。</p>"
+    h = ("<p>確認の後に1回だけ見た別の層です(事前登録 §7、記述のみ・合否なし)。係数は2014〜2025年で推定し、確認と同じ処理を"
+         f"2026年1月〜10/4 の {y26['n_races_ll']:,} レースに当てました。</p>")
+    h += final_html({k: v for k, v in y26.items()}, "2026年1月〜10/4", "2026年の層")
+    if cmp_:
+        import pandas as pd
+        R = pd.DataFrame(cmp_["races"])
+        rows = []
+        for who, c in [("現行の印(P2×Q1×No.644)", "cur"), ("完成形(点数を現行の印にそろえる)", "fin_k"), ("完成形(20点)", "fin_N20")]:
+            pts, ret, hit = R[f"{c}_points"], R[f"{c}_ret"], R[f"{c}_hit"]
+            i = ret.idxmax()
+            rows.append([esc(who), f"{int(pts.sum()):,}点", pct(hit.mean()), pct(ret.sum() / (100 * pts.sum())),
+                         f"{int(ret.max()):,}円({esc(R.loc[i, 'race_name'])})", pct((ret.sum() - ret.max()) / (100 * (pts.sum() - pts[i])))])
+        h += (f"<h4>現行の印と、同じレースで比べる({cmp_['n_races']} レース、10/3・10/4)</h4>"
+              "<p>現行の印は発走前に記録された分(前向きの精算 fmark_ledger.csv)だけを使いました。過去に作り直した印は、取得した時点の馬主を使っているので比べません。</p>"
+              + table(["買い方", "点数", "的中率", "回収率", "一番大きい払戻", "それを除いた回収率"], rows, "num")
+              + '<div class="box"><ul><li><b>28レースだけなので、どちらが良いかは言えません。</b>的中1回で回収率が数十pt動きます。</li>'
+              "<li>現行の印の 129.8% は、大原S の 45,060円でほぼ決まっています。このレースを除くと 38.8%。</li>"
+              "<li>点数をそろえた完成形は的中が少なく(28.6%)、20点にすると現行の印より的中が多い(39.3%)。判定は前向きの記録(1年)で行います。</li></ul></div>")
+    return h
+
+
+def live_html(chk) -> str:
+    h = ("<ul><li><b>部品:</b> <code>finish_v4_live.py</code>。出走表・その日より前の走・血統ID は血統レーダー v2 の発走前の部品と同じ関数で作り、"
+         "その日の出走表の行は「中止の行」と同じ扱い(発走前の値を読むだけで能力値を進めない)で足します。係数は <code>live_params_2026.json</code>"
+         "(2014〜2025年で当てはめた完成形)。オッズ・騎手・馬体重は読みません。斤量は馬柱の斤量の列です。</li>"
+         "<li><b>記録:</b> <code>prospective/{日付}.json</code>。レースごとに最初の記録が正本で上書きしません。発走時刻より後に記録したレースには "
+         "<code>recorded_before_start=false</code> を付け、評価に使いません。対象は 2026-10-12 以降の開催日。</li>"
+         "<li><b>判定(事前登録 §8):</b> 1年後に、組の対数スコアと20点の的中率で、M1 と現行の印に対して判定。回収率は記述だけ。</li></ul>")
+    if chk:
+        h += (f"<h4>過去の日での確かめ({esc(chk['date'])}、結果がある日)</h4>"
+              "<p>出走表から作った効用と、確認と同じ処理(2026年の層の効用)を、同じ馬どうしで比べました。</p>"
+              + table(["項目", "値"], [["出走表から作った馬", f"{chk['n_live']:,}"], ["2026年の層と対応した馬", f"{chk['n_matched']:,}"],
+                                      ["効用の相関", num(chk["corr_u"], 4)], ["差の中央値(絶対値)", num(chk["median_abs_diff"], 4)],
+                                      ["差の最大(絶対値)", num(chk["max_abs_diff"], 4)], ["20点の買い目の重なり(平均)", pct(chk["ticket_overlap_mean"])]], "num"))
+        bg = chk.get("by_ped_gap", {})
+        ok, ng = bg.get("ref_ped_complete"), bg.get("ref_ped_missing")
+        if ok:
+            h += (f"<ul><li><b>血統表がそろったレース({ok['n_races']} レース):</b> 20点の買い目の重なり {pct(ok['ticket_overlap_mean'])}、"
+                  f"効用の差は最大 {num(ok['max_abs_diff'], 4)}。確認と同じ値が出ています。</li>")
+            if ng:
+                h += (f"<li><b>残りの {ng['n_races']} レース(すべて新馬戦):</b> 2026年の層の表では、血統表がまだ取得されていない2歳 "
+                      f"{chk.get('n_horses_ped_missing_in_ref', 0)} 頭の血統の値が欠けて0で埋まり、効用がほぼ横並びでした(買い目の重なり {pct(ng['ticket_overlap_mean'])})。"
+                      "発走前の部品は、馬柱の父の名前から血統IDを引くので値が付きます。学習のとき(血統表のある馬)と同じ扱いなのは発走前の部品の方です。"
+                      "2026年の層全体では、こうしたレースは 2,567 件中 18 件で、10章の数字への影響は小さいと見ています。</li>")
+            if chk.get("n_kin_diff"):
+                h += f"<li>斤量が違う馬 {chk['n_kin_diff']} 頭(発走前は馬柱の斤量、確認側は結果の斤量。騎手の変更などで変わる)。</li>"
+            h += "</ul>"
+    else:
+        h += "<p>過去の日での確かめは未実行。</p>"
     return h
 
 
