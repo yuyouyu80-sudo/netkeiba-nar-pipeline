@@ -52,5 +52,23 @@
   "H5": true,
   "H5b": true,
   "H5c": true
+ },
+ {
+  "mode": "f7_final",
+  "time": "2026-10-12 19:56:55",
+  "git_head": "ccd7a09b8ee97b26fa1e28294f41b27964287a2a",
+  "result": "f7_final_result.json",
+  "H5": true,
+  "H5b": true,
+  "H5c": true
+ },
+ {
+  "mode": "f7_y2026",
+  "time": "2026-10-12 20:01:59",
+  "git_head": "ccd7a09b8ee97b26fa1e28294f41b27964287a2a",
+  "result": "f7_y2026_result.json",
+  "H5": true,
+  "H5b": false,
+  "H5c": false
  }
 ]

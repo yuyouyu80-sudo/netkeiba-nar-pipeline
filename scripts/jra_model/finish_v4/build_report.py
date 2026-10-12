@@ -89,6 +89,7 @@ def main():
     f3, f3m, dry = J("f3_eval_dev.json"), J("f3_market.json"), J("final_dry_result.json")
     fin = J("final_result.json")
     y26, cmp_, lchk = J("y2026_result.json"), J("y2026_compare.json"), J("live/check_20261004.json")
+    f7 = f7_html(J("f7_tune.json"), J("f7_eval_dev.json"), J("f7_dry_result.json"), J("f7_final_result.json"), J("f7_y2026_result.json"))
     R = mk["rules"]
     nf = met["nonfinish"]
 
@@ -187,7 +188,7 @@ def main():
         tcar=table(["キャリア", "走数", "生年月日あり"], car_rows, "num"), cov_made=esc(cov["made"]),
         fr_n=f'{cov["foreign"]["n"]:,}', fr_jd=cov["foreign"]["born_jul_dec"],
         f2=f2_html or "<p>実行中。</p>", f2_summary=f2_summary(ev),
-        f3=f3_html(f3), f3m=f3m_html(f3m), f5=f5_html(dry, True), final=final_html(fin), y2026=y2026_html(y26, cmp_), live=live_html(lchk),
+        f3=f3_html(f3), f3m=f3m_html(f3m), f5=f5_html(dry, True), final=final_html(fin), y2026=y2026_html(y26, cmp_), live=live_html(lchk), f7=f7,
     )
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(html_out, encoding="utf-8", newline="\n")
@@ -348,6 +349,71 @@ def live_html(chk) -> str:
             h += "</ul>"
     else:
         h += "<p>過去の日での確かめは未実行。</p>"
+    return h
+
+
+def f7_html(tune, dev, dry, fin, y26) -> str:
+    if not dev:
+        return "<p>未実行。</p>"
+    h = ("<p>収集用の会話で生年月日・生産者の取得が終わり、F1 の基準(2014〜2020年の2〜3歳の走でカバー率98%以上)を <b>100%</b> で満たしました"
+         "(出走馬全員がそろうレースも100%、生産者 99.99%、着順による偏りも無し)。プランの F2-4(生産者)・F2-6(月齢)を足しました。</p><ul>")
+    if tune:
+        h += (f"<li><b>生産者:</b> 母の値と同じ作り方(父の値を引いた残りの、前月末までの生産者ごとの縮約平均、本人を除く)。縮め方 k_b={tune['k_b']} は2017年末までで選択。"
+              f"初出走の能力の予測誤差(2015〜2017年)は {tune['mse_without_breeder']:.4f} → {min(g['mse'] for g in tune['grid']):.4f}。</li>")
+    h += ("<li><b>月齢:</b> 発走日の日齢(月)の、同じレースの出走馬の平均との差。2歳・3歳の1〜6月・初出走との交差。"
+          "出走馬に1頭でも生年月日の無い馬がいるレースでは0(欠けの印や平均埋めは使わない)。</li></ul>")
+    rows = []
+    for k, v in dev["vs_FINAL"].items():
+        if k == "FINAL":
+            continue
+        d, c, t = v["dll_vs_FINAL"], v["combo_vs_FINAL"], v["hit10_vs_FINAL"]
+        rows.append([esc(k), num(d["mean"], 4, True) + cib(d["ci_bca"]), num(c["mean"], 4, True) + cib(c["ci_bca"]), pt(t["mean"]) + f'<br><span class="sub">{ci_pt(t["ci_bca"])}</span>',
+                     pct(v["hit"]["N20"])])
+    h += "<h4>開発(2018〜2020年)— 完成形 FINAL との差</h4>" + table(["モデル", "着順の対数尤度/R", "組の対数スコア/R", "10点の的中", "20点の的中"], rows, "num")
+    h += (f"<p>凍結の規則(外すとはっきり悪くなる群だけを残す)で、月齢・生産者の2群とも残りました。この76本を F7 として凍結し、事前登録の追補 §12 を書いて"
+          f"タグ <code>finish_v4_f7_prereg</code> を付けてから確認しました。月齢・生産者の値は、2021年以降のレースで一度も計算していませんでした。</p>")
+    def hyp_rows(r):
+        out = []
+        for lab, key, sub in [("H5(本命)", "H5", "combo_logscore_F7_minus_FINAL"), ("H5b", "H5b", "hit_N20_F7_minus_FINAL"), ("H5c", "H5c", "ll_F7_minus_FINAL")]:
+            x = r[key][sub]
+            val = (pt(x["mean"]) + f'<br><span class="sub">{ci_pt(x["ci_bca"])}</span>') if key == "H5b" else (num(x["mean"], 4, True) + cib(x["ci_bca"]))
+            out.append(val)
+        return out
+    names = ["組の対数スコア F7 − FINAL", "20点の的中 F7 − FINAL", "着順の対数尤度 F7 − FINAL"]
+    cols = [("試運転 2018〜2020", dry), ("確認 2021〜2025", fin), ("2026年の層(記述)", y26)]
+    cols = [(n, r) for n, r in cols if r]
+    vals = [hyp_rows(r) for _, r in cols]
+    rows = []
+    for i, (lab, nm) in enumerate(zip(["H5(本命)", "H5b", "H5c"], names)):
+        res = ""
+        if fin:
+            key = ["H5", "H5b", "H5c"][i]
+            res = '<span class="chip good">合格</span>' if fin[key]["passed"] else '<span class="chip neu">不合格</span>'
+        rows.append([lab, nm] + [v[i] for v in vals] + [res])
+    h += "<h4>確認の結果(事前登録 §12、固定順序・各 片側2.5%)</h4>" + table(["仮説", "中身"] + [n for n, _ in cols] + ["確認の判定"], rows, "num")
+    if fin:
+        R = fin["rules"]
+        rr = []
+        for who, wl in [("mkt", "人気どおり"), ("FINAL", "完成形 FINAL"), ("F7", "F7(+月齢・生産者)")]:
+            for rule in ["N10", "N20", "N30"]:
+                r = R[f"{who}_{rule}"]
+                u = r["uplift"]
+                rr.append([esc(rule.replace("N", "") + "点"), esc(wl), pct(r["hit_rate"]), pct(r["roi"]["ratio"]), pt(u["ratio"]), ci_pt(u["ci_bca"]), verdict_chip(*u["ci_bca"]),
+                           pct(r["roi_excl_50k"]), "—" if r["median_market_rank"] is None else f'{r["median_market_rank"]:.0f}位'])
+        e = fin["H6_estimate"]
+        h += ("<h4>回収率(H6、推定。2021〜2025年)</h4>" + table(["点数", "予想", "的中率", "回収率", "上積み", "95%区間", "判定", "5万円超を除く回収率", "買った組の人気(中央値)"], rr, "num")
+              + f"<p>F7 の20点の人気をそろえた上積みは {pt(e['uplift_F7']['ratio'])} {ci_pt(e['uplift_F7']['ci_bca'])} で、事前登録の言葉では「{esc(e['label'])}」"
+              f"(区間が ±3pt に収まった)。FINAL との差も {pt(e['uplift_F7_minus_FINAL']['ratio'])} {ci_pt(e['uplift_F7_minus_FINAL']['ci_bca'])}。"
+              f"オッズに無い情報 a={fin['increment_F7']['a']:.3f}(z {fin['increment_F7']['z_a']:.1f})。</p>")
+        L = fin["layers_combo_F7_minus_FINAL"]
+        h += ("<h4>層・年ごとの組の対数スコアの差(F7 − FINAL、2021〜2025年)</h4>"
+              + table(["層", "レース数", "差/R"], [[esc(k), f'{v["n"]:,}', num(v["mean"], 4, True)] for k, v in L.items() if k != "by_year"]
+                      + [[f"{y}年", "", num(v, 4, True)] for y, v in L["by_year"].items()], "num"))
+        h += ('<div class="box"><ul><li><b>予想の精度:</b> 月齢・生産者で、完成形よりさらにはっきり良くなりました。5年すべてで同じ向きで、開発より大きいくらいです'
+              f"(20点の的中 {pct(fin['H5b']['hit_N20']['FINAL'])} → {pct(fin['H5b']['hit_N20']['F7'])})。</li>"
+              "<li><b>回収率:</b> 上がりません。人気をそろえると、人気どおりに買うのと同じ(約75%)。開発の +8.2pt は、完成形のときと同じく確認で消えました。"
+              "当たりやすくなった分は、市場もほぼ織り込んでいます。</li>"
+              "<li>効きは新馬・未勝利に限らず、全ての層・頭数で同じくらいでした(開発の層別では、生産者は新馬戦、月齢は2歳戦で特に大きかった)。</li></ul></div>")
     return h
 
 
