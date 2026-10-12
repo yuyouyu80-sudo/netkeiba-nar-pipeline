@@ -88,3 +88,28 @@ def test_dist_features_use_only_past_finishes():
         if len(idx) > 2:
             exp = g.loc[idx[2], "logd"] - g.loc[idx[:2], "logd"].mean()
             assert abs(f.loc[idx[2], "dist_dev"] - exp) < 1e-12
+
+
+def test_breeder_month_ignores_runs_from_that_month_on():
+    import age_breeder as AGB
+    r = _toy(n_h=40, seed=3)
+    r["date"] = r["date"] + pd.DateOffset(months=6)          # 2015年末〜2016年にまたがる
+    r["month0"] = r["date"].dt.to_period("M").dt.start_time
+    r["year"] = r["date"].dt.year
+    r["breeder_id"] = [f"b{int(h[1:]) % 5}" for h in r["horse_id"]]
+    i = r.index[(r["year"] == 2016)][5]
+    v0 = AGB.breeder_month(r, r["fig"], 2015, 1.0, 1.0)
+    fig2 = r["fig"].where(r["date"] < r.loc[i, "month0"], r["fig"] + 3.0)   # その月以降の走だけ変える
+    v1 = AGB.breeder_month(r, fig2, 2015, 1.0, 1.0)
+    assert abs(v0[i] - v1[i]) < 1e-12
+
+
+def test_add_age_is_zero_when_any_birth_date_missing():
+    import age_breeder as AGB
+    D = pd.DataFrame({"race_id": ["a"] * 3 + ["b"] * 3, "horse_id": list("xyzuvw"), "age_m": [24.0, 26.0, 28.0, 30.0, np.nan, 34.0],
+                      "is2": [1.0] * 3 + [0.0] * 3, "is3spring": 0.0, "k_n": [0, 2, 0, 1, 1, 1], "breeder_m": 0.1})
+    out = AGB.add_age(D)
+    assert np.allclose(out["age_dev"], [-2.0, 0.0, 2.0, 0.0, 0.0, 0.0])
+    assert np.allclose(out["age_dev×2歳"], [-2.0, 0.0, 2.0, 0.0, 0.0, 0.0])
+    assert np.allclose(out["age_dev×初出走"], [-2.0, 0.0, 2.0, 0.0, 0.0, 0.0])
+    assert np.allclose(out["新×breeder_m"], [0.1, 0.0, 0.1, 0.0, 0.0, 0.0])

@@ -1,24 +1,24 @@
 {
- "made": "2026-10-11 01:39",
- "n_profiles": 41482,
- "profiles_with_birth_date": 41315,
+ "made": "2026-10-12 19:15",
+ "n_profiles": 81025,
+ "profiles_with_birth_date": 80886,
  "birth_year_matches_id": 1.0,
  "foreign": {
-  "n": 1184,
-  "born_jul_dec": 61,
-  "domestic_born_jul_dec": 15
+  "n": 2366,
+  "born_jul_dec": 158,
+  "domestic_born_jul_dec": 29
  },
  "birth_month_domestic": {
-  "1": 1995,
-  "2": 7728,
-  "3": 12454,
-  "4": 11897,
-  "5": 5729,
-  "6": 314,
-  "7": 1,
-  "8": 2,
-  "9": 7,
-  "10": 4,
+  "1": 3586,
+  "2": 13990,
+  "3": 24163,
+  "4": 23770,
+  "5": 12249,
+  "6": 733,
+  "7": 4,
+  "8": 10,
+  "9": 9,
+  "10": 5,
   "12": 1
  },
  "gate": {
@@ -28,105 +28,105 @@
   ],
   "ages": "2〜3歳",
   "threshold": 0.98,
-  "run_coverage": 0.4284,
+  "run_coverage": 1.0,
   "n_runs": 199776,
-  "race_complete_case": 0.2451,
+  "race_complete_case": 1.0,
   "n_races": 17922,
-  "file_coverage": 0.4295,
-  "passed": false,
-  "pos_spread": 0.2796
+  "file_coverage": 1.0,
+  "passed": true,
+  "pos_spread": 0.0
  },
- "all_ages_run_coverage": 0.4415,
- "breeder_run_coverage": 0.4415,
+ "all_ages_run_coverage": 1.0,
+ "breeder_run_coverage": 0.9999,
  "by_year": {
   "2014": {
-   "rate": 0.0574,
+   "rate": 1.0,
    "n": 29157
   },
   "2015": {
-   "rate": 0.1274,
+   "rate": 1.0,
    "n": 28721
   },
   "2016": {
-   "rate": 0.2481,
+   "rate": 1.0,
    "n": 29031
   },
   "2017": {
-   "rate": 0.3879,
+   "rate": 1.0,
    "n": 28546
   },
   "2018": {
-   "rate": 0.5097,
+   "rate": 1.0,
    "n": 28082
   },
   "2019": {
-   "rate": 0.6948,
+   "rate": 1.0,
    "n": 27935
   },
   "2020": {
-   "rate": 0.9984,
+   "rate": 1.0,
    "n": 28304
   }
  },
  "by_pos": {
   "10着以下": {
-   "rate": 0.3137,
+   "rate": 1.0,
    "n": 74490
   },
   "1〜3着": {
-   "rate": 0.5933,
+   "rate": 1.0,
    "n": 43088
   },
   "4〜9着": {
-   "rate": 0.446,
+   "rate": 1.0,
    "n": 82198
   }
  },
  "by_career": {
   "10走〜": {
-   "rate": 0.4828,
+   "rate": 1.0,
    "n": 12904
   },
   "1〜3走": {
-   "rate": 0.4058,
+   "rate": 1.0,
    "n": 81271
   },
   "4〜9走": {
-   "rate": 0.4475,
+   "rate": 1.0,
    "n": 72929
   },
   "初出走": {
-   "rate": 0.4208,
+   "rate": 1.0,
    "n": 32672
   }
  },
  "by_birth_year": {
   "2011": {
-   "rate": 0.0454,
+   "rate": 1.0,
    "n": 20647
   },
   "2012": {
-   "rate": 0.1006,
+   "rate": 1.0,
    "n": 28893
   },
   "2013": {
-   "rate": 0.2091,
+   "rate": 1.0,
    "n": 28831
   },
   "2014": {
-   "rate": 0.3566,
+   "rate": 1.0,
    "n": 28781
   },
   "2015": {
-   "rate": 0.4781,
+   "rate": 1.0,
    "n": 28147
   },
   "2016": {
-   "rate": 0.5871,
+   "rate": 1.0,
    "n": 27666
   },
   "2017": {
-   "rate": 0.9625,
+   "rate": 1.0,
    "n": 28241
   },
   "2018": {
@@ -134,5 +134,5 @@
    "n": 8570
   }
  },
- "elapsed_sec": 35.1
+ "elapsed_sec": 56.3
 }

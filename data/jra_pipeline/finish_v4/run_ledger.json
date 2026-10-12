@@ -34,5 +34,23 @@
   "H2": true,
   "H1b": true,
   "H4": true
+ },
+ {
+  "mode": "final_dry",
+  "time": "2026-10-12 19:36:49",
+  "git_head": "46a8933ffb6a4ffcecd330773bce9f4924700625",
+  "result": "final_dry_result.json",
+  "H2": true,
+  "H1b": true,
+  "H4": true
+ },
+ {
+  "mode": "f7_dry",
+  "time": "2026-10-12 19:41:56",
+  "git_head": "46a8933ffb6a4ffcecd330773bce9f4924700625",
+  "result": "f7_dry_result.json",
+  "H5": true,
+  "H5b": true,
+  "H5c": true
  }
 ]

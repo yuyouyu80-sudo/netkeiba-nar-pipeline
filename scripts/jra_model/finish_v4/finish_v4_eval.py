@@ -142,21 +142,34 @@ def year_table(cache: Path, Y: int, max_year: int) -> pd.DataFrame:
 def run(mode: str, skip_thr: float | None) -> dict:
     t0 = time.time()
     m = MODES[mode]
-    cache = tables(mode)
-    years, max_year = m["years"], m["max_year"]
+    LL, CM, R, logit = collect(mode, m["years"], m["max_year"], tables(mode), COMPARE)
+    res = {"mode": mode, "years": m["years"], "frozen": {k: v for k, v in FROZEN.items() if k != "spec"} | {"n_features": len(FROZEN["spec"])},
+           "n_races_ll": int(len(LL["FINAL"])), "n_races_market": int(len(R)), "candidates_same_as_market": int(R["same"].sum())}
+    res |= hypotheses(LL, CM, R, logit, skip_thr)
+    res["elapsed_sec"] = round(time.time() - t0, 1)
+    return res
+
+
+def collect(mode: str, years, max_year: int, cache: Path, compare: dict, inc_model: str = "FINAL", prep=None, l2_of=None):
+    """各年: compare の各モデルを 2014〜Y−1年で当てはめ、Y年の着順の対数尤度・組の指標・市場の物差しの記録を集める。
+    prep: 年の表に掛ける追加の処理(F7 の月齢など)。l2_of: モデル名 → L2(既定は FINAL だけ FROZEN の値、他は0)。"""
+    t0 = time.time()
+    l2_of = l2_of or (lambda k: FROZEN["l2"] if k == "FINAL" else 0.0)
     pay = F0.load_sanrenpuku(range(2014, max_year + 1))
     odds = MY.load_odds(range(2014, max_year + 1))
     assert odds["year"].max() <= max_year
-    LL = {k: [] for k in COMPARE}
-    CM = {k: [] for k in COMPARE}
+    LL = {k: [] for k in compare}
+    CM = {k: [] for k in compare}
     rows, logit = [], []
     for Y in years:
         D = year_table(cache, Y, max_year)
+        if prep is not None:
+            D = prep(D)
         tr, te = D[D["year"].between(F0.TRAIN_START, Y - 1)], D[D["year"] == Y]
         U = {}
         lams = {}
-        for k, feats in COMPARE.items():
-            beta, lam = MD.fit_std(tr, feats, FROZEN["l2"] if k == "FINAL" else 0.0)
+        for k, feats in compare.items():
+            beta, lam = MD.fit_std(tr, feats, l2_of(k))
             ll, cm, u = MD.test_eval(te, feats, beta, lam, pay)
             LL[k].append(ll)
             CM[k].append(cm)
@@ -169,7 +182,7 @@ def run(mode: str, skip_thr: float | None) -> dict:
         trm = odds[odds["year"].between(2014, Y - 1)]
         gamma, mlam = MY.fit_market(trm)
         Tg = MY.build_return_table(trm, pay, gamma, mlam)
-        ug = dict(tuple(te.assign(**{f"u_{k}": U[k] for k in COMPARE}).groupby("race_id")))
+        ug = dict(tuple(te.assign(**{f"u_{k}": U[k] for k in compare}).groupby("race_id")))
         for rid, g in odds[odds["year"] == Y].groupby("race_id"):
             if rid not in pay or rid not in ug or len(g) < 3:
                 continue
@@ -197,7 +210,7 @@ def run(mode: str, skip_thr: float | None) -> dict:
                 rec[f"mkt_exp_{rule}"] = float(e_m[ii].sum())
                 rec[f"mkt_k_{rule}"] = len(kk)
                 rec[f"mkt_pcov_{rule}"] = float(p_m[ii].sum())
-            for k in COMPARE:
+            for k in compare:
                 cc, pp = P.triple_probs(u[f"u_{k}"].to_numpy(float), "pl", tuple(lams[k]))
                 kk_all = MY.combo_keys(umod[cc])
                 for rule in RULES:
@@ -209,7 +222,7 @@ def run(mode: str, skip_thr: float | None) -> dict:
                     rec[f"{k}_k_{rule}"] = len(kk)
                     rec[f"{k}_pcov_{rule}"] = float(pp[ii].sum())
                     rec[f"{k}_mrank_{rule}"] = float(np.median([rank_of.get(int(x), len(p_m)) for x in kk]))
-                if k == "FINAL" and same:
+                if k == inc_model and same:
                     lpk = np.array([pm_of.get(int(x), np.nan) for x in kk_all])
                     widx = [i for i, x in enumerate(kk_all.tolist()) if x in w]
                     if widx and np.isfinite(lpk).all():
@@ -220,12 +233,7 @@ def run(mode: str, skip_thr: float | None) -> dict:
     CM = {k: pd.concat(v) for k, v in CM.items()}
     R = pd.DataFrame(rows)
     R.to_parquet(OUT / f"{mode}_races.parquet", index=False)
-    blk_all = pd.concat([R.set_index("race_id")["block"]])
-    res = {"mode": mode, "years": years, "frozen": {k: v for k, v in FROZEN.items() if k != "spec"} | {"n_features": len(FROZEN["spec"])},
-           "n_races_ll": int(len(LL["FINAL"])), "n_races_market": int(len(R)), "candidates_same_as_market": int(R["same"].sum())}
-    res |= hypotheses(LL, CM, R, logit, skip_thr)
-    res["elapsed_sec"] = round(time.time() - t0, 1)
-    return res
+    return LL, CM, R, logit
 
 
 def boot_pair(a: pd.Series, b: pd.Series, blk: pd.Series) -> dict:
@@ -255,9 +263,24 @@ def hypotheses(LL, CM, R, logit, skip_thr) -> dict:
     out["H4"] = {"increment": inc, "tested": out["H1b"]["passed"], "passed": bool(out["H1b"]["passed"] and inc["z_a"] > 1.96)}
     out["H1a_safety"] = {"ll_M5_minus_M1": boot_pair(LL["M5"], LL["M1"], blk)}
     # H3(推定)と副次(記述)
+    est = rule_estimates(R, ["mkt", "M1", "M5", "M6", "FINAL"])
+    u = est[f"FINAL_{FROZEN['main_rule']}"]["uplift"]
+    lo, hi = u["ci_bca"]
+    out["H3_estimate"] = {"uplift": u, "label": uplift_label(lo, hi)}
+    out["rules"] = est
+    if skip_thr is not None:
+        out["skip"] = skip_effect(R, "FINAL", skip_thr)
+    return out
+
+
+def uplift_label(lo, hi) -> str:
+    return "あり" if lo > 0 else ("意味のある差なし" if (lo > -0.03 and hi < 0.03) else "判定できない")
+
+
+def rule_estimates(R: pd.DataFrame, whos) -> dict:
     b = R["block"].to_numpy()
     est = {}
-    for who in ["mkt", "M1", "M5", "M6", "FINAL"]:
+    for who in whos:
         for rule in RULES:
             a, e = R[f"{who}_act_{rule}"].to_numpy(float), R[f"{who}_exp_{rule}"].to_numpy(float)
             st = 100.0 * R[f"{who}_k_{rule}"].to_numpy(float)
@@ -277,22 +300,21 @@ def hypotheses(LL, CM, R, logit, skip_thr) -> dict:
                                        "roi": round(float(a[msk].sum() / st[msk].sum()), 4),
                                        "uplift": round(float((a - e)[msk].sum() / st[msk].sum()), 4)}
             est[f"{who}_{rule}"] = r_
-    u = est[f"FINAL_{FROZEN['main_rule']}"]["uplift"]
-    lo, hi = u["ci_bca"]
-    out["H3_estimate"] = {"uplift": u, "label": "あり" if lo > 0 else ("意味のある差なし" if (lo > -0.03 and hi < 0.03) else "判定できない")}
-    out["rules"] = est
-    # 見送り(副次): 買った組の確率の合計が閾値未満のレースを見送る。陰性対照は市場の上位20組に同じ割合の見送り
-    if skip_thr is not None:
-        sk = {}
-        for who, thr in [("FINAL", skip_thr), ("mkt", float(np.quantile(R["mkt_pcov_N20"], (R["FINAL_pcov_N20"] < skip_thr).mean())))]:
-            keep = R[f"{who}_pcov_N20"] >= thr
-            a, e = R[f"{who}_act_N20"].to_numpy(float), R[f"{who}_exp_N20"].to_numpy(float)
-            st = 100.0 * R[f"{who}_k_N20"].to_numpy(float)
-            sk[who] = {"threshold": thr, "skip_rate": round(float(1 - keep.mean()), 4),
-                       "roi_bought": round(float(a[keep].sum() / st[keep].sum()), 4), "hit_bought": round(float(R.loc[keep, f"{who}_hit_N20"].mean()), 4),
-                       "uplift_bought": P.ratio_boot((a - e)[keep], st[keep], b[keep.to_numpy()], n=1000)}
-        out["skip"] = sk
-    return out
+    return est
+
+
+def skip_effect(R: pd.DataFrame, model: str, skip_thr: float) -> dict:
+    """見送り(副次): 買った組の確率の合計が閾値未満のレースを見送る。陰性対照は市場の上位20組に同じ割合の見送り。"""
+    b = R["block"].to_numpy()
+    sk = {}
+    for who, thr in [(model, skip_thr), ("mkt", float(np.quantile(R["mkt_pcov_N20"], (R[f"{model}_pcov_N20"] < skip_thr).mean())))]:
+        keep = R[f"{who}_pcov_N20"] >= thr
+        a, e = R[f"{who}_act_N20"].to_numpy(float), R[f"{who}_exp_N20"].to_numpy(float)
+        st = 100.0 * R[f"{who}_k_N20"].to_numpy(float)
+        sk[who] = {"threshold": thr, "skip_rate": round(float(1 - keep.mean()), 4),
+                   "roi_bought": round(float(a[keep].sum() / st[keep].sum()), 4), "hit_bought": round(float(R.loc[keep, f"{who}_hit_N20"].mean()), 4),
+                   "uplift_bought": P.ratio_boot((a - e)[keep], st[keep], b[keep.to_numpy()], n=1000)}
+    return sk
 
 
 def freeze():

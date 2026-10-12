@@ -50,7 +50,7 @@ def _imports(path: Path) -> set:
 def test_model_modules_do_not_read_odds():
     """予想を作るモジュールは、オッズを読むモジュール(評価専用の物差し・現行の印)を import しない。"""
     banned = {"market_yardstick", "f0_market_eval", "f0_odds_proxy_check", "fmark_weekend", "load_score5"}
-    for name in ["model.py", "ability_v2.py", "nonfinish.py", "pl_ext.py", "f0_dev_utils.py", "birth_data.py"]:
+    for name in ["model.py", "ability_v2.py", "nonfinish.py", "pl_ext.py", "f0_dev_utils.py", "birth_data.py", "age_breeder.py", "finish_v4_live.py"]:
         assert not (_imports(FV4 / name) & banned), name
 
 
