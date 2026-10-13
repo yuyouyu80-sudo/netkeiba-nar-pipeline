@@ -113,3 +113,20 @@ def test_add_age_is_zero_when_any_birth_date_missing():
     assert np.allclose(out["age_dev×2歳"], [-2.0, 0.0, 2.0, 0.0, 0.0, 0.0])
     assert np.allclose(out["age_dev×初出走"], [-2.0, 0.0, 2.0, 0.0, 0.0, 0.0])
     assert np.allclose(out["新×breeder_m"], [0.1, 0.0, 0.1, 0.0, 0.0, 0.0])
+
+
+def test_group_weight_counts_only_other_horses_before_month():
+    import g1_decompose as G1
+    r = _toy(n_h=30, seed=4)
+    r["date"] = r["date"] + pd.DateOffset(months=6)
+    r["month0"] = r["date"].dt.to_period("M").dt.start_time
+    r["year"] = r["date"].dt.year
+    r["breeder_id"] = [f"b{int(h[1:]) % 3}" for h in r["horse_id"]]
+    n = G1.group_weight(r, r["fig"], 2015, "breeder_id")
+    i = r.index[r["year"] == 2016][7]
+    row = r.loc[i]
+    exp = 0.0
+    for h, g in r[(r["breeder_id"] == row["breeder_id"]) & (r["horse_id"] != row["horse_id"])].groupby("horse_id"):
+        past = g[(g["date"] < row["month0"]) & g["fig"].notna()]
+        exp += min(len(past), 5)
+    assert abs(n[i] - exp) < 1e-9
