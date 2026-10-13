@@ -36,5 +36,18 @@
   "stage": "G3 placebo",
   "n_specs_tried": 1,
   "time": "2026-10-13 21:19:06"
+ },
+ {
+  "stage": "G5 案B select",
+  "n_specs_tried": 7,
+  "chosen": null,
+  "time": "2026-10-13 21:24:08",
+  "note": "無効(推定人気の特徴量の欠けを0で埋めておらず q̂ が NaN、全ルールが同じ並びになった)。同じ7ルールを直して再実行したのが次の行"
+ },
+ {
+  "stage": "G5 案B select",
+  "n_specs_tried": 7,
+  "chosen": "w1.0_top60",
+  "time": "2026-10-13 21:29:07"
  }
 ]
