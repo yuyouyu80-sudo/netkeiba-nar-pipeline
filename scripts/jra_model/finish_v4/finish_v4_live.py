@@ -15,6 +15,9 @@
 - G0(2026-10-13、プラン第4版): M1・FINAL・F7(+月齢・生産者)を同じ実行で並べて記録する(影の記録。FINAL が主、表示・NET登録はしない)。
   レースごとに欠けと遅れ(走の表に無い前走・血統IDの出所・生年月日/生産者の欠け)を数え、入力の控え(snapshot、sha 付き)と
   実行の状態(status_{date}.json)を残す。発走時刻の無いレースは recorded_before_start=None(不明、評価に使わない)。
+- G*(2026-10-13、事前登録 §14、2020年の確かめで GS1・GS2 合格): F7 + 近5走の7系統の G* と、案B の買い目(当日のオッズを使わない
+  推定人気より確率の高い組)を models["GSTAR"] に影として記録する(10/17 の開催から)。係数は live_params_{年}_GSTAR.json
+  (gstar.py --fit-live)。G* の部分で失敗しても、FINAL・M1・F7 の記録は止めず、理由を info["gstar_error"] に残す。
 
 実行: .venv_dl の python
   python scripts/jra_model/finish_v4/finish_v4_live.py --date 20261011 [--record]
@@ -39,6 +42,7 @@ sys.path.insert(0, str(HERE.parent / "pedigree_reports"))
 import ability_v2 as V  # noqa: E402
 import age_breeder as AGB  # noqa: E402
 import f0_dev_utils as F0  # noqa: E402
+import gstar_live as GL  # noqa: E402
 import model as MD  # noqa: E402
 import nonfinish as NF  # noqa: E402
 import sanrenpuku_rules as SR  # noqa: E402
@@ -90,6 +94,24 @@ def fit_params(year: int, force: bool = False):
                "lam": list(lam), "made": time.strftime("%Y-%m-%d %H:%M:%S"), "source": src}
         p.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
         log("live params", year, model, "lam", np.round(lam, 3))
+
+
+def gstar_params(year: int):
+    p = OUT / f"live_params_{year}_GSTAR.json"
+    return json.loads(p.read_text(encoding="utf-8")) if p.exists() else None
+
+
+def add_gstar(D: pd.Timestamp, X: pd.DataFrame, pz: pd.DataFrame, GP: dict) -> tuple[pd.DataFrame, dict]:
+    """G* の効用 u_GSTAR と推定人気 qhat を X に足す。"""
+    t0 = time.time()
+    P5 = GL.past5_live(D, pz)
+    XG = GL.add_gstar(X, P5)
+    XG["u_GSTAR"] = XG[GP["features"]].fillna(0).to_numpy(float) @ np.asarray(GP["beta"])
+    XG["qhat"] = GL.qhat(XG, GP["pop"])
+    gi = {"elapsed_sec": round(time.time() - t0, 1), "n_horses": int(len(XG)), "past5_rows": int(len(P5)),
+          "has_past1_share": round(float(XG["used_form"].ne(0).mean()), 4),
+          "p1_build_sha256": sha(GL.ROOT / "analysis" / "past5_unused_2026_10_12" / "p1_build.py"), "gstar_live_sha256": sha(HERE / "gstar_live.py")}
+    return XG, gi
 
 
 def load_params(year: int) -> dict:
@@ -290,10 +312,21 @@ def run(D: pd.Timestamp, race_names: Path | None, do_record: bool):
     races, ent, X, info, res, q, snap = build(D, race_names)
     for model, par in P.items():
         X = predict(X, par, "u" if model == "FINAL" else f"u_{model}")
+    GP = gstar_params(D.year)
+    if GP is None:
+        info["gstar_error"] = f"live_params_{D.year}_GSTAR.json が無い"
+    else:
+        try:
+            X, info["gstar"] = add_gstar(D, X, snap["pseudo"], GP)
+        except Exception as e:      # G* だけの失敗(FINAL・M1・F7 の記録は続ける)
+            info["gstar_error"] = repr(e)
+            log("G* 失敗:", repr(e))
+            log(traceback.format_exc())
+            GP = None
     names = dict(zip(ent["horse_id"], ent["horse_name"]))
     rinfo = races.set_index("race_id")
     info["snapshot"] = save_snapshot(D, snap, datetime.datetime.now(JST).strftime("%H%M%S"))
-    day = {"date": str(D.date()), "rule": SR.MAIN_RULE, "model": "finish_v4 FINAL(主)+ M1・F7(影)", "params_year": P["FINAL"]["year"],
+    day = {"date": str(D.date()), "rule": SR.MAIN_RULE, "model": "finish_v4 FINAL(主)+ M1・F7・G*(影)", "params_year": P["FINAL"]["year"],
            "info": info, "races": {}}
     for rid, g in X.groupby("race_id"):
         r = rinfo.loc[rid]
@@ -305,6 +338,14 @@ def run(D: pd.Timestamp, race_names: Path | None, do_record: bool):
         for model in ("M1", "F7"):
             t = SR.race_tickets(gs["umaban_num"].astype(int).tolist(), gs[f"u_{model}"].to_numpy(float), P[model]["lam"], SR.MAIN_RULE)
             rec["models"][model] = {"u": [round(float(x), 4) for x in gs[f"u_{model}"]], "tickets": t["tickets"], "p_covered": t["p_covered"]}
+        if GP is not None:
+            um, ug = gs["umaban_num"].astype(int).tolist(), gs["u_GSTAR"].to_numpy(float)
+            t = SR.race_tickets(um, ug, GP["lam"], SR.MAIN_RULE)
+            mm = GP["market_map"]
+            tb = GL.tickets_b(um, ug, GP["lam"], gs["qhat"].to_numpy(float), mm["gamma"], mm["lam"], GP["pool"])
+            rec["models"]["GSTAR"] = {"u": [round(float(x), 4) for x in ug], "tickets": t["tickets"], "p_covered": t["p_covered"],
+                                      "qhat": [round(float(x), 5) for x in gs["qhat"]], "buy_rule_B": GP["buy_rule"],
+                                      "tickets_B": tb["tickets"], "p_covered_B": tb["p_covered"], "p_hat_ticket_B": tb["p_hat_ticket"]}
         rec["quality"] = {k: int(v) for k, v in q.loc[rid].items()} if rid in q.index else None
         day["races"][rid] = rec
     (LIVE / f"finish_v4_{D.strftime('%Y%m%d')}.json").write_text(json.dumps(day, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -326,7 +367,7 @@ def record(D: pd.Timestamp, day: dict, res, race_names: Path | None):
         "note": "事前登録 PREREG_FINISH_V4.md §8 の前向きの記録。レースごとに最初の記録が正本。recorded_before_start が真のレースだけを評価に使う。"}
     run_meta = {"generated_at": now.isoformat(timespec="seconds"), "inputs": day["info"],
                 "params_sha256": sha(OUT / f"live_params_{D.year}.json"),
-                "params_sha256_by_model": {m: sha(params_path(D.year, m)) for m in MODELS},
+                "params_sha256_by_model": {m: sha(params_path(D.year, m)) for m in MODELS} | {"GSTAR": sha(OUT / f"live_params_{D.year}_GSTAR.json")},
                 "git_commit": subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, cwd=C.PROJECT_ROOT).stdout.strip(),
                 "live_sha256": sha(Path(__file__)), "added": []}
     for rid, r in day["races"].items():
@@ -414,7 +455,8 @@ def main():
         status = {"date": a.date, "time": datetime.datetime.now(JST).isoformat(timespec="seconds"), "record": a.record}
         try:
             day = run(pd.Timestamp(a.date), Path(a.race_names_csv) if a.race_names_csv else None, a.record)
-            status |= {"status": "ok", "n_races": len(day["races"]), "quality_total": day["info"]["quality_total"]}
+            status |= {"status": "ok", "n_races": len(day["races"]), "quality_total": day["info"]["quality_total"],
+                       "gstar": day["info"].get("gstar_error") or "ok"}
         except RL.NotReady as e:
             log("まだ作れません:", e)
             status |= {"status": "not_ready", "reason": str(e)}

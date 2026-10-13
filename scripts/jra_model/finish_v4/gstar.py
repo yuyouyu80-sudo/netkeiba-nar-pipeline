@@ -32,6 +32,9 @@ import f0_dev_utils as F0  # noqa: E402
 import g1_decompose as G1  # noqa: E402
 import g3_past5 as G3  # noqa: E402
 import g5_popest as G5  # noqa: E402
+import gstar_live as GL  # noqa: E402
+import market_yardstick as MY  # noqa: E402
+import model as MD  # noqa: E402
 import pl_ext as P  # noqa: E402
 
 OUT = F0.OUT_DIR
@@ -121,11 +124,51 @@ def check2020():
         log(r_, v["hit"], round(v["roi"]["ratio"], 4), round(v["uplift"]["ratio"], 4), [round(x, 4) for x in v["uplift"]["ci_bca"]])
 
 
+def live_params_path(year: int) -> Path:
+    return OUT / f"live_params_{year}_GSTAR.json"
+
+
+def fit_live(year: int):
+    """発走前の記録の係数(2014〜year−1): G* の PL、人気の推定(q̂)、組の推定人気への写し方(γ・λ)。既にあれば作らない。"""
+    p = live_params_path(year)
+    assert not p.exists(), f"{p.name} は既にある(記録の sha が変わるため上書きしない)"
+    m = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    feats = m["g_star_spec"]
+    efeats = feats + GL.POP
+    t7 = OUT / f"f7_y{year}_tables.parquet"
+    T7 = pd.read_parquet(t7, filters=[("eval_year", "=", year)]).drop(columns="eval_year")
+    tr = AGB.add_age(MD.derived(T7[T7["year"].between(F0.TRAIN_START, year - 1)]))
+    F = pd.read_parquet(G3.P5, columns=["race_id", "horse_id"] + G3.P5_COLS).drop_duplicates(["race_id", "horse_id"]).set_index(["race_id", "horse_id"])
+    tr = G3.add_g3(tr, F, G3.course_table()).join(GL.pop_features(), on=["race_id", "horse_id"])
+    for c in GL.POP:
+        tr[c] = tr[c].fillna(0.0)
+    beta, lam = MD.fit_std(tr, feats, 0.0)
+    odds = MY.load_odds(range(2014, year))
+    assert odds["year"].max() <= year - 1
+    trq = G5.with_q(tr, odds).sort_values("race_id", kind="stable")
+    Etr = trq[efeats].fillna(0.0)
+    mu, sd = Etr.mean(), Etr.std().replace(0, 1.0).fillna(1.0)
+    starts = np.flatnonzero(np.r_[True, trq["race_id"].to_numpy()[1:] != trq["race_id"].to_numpy()[:-1]])
+    b = G5.fit_soft(((Etr - mu) / sd).to_numpy(float), trq["q"].to_numpy(float), starts)
+    gamma, mlam = MY.fit_market(odds)
+    out = {"year": year, "model": "GSTAR", "train": [F0.TRAIN_START, year - 1], "features": feats, "beta": [float(x) for x in beta],
+           "lam": list(lam), "buy_rule": m["buy_rule"], "pool": m["pool"],
+           "pop": {"features": efeats, "mu": [float(x) for x in mu], "sd": [float(x) for x in sd], "b": [float(x) for x in b], "l2": G5.L2},
+           "market_map": {"gamma": gamma, "lam": list(mlam), "train": [2014, year - 1]},
+           "manifest_sha256": sha(MANIFEST), "features_parquet_sha256": sha(G3.P5), "source": t7.name,
+           "made": time.strftime("%Y-%m-%d %H:%M:%S")}
+    p.write_text(json.dumps(out, ensure_ascii=False, indent=1, default=float), encoding="utf-8")
+    log("live params GSTAR", year, "lam", np.round(lam, 3), "gamma", round(gamma, 4), "train rows", len(tr), "pop rows", len(trq))
+
+
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--fit-live", type=int)
     ap.add_argument("--freeze", action="store_true")
     ap.add_argument("--check2020", action="store_true")
     a = ap.parse_args()
+    if a.fit_live:
+        fit_live(a.fit_live)
     if a.freeze:
         freeze()
     if a.check2020:

@@ -24,6 +24,7 @@ sys.path.insert(0, str(HERE))
 import f0_dev_utils as F0  # noqa: E402
 import g1_decompose as G1  # noqa: E402
 import g3_past5 as G3  # noqa: E402
+from gstar_live import POP, pop_features  # noqa: E402,F401  過去の人気(発走前の記録と同じ関数)
 import market_yardstick as MY  # noqa: E402
 import model as MD  # noqa: E402
 import pl_ext as P  # noqa: E402
@@ -31,28 +32,9 @@ import pl_ext as P  # noqa: E402
 OUT = F0.OUT_DIR
 SELECT_OUT = OUT / "g5_select.json"
 log = F0.log
-POP = ["lpop1", "lpop2", "lpop3", "lpop_mean3", "lpop_best3", "lpop_trend", "has_pop1", "A_pop_vs_fin3"]
 W_GRID = (0.25, 0.5, 0.75, 1.0)
 POOL = 60
 L2 = 1e-3
-
-
-def pop_features() -> pd.DataFrame:
-    """features.parquet の今回の人気(pop)・頭数を馬ごとに日付順でずらし、過去の人気だけを作る。"""
-    F = pd.read_parquet(G3.P5, columns=["race_id", "horse_id", "date", "pop", "field", "A_pop_vs_fin3"])
-    F = F.drop_duplicates(["race_id", "horse_id"]).sort_values(["horse_id", "date"]).reset_index(drop=True)
-    F["lp"] = -np.log(F["pop"].astype(float) / F["field"].astype(float))    # 大きいほど上位人気(相対)
-    g = F.groupby("horse_id")["lp"]
-    L = pd.concat([g.shift(k).rename(k) for k in (1, 2, 3)], axis=1)
-    out = pd.DataFrame({"race_id": F["race_id"], "horse_id": F["horse_id"]})
-    for k in (1, 2, 3):
-        out[f"lpop{k}"] = L[k]
-    out["lpop_mean3"] = L.mean(axis=1)
-    out["lpop_best3"] = L.max(axis=1)
-    out["lpop_trend"] = L[1] - L[2]
-    out["has_pop1"] = L[1].notna().astype(float)
-    out["A_pop_vs_fin3"] = F["A_pop_vs_fin3"]
-    return out.set_index(["race_id", "horse_id"]).fillna(0.0)
 
 
 def fit_soft(X: np.ndarray, q: np.ndarray, starts: np.ndarray, l2: float = L2) -> np.ndarray:
