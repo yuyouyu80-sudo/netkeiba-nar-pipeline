@@ -90,6 +90,7 @@ def main():
     fin = J("final_result.json")
     y26, cmp_, lchk = J("y2026_result.json"), J("y2026_compare.json"), J("live/check_20261004.json")
     f7 = f7_html(J("f7_tune.json"), J("f7_eval_dev.json"), J("f7_dry_result.json"), J("f7_final_result.json"), J("f7_y2026_result.json"))
+    gsec = g_html(J("g1_select.json"), J("g1_result.json"), J("g2_kinryo.json"), J("g3_select.json"), J("g5_select.json"), J("gstar_2020_result.json"))
     R = mk["rules"]
     nf = met["nonfinish"]
 
@@ -188,7 +189,7 @@ def main():
         tcar=table(["キャリア", "走数", "生年月日あり"], car_rows, "num"), cov_made=esc(cov["made"]),
         fr_n=f'{cov["foreign"]["n"]:,}', fr_jd=cov["foreign"]["born_jul_dec"],
         f2=f2_html or "<p>実行中。</p>", f2_summary=f2_summary(ev),
-        f3=f3_html(f3), f3m=f3m_html(f3m), f5=f5_html(dry, True), final=final_html(fin), y2026=y2026_html(y26, cmp_), live=live_html(lchk), f7=f7,
+        f3=f3_html(f3), f3m=f3m_html(f3m), f5=f5_html(dry, True), final=final_html(fin), y2026=y2026_html(y26, cmp_), live=live_html(lchk), f7=f7, gsec=gsec,
     )
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(html_out, encoding="utf-8", newline="\n")
@@ -414,6 +415,78 @@ def f7_html(tune, dev, dry, fin, y26) -> str:
               "<li><b>回収率:</b> 上がりません。人気をそろえると、人気どおりに買うのと同じ(約75%)。開発の +8.2pt は、完成形のときと同じく確認で消えました。"
               "当たりやすくなった分は、市場もほぼ織り込んでいます。</li>"
               "<li>効きは新馬・未勝利に限らず、全ての層・頭数で同じくらいでした(開発の層別では、生産者は新馬戦、月齢は2歳戦で特に大きかった)。</li></ul></div>")
+    return h
+
+
+def g_html(g1s, g1r, g2, g3, g5, gs) -> str:
+    """プラン第4版 G1〜G5・G*(2026-10-13)。"""
+    if not (g1s and g3 and g5 and gs):
+        return "<p>未実行。</p>"
+    d = lambda v: num(v["combo"]["mean"], 4, True) + cib(v["combo"]["ci_bca"])  # noqa: E731
+    yr = lambda v: "・".join(f"{y}: {x:+.4f}" for y, x in v["by_year"].items())  # noqa: E731
+    h = ("<p>2体のレビュー(予想家・シニアエンジニア)と Fable 5.1 の指摘を受けたプラン第4版で、F7 の分解(G1)・斤量(G2)・本人の実績の拡張(G3)・"
+         "回収率の案B(G5)を進めました。<b>確認期間(2021〜2025年)と2026年の層は使っていません。</b>候補選びは2018〜2019年だけ、"
+         "2020年は G1 で1回、G*(全部をまとめた版)の凍結の後に1回だけ使いました。試した設定の数は <code>dev_ledger.json</code> にあります。</p>")
+    # G1
+    rows = [[esc(k), d(v), esc(yr(v))] for k, v in g1s["single_vs_B"].items()]
+    h += ("<h3>G1 F7 の上積みの分解(土台 B = FINAL+生産者)</h3>" + table(["足したもの", "組の対数スコアの差 [95%]", "年ごと"], rows, "num")
+          + f"<p>「月齢」の上積みのほとんどは<b>年齢(年)</b>の分で、同じ年齢の中の生まれ月は +0.0014 と小さい。2018〜2019年で年齢(年)だけを採り、"
+          f"2020年に1回確かめると F7 との差は {num(g1r['G1_vs_F7_2020']['combo']['mean'], 4, True)} で F7 を超えず、<b>F7 のまま</b>にしました。</p>")
+    # G2
+    rows = [[esc(k), d(v), pt(v["hit20"])] for k, v in g2["vs_F7"].items()]
+    h += ("<h3>G2 斤量</h3><p>斤量には見習い騎手の減量(騎手の情報)とハンデの「重い=強い」が混ざりますが、結果の表・馬柱には減量の印もハンデの区別もありません。"
+          "比べると、どちらの直し方も悪くなりました。<b>ご判断どおり今のまま使います</b>(減量が混ざる点は明記)。</p>"
+          + table(["版(2018〜2019年)", "F7 との差 [95%]", "20点の的中の差"], rows, "num"))
+    # G3
+    rows = [[esc(k.replace("F7+", "")), d(v), esc(yr(v)), pt(v["hit20"]), '<span class="chip good">採用</span>' if k.replace("F7+", "") in g3["chosen"] else ""]
+            for k, v in g3["single_vs_F7"].items()]
+    t = g3["g3_vs_F7"]
+    h += ("<h3>G3 本人の実績の拡張(近5走・今回の枠・コース形状)</h3>"
+          "<p>別の会話の「近5走の未利用部分」の特徴(取消の扱いを直した後の版)のうち、オッズ・騎手・馬体重・確定した当日の馬場を使わない系統と、"
+          "今回の枠・コース形状×脚質(ご了承の上)を、2018〜2019年で1系統ずつ足して選びました(区間の下限が0より上かつ2年とも正なら足す)。</p>"
+          + table(["系統(F7 に1つだけ足したとき)", "組の対数スコアの差 [95%]", "年ごと", "20点の的中の差", ""], rows, "num")
+          + f"<p>7系統を全部足した版(G3*)は F7 に対し {d(t)}、20点の的中 {pt(t['hit20'])}。"
+          f"足した列をレース内で入れ替えるプラセボでは {num(g3['placebo_vs_F7']['combo']['mean'], 3, True)} で、上積みは消えます(漏れの心配なし)。</p>")
+    # G5
+    lab = {"w0": "G* の上位20組(土台)", "w0.25": "w=0.25", "w0.5": "w=0.5", "w0.75": "w=0.75", "w1.0": "w=1.0",
+           "w0.5_top60": "w=0.5・上位60組の中", "w1.0_top60": "w=1.0・上位60組の中", "ref_mkt_w0.5": "参考: 実際のオッズで w=0.5", "ref_mkt_w1.0": "参考: 実際のオッズで w=1.0"}
+    rows = []
+    for k, v in g5["results"].items():
+        u = v["uplift"]
+        rows.append([esc(lab.get(k, k)) + (' <span class="chip good">選択</span>' if k == g5["chosen"] else ""), pct(v["hit"]), pct(v["roi"]["ratio"]),
+                     pt(u["ratio"]), ci_pt(u["ci_bca"]), f'{v["median_market_rank"]:.0f}位'])
+    q = g5["popularity_quality"]
+    h += ("<h3>G5 回収率の案B: 当日のオッズを使わずに人気を推定する</h3>"
+          "<p>前走〜3走前の人気(過去の市場の情報、ご了承の上)と G3* の特徴量から、今回の単勝の人気を推定します(学習の正解は前年までのレースの確定オッズの割合だけ)。"
+          "組を「G3* の確率 ÷ 推定人気の確率<sup>w</sup>」の大きい順に並べて20点を買います。選び方は結果を見る前に決めました"
+          "(オッズを使わない版のうち、2018〜2019年の人気をそろえた上積みが最大で、2年とも土台を上回るもの)。</p>"
+          f"<p>推定人気と実際の人気の順位相関は {q['2018']['spearman_qhat']:.2f}(モデルだけでは {q['2018']['spearman_model']:.2f})。</p>"
+          + table(["買い方(2018〜2019年、6,651R)", "的中率", "回収率", "上積み", "95%区間", "買った組の人気(中央値)"], rows, "num")
+          + "<p>6つの候補から選んだ後の値なので、高めに出ています。実際のオッズで割ると人気薄に寄りすぎて、かえって上積みが不安定になりました。</p>")
+    # G*
+    j = gs["judgement"]
+    rr = []
+    for k in ["w0", g5["chosen"], "w0.5", "ref_mkt_w0.5"]:
+        v = gs["rules"][k]
+        rr.append([esc(lab.get(k, k)), pct(v["hit"]), pct(v["roi"]["ratio"]) + f'<br><span class="sub">[{100*v["roi"]["ci_bca"][0]:.1f}, {100*v["roi"]["ci_bca"][1]:.1f}]</span>',
+                   pt(v["uplift"]["ratio"]), ci_pt(v["uplift"]["ci_bca"])])
+    chip = lambda b: '<span class="chip good">合格</span>' if b else '<span class="chip neu">不合格</span>'  # noqa: E731
+    u = gs["uplift_chosen_minus_w0"]
+    h += ("<h3>G* の凍結と2020年の1回の確かめ</h3>"
+          "<p>G* = F7 + G3 の7系統(96本)、買い方は案B(上位60組の中で推定人気より確率の高い順に20点)。仕様・入力の hash・判定の基準を "
+          "<code>gstar_manifest.json</code> と事前登録 §14 に書き、タグ <code>finish_v4_gstar_prereg</code> を付けてから2020年(3,330R)を1回だけ見ました。</p>"
+          + table(["判定", "中身", "2020年", ""], [
+              ["GS1", "組の対数スコア G* − F7(区間の下限 &gt; 0)", d(gs["G*_vs_F7"]), chip(j["GS1"])],
+              ["GS2", "上積み 案B − 上位20組(点推定 &gt; 0)", pt(u["ratio"]) + f'<br><span class="sub">{ci_pt(u["ci_bca"])}</span>', chip(j["GS2"])]], "num")
+          + f"<p>20点の的中: FINAL {pct(gs['hit20']['FINAL'])} → F7 {pct(gs['hit20']['F7'])} → G* {pct(gs['hit20']['G*'])}。</p>"
+          + table(["買い方(2020年)", "的中率", "回収率 [95%]", "上積み", "95%区間"], rr, "num")
+          + '<div class="box"><ul>'
+          "<li><b>予想の精度:</b> 近5走の特徴で、組の確率の当たり方はさらに良くなりました(2018・2019・2020年の3年とも +0.046〜0.050)。"
+          "ただし20点の的中の上積みは2020年では +0.3pt と小さく、主に「当たる組に付ける確率」の改善です。</li>"
+          "<li><b>回収率:</b> 案B は2020年に 80.6%(上積み +8.8pt、区間の下限は −0.2pt)で、開発の 90.9% より下がりました。"
+          "人気どおりの約75%は上回る方向ですが、1年では偶然と区別できません。<b>回収率100%・160%に届く根拠はまだありません。</b></li>"
+          "<li><b>前向き:</b> G* の上位20組と案B の買い目を、10/17 の開催から発走前の記録に影として足しました(表示・NET登録はしない)。"
+          "近5走の特徴は発走前に出走表から作り、10/04 の361頭で開発の値と完全に一致することを確かめました。</li></ul></div>")
     return h
 
 
