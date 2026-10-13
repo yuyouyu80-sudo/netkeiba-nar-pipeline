@@ -90,18 +90,18 @@ def with_q(D: pd.DataFrame, odds: pd.DataFrame) -> pd.DataFrame:
     return D
 
 
-def main():
-    sel3 = json.loads(G3.SELECT_OUT.read_text(encoding="utf-8"))
-    feats = sel3["g3_spec"]
+RULES = ["w0"] + [f"w{w}" for w in W_GRID] + [f"w{w}_top{POOL}" for w in (0.5, 1.0)] + ["ref_mkt_w0.5", "ref_mkt_w1.0"]
+
+
+def run_years(years, feats, rules=RULES, races_out=OUT / "g5_dev_races.parquet") -> tuple[pd.DataFrame, dict]:
+    """years の各年: G3* の効用と推定人気から、各ルールの20点の的中・払戻・市場から見た期待を集める(係数は 2014〜Y−1)。"""
     efeats = feats + POP
     F = pd.read_parquet(G3.P5, columns=["race_id", "horse_id"] + G3.P5_COLS).drop_duplicates(["race_id", "horse_id"]).set_index(["race_id", "horse_id"])
     PF = pop_features()
     C = G3.course_table()
-    years = G1.SEL_YEARS
     pay = F0.load_sanrenpuku(range(2014, max(years) + 1))
     odds = MY.load_odds(range(2014, max(years) + 1))
     assert odds["year"].max() <= max(years)
-    rules = ["w0"] + [f"w{w}" for w in W_GRID] + [f"w{w}_top{POOL}" for w in (0.5, 1.0)] + ["ref_mkt_w0.5", "ref_mkt_w1.0"]
     rows, qual = [], {}
     for Y, D in G1.load_tables().items():
         if Y not in years:
@@ -181,7 +181,11 @@ def main():
         assert np.isfinite(te["qhat"]).all(), "推定人気に NaN"
         log(Y, "races", sum(r["year"] == Y for r in rows))
     R = pd.DataFrame(rows)
-    R.to_parquet(OUT / "g5_dev_races.parquet", index=False)
+    R.to_parquet(races_out, index=False)
+    return R, qual
+
+
+def summarize(R: pd.DataFrame, rules, years) -> dict:
     b_ = R["block"].to_numpy()
     st = np.full(len(R), 2000.0)
     res = {}
@@ -194,6 +198,14 @@ def main():
                      "by_year_roi": {int(y): round(float(a[R["year"] == y].sum() / st[R["year"] == y].sum()), 4) for y in years}}
         log(rule, res[rule]["hit"], round(res[rule]["roi"]["ratio"], 4), round(res[rule]["uplift"]["ratio"], 4),
             [round(x, 4) for x in res[rule]["uplift"]["ci_bca"]], res[rule]["by_year_uplift"], "mrank", res[rule]["median_market_rank"])
+    return res
+
+
+def main():
+    sel3 = json.loads(G3.SELECT_OUT.read_text(encoding="utf-8"))
+    years, rules = G1.SEL_YEARS, RULES
+    R, qual = run_years(years, sel3["g3_spec"])
+    res = summarize(R, rules, years)
     base = res["w0"]["by_year_uplift"]
     ok = [r for r in rules if r != "w0" and not r.startswith("ref") and all(res[r]["by_year_uplift"][y] > base[y] for y in years)]
     chosen = max(ok, key=lambda r: res[r]["uplift"]["ratio"]) if ok else None
