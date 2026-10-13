@@ -50,3 +50,16 @@ def test_rules_module_does_not_read_odds():
     names |= {n.module for n in ast.walk(ast.parse(src)) if isinstance(n, ast.ImportFrom) and n.module}
     assert not names & {"market_yardstick", "f0_market_eval", "fmark_weekend", "load_score5"}
     np.testing.assert_equal(R.MAIN_RULE, "N20")
+
+
+def test_live_parse_date_and_models():
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "jra_model" / "pedigree_reports"))
+    import pandas as pd
+    import finish_v4_live as L
+    assert L.parse_date("2026.07.05") == pd.Timestamp("2026-07-05")
+    assert L.parse_date("2026/07/05") == pd.Timestamp("2026-07-05")
+    assert pd.isna(L.parse_date("")) and pd.isna(L.parse_date(None))
+    assert list(L.MODELS) == ["M1", "FINAL", "F7"]
+    assert L.MODELS["F7"][:len(L.FEATS)] == L.FEATS and len(L.MODELS["F7"]) == len(L.FEATS) + 6

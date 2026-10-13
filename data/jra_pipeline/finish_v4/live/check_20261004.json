@@ -19,5 +19,19 @@
    "max_abs_diff": 1.0341230995418553
   }
  },
- "n_kin_diff": 1
+ "n_kin_diff": 1,
+ "quality_total": {
+  "stale_lag": 0,
+  "past1_not_jra": 7,
+  "ped_from_name": 81,
+  "ped_unknown": 1,
+  "birth_missing": 82,
+  "breeder_missing": 0
+ },
+ "F7": {
+  "n_matched": 347,
+  "max_abs_diff_ped_complete": 0.009322477891428038,
+  "median_abs_diff": 0.00018584963224388407,
+  "corr": 0.9961590967642001
+ }
 }

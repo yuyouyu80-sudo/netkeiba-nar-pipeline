@@ -49,7 +49,7 @@ log = F0.log
 AGE = ["age_dev", "age_dev×2歳", "age_dev×3歳春", "age_dev×初出走"]
 BREED = ["breeder_m", "新×breeder_m"]
 F7_GROUPS = {"月齢": AGE, "生産者": BREED}
-FINAL = MD.SPECS["FULL"]          # 確認で凍結した完成形(7群・70本)
+FINAL = MD.SPECS["FULL"]          # 確認で凍結した完成形(7群・73本)
 F7_SPECS = {"FINAL": FINAL, "FINAL+月齢": FINAL + AGE, "FINAL+生産者": FINAL + BREED, "FINAL+両方": FINAL + AGE + BREED}
 
 

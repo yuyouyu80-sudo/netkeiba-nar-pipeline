@@ -370,7 +370,7 @@ def f7_html(tune, dev, dry, fin, y26) -> str:
         rows.append([esc(k), num(d["mean"], 4, True) + cib(d["ci_bca"]), num(c["mean"], 4, True) + cib(c["ci_bca"]), pt(t["mean"]) + f'<br><span class="sub">{ci_pt(t["ci_bca"])}</span>',
                      pct(v["hit"]["N20"])])
     h += "<h4>開発(2018〜2020年)— 完成形 FINAL との差</h4>" + table(["モデル", "着順の対数尤度/R", "組の対数スコア/R", "10点の的中", "20点の的中"], rows, "num")
-    h += (f"<p>凍結の規則(外すとはっきり悪くなる群だけを残す)で、月齢・生産者の2群とも残りました。この76本を F7 として凍結し、事前登録の追補 §12 を書いて"
+    h += (f"<p>凍結の規則(外すとはっきり悪くなる群だけを残す)で、月齢・生産者の2群とも残りました。この79本を F7 として凍結し、事前登録の追補 §12 を書いて"
           f"タグ <code>finish_v4_f7_prereg</code> を付けてから確認しました。月齢・生産者の値は、2021年以降のレースで一度も計算していませんでした。</p>")
     def hyp_rows(r):
         out = []
