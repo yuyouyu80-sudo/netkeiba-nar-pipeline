@@ -1,0 +1,251 @@
+<title>市場の外の情報3方向</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700&family=Noto+Sans+JP:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* 誌面: 1カラムの検証記録。判定表→図→方向ごとの詳細→レビュー→再現の順 */
+:root{
+  --bg:#f6f6f2;--fg:#1c1d1a;--mut:#62645c;--card:#ffffff;--bd:#dcddd4;--soft:#ecede6;
+  --ok:#1f7a45;--ng:#a8321f;--acc:#2c5a8c;--mark:#c48a12;
+  --f-disp:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-num:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#151613;--fg:#e9eae3;--mut:#a2a499;--card:#1e1f1b;--bd:#34362f;--soft:#26281f;
+  --ok:#62c48d;--ng:#ef8a78;--acc:#8db4e6;--mark:#e3b453;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#151613;--fg:#e9eae3;--mut:#a2a499;--card:#1e1f1b;--bd:#34362f;--soft:#26281f;
+  --ok:#62c48d;--ng:#ef8a78;--acc:#8db4e6;--mark:#e3b453;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.75}
+.wrap{max-width:880px;margin:0 auto;padding-inline:16px;padding-block:28px 64px;display:flex;flex-direction:column;gap:34px}
+h1,h2,h3{font-family:var(--f-disp);text-wrap:balance;line-height:1.35;margin:0}
+h1{font-size:1.85rem;font-weight:700}
+h2{font-size:1.3rem;font-weight:700;padding-bottom:6px;border-bottom:1px solid var(--bd)}
+h3{font-size:1.05rem;font-weight:700}
+p{margin:0;max-width:68ch}
+section{display:flex;flex-direction:column;gap:14px;min-width:0}
+.eyebrow{font-size:.78rem;letter-spacing:.08em;color:var(--mut)}
+.lead{font-size:1.02rem}
+.mut{color:var(--mut);font-size:.88rem}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+.verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.vc{background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.vc .k{font-size:.8rem;color:var(--mut)}
+.vc .t{font-family:var(--f-disp);font-weight:700}
+.pill{display:inline-block;font-size:.75rem;font-weight:700;padding:1px 9px;border-radius:999px;letter-spacing:.04em;width:fit-content}
+.pill.ng{color:var(--ng);border:1px solid var(--ng)}
+.pill.ok{color:var(--ok);border:1px solid var(--ok)}
+.pill.ref{color:var(--mut);border:1px solid var(--bd)}
+.tbl{overflow-x:auto;border:1px solid var(--bd);border-radius:6px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{padding:7px 10px;border-bottom:1px solid var(--bd);text-align:left;vertical-align:top}
+th{font-weight:700;background:var(--soft);white-space:nowrap}
+td.r,th.r{text-align:right;font-family:var(--f-num);font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+.fig{background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:12px;overflow-x:auto}
+.fig svg{display:block;max-width:100%;height:auto}
+.fig text{fill:var(--fg);font-family:var(--f-body)}
+.fig .ax{stroke:var(--bd)}
+.fig .zero{stroke:var(--mut);stroke-dasharray:3 3}
+.fig .ci{stroke:var(--acc);stroke-width:2.5}
+.fig .pt{fill:var(--acc)}
+.fig .pl{fill:var(--mark)}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:.82rem;color:var(--mut)}
+.legend i{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:middle}
+ul{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:4px;max-width:70ch}
+.quote{border-left:3px solid var(--bd);padding-left:12px;color:var(--fg)}
+.rev{display:flex;flex-direction:column;gap:10px}
+.rv{background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.rv .who{font-size:.78rem;color:var(--mut);letter-spacing:.04em}
+.code{font-family:var(--f-num);font-size:.82rem;word-break:break-all}
+a{color:var(--acc)}
+a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+</style>
+<main class="wrap">
+<header style="display:flex;flex-direction:column;gap:10px">
+<div class="eyebrow">JRA 予想・検証記録 / 2026-10-12 / 事前登録 PREREG_market_pools_2026_10_12</div>
+<h1>市場の外の情報3方向</h1>
+<p class="lead">確定単勝オッズに入っていない情報を3つの方向から探しました。単勝と複勝の売れ方の食い違い、馬ごとの単勝オッズの動き、厩舎コメントの本文です。3つとも、この標本(2026年の数百レース)では確定オッズへの上乗せを検出できませんでした。効果の大きさ(1標準偏差あたりのオッズ比の95%区間)は T1 0.92〜1.11、T2 0.76〜1.05、T3 0.88〜1.22 です。上乗せが小さいと言えるのは T1 だけで、T2・T3 はプラス・マイナス2割程度の効果を排除できません。1レースあたり +0.007 程度の対数尤度に当たる大きさで、このプロジェクトで他に合格した特徴と同じ水準です。「上乗せが無い」とも「小さい」とも言えず、T2・T3 は判定できなかったと読むのが正確です。</p>
+<p class="mut">発端は Bolton &amp; Chapman (1986)「Searching for Positive Returns at the Track」。この論文の多項ロジット(条件付きロジット)と、Benter (1994) 型の市場との組み合わせは、このプロジェクトでは jra_market_model.py(2026-08-22〜)・finish_v4 などで既に使っています。今回は手法ではなく、使う情報を新しくしました。</p>
+</header>
+<section><h2>判定</h2><div class="verdict">
+<div class="vc"><div class="k">T1・主仮説</div><div class="t">単勝と複勝の食い違い</div><div class="num">ΔLL −0.45  [−0.87, −0.09]</div><div class="mut">285レース・15開催日</div><span class="pill ng">No-Go</span></div>
+<div class="vc"><div class="k">T2・主仮説</div><div class="t">単勝オッズの動き</div><div class="num">ΔLL +0.17  [−2.21, +2.56]</div><div class="mut">591レース・25開催日</div><span class="pill ng">No-Go</span></div>
+<div class="vc"><div class="k">T3・主仮説</div><div class="t">厩舎コメント本文</div><div class="num">ΔLL −1.41  [−2.22, −0.65]</div><div class="mut">366レース・31開催日</div><span class="pill ng">No-Go</span></div>
+</div>
+<p class="mut">ΔLL は、確定オッズだけのモデルに新しい特徴を足したときの対数尤度の増え方(開催日を1日ずつ抜いて当てた合計)。括弧は開催日×競馬場ブロックのブートストラップ4,000回の95%区間(係数を固定した条件付きの区間)。合格条件は「区間の下限が0より上」かつ「特徴をレース内でシャッフルした20回(プラセボ)の最大より上」。順位p は主仮説のプラセボ200回の中で実際の ΔLL が何番目かを表す参考値です。1日抜きの交差検証では、効かない特徴を足すと ΔLL は負に寄る(プラセボの平均 −0.5〜−1.2)ため、区間が負でも「害がある」とは読みません。また ΔLL の区間は係数を固定したときのばらつきだけを表し、効果の大きさの範囲にはなりません。物差しは2つあります。効果の大きさは表の右端の「オッズ比の95%区間」(開催日×競馬場ブロック単位とレース単位でそれぞれ復元抽出して係数を当て直した1,000回の、広い方)で見ます。一方、合否の判定(ΔLL の区間の下限が0より上)は採用のための厳しい関門で、係数の検定に直すとおよそ z≒4 を求めています。偽の合格をほぼ出さない代わりに、中くらいの効果は通りません。罰則(L2=1)は新しい特徴と評価コード等の基準側の列に掛かり、市場の列には掛けていません。標準化していない列(評価コード・U)は縮みが大きめです。</p></section>
+<section><h2>仮説ごとの上乗せ</h2>
+<div class="fig"><svg viewBox="0 0 760 454" role="img" aria-label="仮説ごとの ΔLL と95%区間、プラセボ最大"><line class="ax" x1="265.0" y1="8" x2="265.0" y2="424"/><text x="265.0" y="442" font-size="11" text-anchor="middle">−4.00</text><line class="ax" x1="324.7" y1="8" x2="324.7" y2="424"/><text x="324.7" y="442" font-size="11" text-anchor="middle">−3.00</text><line class="ax" x1="384.3" y1="8" x2="384.3" y2="424"/><text x="384.3" y="442" font-size="11" text-anchor="middle">−2.00</text><line class="ax" x1="444.0" y1="8" x2="444.0" y2="424"/><text x="444.0" y="442" font-size="11" text-anchor="middle">−1.00</text><line class="ax" x1="503.6" y1="8" x2="503.6" y2="424"/><text x="503.6" y="442" font-size="11" text-anchor="middle">0</text><line class="ax" x1="563.3" y1="8" x2="563.3" y2="424"/><text x="563.3" y="442" font-size="11" text-anchor="middle">+1.00</text><line class="ax" x1="622.9" y1="8" x2="622.9" y2="424"/><text x="622.9" y="442" font-size="11" text-anchor="middle">+2.00</text><line class="ax" x1="682.5" y1="8" x2="682.5" y2="424"/><text x="682.5" y="442" font-size="11" text-anchor="middle">+3.00</text><line class="zero" x1="503.6" y1="8" x2="503.6" y2="424"/><text x="8" y="24" font-size="12.5" font-weight="700">H1 3着内 + 単複食い違い</text><line class="ci" x1="451.6" y1="20" x2="498.1" y2="20"/><circle class="pt" cx="476.5" cy="20" r="5"/><path class="pl" d="M646.2 13 l5 7 l-5 7 l-5 -7z"/><text x="8" y="58" font-size="12.5" font-weight="700">H2 勝ち馬 + 1時間前からの動き</text><line class="ci" x1="371.6" y1="54" x2="656.2" y2="54"/><circle class="pt" cx="513.8" cy="54" r="5"/><path class="pl" d="M551.5 47 l5 7 l-5 7 l-5 -7z"/><text x="8" y="92" font-size="12.5" font-weight="700">H3 勝ち馬 [市場+評価コード] + 期待度E</text><line class="ci" x1="370.9" y1="88" x2="465.0" y2="88"/><circle class="pt" cx="419.7" cy="88" r="5"/><path class="pl" d="M588.3 81 l5 7 l-5 7 l-5 -7z"/><text x="8" y="126" font-size="12.5" font-weight="400">H1b 勝ち馬 + 単複食い違い</text><line class="ci" x1="378.4" y1="122" x2="534.8" y2="122"/><circle class="pt" cx="470.8" cy="122" r="5"/><path class="pl" d="M662.3 115 l5 7 l-5 7 l-5 -7z"/><text x="8" y="160" font-size="12.5" font-weight="400">参考 同時点の単勝で計算</text><line class="ci" x1="451.9" y1="156" x2="493.1" y2="156"/><circle class="pt" cx="474.1" cy="156" r="5"/><path class="pl" d="M632.6 149 l5 7 l-5 7 l-5 -7z"/><text x="8" y="194" font-size="12.5" font-weight="400">参考(事後) 人気順の偏りを除いた食い違い</text><line class="ci" x1="440.2" y1="190" x2="486.9" y2="190"/><circle class="pt" cx="465.7" cy="190" r="5"/><path class="pl" d="M633.0 183 l5 7 l-5 7 l-5 -7z"/><text x="8" y="228" font-size="12.5" font-weight="400">H2b 勝ち馬 + 10分前からの動き</text><line class="ci" x1="422.2" y1="224" x2="558.1" y2="224"/><circle class="pt" cx="489.7" cy="224" r="5"/><path class="pl" d="M526.1 217 l5 7 l-5 7 l-5 -7z"/><text x="8" y="262" font-size="12.5" font-weight="400">H2c 3着内 + 1時間前からの動き</text><line class="ci" x1="426.6" y1="258" x2="476.1" y2="258"/><circle class="pt" cx="451.6" cy="258" r="5"/><path class="pl" d="M684.3 251 l5 7 l-5 7 l-5 -7z"/><text x="8" y="296" font-size="12.5" font-weight="400">参考(事後) 人気帯の中で見た動き</text><line class="ci" x1="387.1" y1="292" x2="628.8" y2="292"/><circle class="pt" cx="506.0" cy="292" r="5"/><path class="pl" d="M584.5 285 l5 7 l-5 7 l-5 -7z"/><text x="8" y="330" font-size="12.5" font-weight="400">H3b 勝ち馬 [市場] + E・U</text><line class="ci" x1="304.0" y1="326" x2="523.0" y2="326"/><circle class="pt" cx="418.2" cy="326" r="5"/><path class="pl" d="M614.2 319 l5 7 l-5 7 l-5 -7z"/><text x="8" y="364" font-size="12.5" font-weight="400">H3r 勝ち馬 [市場] + 評価コード</text><line class="ci" x1="285.8" y1="360" x2="549.5" y2="360"/><circle class="pt" cx="429.2" cy="360" r="5"/><path class="pl" d="M634.2 353 l5 7 l-5 7 l-5 -7z"/><text x="8" y="398" font-size="12.5" font-weight="400">H3c 3着内 + 期待度E</text><line class="ci" x1="319.1" y1="394" x2="649.9" y2="394"/><circle class="pt" cx="491.3" cy="394" r="5"/><path class="pl" d="M694.2 387 l5 7 l-5 7 l-5 -7z"/></svg></div>
+<div class="legend"><span><i style="background:var(--acc);border-radius:50%"></i>ΔLL と95%区間</span><span><i style="background:var(--mark);transform:rotate(45deg)"></i>プラセボ20回の最大</span><span>太字は主仮説(合否に使う)、細字は参考</span></div>
+<div class="tbl"><table><thead><tr><th>仮説</th><th class="r">レース</th><th class="r">ΔLL</th><th class="r">95%区間</th><th class="r">プラセボ最大</th><th class="r">順位p</th><th class="r">オッズ比の95%区間<br>(1SDあたり)</th><th>判定</th></tr></thead><tbody>
+<tr><td><b>H1 3着内 + 単複食い違い</b></td><td class="r">285</td><td class="r">−0.45</td><td class="r">[−0.87, −0.09]</td><td class="r">+2.39</td><td class="r">0.30</td><td class="r">D 0.92〜1.11</td><td><span class="pill ng">不合格</span></td></tr>
+<tr><td><b>H2 勝ち馬 + 1時間前からの動き</b></td><td class="r">591</td><td class="r">+0.17</td><td class="r">[−2.21, +2.56]</td><td class="r">+0.80</td><td class="r">0.14</td><td class="r">drift60 0.76〜1.05</td><td><span class="pill ng">不合格</span></td></tr>
+<tr><td><b>H3 勝ち馬 [市場+評価コード] + 期待度E</b></td><td class="r">366</td><td class="r">−1.41</td><td class="r">[−2.22, −0.65]</td><td class="r">+1.42</td><td class="r">0.97</td><td class="r">E 0.88〜1.22</td><td><span class="pill ng">不合格</span></td></tr>
+<tr><td>H1b 勝ち馬 + 単複食い違い</td><td class="r">285</td><td class="r">−0.55</td><td class="r">[−2.10, +0.52]</td><td class="r">+2.66</td><td class="r">0.43</td><td class="r">D 0.88〜1.07</td><td><span class="pill ref">参考</span></td></tr>
+<tr><td>参考 同時点の単勝で計算</td><td class="r">285</td><td class="r">−0.49</td><td class="r">[−0.87, −0.18]</td><td class="r">+2.16</td><td class="r">0.48</td><td class="r">Ds 0.91〜1.11</td><td><span class="pill ref">参考</span></td></tr>
+<tr><td>参考(事後) 人気順の偏りを除いた食い違い</td><td class="r">285</td><td class="r">−0.64</td><td class="r">[−1.06, −0.28]</td><td class="r">+2.17</td><td class="r">0.57</td><td class="r">Dres 0.91〜1.09</td><td><span class="pill ref">参考</span></td></tr>
+<tr><td>H2b 勝ち馬 + 10分前からの動き</td><td class="r">589</td><td class="r">−0.23</td><td class="r">[−1.36, +0.91]</td><td class="r">+0.38</td><td class="r">0.14</td><td class="r">drift10 0.90〜1.21</td><td><span class="pill ref">参考</span></td></tr>
+<tr><td>H2c 3着内 + 1時間前からの動き</td><td class="r">591</td><td class="r">−0.87</td><td class="r">[−1.29, −0.46]</td><td class="r">+3.03</td><td class="r">0.62</td><td class="r">drift60 0.91〜1.12</td><td><span class="pill ref">参考</span></td></tr>
+<tr><td>参考(事後) 人気帯の中で見た動き</td><td class="r">591</td><td class="r">+0.04</td><td class="r">[−1.95, +2.10]</td><td class="r">+1.36</td><td class="r">0.14</td><td class="r">drift_rel 0.84〜1.05</td><td><span class="pill ref">参考</span></td></tr>
+<tr><td>H3b 勝ち馬 [市場] + E・U</td><td class="r">366</td><td class="r">−1.43</td><td class="r">[−3.35, +0.32]</td><td class="r">+1.85</td><td class="r">0.71</td><td class="r">E 0.89〜1.26<br>U 0.89〜1.23</td><td><span class="pill ref">参考</span></td></tr>
+<tr><td>H3r 勝ち馬 [市場] + 評価コード</td><td class="r">366</td><td class="r">−1.25</td><td class="r">[−3.65, +0.77]</td><td class="r">+2.19</td><td class="r">0.52</td><td class="r">r01 0.89〜1.10<br>r03 0.70〜1.09</td><td><span class="pill ref">参考</span></td></tr>
+<tr><td>H3c 3着内 + 期待度E</td><td class="r">366</td><td class="r">−0.21</td><td class="r">[−3.09, +2.45]</td><td class="r">+3.20</td><td class="r">0.29</td><td class="r">E 0.96〜1.20</td><td><span class="pill ref">参考</span></td></tr>
+</tbody></table></div>
+<p class="mut">オッズ比は、主仮説の勝ち馬モデルでは勝つ確率の、3着内モデルでは3着内に入る確率のオッズ比です。「1SDあたり」は特徴が1標準偏差ふえたときの値で、1.00 が上乗せなしを表します。</p>
+<h3>検出力の目安</h3><p>実データの特徴はそのままにして、結果(勝ち馬・3着内)だけを「確定オッズ+β×特徴」から作り直し、同じ判定(区間の下限が0より上)を何回通るかを数えました(プラセボの条件は省いた甘い目安)。</p>
+<div class="tbl"><table><thead><tr><th>主仮説</th><th class="r">オッズ比 1</th><th class="r">オッズ比 1.11</th><th class="r">オッズ比 1.22</th><th class="r">オッズ比 1.35</th></tr></thead><tbody>
+<tr><td>H1(285R、200回)</td><td class="r">0%</td><td class="r">3%</td><td class="r">52%</td><td class="r">96%</td></tr>
+<tr><td>H2(591R、200回)</td><td class="r">0%</td><td class="r">0%</td><td class="r">4%</td><td class="r">28%</td></tr>
+<tr><td>H3(366R、200回)</td><td class="r">0%</td><td class="r">0%</td><td class="r">2%</td><td class="r">24%</td></tr>
+</tbody></table></div><p class="mut">数字は「区間の下限が0より上」になった割合(1SDあたりのオッズ比ごと)。オッズ比1.00 が0%なのは、この判定が偽の合格をほとんど出さない代わりに、本物の上乗せもなかなか拾えないことを示します。検出力が低いのは標本の小ささより、合格基準の厳しさが主な理由です(T2 でオッズ比1.22 の効果なら、係数の通常の検定で約7割は検出できる)。3着内(H1)は各馬を独立に引く近似です。</p>
+</section>
+<section><h2>T1 単勝と複勝の食い違い</h2>
+<p>Hausch・Ziemba・Rubinstein (1981) の考え方です。単勝オッズから計算した3着内確率と、複勝オッズが示す3着内確率を比べ、ずれている馬が実際によく3着内に来るかを見ました。</p>
+<ul><li>単勝からの3着内確率 P3w: Benter 型の縮めた Plackett-Luce(2着 ∝ p<sup>λ2</sup>、3着 ∝ p<sup>λ3</sup>)。2017〜2025年 30,910レースで λ2 = 0.840、λ3 = 0.713。</li><li>複勝からの確率 q: 「確定」取得(発走10分後に取った実質の最終オッズ)の複勝オッズ下限・上限の幾何中点の逆数を、レース内で合計3に正規化。</li><li>特徴 D = logit(q) − logit(P3w)。複勝が2着までの払いになる出走7頭以下のレースは除外。</li><li>最終オッズ同士の比較なので、仮に合格しても購入時点では使えません。前向きに記録するなら発走前の時点で取ります。</li></ul>
+<h3>人気順ごとの D の平均(標準化前)</h3><div class="tbl"><table><thead><tr><th>人気</th><th class="r">1</th><th class="r">2</th><th class="r">3</th><th class="r">4</th><th class="r">5</th><th class="r">6</th><th class="r">7</th><th class="r">8</th><th class="r">9</th><th class="r">10</th><th class="r">11</th><th class="r">12〜</th></tr></thead><tbody><tr><td>D</td><td class="r">−0.17</td><td class="r">−0.13</td><td class="r">+0.02</td><td class="r">+0.05</td><td class="r">+0.07</td><td class="r">+0.07</td><td class="r">+0.08</td><td class="r">+0.07</td><td class="r">+0.05</td><td class="r">+0.03</td><td class="r">+0.00</td><td class="r">−0.09</td></tr></tbody></table></div><p class="mut">幾何中点の変換は人気馬の q を低く出す偏りがあります(1・2番人気で負)。この偏りを人気順ごとに引いた版(参考・事後)でも上乗せは出ませんでした。</p>
+<h3>3着内確率の較正(P3w の5分位)</h3><div class="tbl"><table><thead><tr><th>分位</th><th class="r">単勝から P3w</th><th class="r">複勝から q</th><th class="r">実際の3着内率</th></tr></thead><tbody>
+<tr><td>1</td><td class="r">3.1%</td><td class="r">2.9%</td><td class="r">1.9%</td></tr>
+<tr><td>2</td><td class="r">7.6%</td><td class="r">8.2%</td><td class="r">7.0%</td></tr>
+<tr><td>3</td><td class="r">15.0%</td><td class="r">16.3%</td><td class="r">17.0%</td></tr>
+<tr><td>4</td><td class="r">28.0%</td><td class="r">29.0%</td><td class="r">27.6%</td></tr>
+<tr><td>5</td><td class="r">54.7%</td><td class="r">51.8%</td><td class="r">55.0%</td></tr>
+</tbody></table></div>
+<h3>複勝の買い方(参考): P3w × 複勝下限オッズ ≥ T の馬を100円ずつ</h3><div class="tbl"><table><thead><tr><th>確率</th><th class="r">T</th><th class="r">点数</th><th class="r">的中率</th><th class="r">回収率</th><th class="r">95%区間</th></tr></thead><tbody>
+<tr><td>P3w</td><td class="r">1.0</td><td class="r">57</td><td class="r">3.5%</td><td class="r">3.9%</td><td class="r">[0.0%, 10.4%]</td></tr>
+<tr><td>P3w</td><td class="r">1.1</td><td class="r">27</td><td class="r">0.0%</td><td class="r">0.0%</td><td class="r">[0.0%, 0.0%]</td></tr>
+<tr><td>P3w</td><td class="r">1.2</td><td class="r">13</td><td class="r">0.0%</td><td class="r">0.0%</td><td class="r">[0.0%, 0.0%]</td></tr>
+<tr><td>q</td><td class="r">1.0</td><td class="r">11</td><td class="r">81.8%</td><td class="r">90.0%</td><td class="r">[66.0%, 110.0%]</td></tr>
+<tr><td>全馬</td><td class="r">—</td><td class="r">3,122</td><td class="r">21.7%</td><td class="r">71.5%</td><td class="r">—</td></tr>
+</tbody></table></div><p class="mut">払戻が揃う 20260905〜20261004 のみ。「全馬」は対象レースの全馬の複勝を買った場合(控除の目安)。P3w で選ぶと、P3w が大穴の3着内を高く見積もる(最下位5分位で予測 3.1%・実際 1.9%)ため大穴ばかりを拾い、回収率はほぼ0になります(57点中50点が単勝100倍超、3着内の見込みは約1頭)。これは食い違いの検定ではなく、回収率 3.9% から読み取れることはありません。q で選ぶ版は11点だけで、中身はほぼ複勝下限1.1倍前後の人気馬です。較正表のとおり、最下位分位では P3w だけでなく q も過大です(予測 2.9%・実際 1.9%)。</p><p class="mut">3着内の基準 P3w はオッズ帯で外れ方が違います(単勝100倍超で約5割の過大、10〜30倍で約1割の過小)。基準を直線で入れるだけでは歪みが残り、D がその一部を拾う可能性があります。前向きに見直すなら、オッズ帯ごとに較正した基準に対して食い違いを足します。</p><p class="mut">もう一つの注意: 「確定」の複勝オッズは発走10分後の取得で、レース中・レース後の売れ方の影響が入っています。発走30秒前から「確定」までの複勝下限の変化は、3着内の馬で −0.7%、外れた馬で +2.1% と差があり(約5標準誤差)、結果に依存したデータです。係数はほぼ0なので判定は変わりませんが、T1 は本来、発走前の時点で見るべきものです。レビュアー(Fable 5.1)が発走2分前・10分前の複勝で同じ手順を回した検算(103レース・5日)でも、係数は +0.01〜+0.02 で区間は広く、判断材料にはなりません。</p></section>
+<section><h2>T2 馬ごとの単勝オッズの動き</h2>
+<p>発走1時間前と10分前の単勝オッズ(予想パイプラインが記録した推移)から確定までの動き drift = log p<sub>確定</sub> − log p<sub>前</sub> を作りました。締切前に売れた馬は、確定オッズの見込み以上に来るか、を見ています。記録には取得が遅れたものがあり(1時間前の取得のうち約20レースは発走後)、予定時刻から60秒以内に取れたスナップショットだけを使っています。</p>
+<h3>1時間前からの動きの5分位</h3><div class="tbl"><table><thead><tr><th>分位</th><th class="r">頭数</th><th class="r">平均 drift</th><th class="r">実際の勝率</th><th class="r">確定オッズの勝率</th><th class="r">単勝回収率</th></tr></thead><tbody>
+<tr><td>Q1 売れなかった</td><td class="r">1,570</td><td class="r">−1.04</td><td class="r">1.0%</td><td class="r">0.8%</td><td class="r">68.8%</td></tr>
+<tr><td>Q2</td><td class="r">1,570</td><td class="r">−0.57</td><td class="r">2.1%</td><td class="r">2.2%</td><td class="r">58.2%</td></tr>
+<tr><td>Q3</td><td class="r">1,570</td><td class="r">−0.25</td><td class="r">5.9%</td><td class="r">5.8%</td><td class="r">83.4%</td></tr>
+<tr><td>Q4</td><td class="r">1,570</td><td class="r">+0.01</td><td class="r">12.8%</td><td class="r">13.0%</td><td class="r">76.2%</td></tr>
+<tr><td>Q5 大きく売れた</td><td class="r">1,570</td><td class="r">+0.34</td><td class="r">15.9%</td><td class="r">15.9%</td><td class="r">75.1%</td></tr>
+</tbody></table></div>
+<p class="mut">どの分位でも、実際の勝率は確定オッズの勝率とほぼ同じです。ただし動きは人気と強く結びついていて、1番人気の 74% が動きの上位3分の1(売れた側)に入ります。そこで人気帯(1・2・3番人気、4〜6、7〜9、10番人気以下)ごとの中央値を引いた「人気帯の中での動き」でも見ました(参考・事後)。</p>
+<h3>人気帯の中で見た動きの5分位(参考)</h3><div class="tbl"><table><thead><tr><th>分位</th><th class="r">頭数</th><th class="r">平均</th><th class="r">実際の勝率</th><th class="r">確定オッズの勝率</th><th class="r">単勝回収率</th></tr></thead><tbody>
+<tr><td>Q1 売れなかった</td><td class="r">1,570</td><td class="r">−0.48</td><td class="r">4.3%</td><td class="r">4.2%</td><td class="r">43.9%</td></tr>
+<tr><td>Q2</td><td class="r">1,570</td><td class="r">−0.16</td><td class="r">9.6%</td><td class="r">8.9%</td><td class="r">82.7%</td></tr>
+<tr><td>Q3</td><td class="r">1,570</td><td class="r">+0.00</td><td class="r">8.7%</td><td class="r">9.4%</td><td class="r">75.1%</td></tr>
+<tr><td>Q4</td><td class="r">1,570</td><td class="r">+0.17</td><td class="r">9.4%</td><td class="r">8.8%</td><td class="r">83.2%</td></tr>
+<tr><td>Q5 大きく売れた</td><td class="r">1,570</td><td class="r">+0.47</td><td class="r">5.7%</td><td class="r">6.3%</td><td class="r">76.8%</td></tr>
+</tbody></table></div><p class="mut">人気帯をそろえても、売れた馬・売れなかった馬の勝率は確定オッズの見込みどおりでした。確定オッズも発走10分後の取得なので、締切直前の売れ方は確定オッズの側に入っています。係数は負の側に寄っています(売れた馬は確定オッズほど勝たない方向)が、10分前からの動きでは符号が逆で、どちらもノイズの範囲です。区間の下限(1標準偏差あたり約0.8)は小さくなく、どちら向きの効果も排除できていません。人気帯の中で「売れなかった」分位の回収率が低いのは、勝率が見込みどおり(4.0%対4.1%)なので大穴の配当のぶれにすぎません。</p>
+</section>
+<section><h2>T3 厩舎コメント本文</h2>
+<p>このPCに言語モデルのAPIキーが無いため、この会話の Claude(Opus 5.5)が 4,681件のコメントを読み、馬名・レース・日付を伏せ、無作為な通し番号の順で点数を付けました。点数の基準は読む前に事前登録しています。</p><ul><li>E 期待度(−2〜+2): +2 勝ち負け・チャンスを明言 / +1 好調・前進 / 0 中立 / −1 課題・様子見 / −2 使いつつ・厳しい</li><li>U 不安(0/1): 状態・気性・距離・馬場などの不安を明記</li></ul>
+<h3>期待度 E ごとの成績</h3><div class="tbl"><table><thead><tr><th class="r">E</th><th class="r">頭数</th><th class="r">実際の勝率</th><th class="r">確定オッズの勝率</th><th class="r">3着内率</th><th class="r">市場の3着内確率</th><th class="r">単勝回収率</th></tr></thead><tbody>
+<tr><td class="r">−2</td><td class="r">205</td><td class="r">1.5%</td><td class="r">1.9%</td><td class="r">6.3%</td><td class="r">8.8%</td><td class="r">72.6%</td></tr>
+<tr><td class="r">−1</td><td class="r">425</td><td class="r">3.3%</td><td class="r">3.7%</td><td class="r">14.8%</td><td class="r">13.6%</td><td class="r">46.1%</td></tr>
+<tr><td class="r">+0</td><td class="r">2,008</td><td class="r">6.4%</td><td class="r">6.4%</td><td class="r">20.1%</td><td class="r">20.7%</td><td class="r">78.0%</td></tr>
+<tr><td class="r">+1</td><td class="r">1,912</td><td class="r">10.6%</td><td class="r">10.3%</td><td class="r">29.9%</td><td class="r">29.2%</td><td class="r">77.1%</td></tr>
+<tr><td class="r">+2</td><td class="r">106</td><td class="r">17.9%</td><td class="r">18.3%</td><td class="r">45.3%</td><td class="r">45.3%</td><td class="r">83.7%</td></tr>
+</tbody></table></div>
+<h3>既存の評価コードとの対応(コメントのある馬)</h3><div class="tbl"><table><thead><tr><th>評価コード</th>
+<th class="r">E −2</th>
+<th class="r">E −1</th>
+<th class="r">E +0</th>
+<th class="r">E +1</th>
+<th class="r">E +2</th>
+</tr></thead><tbody>
+<tr><td>01</td><td class="r">0</td><td class="r">2</td><td class="r">84</td><td class="r">392</td><td class="r">74</td></tr>
+<tr><td>02</td><td class="r">31</td><td class="r">255</td><td class="r">1,878</td><td class="r">1,518</td><td class="r">32</td></tr>
+<tr><td>03</td><td class="r">174</td><td class="r">168</td><td class="r">45</td><td class="r">2</td><td class="r">0</td></tr>
+</tbody></table></div>
+<h3>点数の例</h3><div class="tbl"><table><thead><tr><th class="r">E</th><th class="r">U</th><th>コメント</th></tr></thead><tbody>
+<tr><td class="r">+2</td><td class="r">0</td><td>血統やフットワークの大きさ、ハミの取り方からも大丈夫だと思う。器用なタイプで中山でも結果を出しているし、好勝負を期待。</td></tr>
+<tr><td class="r">+2</td><td class="r">0</td><td>夏場も頑張ってくれたけど、涼しくなってさらに状態は上がってきた。コース変わりは全く問題ないし、どんな展開になっても対応できる馬。ＧIで相手強化でも崩れないはず。</td></tr>
+<tr><td class="r">+1</td><td class="r">0</td><td>素直な性格。スタートは水準で血統馬らしい素晴らしいものを持っている。</td></tr>
+<tr><td class="r">+1</td><td class="r">0</td><td>どんな競馬でもできそうなので、ハナにはこだわっていない。オープンでも。</td></tr>
+<tr><td class="r">+0</td><td class="r">0</td><td>ダートは大井で走っていますし、対応してくれると思います。賞金加算を。</td></tr>
+<tr><td class="r">+0</td><td class="r">0</td><td>狭い所に入って自分のタイミングで動けなかった。まだ緩さは残るものの、本来は操縦性が高く競馬が上手なので頑張ってほしい。</td></tr>
+<tr><td class="r">−1</td><td class="r">1</td><td>本数を乗って息はできているが気持ちが入っていない。適性も判然としない。</td></tr>
+<tr><td class="r">−1</td><td class="r">1</td><td>前走は勝ち馬にうまく逃げられた。前進気勢が足りないので、チークを着用。</td></tr>
+<tr><td class="r">−2</td><td class="r">1</td><td>いいものはありそうだが、まだ本数が少ないし気難しい面もある。使いつつ。</td></tr>
+<tr><td class="r">−2</td><td class="r">1</td><td>小柄で仕上がり早ではあるが、動きはまだ目立たないね。使いつつだろう。</td></tr>
+</tbody></table></div>
+<h3>評価コードごとの成績(コメント掲載レース)</h3><div class="tbl"><table><thead><tr><th>評価コード</th><th class="r">頭数</th><th class="r">実際の勝率</th><th class="r">確定オッズの勝率</th><th class="r">単勝回収率</th></tr></thead><tbody>
+<tr><td>01</td><td class="r">552</td><td class="r">20.3%</td><td class="r">20.3%</td><td class="r">86.3%</td></tr>
+<tr><td>02</td><td class="r">3,714</td><td class="r">6.7%</td><td class="r">6.7%</td><td class="r">78.7%</td></tr>
+<tr><td>03</td><td class="r">389</td><td class="r">1.0%</td><td class="r">1.7%</td><td class="r">19.7%</td></tr>
+</tbody></table></div><p class="mut">評価コード03(弱気)の大半は、単勝の中央値が100倍を超える、市場がすでに見放した大穴です。勝ちは4頭(市場の見込み約6.5頭、偶然でこれ以下になる確率は約2割)で、市場に足す検定(H3r)でも区別できません。低い回収率はこの少数の差で出ているだけなので、使える数字として扱いません。</p>
+<h3>採点の一致度(盲検の別評価者 200件)</h3><p>結果を見ていない別の評価者(サブエージェント、同じ基準)が無作為の200件を採点しました。期待度 E は完全一致 84%、±1以内 100%、重み付きκ 0.89 で、十分に再現できます。不安 U は κ 0.38(U=1 の割合が 12% 対 37%)と基準の解釈が割れたため、U を使う副仮説(H3b)は信頼性が低いものとして扱います。なお別評価者も同じ系統のモデルなので、この一致は「Claude 同士で読みが再現する」ことを示すだけで、人の読みとの一致は確かめていません。</p>
+<p class="mut">コメントはレース単位で全頭に載るか載らないかで、結果のある 931レースのうち掲載は 366レースでした。評価はこの掲載レースだけで行っています。期待度は市場の勝率とほぼ同じ順に並び、評価コード(01 強気〜03 弱気)ともほぼ一致します。本文を読んでも、評価コードと確定オッズ以上の情報はこの標本では検出できませんでした。H3 の順位p が 0.97 と高いのは、期待度 E が評価コードとほぼ重なっていて、1日抜きのたびに係数が揺れるためと考えられます(害の証拠ではありません)。</p>
+<h3>コメントが載ったレースのクラス</h3><div class="tbl"><table><thead><tr><th>クラス</th><th class="r">結果のあるレース</th><th class="r">うちコメント掲載</th></tr></thead><tbody>
+<tr><td>新馬</td><td class="r">120</td><td class="r">120</td></tr>
+<tr><td>未勝利</td><td class="r">334</td><td class="r">0</td></tr>
+<tr><td>1勝</td><td class="r">235</td><td class="r">28</td></tr>
+<tr><td>2勝</td><td class="r">108</td><td class="r">91</td></tr>
+<tr><td>3勝</td><td class="r">47</td><td class="r">47</td></tr>
+<tr><td>OP以上</td><td class="r">87</td><td class="r">80</td></tr>
+</tbody></table></div><p class="mut">クラスはレース名から判定。コメントは新馬戦と上のクラスに偏り、未勝利戦には1レースも載っていません。T3 の結論は未勝利戦と1勝クラスの大半を含まない標本のものです。過去走の無い新馬戦は、コメントの価値が最も高いと考えられるため、前向きに別枠で記録します。</p>
+</section>
+<section><h2>レビューと修正</h2>
+<p>計画と結果を、プロの競馬予想家とシニアエンジニアの2体のサブエージェントに2回、さらに Fable 5.1 のサブエージェントに1回レビューしてもらい、そのたびに修正して再計算しました。合否の条件は事前登録のまま変えていません。修正後も3方向とも不合格です。</p>
+<h3>1回目のレビュー(予想家・エンジニア)</h3><div class="rev">
+<div class="rv"><div class="who">プロの競馬予想家・重要度 高</div><div>「確定」チェックポイントは発走時刻ではなく発走10分後の取得で、実質の最終オッズ。T1・T2 は最終オッズ同士を比べたことになる。</div><div class="mut">対応: 記述を訂正。合格しても購入時点では使えないことを明記し、前向き記録は発走前の時点で取ると決めた。</div></div>
+<div class="rv"><div class="who">プロの競馬予想家・重要度 高</div><div>T3 の実質の標本はコメント掲載の366レース(931レースではない)。</div><div class="mut">対応: コメント掲載レースだけに絞って計算し直した。ΔLL −1.41、不合格は同じ。</div></div>
+<div class="rv"><div class="who">プロの競馬予想家・重要度 高</div><div>「市場が織り込み済み」は言い過ぎ。小さな標本で検出できないだけ。</div><div class="mut">対応: 書き方を「この標本では検出できない。区間の上限を超える大きさの上乗せは否定できる」に変えた。(この「否定できる」の書き方は2回目のレビューで撤回し、係数の区間と検出力で言い直した)</div></div>
+<div class="rv"><div class="who">プロの競馬予想家・重要度 中</div><div>複勝からの確率 q(幾何中点)は人気馬の q を押しつぶす(D の平均が1・2番人気で負)。</div><div class="mut">対応: 人気順ごとの平均 D を引いた版を参考(事後)として追加。−0.64 で上乗せなし。</div></div>
+<div class="rv"><div class="who">プロの競馬予想家・重要度 中</div><div>単勝の動きは人気と交絡する(1番人気の大半が「売れた」側)。</div><div class="mut">対応: 人気帯ごとの中央値を引いた相対的な動きを参考(事後)として追加。+0.03 で上乗せなし。</div></div>
+<div class="rv"><div class="who">プロの競馬予想家・重要度 中</div><div>出走7頭以下は複勝が2着までの払いなので、3着内を目的にできない。</div><div class="mut">対応: T1 から除外(299→285レース)。</div></div>
+<div class="rv"><div class="who">プロの競馬予想家・重要度 中</div><div>複勝の買い方の結果は人気薄を拾っているだけで、食い違いの効果ではない。</div><div class="mut">対応: 選ばれた馬の中身と P3w の較正のずれ(大穴を高く見積もる)をレポートに明記。</div></div>
+<div class="rv"><div class="who">プロの競馬予想家・重要度 低</div><div>不安 U は期待度 E に従属していて独立の情報になりにくい。評価コード03は勝率1.0%・単勝回収率20%と低い。</div><div class="mut">対応: U は一致度も低いことを確認し信頼性が低いと明記。03 は勝ち4頭で検定でも区別できないため事後の観察として記録のみ。</div></div>
+<div class="rv"><div class="who">シニアエンジニア・重要度 高</div><div>再現性: 単勝推移とラベル元ファイルが一時フォルダ(scratchpad)にしか無く、会話が終わると消える。</div><div class="mut">対応: repo 内の inputs/ に gzip とハッシュ付きで複製し、読み込み先を切り替えた。</div></div>
+<div class="rv"><div class="who">シニアエンジニア・重要度 高</div><div>1日抜きの交差検証では、効かない特徴でも ΔLL が負に寄る(ノイズ列で平均 −0.49)。区間が負でも害の証拠ではない。</div><div class="mut">対応: 主仮説のプラセボを200回にし、分布の中での順位 p を併記。読み方をレポートに明記。</div></div>
+<div class="rv"><div class="who">シニアエンジニア・重要度 中</div><div>T3 のコメント有無はレース内で全頭同じ値で、条件付きロジットでは推定できない。</div><div class="mut">対応: 基準の列から外し、掲載レースだけを標本にした。</div></div>
+<div class="rv"><div class="who">シニアエンジニア・重要度 中</div><div>複数列のプラセボを列ごとに別々に並べ替えていた(評価コード01と03が両方1の馬ができる)。</div><div class="mut">対応: 行ごとの同時並べ替えに変更。</div></div>
+<div class="rv"><div class="who">シニアエンジニア・重要度 中</div><div>ロジスティックだけ市場の列にも L2 罰則が掛かっていた。λ のキャッシュが年範囲を照合していなかった。</div><div class="mut">対応: 罰則を条件付きロジットとそろえ(影響 0.002 程度)、キャッシュは年範囲を照合。</div></div>
+<div class="rv"><div class="who">シニアエンジニア・重要度 低</div><div>ブートストラップは係数を固定した条件付きの区間で、推定のばらつきは含まない。</div><div class="mut">対応: レポートの説明に明記。</div></div>
+<div class="rv"><div class="who">シニアエンジニア・重要度 確認</div><div>致命的な誤りは無い。式・勾配・結合を確認し、ΔLL を独立に再計算して一致(H2 +0.26182、H3 −1.3816)。結論が変わる指摘も無い。</div><div class="mut">対応: —</div></div>
+<div class="rv"><div class="who">一致度の確認・重要度 —</div><div>T3 の採点を、結果を見ていない別の評価者が無作為の200件で盲検採点。E は重み付きκ 0.89、U は κ 0.38。</div><div class="mut">対応: E は再現できる。U は信頼性が低いと明記。</div></div>
+</div>
+<h3>2回目のレビュー(予想家・エンジニア、修正後の状態に対して)</h3><div class="rev">
+<div class="rv"><div class="who">予想家・エンジニア(両方)・重要度 高</div><div>「区間の上限を超える上乗せは否定できる」は誤り。ΔLL の区間は係数を固定したばらつきで、効果の大きさの範囲ではない。1日抜きの負の偏りもあり、H1 の上限 −0.09 を素直に読むと「上乗せ0すら否定」になって矛盾する。区間上限/レース数(hi_per_race)も意味が無い。</div><div class="mut">対応: 係数を開催日×競馬場ブロックの復元抽出で当て直す区間(300回)を追加し、1SDあたりのオッズ比で表に載せた(T1 0.94〜1.06、T2 0.78〜1.03、T3 0.88〜1.20)。hi_per_race は削除。書き方を「否定できるのは大きな上乗せだけ」に変えた。</div></div>
+<div class="rv"><div class="who">シニアエンジニア・重要度 高</div><div>検出力が低い。結果を作り直すシミュレーションでは、1SDあたりオッズ比1.35の上乗せがあっても区間の下限が0を超えるのは約4割(エンジニアの簡易版)。</div><div class="mut">対応: 検算を power_check.py として repo に移し(評価コードの列も基準に含めた版、各200回)、検出力の表をレポートに追加。オッズ比1.35で T1 96%、T2 29%、T3 25%。</div></div>
+<div class="rv"><div class="who">予想家・エンジニア(両方)・重要度 高</div><div>T2 の「1時間前」「10分前」に、取得が遅れたもの・発走後に取ったものが混じっている(1時間前は約20レースが発走後)。</div><div class="mut">対応: 予定時刻から60秒以内に取れたスナップショットだけを使うよう修正(634→591レース)。ΔLL +0.17、不合格は同じ。</div></div>
+<div class="rv"><div class="who">プロの競馬予想家・重要度 高</div><div>T3 のコメント掲載レースに未勝利戦が1レースも無い(新馬 120/120、未勝利 0/334、1勝 28/235、2勝 91/108、3勝 47/47、OP以上 80/87)。</div><div class="mut">対応: クラス内訳の表を追加し、結論は未勝利戦と1勝クラスの大半を含まない標本のものと明記。新馬戦は前向きに別枠で記録する案を次の手に入れた。</div></div>
+<div class="rv"><div class="who">シニアエンジニア・重要度 高</div><div>再現性: 対象日の終わりが固定されておらず再実行で標本が変わる。入力のハッシュ・パッケージの版が無い。このフォルダは未コミット。</div><div class="mut">対応: 対象期間の終わりを 2026-10-12 に固定。入力1,073ファイルの sha256・対象日・版を inputs_manifest.json に記録。コミットはユーザーの指示を待つ。盲検の並べ替えのスクリプトは残っていないことを目録に明記。</div></div>
+<div class="rv"><div class="who">シニアエンジニア・重要度 中</div><div>速報結果に1〜5着だけの部分取得のレースがある(今回は頭数の条件で除外済み)。8行以上の部分取得なら誤って標本に入る。</div><div class="mut">対応: 馬柱の頭数より行が少ない速報のレースを除く検査を追加(完全なレース116件はすべて頭数一致)。</div></div>
+<div class="rv"><div class="who">プロの競馬予想家・重要度 中</div><div>3着内の基準 P3w がオッズ帯で外れ方が違う(100倍超で約5割の過大、10〜30倍で約1割の過小)。D がこの歪みを拾っている可能性。</div><div class="mut">対応: レポートに明記し、前向き記録ではオッズ帯ごとに較正した基準に対して食い違いを見ることにした。</div></div>
+<div class="rv"><div class="who">プロの競馬予想家・重要度 中</div><div>評価コード03の「回収率20%」は数字として載せないほうがよい。03 の大半は単勝100倍超の大穴で、勝ち4頭(見込み6.5頭、偶然でこれ以下は約23%)。</div><div class="mut">対応: 書き方を「市場がすでに見放した大穴」に変え、回収率は使える数字として扱わないと明記。</div></div>
+<div class="rv"><div class="who">プロの競馬予想家・重要度 中</div><div>複勝の買い方(P3w×下限≥1.0)は大穴を拾うだけで、食い違いの検定になっていない。q 版の11点はほぼ複勝1.1倍前後の人気馬。</div><div class="mut">対応: レポートの説明を差し替えた。</div></div>
+<div class="rv"><div class="who">予想家・エンジニア(両方)・重要度 中</div><div>H3 の順位p 0.97 を一般論で片づけている。E は評価コードとほぼ重なり、1日抜きのたびに係数が揺れるためと読める。プラセボの帰無は「特徴が全部の変数と独立」で、実際の特徴は市場・評価コードと相関している。</div><div class="mut">対応: 理由を書き換え、害の証拠ではないと明記。</div></div>
+<div class="rv"><div class="who">プロの競馬予想家・重要度 低</div><div>T2 は言い足りない。係数は負の側に寄っていて、「直前に売れた馬を追いかける」方向の大きな上乗せは考えにくい。</div><div class="mut">対応: レポートに追記。</div></div>
+<div class="rv"><div class="who">プロの競馬予想家・重要度 低</div><div>別評価者は同じ系統のモデルで、κ 0.89 は Claude 同士の再現性にすぎない。</div><div class="mut">対応: レポートに明記。ユーザー自身が50件ほど読んで比べる案を次の手に入れた。</div></div>
+<div class="rv"><div class="who">シニアエンジニア・重要度 低</div><div>罰則の記述: 評価コード等の基準側の列も L2 で縮む。先頭20回の最大は1回の外れ値で大きく振れる(H2b)。</div><div class="mut">対応: 記述を訂正。合否は事前登録どおり先頭20回のまま、200回の順位p を併記。</div></div>
+<div class="rv"><div class="who">シニアエンジニア・重要度 確認</div><div>追補3の修正はすべてコードに入っている。H1(−0.45456)・H2(+0.261817)を Newton 法で独立に再計算して一致。判定は覆らない。</div><div class="mut">対応: —</div></div>
+</div>
+<h3>3回目のレビュー(Fable 5.1、2回目の修正後の全体に対して)</h3><div class="rev">
+<div class="rv"><div class="who">Fable 5.1・重要度 高</div><div>「上乗せは小さい」は言い過ぎ。言えるのは T1 だけで、T2(下限0.78)・T3(上限1.20)は±2割程度を排除できない。オッズ比1.20は1レースあたり約+0.007の対数尤度で、このプロジェクトで合格扱いの特徴(+0.008/R)と同じ水準。</div><div class="mut">対応: 書き方を「T2・T3 は判定できなかった」に変え、区間の数値は JSON から差し込むようにした。</div></div>
+<div class="rv"><div class="who">Fable 5.1・重要度 高</div><div>「小さい」と「検出力が低い」は物差しが違うだけ。合格基準(ΔLL の区間下限&gt;0)は係数の検定でいえば z≒4 相当で厳しく、検出力表が低いのは主に基準の厳しさのため。</div><div class="mut">対応: 2つの物差し(効果の大きさ=係数の区間、採用の関門=ΔLL 基準)を分けて説明。</div></div>
+<div class="rv"><div class="who">Fable 5.1・重要度 中〜高</div><div>T1 の係数区間が狭すぎる。30ブロックのブートストラップの標準誤差は約0.033だが、モデル由来・レース単位では約0.047(区間0.91〜1.10)。power_check の挙動もこちらと整合。</div><div class="mut">対応: 係数のブートストラップをブロック単位とレース単位の2通り・各1,000回にし、広い方を表示(T1 0.92〜1.11、T2 0.76〜1.05、T3 0.88〜1.22)。</div></div>
+<div class="rv"><div class="who">Fable 5.1・重要度 中</div><div>「確定」の複勝オッズは発走後の取得で結果に依存する(30秒前→確定の複勝下限の変化が3着内 −0.7%、外れ +2.1%、約5標準誤差の差)。発走2分前・10分前で T1 を回した検算(103R)でも係数 +0.01〜+0.02、区間は広い。</div><div class="mut">対応: 注記を追加。前向き記録は発走前の時点だけにする方針を確認。</div></div>
+<div class="rv"><div class="who">Fable 5.1・重要度 中</div><div>次の手「売れた馬は割り引く(片側)」は結果から向きを決めている。drift60 −0.10(z≒−1.3)、drift10 は +0.05 で符号が逆、どちらもノイズの範囲。</div><div class="mut">対応: 優先度を下げ、新しい標本だけで判定する別立ての事前登録にすると書き換えた。</div></div>
+<div class="rv"><div class="who">Fable 5.1・重要度 中</div><div>次の手の順序: 10/3以降は単勝・複勝の2分前・30秒前が全レースで既にあるので、新規収集より先にそれで T1・T2 を「買える時点」で定義し直すのが最安。新馬戦だけのコメントは年120R前後で1,200Rに約10年かかり現実的でない。</div><div class="mut">対応: 次の手を並べ替え、新馬戦だけでなくコメント掲載の全レースをためて判定する案に変えた。</div></div>
+<div class="rv"><div class="who">Fable 5.1・重要度 低</div><div>T2 で対象期間の終わり(END_DATE)が通っていない。</div><div class="mut">対応: in_period を通した(今は入力が10/12までなので影響なし)。</div></div>
+<div class="rv"><div class="who">Fable 5.1・重要度 低</div><div>L2=1 は標準化していない列(評価コード・U、SD 0.28〜0.32)で縮みが大きい。</div><div class="mut">対応: レポートに注記。</div></div>
+<div class="rv"><div class="who">Fable 5.1・重要度 低</div><div>1回目の対応欄に撤回済みの「否定できる」が残る。較正表では q も最下位分位で過大。T2 人気帯別の「売れなかった」分位の回収率43.9%は配当のぶれ。検出力表の見出し「1.11」は1.105。</div><div class="mut">対応: それぞれ注記・訂正した。</div></div>
+<div class="rv"><div class="who">Fable 5.1・重要度 確認</div><div>coef_boot の復元抽出とレース識別子の付け替え、T1・T2 の取得時刻の条件、速報の頭数検査、power_check の作り直しは正しい。数値の照合も問題なし。3方向とも No-Go の判定は覆らない。</div><div class="mut">対応: —</div></div>
+</div>
+</section>
+<section><h2>読み方の注意と次の手</h2><ul>
+<li>データは2026年分だけで標本が小さい(T1 285レース、T2 591レース、T3 366レース)。効果の大きさ(1SDあたりのオッズ比の95%区間)は T1 0.92〜1.11、T2 0.76〜1.05、T3 0.88〜1.22 で、T2・T3 は±2割程度を排除できない。合否の基準は厳しく(係数の検定で z≒4 相当)、オッズ比1.35でも合格の見込みは T1 96%、T2 29%、T3 25%。</li>
+<li>T1・T2 の「確定」は発走10分後の取得で、購入時点では見えないオッズ。合格しても、そのままでは馬券に使えない。</li>
+<li>単勝オッズの推移は、予想パイプラインが記録した1日24〜36レースに限られる。</li>
+<li>T3 は未勝利戦を含まない(コメントが載らない)。採点は Claude によるもので、別評価者も同じ系統のモデル。</li>
+<li>事前登録どおり、標本が2倍以上になった時点で同じ式のまま1回だけ再判定してよい。それ以外の見直しはしない。</li>
+</ul>
+<h3>前向きに記録するもの(優先順)</h3><ol style="margin:0;padding-left:1.4em;display:flex;flex-direction:column;gap:4px;max-width:70ch">
+<li>既にあるデータで「買える時点」に定義し直す: 10/3以降は単勝・複勝の発走2分前・30秒前が全レースで取れている。T1・T2 をこの時点(取得時刻の確認付き)で計算し直す。新しい収集より先にやる。</li>
+<li>単勝・複勝の発走前の時点(10分前・5分前・2分前)を、取得時刻の確認(予定から60秒以内)付きで全レース分記録し続ける。複勝の1時間前の欠け(302レース中122レースのみ)は収集用の会話で直す。</li>
+<li>複勝の売れ方から逆算した3着内確率と、オッズ帯ごとに較正した P3w との食い違い(発走5分前、単勝30倍以内)。</li>
+<li>厩舎コメントの期待度 E を、コメントが載る全レース(新馬・2勝以上が中心)で馬柱の取得時に採点して凍結し、ためてから判定する。評価コードとコメントは前日夜の版で保存する。採点の妥当性はユーザー自身が50件ほど読んで比べる。</li>
+<li>単勝の動きの向き(売れた馬は割り引くか)は、今回の結果から向きを決めたことになるため、新しい標本だけで判定する別立ての事前登録にする(優先度は低い)。</li>
+</ol>
+</section>
+<section><h2>再現</h2><p class="mut">スクリプト: <span class="code">scripts/jra_model/market_pools_2026_10_12/</span>(mp_common.py・t1_win_place.py・t2_odds_drift.py・t3_comments.py・t3_class_mix.py・rater_agreement.py・power_check.py・inputs_manifest.py・build_report.py)<br>入力の目録: <span class="code">inputs_manifest.json</span>(使ったファイルの sha256・対象日・パッケージの版。対象期間の終わりは 2026-10-12 に固定)<br>結果: <span class="code">data/jra_pipeline/market_pools_2026_10_12/</span>(*_result.json・comment_labels.csv)<br>事前登録: <span class="code">PREREG_market_pools_2026_10_12.md</span>(追補に結果と修正を記録)</p></section>
+</main>

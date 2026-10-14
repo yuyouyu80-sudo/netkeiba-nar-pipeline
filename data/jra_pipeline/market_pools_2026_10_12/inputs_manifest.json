@@ -1,0 +1,5409 @@
+{
+ "end_date": "20261012",
+ "dates": [
+  "20260711",
+  "20260712",
+  "20260718",
+  "20260719",
+  "20260725",
+  "20260726",
+  "20260801",
+  "20260802",
+  "20260808",
+  "20260809",
+  "20260815",
+  "20260816",
+  "20260822",
+  "20260823",
+  "20260829",
+  "20260830",
+  "20260905",
+  "20260906",
+  "20260912",
+  "20260913",
+  "20260919",
+  "20260920",
+  "20260921",
+  "20260922",
+  "20260926",
+  "20260927",
+  "20261003",
+  "20261004",
+  "20261010",
+  "20261011",
+  "20261012"
+ ],
+ "n_files": 1073,
+ "python": "3.12.10",
+ "numpy": "2.5.1",
+ "pandas": "3.0.3",
+ "scipy": "1.18.0",
+ "note": "盲検の並べ替え(key.csv)と別評価者用の200件の抽出は会話の中で行い、スクリプトは残っていない。結果(key.csv・key200.csv)を正本として inputs/ に保存。",
+ "files": [
+  {
+   "path": "data/race_results/2026/20260711.csv",
+   "sha256": "5fd445c3c653dfbaa581104aa7ba258739abc10b81a61eec06ad144352855147",
+   "bytes": 217084
+  },
+  {
+   "path": "data/payouts/2026/20260711.csv",
+   "sha256": "6d1c1b24cdd99fc165bc44cab7fd558cec7e294cedabf1794f7926e165277845",
+   "bytes": 15285
+  },
+  {
+   "path": "data/race_results/2026/20260712.csv",
+   "sha256": "41eb7c6bdd7e0122c4686a7697eb1359325d4fcb1b507ac16ebfb69d477f9f8a",
+   "bytes": 204241
+  },
+  {
+   "path": "data/payouts/2026/20260712.csv",
+   "sha256": "d361fe624f084fb946c5660cbdd3ee709916e3f5a8a0441cef3d98fc531387b3",
+   "bytes": 15113
+  },
+  {
+   "path": "data/race_results/2026/20260718.csv",
+   "sha256": "783b7afce1977b68348205a0d154535db04f4362c4989938b6adfd98de99950b",
+   "bytes": 215615
+  },
+  {
+   "path": "data/payouts/2026/20260718.csv",
+   "sha256": "c71bf7f3f1b3e475ae033b06435cdc3ce818585ae701e5c4e83bf91d6969c3e4",
+   "bytes": 15177
+  },
+  {
+   "path": "data/race_results/2026/20260719.csv",
+   "sha256": "579328ad88297b958f55ccd8b018aeaccc3b25b8950b73bfa702fd17ddb02716",
+   "bytes": 226776
+  },
+  {
+   "path": "data/payouts/2026/20260719.csv",
+   "sha256": "2fc8bbdab100cdbd076046933bbaf689a37243365227c3435b604dc678f28bbc",
+   "bytes": 15097
+  },
+  {
+   "path": "data/race_results/2026/20260725.csv",
+   "sha256": "37346d2eb7021652f74d88e144a293c84f3e08df323d8af492e33d7e0effec73",
+   "bytes": 218828
+  },
+  {
+   "path": "data/payouts/2026/20260725.csv",
+   "sha256": "f778bf56d30702183ac6f8be562994b6f834f08e7c27d9ec5dcc620dba10bcfe",
+   "bytes": 14940
+  },
+  {
+   "path": "data/race_results/2026/20260726.csv",
+   "sha256": "c0aa28d2add3050773c5d24ce791b212618f19ec99d8dc4be485dd8a4487986f",
+   "bytes": 191788
+  },
+  {
+   "path": "data/payouts/2026/20260726.csv",
+   "sha256": "f1c8285dbaf616245b906d2ceab8ee997ac1081a97eb1d5e803c6ce609824141",
+   "bytes": 15003
+  },
+  {
+   "path": "data/race_results/2026/20260801.csv",
+   "sha256": "e6978a8a0f6f528a93377b37740a2719cb2d5e76b2247dd0a459456fa5cfed89",
+   "bytes": 213324
+  },
+  {
+   "path": "data/payouts/2026/20260801.csv",
+   "sha256": "dda3868e837e2865e5142291111d3b818cba95139adc945709ba2e865990e2fb",
+   "bytes": 14967
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260801.csv.gz",
+   "sha256": "ead8a9e0b8a47853b9e10ca34c5ba9ba362f3cf6a627837738c04f51c145e710",
+   "bytes": 49416
+  },
+  {
+   "path": "data/race_results/2026/20260802.csv",
+   "sha256": "71dfe5b14e62b2f3b17238be7090b352fa9df485c9a3b1a885cd2104fb0da0b3",
+   "bytes": 205276
+  },
+  {
+   "path": "data/payouts/2026/20260802.csv",
+   "sha256": "843811b730d70cfbf2ca79450369c7ab22c7f34f294bc4ea63c099d564e6b02f",
+   "bytes": 15107
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260802.csv.gz",
+   "sha256": "9f3a83e563b4c24c9fb550b7cfc0c8a4aa84be9c029bfccd0e554859f7450096",
+   "bytes": 48129
+  },
+  {
+   "path": "data/race_results/2026/20260808.csv",
+   "sha256": "d2a59f623c06ad0183c14a455a72d55ceb631573bbc7a6a15000223db4439f26",
+   "bytes": 204140
+  },
+  {
+   "path": "data/payouts/2026/20260808.csv",
+   "sha256": "92157b888f0b625de34095f7840fa61e9a0220c5c4f37d394298b60f3c42f37c",
+   "bytes": 15062
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260808.csv.gz",
+   "sha256": "ec6469e1cc99fd15495858be9abd379af190176c0c92fdbdbb445b11b7217f47",
+   "bytes": 49220
+  },
+  {
+   "path": "data/race_results/2026/20260809.csv",
+   "sha256": "fcd27c5907a7688f0b1a38f10bbe4bfc0f6ba964b7372e191f579841d5281842",
+   "bytes": 236253
+  },
+  {
+   "path": "data/payouts/2026/20260809.csv",
+   "sha256": "22e9dfaa53d0a9ca78bd954d68063d64442f9debc089de780acbdd251384508f",
+   "bytes": 15004
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260809.csv.gz",
+   "sha256": "015f6e5a20eb6a6215766cdd043a9bd872c570bac2e39c5fe7159b857cd270c9",
+   "bytes": 35849
+  },
+  {
+   "path": "data/race_results/2026/20260815.csv",
+   "sha256": "26a66fffd8621f11145454863c287f9eca840891e6a6efedec2911f3b68696b5",
+   "bytes": 237437
+  },
+  {
+   "path": "data/payouts/2026/20260815.csv",
+   "sha256": "42e11f8db377f1b57f63fd6980c1d480d3a53775a80ddda5a8562832318b2b19",
+   "bytes": 15107
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260815.csv.gz",
+   "sha256": "9bb6d6b421181bae137fa8e0c68bfe12eadaaf59a901bbd1183abadc3e4af3b5",
+   "bytes": 51825
+  },
+  {
+   "path": "data/race_results/2026/20260816.csv",
+   "sha256": "68e3b8a67ca4347a156b97b4b6360c3069401aebebf97bdda00fc7cb545105e9",
+   "bytes": 226358
+  },
+  {
+   "path": "data/payouts/2026/20260816.csv",
+   "sha256": "d25ce9fd15ca614bdf67a89a60f05ccab8447fe2db5601a0f90f83a745c99db9",
+   "bytes": 15380
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260816.csv.gz",
+   "sha256": "a81f1bdd3ae594bc34132c3fd2a58a99cb3f7b8fd9db1d55c5dd26ad7b2951b3",
+   "bytes": 44551
+  },
+  {
+   "path": "data/race_results/2026/20260822.csv",
+   "sha256": "e3d444f1b5ab632f6a97bfd1f56cbdf89b7bde7bd84a8f8fa9ab4c9e1397f1bb",
+   "bytes": 239788
+  },
+  {
+   "path": "data/payouts/2026/20260822.csv",
+   "sha256": "3b816b1884169201cc070bda2529b7a8df04d6dfc4794030a0175d5cc8265cdb",
+   "bytes": 15010
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260822.csv.gz",
+   "sha256": "0709879dfd47f1aa5a6a3335906e180e39d609f9488a4a0bf911103548e87e03",
+   "bytes": 51096
+  },
+  {
+   "path": "data/race_results/2026/20260823.csv",
+   "sha256": "1ec55417f596c56dc1e02892d837556fa354b5b2519ccffb698152b19a7c30e0",
+   "bytes": 210885
+  },
+  {
+   "path": "data/payouts/2026/20260823.csv",
+   "sha256": "6b171308305fabe6c65453f6207a6aef59eec78d31747545095045d49f7d2f3e",
+   "bytes": 15069
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260823.csv.gz",
+   "sha256": "281b9443d213a32cc22c1f537fa5e98eefc70e1da7abd825f0769485de0c046e",
+   "bytes": 41028
+  },
+  {
+   "path": "data/race_results/2026/20260829.csv",
+   "sha256": "51a89803a3e764605ec0cc2d7bdd2db1b75f57ccd686863ff4d0a9683bf05418",
+   "bytes": 201958
+  },
+  {
+   "path": "data/payouts/2026/20260829.csv",
+   "sha256": "a536d68c9c0d41f950859bfde7f8b9c8ae6b297f498e5c23b5093113998bfbf8",
+   "bytes": 15261
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260829.csv.gz",
+   "sha256": "26fa24ad42b0e7b9d17a2f5a0489be3d4ffd83af83e736e7f7f5a227f2ce6ca9",
+   "bytes": 41504
+  },
+  {
+   "path": "data/race_results/2026/20260830.csv",
+   "sha256": "0c3482b88e4da4923400961804ab48fff176194c23d75281dc649c8548c5b20f",
+   "bytes": 190754
+  },
+  {
+   "path": "data/payouts/2026/20260830.csv",
+   "sha256": "200f73b0dc7ccd81d878269d967b5a9e50e80038d22494fe3fb7e4d30ce6bedc",
+   "bytes": 15160
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260830.csv.gz",
+   "sha256": "9d1b6af54eff8362799e8f034daaaf0009bec43d4bd786b07bbc54a8f18d1424",
+   "bytes": 50948
+  },
+  {
+   "path": "data/race_results/2026/20260905.csv",
+   "sha256": "443e14e76c247d469ef09e9f57546d5b49e6e0feb3c850bce8413fb6840c8346",
+   "bytes": 179532
+  },
+  {
+   "path": "data/odds_history_fuku/2026/20260905.csv",
+   "sha256": "c48d8699e03b9cb5533eb63d1a39d1aab949203557b21ef8087776a1b260192f",
+   "bytes": 31846
+  },
+  {
+   "path": "data/payouts/2026/20260905.csv",
+   "sha256": "7d832b6807ae38e88c9c46207c1165c4629ca456e8356a6be9e3d93ee80d6aea",
+   "bytes": 14959
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260905.csv.gz",
+   "sha256": "40eb868230b3536b1fad17dc97b5263d0d0e28cee931c353881355eb03a90d59",
+   "bytes": 43060
+  },
+  {
+   "path": "data/race_results/2026/20260906.csv",
+   "sha256": "c3a8be926118481957b34a9ea0fdd21783714afe3a908a0801c55d0589819357",
+   "bytes": 199086
+  },
+  {
+   "path": "data/odds_history_fuku/2026/20260906.csv",
+   "sha256": "969d7d06bf3f151f9e6e72c2d125a1d962499737da489a7bf73d625d15b31de6",
+   "bytes": 27128
+  },
+  {
+   "path": "data/payouts/2026/20260906.csv",
+   "sha256": "828968feef7238a7ab59f705ab772179c059461b33e70c7cf85f50efe5253920",
+   "bytes": 15150
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260906.csv.gz",
+   "sha256": "0041f1d6983392687c1765040ae120f5a572e13e8d4e699b97a9581434181f93",
+   "bytes": 32897
+  },
+  {
+   "path": "data/race_results/2026/20260912.csv",
+   "sha256": "8668573cd98ab42fe0bde9f06877bc16c23d4aa8f465b3ba5be05f4eeac5124a",
+   "bytes": 127044
+  },
+  {
+   "path": "data/odds_history_fuku/2026/20260912.csv",
+   "sha256": "e9b84f4c2212cd8113302bf29d13291c976ff223454ed58b4d8fdfaffde42116",
+   "bytes": 22745
+  },
+  {
+   "path": "data/payouts/2026/20260912.csv",
+   "sha256": "fad9830ad08d411eb289db4524dd62556548a58b8f4e170548d10de1a02cda1e",
+   "bytes": 9973
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260912.csv.gz",
+   "sha256": "46c4aa14ea6a1246cac1cd2b1cd8101720eb16a57c59db84e404a2bbff1cd6fb",
+   "bytes": 32127
+  },
+  {
+   "path": "data/race_results/2026/20260913.csv",
+   "sha256": "481d25ae0d474774a9c6cb33465dd4bf51fec06dbdacd7e0076de91d97c7e00a",
+   "bytes": 128426
+  },
+  {
+   "path": "data/odds_history_fuku/2026/20260913.csv",
+   "sha256": "b610ec165ef065408d82e38e9ce0838d812384e31bf06ebd6d31d143894ba58d",
+   "bytes": 24442
+  },
+  {
+   "path": "data/payouts/2026/20260913.csv",
+   "sha256": "3a2d2a9983115dee4796ae9b829247dfb7af13330d74f11dbcc3ac5a77c83fc5",
+   "bytes": 9951
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260913.csv.gz",
+   "sha256": "b8cb70933cebba252e10ac87bf4215e01cf27d0738ce86983fa40faf5c900ac8",
+   "bytes": 30713
+  },
+  {
+   "path": "data/race_results/2026/20260919.csv",
+   "sha256": "ed356884dc5f0fc39453d718e3066beb6e9866142cf4335cb1245514538e6606",
+   "bytes": 110458
+  },
+  {
+   "path": "data/odds_history_fuku/2026/20260919.csv",
+   "sha256": "9e5816c275ce1f383483ba8685190d5ec3edb77b3d732ccd26c3dbf2e5325294",
+   "bytes": 21428
+  },
+  {
+   "path": "data/payouts/2026/20260919.csv",
+   "sha256": "be2878dd2d0f7f5848715600de829137c1fa583d699aadbda4813fa05d3ab5f5",
+   "bytes": 9924
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260919.csv.gz",
+   "sha256": "17a1424354a853c35d6302582cc6f722ede9ef2cc7dd90df6e02d4e8e29b3662",
+   "bytes": 29020
+  },
+  {
+   "path": "data/race_results/2026/20260920.csv",
+   "sha256": "16ac69f246bbc53b8854d85610da72eb6f8348c1bbcdf0db397e4f3daf8c15d8",
+   "bytes": 135725
+  },
+  {
+   "path": "data/odds_history_fuku/2026/20260920.csv",
+   "sha256": "3a432118ba1f6aad79aa48e601c610f96926142e09c160464236ecabca4747b0",
+   "bytes": 203865
+  },
+  {
+   "path": "data/payouts/2026/20260920.csv",
+   "sha256": "ce638555d9ea87b7df5d120d8007aba0be8471d00fa3838acf9319acd8eb3cb0",
+   "bytes": 10109
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260920.csv.gz",
+   "sha256": "e68e05dc56d5294710f0836954d3545f95a8e6f53180ae605e768fa4caa6e1c2",
+   "bytes": 28042
+  },
+  {
+   "path": "data/race_results/2026/20260921.csv",
+   "sha256": "6896a8dbba463a1cc6709aeadefbba93218a613db6e8fc21d89bf601e1123e5c",
+   "bytes": 62267
+  },
+  {
+   "path": "data/odds_history_fuku/2026/20260921.csv",
+   "sha256": "73c3128af24d0df2b8a6ef0c2444a2498628d7a91111add8422fb00dcc32fe8b",
+   "bytes": 9450
+  },
+  {
+   "path": "data/payouts/2026/20260921.csv",
+   "sha256": "9dc35bd7aa93c5ef64d81e9099ba845e15b32fd3c96b362bc2240ab18941f211",
+   "bytes": 5063
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260921.csv.gz",
+   "sha256": "8184291b89752b02845f8c029ebb7fb5735a9a89ea40d815a2632a0aa3aaba55",
+   "bytes": 14941
+  },
+  {
+   "path": "data/race_results/2026/20260922.csv",
+   "sha256": "dbf9523c943db452ad95d8a1f933f768fe117e42971d9da99831a86397d30ad2",
+   "bytes": 68483
+  },
+  {
+   "path": "data/odds_history_fuku/2026/20260922.csv",
+   "sha256": "48dac61f818233491ecb37035d66c22db82ed3f98041b00b23925b98b972a6da",
+   "bytes": 35611
+  },
+  {
+   "path": "data/payouts/2026/20260922.csv",
+   "sha256": "659d854b5aa3653ab4b078970edc249b8b20c0b490a86220113daea0733e6ece",
+   "bytes": 5087
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260922.csv.gz",
+   "sha256": "9045b382a2cbaaeda6524125e65e96be4c8d0a5be3b8d86503edd70a6444c71e",
+   "bytes": 14300
+  },
+  {
+   "path": "data/race_results/2026/20260926.csv",
+   "sha256": "c5879f990091aeabbfee843b036b48340d3c0b046e9bb39efb6a05b832725741",
+   "bytes": 124695
+  },
+  {
+   "path": "data/odds_history_fuku/2026/20260926.csv",
+   "sha256": "0dcfad9ed128c7074fa1c7306aa73cd7d2bc771b15d77f39e7cdcda192bccf8f",
+   "bytes": 24899
+  },
+  {
+   "path": "data/payouts/2026/20260926.csv",
+   "sha256": "841988f501a4a2ccfd9affd9cdf9fb163f0d01f4d8a5c2d96c6190a47d65fe9b",
+   "bytes": 9866
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260926.csv.gz",
+   "sha256": "ca8f360a95cd9648d6c9fd6f5cc1fccf89b805a82c3645b241c9f8976ec9179c",
+   "bytes": 31948
+  },
+  {
+   "path": "data/race_results/2026/20260927.csv",
+   "sha256": "ab51298133899dd811c5b0112552ebfb023f21e0cd4616e48dc2ddbe12012f87",
+   "bytes": 124282
+  },
+  {
+   "path": "data/odds_history_fuku/2026/20260927.csv",
+   "sha256": "80e289ddd73f0f90bdebba454518bf1dd733d1aee4ef1bf6c690b30bce97ee85",
+   "bytes": 32989
+  },
+  {
+   "path": "data/payouts/2026/20260927.csv",
+   "sha256": "4095dbe59a4036f9efc02bb881e0aceff71ecdd44de3dc7e318a69890164188d",
+   "bytes": 9977
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260927.csv.gz",
+   "sha256": "526550cd34e547a5ad50ef30fe596005d98fafccb4c4a5f73f89194f03222ecf",
+   "bytes": 26004
+  },
+  {
+   "path": "data/race_results/2026/20261003.csv",
+   "sha256": "4bc4eabbe58a53ee1abd5b387cfc110415346a3f1acbe3c7c91e8f4833f1ae0d",
+   "bytes": 133294
+  },
+  {
+   "path": "data/intraday_results/20261003.csv",
+   "sha256": "b395a1b36f3a78596a78fce61f96159d0300cbef7ce3817568fba84cb4800179",
+   "bytes": 115157
+  },
+  {
+   "path": "data/odds_history_fuku/2026/20261003.csv",
+   "sha256": "1f43f0208659beb586c8cc18598bb4c01a591c4f2d1b1d6ca304b8f3e2ed4b5b",
+   "bytes": 366338
+  },
+  {
+   "path": "data/payouts/2026/20261003.csv",
+   "sha256": "c9ef4fc7e438b84beafafe2213d270cce5c4b22360434fb1d0b89dda7887c38f",
+   "bytes": 10096
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20261003.csv.gz",
+   "sha256": "ba0533c0b6998d610ee00427fd453390fe9a381ab6e9e44d91d2efeafa7ad44f",
+   "bytes": 37109
+  },
+  {
+   "path": "data/race_results/2026/20261004.csv",
+   "sha256": "10c8c69b3e191276add3050196450e4af4e35304c86c49f82be23e97aba0fb2d",
+   "bytes": 143269
+  },
+  {
+   "path": "data/intraday_results/20261004.csv",
+   "sha256": "210fa98c18e79feb673a1a4387d7adb232b2939a09ffcc61ec06bea28d011611",
+   "bytes": 123565
+  },
+  {
+   "path": "data/odds_history_fuku/2026/20261004.csv",
+   "sha256": "e15c47c7fc0a71939767333b29d8267098f7f8abf3419646958e295166bd22f4",
+   "bytes": 377921
+  },
+  {
+   "path": "data/payouts/2026/20261004.csv",
+   "sha256": "59e7183ee44d0ecc3995b29218b1104438e7553bcc867007fe534beb115027ea",
+   "bytes": 10367
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20261004.csv.gz",
+   "sha256": "39924e97b60e7a4bb79a594af1ab164679d6874b655d415c70390aa169be0785",
+   "bytes": 39027
+  },
+  {
+   "path": "data/intraday_results/20261010.csv",
+   "sha256": "3a22e2a11b077e98161f8025f80247f4cb33c7ea89bee4cda6d0773411fc0978",
+   "bytes": 103657
+  },
+  {
+   "path": "data/odds_history_fuku/2026/20261010.csv",
+   "sha256": "fd17852160ba2759dc0e28fcaa1414372e1852b66f4d015d11aa91481d1044d1",
+   "bytes": 324531
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20261010.csv.gz",
+   "sha256": "d295c78508f3d828c3a182536c7332a92dc55f100a90bac2abf51907414163c8",
+   "bytes": 31973
+  },
+  {
+   "path": "data/intraday_results/20261011.csv",
+   "sha256": "a6206171e00e64e51c617002c356605be892f000e7221a0a498185c88030449f",
+   "bytes": 104852
+  },
+  {
+   "path": "data/odds_history_fuku/2026/20261011.csv",
+   "sha256": "511495179df7709af1d36d1c096adfe48d18665915a2539b2954e0134abd2ad9",
+   "bytes": 241655
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20261011.csv.gz",
+   "sha256": "c9d3dda8574b1ad9ad47b169cd95534cd3ed87d9eeca213cca8623f3e2229e03",
+   "bytes": 25295
+  },
+  {
+   "path": "data/intraday_results/20261012.csv",
+   "sha256": "23a7c4505ad1726191830fefe2fe46dac8d7186778b6e99debbd64baab4a51c9",
+   "bytes": 94044
+  },
+  {
+   "path": "data/odds_history_fuku/2026/20261012.csv",
+   "sha256": "e9a1b5425cc04af0f3b367b78f8959782c2f6c89ca78600ee925d00e527eb930",
+   "bytes": 326976
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20261012.csv.gz",
+   "sha256": "9fb6b4b8f26287e16b3080dfc48908f99ef8852976e094bd61a1738cc77dbec1",
+   "bytes": 32569
+  },
+  {
+   "path": "data/newspaper/202601010101.csv",
+   "sha256": "d9870a99b8709d569c023bd7712aca4414a032c82e2223a8f6480c50c63493eb",
+   "bytes": 41688
+  },
+  {
+   "path": "data/newspaper/202601010102.csv",
+   "sha256": "4046208fd798603d4088c4a6d6f68c362bb18d6f45d857a497a8a6f6a6e96a88",
+   "bytes": 41304
+  },
+  {
+   "path": "data/newspaper/202601010103.csv",
+   "sha256": "e0aed2eb534dce31d28f5fbacb7841ef063294eab2304cbc15b70dc8eca36e53",
+   "bytes": 48532
+  },
+  {
+   "path": "data/newspaper/202601010104.csv",
+   "sha256": "b7c84a889abff41df360f63fb42cc5154a3f9570b1877988f618d062f85108a7",
+   "bytes": 62331
+  },
+  {
+   "path": "data/newspaper/202601010105.csv",
+   "sha256": "7eab7c2179bf1b8527f48c413df53365ca7c17b180de7e748a53845d5978f90e",
+   "bytes": 31560
+  },
+  {
+   "path": "data/newspaper/202601010106.csv",
+   "sha256": "5a396393014c2665b040aeedce110d30cab1292fd1e1576b0add7aebc0273e52",
+   "bytes": 65230
+  },
+  {
+   "path": "data/newspaper/202601010107.csv",
+   "sha256": "8b96b8ed09e63512df1f7dcb1240e56e8ca816a618119392b0c62e732b58b344",
+   "bytes": 70264
+  },
+  {
+   "path": "data/newspaper/202601010108.csv",
+   "sha256": "b6bac2b14bb5d3aaeea6757ed3d958b90a4f674462c8bbc7f62a735803b24fe9",
+   "bytes": 57410
+  },
+  {
+   "path": "data/newspaper/202601010109.csv",
+   "sha256": "c6cfcfb6d51f0a115c40db2ad4463886ad19ce2c2fdcb81da9afbeea55dea56c",
+   "bytes": 52402
+  },
+  {
+   "path": "data/newspaper/202601010110.csv",
+   "sha256": "235bff4102f2e39b3beadb7bf63972dbb5ad11b7da37b252db44aa4d254e5d93",
+   "bytes": 59210
+  },
+  {
+   "path": "data/newspaper/202601010111.csv",
+   "sha256": "165947f1240d7f84dd24b19b01c5abbcee43b213bffa48cd4623e6fe23821c63",
+   "bytes": 64960
+  },
+  {
+   "path": "data/newspaper/202601010112.csv",
+   "sha256": "329397c5d924ff3f9bb06357e61b4a1f21d0233615967bc5eff308ab33877dbe",
+   "bytes": 56428
+  },
+  {
+   "path": "data/newspaper/202601010201.csv",
+   "sha256": "78845d8ed2a69685fdee9e7d8de269458905ff0b0dd9c31ca5b82ebd70c93fc5",
+   "bytes": 50017
+  },
+  {
+   "path": "data/newspaper/202601010202.csv",
+   "sha256": "1fdc45a420a4183ddbec44f522e902016199549d932be91555984981f0f504ed",
+   "bytes": 48787
+  },
+  {
+   "path": "data/newspaper/202601010203.csv",
+   "sha256": "24468eac97ca20f6ef5fa4feb1e130a8b3c87a35fb3cb15139e5d54d63ecf73f",
+   "bytes": 70746
+  },
+  {
+   "path": "data/newspaper/202601010204.csv",
+   "sha256": "1b1d403520aeaf0cd3a1e25004a6a9884b2e8e8ac3130b5f08f2454d48320ad6",
+   "bytes": 51483
+  },
+  {
+   "path": "data/newspaper/202601010205.csv",
+   "sha256": "2598d8e4d0a68f78cd2ea72511fc0b58056432af40417882aa850ca14aa5c52c",
+   "bytes": 46087
+  },
+  {
+   "path": "data/newspaper/202601010206.csv",
+   "sha256": "892e33871e4fb33dfe65fc73e9a3efdfd4f23d9d7012f3c2ba28366809c3940b",
+   "bytes": 56766
+  },
+  {
+   "path": "data/newspaper/202601010207.csv",
+   "sha256": "25cca854afa19f87d64eefbccfd58f7d9feafe537ef8a3f39de1453bc3890cd2",
+   "bytes": 39223
+  },
+  {
+   "path": "data/newspaper/202601010208.csv",
+   "sha256": "909e038ceccc2b005650bc23ba2ff8dd41c447311db0c8b61b42bbc68ad36962",
+   "bytes": 60140
+  },
+  {
+   "path": "data/newspaper/202601010209.csv",
+   "sha256": "13d6ff24484ac7dd35d2e2b491288b0200b2436541bca51e444b4b72db2e25dd",
+   "bytes": 43096
+  },
+  {
+   "path": "data/newspaper/202601010210.csv",
+   "sha256": "e1c2e659ff8b5cccbe2d6a2026739c166f813fc6fdf14ccad541e1eeec13c5bd",
+   "bytes": 55002
+  },
+  {
+   "path": "data/newspaper/202601010211.csv",
+   "sha256": "bc4093ff10cab1299beacc84d6b6e1f4faa2cb82b0879aefc13391f17c1eae9e",
+   "bytes": 68576
+  },
+  {
+   "path": "data/newspaper/202601010212.csv",
+   "sha256": "0fbbb61ca001d646700c7193cd604686164f6585f4b645ce763c6d9d42626edd",
+   "bytes": 51745
+  },
+  {
+   "path": "data/newspaper/202601010301.csv",
+   "sha256": "25b418aafba911ab930b3ce5f6d8a860135cf8c7ce8c259afdc63be37ec6e7c0",
+   "bytes": 53598
+  },
+  {
+   "path": "data/newspaper/202601010302.csv",
+   "sha256": "7dad932c6f0bb85c98a6a37bbffb0ffed1324bc8a072f4a217ccf755af687c1f",
+   "bytes": 43810
+  },
+  {
+   "path": "data/newspaper/202601010303.csv",
+   "sha256": "da86cf5e5b86095e5dc76c311c2c66efe52b6253766f000e5e0ebef178a7397a",
+   "bytes": 51284
+  },
+  {
+   "path": "data/newspaper/202601010304.csv",
+   "sha256": "d2a0b54ec69e4a033b9f47e3ead0150f1d80bb266e92e04df55a5521627d72b8",
+   "bytes": 57889
+  },
+  {
+   "path": "data/newspaper/202601010305.csv",
+   "sha256": "8cc78a099a400680a35643ff1023718c1ae31cda3aafccbebd4226ef100c9756",
+   "bytes": 54716
+  },
+  {
+   "path": "data/newspaper/202601010306.csv",
+   "sha256": "c24a7b711a498d38ecef3aacc21a804f5e5d9a00088ae453cc5d514999698594",
+   "bytes": 46163
+  },
+  {
+   "path": "data/newspaper/202601010307.csv",
+   "sha256": "316392009c9e68719bfd865eabd71d664b6348a53be2357bd2e490fe81956a58",
+   "bytes": 59646
+  },
+  {
+   "path": "data/newspaper/202601010308.csv",
+   "sha256": "b0ef2108022cc170b5348a5f3fbbdb8020b38d1c0528348f9cac1092e26c3192",
+   "bytes": 53623
+  },
+  {
+   "path": "data/newspaper/202601010309.csv",
+   "sha256": "1a6915b1b774e45750b30ac07e769667379ecb6e50681e4c25a1108397bf474b",
+   "bytes": 45327
+  },
+  {
+   "path": "data/newspaper/202601010310.csv",
+   "sha256": "a769f8dec13d814ed7753206ae913891b0e3529b149a7067c12c9ce3a4526962",
+   "bytes": 66103
+  },
+  {
+   "path": "data/newspaper/202601010311.csv",
+   "sha256": "81eaf4e3e52ca5629c7c6014199fe3d6eb6aee2a07cf0ab09c5d6a0255a7527a",
+   "bytes": 81825
+  },
+  {
+   "path": "data/newspaper/202601010312.csv",
+   "sha256": "1c812ebbe9cd7739db99abd59d66daca84c6019d0c9610036779e9a1d539fdfa",
+   "bytes": 46085
+  },
+  {
+   "path": "data/newspaper/202601010401.csv",
+   "sha256": "74cb0c56a223deb5625419ce09a98993f4a261f58ead65ac23c0195250c3faec",
+   "bytes": 58184
+  },
+  {
+   "path": "data/newspaper/202601010402.csv",
+   "sha256": "036bf344b21431b7edc42d7d62ec660fd04dfd3bf30a5f717282fd8d28a0b944",
+   "bytes": 62202
+  },
+  {
+   "path": "data/newspaper/202601010403.csv",
+   "sha256": "716e95fd6171c1eb32e10b28c7de865effea71f9c3e85007bdeae089792a75c9",
+   "bytes": 50012
+  },
+  {
+   "path": "data/newspaper/202601010404.csv",
+   "sha256": "801361664d9500b75d9147205749354d10aa58bef1347d9d2b08b4ca6ba7fd83",
+   "bytes": 62898
+  },
+  {
+   "path": "data/newspaper/202601010405.csv",
+   "sha256": "067878654f2dbd03a689c8a15321ea243782f0ba90352fe28d3f12b890dd6710",
+   "bytes": 45562
+  },
+  {
+   "path": "data/newspaper/202601010406.csv",
+   "sha256": "a377d4f3770fa892b9a7d03a44083be2df214aedaee64514b32f6a34cd52ab7e",
+   "bytes": 52336
+  },
+  {
+   "path": "data/newspaper/202601010407.csv",
+   "sha256": "a95ba850085ea49ff94a785a1ba2e6a34629cb56f2253b423c717e4d7a652096",
+   "bytes": 57140
+  },
+  {
+   "path": "data/newspaper/202601010408.csv",
+   "sha256": "205255307a17b3f139884d89a0178803fc8763c68a01d63f954aa1597599625d",
+   "bytes": 66614
+  },
+  {
+   "path": "data/newspaper/202601010409.csv",
+   "sha256": "b5755ff281c6afe019a182848ef4180551ea3fb4f8e8da3714e373a6e51439c6",
+   "bytes": 56282
+  },
+  {
+   "path": "data/newspaper/202601010410.csv",
+   "sha256": "bf1850ee8a36466919f5c72ffef6f96e3c0e95a444f455ebf93ccfd0f3c1033b",
+   "bytes": 52510
+  },
+  {
+   "path": "data/newspaper/202601010411.csv",
+   "sha256": "eeb47ba32cae478b195ac86ca1e19d4c967363a08fe033f78123e461eec3e4c1",
+   "bytes": 74952
+  },
+  {
+   "path": "data/newspaper/202601010412.csv",
+   "sha256": "dd53e4d23c35e39f9c799fe5eaeee8607f49c34c1c681688ea83c2fbbc78f2c4",
+   "bytes": 69905
+  },
+  {
+   "path": "data/newspaper/202601010501.csv",
+   "sha256": "3c1326efebd5492a0c3c982cc556278758a67e9713ec070b2e150a3cafdcffb5",
+   "bytes": 61332
+  },
+  {
+   "path": "data/newspaper/202601010502.csv",
+   "sha256": "9188908c789a94b366b2965ba4b88bad2f4b28bc9e91670973f1a6521ffe3d94",
+   "bytes": 55984
+  },
+  {
+   "path": "data/newspaper/202601010503.csv",
+   "sha256": "5cd51048ff0f7deb6e55a3bd055caaf2477fdc609eb1c68e7193d404859efea5",
+   "bytes": 60054
+  },
+  {
+   "path": "data/newspaper/202601010504.csv",
+   "sha256": "e87feaae8b87548d30476fecc0b55189cbe3c0b87a8829ecb046957edf0ec3c5",
+   "bytes": 67869
+  },
+  {
+   "path": "data/newspaper/202601010505.csv",
+   "sha256": "7021344c107e745d1f8dddc124d0de4a3fecd535cb1aae3a4999275dddaef246",
+   "bytes": 51153
+  },
+  {
+   "path": "data/newspaper/202601010506.csv",
+   "sha256": "42849b0c1cb21ac5ea10e1f2a5af54f235c3abcd7dd32847d5b6fa7cddf7cef7",
+   "bytes": 71622
+  },
+  {
+   "path": "data/newspaper/202601010507.csv",
+   "sha256": "e208606402c97af43160bb4949fdfa655fee56457de25908807a8ab97141e799",
+   "bytes": 56923
+  },
+  {
+   "path": "data/newspaper/202601010508.csv",
+   "sha256": "c4002968ce61cf14cf0a9d5dda6dda94052ae5186e9460091582b407eee6813f",
+   "bytes": 72170
+  },
+  {
+   "path": "data/newspaper/202601010509.csv",
+   "sha256": "0bc3020a92d8befc6a1882f9ee9dce522879e1cd0cbaa70092d56681e920671a",
+   "bytes": 63959
+  },
+  {
+   "path": "data/newspaper/202601010510.csv",
+   "sha256": "215bcb9e30b5919d3428e2a4fcebac7b73c7a07fec7fa9eb6091b79e3f5732ec",
+   "bytes": 48236
+  },
+  {
+   "path": "data/newspaper/202601010511.csv",
+   "sha256": "4c526ace0a46c409380fef50ff68269eecb320e47afc2c8d9333fffab9b02522",
+   "bytes": 61030
+  },
+  {
+   "path": "data/newspaper/202601010512.csv",
+   "sha256": "2ca0cb4d632d2102f6e69d2ae3ef78269761ca90d46c9dd6c07216a85afe375f",
+   "bytes": 66549
+  },
+  {
+   "path": "data/newspaper/202601010601.csv",
+   "sha256": "71378e98d67965c9c2b218de4b6d23897510abe71e7b51e38b9ab6db94e6896f",
+   "bytes": 49243
+  },
+  {
+   "path": "data/newspaper/202601010602.csv",
+   "sha256": "808b14b6f24dff0e6b588ec5aa7689505fadf3ebd020d6ef58faf907ccb25424",
+   "bytes": 54593
+  },
+  {
+   "path": "data/newspaper/202601010603.csv",
+   "sha256": "3779bcc7c629b801cd5e59df535d4ef7dd6182e16f4c1f4dc692a26f1bf988ad",
+   "bytes": 54069
+  },
+  {
+   "path": "data/newspaper/202601010604.csv",
+   "sha256": "5f65d2b1909e09540986ea3dc5a9ecbbfba7d8e4de0ff03907977c82aa44abfa",
+   "bytes": 61590
+  },
+  {
+   "path": "data/newspaper/202601010605.csv",
+   "sha256": "c040d1c44b31e01371e8e152ebab6d5040b4e37fe0214f45b07be7b7406991ee",
+   "bytes": 53736
+  },
+  {
+   "path": "data/newspaper/202601010606.csv",
+   "sha256": "b471224523e487731fc38c4255cfee4d77c92a69bb8733ae88a59a13f8e1a6cf",
+   "bytes": 65183
+  },
+  {
+   "path": "data/newspaper/202601010607.csv",
+   "sha256": "4d64fc9081860fdf160984a3c9e28c689e4bf815c228a72dc528a3d0a8c9a439",
+   "bytes": 72179
+  },
+  {
+   "path": "data/newspaper/202601010608.csv",
+   "sha256": "b28581382886d8d73c90faf472fbc7abeab9a99da99b5753af6802328c0d7657",
+   "bytes": 64575
+  },
+  {
+   "path": "data/newspaper/202601010609.csv",
+   "sha256": "c115c698f8b9a3bceac50669aecacaf4d6aa10da85b17aa55299e342014ab308",
+   "bytes": 75310
+  },
+  {
+   "path": "data/newspaper/202601010610.csv",
+   "sha256": "3bcac18105ada1321b6f427288f7061b8bcdb88bd168de20100cd4a81233daa5",
+   "bytes": 68437
+  },
+  {
+   "path": "data/newspaper/202601010611.csv",
+   "sha256": "34a2c021814e44043daad820a4cc4d6a95f4cb8c594e4f3d4325970791679ff8",
+   "bytes": 81863
+  },
+  {
+   "path": "data/newspaper/202601010612.csv",
+   "sha256": "013643b07533cdd06f277d497d8a7c9bd3c0594716ed1defa369fe13d5e62cd8",
+   "bytes": 47488
+  },
+  {
+   "path": "data/newspaper/202601010701.csv",
+   "sha256": "ac486d662de9010826e044d865a44fd0ce86eafd09fbaca4539f25f4107c0f2c",
+   "bytes": 61761
+  },
+  {
+   "path": "data/newspaper/202601010702.csv",
+   "sha256": "2be855721467ea9a7ee204e6df90e5e12d264c532f486a6cca34482c09b6ec3e",
+   "bytes": 47390
+  },
+  {
+   "path": "data/newspaper/202601010703.csv",
+   "sha256": "b4ee46319a56c774fea72727cb2812e4d8f75f96628ceeb6d538138484975ce5",
+   "bytes": 54890
+  },
+  {
+   "path": "data/newspaper/202601010704.csv",
+   "sha256": "843f6cb261f420462a0f4ddbcc0c3f0324a506339240a5344615ab2f307ab1d8",
+   "bytes": 53336
+  },
+  {
+   "path": "data/newspaper/202601010705.csv",
+   "sha256": "0f84fc55662c8ae058e2c8129bdbd634e4d5a06f549534cf513315e79c8835dc",
+   "bytes": 51691
+  },
+  {
+   "path": "data/newspaper/202601010706.csv",
+   "sha256": "7842473583f52da910fa5fc5adf2c9ee786e425774dfbdd0c064bedf73aba520",
+   "bytes": 65314
+  },
+  {
+   "path": "data/newspaper/202601010707.csv",
+   "sha256": "1a1f94b004d884b0e7285e48e8ad696062b1bb9b869f4adbc2fa3666cca36203",
+   "bytes": 69726
+  },
+  {
+   "path": "data/newspaper/202601010708.csv",
+   "sha256": "7808a64745bf7071deebafcb28f3313637b39141c565217c6313ffbaa8b85a38",
+   "bytes": 54415
+  },
+  {
+   "path": "data/newspaper/202601010709.csv",
+   "sha256": "45929ccdb984cf89a9bf6a92dccca432d960838d196140ff16252ab6b340b7e2",
+   "bytes": 43990
+  },
+  {
+   "path": "data/newspaper/202601010710.csv",
+   "sha256": "2395c8d41e14196fee361e1d5433622d15f02db57ed1712700aaeb963a49e9b7",
+   "bytes": 79723
+  },
+  {
+   "path": "data/newspaper/202601010711.csv",
+   "sha256": "d88a704db9efb2541707a70c466b0fda9c7b4d97711dc1c74db8b10266cbfdd8",
+   "bytes": 69761
+  },
+  {
+   "path": "data/newspaper/202601010712.csv",
+   "sha256": "5d5f86fe923607d97ac2575bc85c3aab1e86d41710f137c5eea3c477fbb4a55d",
+   "bytes": 70906
+  },
+  {
+   "path": "data/newspaper/202601010801.csv",
+   "sha256": "719ea751f60ed1e7cd1f614d21adfb68dc2b3652dd01307c05e6cabd8429eee5",
+   "bytes": 62400
+  },
+  {
+   "path": "data/newspaper/202601010802.csv",
+   "sha256": "70eba5ff70636842ea43dd4c079920bca4969833715571269512573eab1f53c3",
+   "bytes": 42268
+  },
+  {
+   "path": "data/newspaper/202601010803.csv",
+   "sha256": "ec870f1ae8c7840ed5e2236d3d942b9ca03a261bc1b38d4d8d75d82218547963",
+   "bytes": 67740
+  },
+  {
+   "path": "data/newspaper/202601010804.csv",
+   "sha256": "d3262e081bcb424cf3c90e5f69188b866de2311ad415efac5f9430623697b69d",
+   "bytes": 61598
+  },
+  {
+   "path": "data/newspaper/202601010805.csv",
+   "sha256": "ea3d41d0e9999ab3b9c6afc5eac7f306a9cfadbf4b7c336f383f19eb990e7155",
+   "bytes": 52926
+  },
+  {
+   "path": "data/newspaper/202601010806.csv",
+   "sha256": "a2a68f3de47843e5f2aa117cd22acbe78f33127739919cfe9e60ab30d4962862",
+   "bytes": 56876
+  },
+  {
+   "path": "data/newspaper/202601010807.csv",
+   "sha256": "5e97ac8843be63f2c8f1ddf264da914622fda7f03d8fc29155b1047e00bd8a96",
+   "bytes": 71206
+  },
+  {
+   "path": "data/newspaper/202601010808.csv",
+   "sha256": "320d45c2b43619ec7446dff560bd0497dbdc13fc75ef51868bac091b01bb70da",
+   "bytes": 54804
+  },
+  {
+   "path": "data/newspaper/202601010809.csv",
+   "sha256": "ff1e3a3956d01fb6808e201bf16cf64b03517198962a0754d611fec2cdea9af7",
+   "bytes": 78951
+  },
+  {
+   "path": "data/newspaper/202601010810.csv",
+   "sha256": "092d7c0395667ac5dd9966c8f66fdb140cf5c9a5a8acfd8dea43bd5a4bfda430",
+   "bytes": 60990
+  },
+  {
+   "path": "data/newspaper/202601010811.csv",
+   "sha256": "ddca076965ef1dd3a0ed2ce56d186fb330526f6f9d8385170258c8fc6d37957b",
+   "bytes": 82768
+  },
+  {
+   "path": "data/newspaper/202601010812.csv",
+   "sha256": "bec1c0d5b89dd24152c48e3f2430a319ddf92b4ba033c3f6c2740cf3ee4d9aaa",
+   "bytes": 71679
+  },
+  {
+   "path": "data/newspaper/202601020101.csv",
+   "sha256": "7de746d993f2c0c6f598dcb6a36995117a986153e189cc96af7126e6b97f384b",
+   "bytes": 50168
+  },
+  {
+   "path": "data/newspaper/202601020102.csv",
+   "sha256": "fe3a579eacb7077ec150a81ceb7b02218a2e49c34635d80e2738de41b2ec6e09",
+   "bytes": 36199
+  },
+  {
+   "path": "data/newspaper/202601020103.csv",
+   "sha256": "b01e987be4546af811bca0816e3b7b4e86649f230f8c75ed60cdd5a4c4b1a8b9",
+   "bytes": 61232
+  },
+  {
+   "path": "data/newspaper/202601020104.csv",
+   "sha256": "737c29cc92b378f1f899fa88305a911f5ea9ed1dff499dc3bee53bfa85f46c72",
+   "bytes": 71188
+  },
+  {
+   "path": "data/newspaper/202601020105.csv",
+   "sha256": "d30e6fcd142d2c3f7eb09232fa048522c1f8be329ebbf0a363c929c6eda66345",
+   "bytes": 57641
+  },
+  {
+   "path": "data/newspaper/202601020106.csv",
+   "sha256": "a9dcdea7b1f250d36a1dfa1718f6ade9d229f8e393561193d47d8dcf98cdf853",
+   "bytes": 64263
+  },
+  {
+   "path": "data/newspaper/202601020107.csv",
+   "sha256": "d3026cff34d525d36335a8c0c23d6dfcad70b25a1a31fbfc680575596cd53415",
+   "bytes": 58522
+  },
+  {
+   "path": "data/newspaper/202601020108.csv",
+   "sha256": "524b1f5c5849066c048b30bedcc04d8af800e7fd1d05d2a36c1ca6fac3cc68a9",
+   "bytes": 50546
+  },
+  {
+   "path": "data/newspaper/202601020109.csv",
+   "sha256": "51ae63086366b33bce5a767cbaa11896cb1e292287a9d3655a2fba23ba942f4e",
+   "bytes": 63954
+  },
+  {
+   "path": "data/newspaper/202601020110.csv",
+   "sha256": "9eeda41aa547b8a2cd5d69900d09582c6749f93a0d1360f1c0144aafd26af54c",
+   "bytes": 70971
+  },
+  {
+   "path": "data/newspaper/202601020111.csv",
+   "sha256": "f778f823732460debc31b24f15012ed90b90c0830f32ab0b4cf7c11f237745e5",
+   "bytes": 75413
+  },
+  {
+   "path": "data/newspaper/202601020112.csv",
+   "sha256": "37ff988a98d8f73aea7e078441713088950d60f1fb90a446777ed2a2133b13a7",
+   "bytes": 55897
+  },
+  {
+   "path": "data/newspaper/202601020201.csv",
+   "sha256": "2639f7999465d7b287a10bbede85764e8a47352aca237fa1c374f5c33773d59b",
+   "bytes": 54916
+  },
+  {
+   "path": "data/newspaper/202601020202.csv",
+   "sha256": "c458a672addbaa7e4ec5d4e6d89f8e8d7d79322d431ee882654bdcd35a123fca",
+   "bytes": 53893
+  },
+  {
+   "path": "data/newspaper/202601020203.csv",
+   "sha256": "8b9ed28e84a8d8807420a102dd9343f980190a211b192a3967a1852d6ee74de1",
+   "bytes": 61672
+  },
+  {
+   "path": "data/newspaper/202601020204.csv",
+   "sha256": "4a930e6d5235e0e0b5cf7d6f7caf79492f762af6346e81cce3077a3f8233c572",
+   "bytes": 71072
+  },
+  {
+   "path": "data/newspaper/202601020205.csv",
+   "sha256": "11b48c3ae348288a875afb9fd6132c36d154612c2cae9b974c679476bc33fd2f",
+   "bytes": 37323
+  },
+  {
+   "path": "data/newspaper/202601020206.csv",
+   "sha256": "cd56efb8e64d621da96d70763cfef62cdb0ec09062a4645f319546362eb110e0",
+   "bytes": 67636
+  },
+  {
+   "path": "data/newspaper/202601020207.csv",
+   "sha256": "c92591409304cd39b7ccb2bfae13cbe435e00e972086104aff4ac5af6324e906",
+   "bytes": 54037
+  },
+  {
+   "path": "data/newspaper/202601020208.csv",
+   "sha256": "136470a940231b6d7cff861a1c4c3ee6afde8dee2fe49e125f961c2974ac1ef3",
+   "bytes": 56533
+  },
+  {
+   "path": "data/newspaper/202601020209.csv",
+   "sha256": "6cbba98e53559d47374b3b5bf256e276b660d59e89383f10dfbdfb33521afe0a",
+   "bytes": 67016
+  },
+  {
+   "path": "data/newspaper/202601020210.csv",
+   "sha256": "8c69683e2b685d58927dc627622d013fd31a27f35f68841ca52b25e6d4bfd669",
+   "bytes": 68467
+  },
+  {
+   "path": "data/newspaper/202601020211.csv",
+   "sha256": "95bbfcb500e42b1cb3369e3f9a5b090c2e2aaf5bf7bee53b5bc73c17427e2287",
+   "bytes": 83127
+  },
+  {
+   "path": "data/newspaper/202601020212.csv",
+   "sha256": "7b5a7b05ddf7c815f9df335bc00a0dcae75b0460248d5a58d7ca71f233aead93",
+   "bytes": 71588
+  },
+  {
+   "path": "data/newspaper/202601020301.csv",
+   "sha256": "58068bc9ae6c8bce8d8cbac9fa4bf8a8a4ad619ac6624deb0422478174c30580",
+   "bytes": 63233
+  },
+  {
+   "path": "data/newspaper/202601020302.csv",
+   "sha256": "9c4e97203d6880ea7288edc463c4cca1385e4a80b497fe47b8c96dd0d95a8ece",
+   "bytes": 56145
+  },
+  {
+   "path": "data/newspaper/202601020303.csv",
+   "sha256": "46677c22045ad108aaecf97cb75e3f340a22827c067d53b56c381bda04f711eb",
+   "bytes": 50330
+  },
+  {
+   "path": "data/newspaper/202601020304.csv",
+   "sha256": "b833840ee3a9c8e9433dc25073e07afa71b402c6faa21e120e467bb64830c07a",
+   "bytes": 53808
+  },
+  {
+   "path": "data/newspaper/202601020305.csv",
+   "sha256": "5ac11734e4e386661897df2d92265e8f64513bf08fe8a1e0fb83fcdc9c8ade3b",
+   "bytes": 54467
+  },
+  {
+   "path": "data/newspaper/202601020306.csv",
+   "sha256": "afdd9c4cda1fe5d5671341604c517e8ef34b0aae4dee2628accc8b28a7014648",
+   "bytes": 65308
+  },
+  {
+   "path": "data/newspaper/202601020307.csv",
+   "sha256": "b6f4c1352fa97ec9eed56869cec2439c2cabd5ff5943fea3c8dfce6d57160c03",
+   "bytes": 75832
+  },
+  {
+   "path": "data/newspaper/202601020308.csv",
+   "sha256": "ac25e31ec5fe81c212055d380665efbf6c7af530b40f595d4ad919451a8b3d44",
+   "bytes": 53273
+  },
+  {
+   "path": "data/newspaper/202601020309.csv",
+   "sha256": "4599537181709e0d929486fd9673aa404a7326cee8e4fee4c8c1e4ef712000ed",
+   "bytes": 60958
+  },
+  {
+   "path": "data/newspaper/202601020310.csv",
+   "sha256": "872af91bc69355b873d637d3e7db0963de95a118ceb6574b759729fc82dbfbb8",
+   "bytes": 57781
+  },
+  {
+   "path": "data/newspaper/202601020311.csv",
+   "sha256": "da5ff3f2a041f9f2ba66b48319a0118ebe3fba18055cac562c397b598ca72299",
+   "bytes": 74337
+  },
+  {
+   "path": "data/newspaper/202601020312.csv",
+   "sha256": "9797103e96d522e4cc4961843165e4853af5cfd13446b144d80faf8dad362afb",
+   "bytes": 60788
+  },
+  {
+   "path": "data/newspaper/202601020401.csv",
+   "sha256": "d18cc01e60b948bf061413e25a44aa88885b17a8f186c0be7f5c43de475ceddf",
+   "bytes": 62992
+  },
+  {
+   "path": "data/newspaper/202601020402.csv",
+   "sha256": "2359539cebcf3cc93abb05a5b5342ce50d0e6110814bdf8718cdae99ffc3a5ca",
+   "bytes": 60470
+  },
+  {
+   "path": "data/newspaper/202601020403.csv",
+   "sha256": "d3794213013d42d9b02039949ef6b615325fbabb839102ccf949e09614426033",
+   "bytes": 61640
+  },
+  {
+   "path": "data/newspaper/202601020404.csv",
+   "sha256": "11c9b58feafeaa81901274156c689154df278f275ee2eb48f3f66c49eeb91077",
+   "bytes": 71338
+  },
+  {
+   "path": "data/newspaper/202601020405.csv",
+   "sha256": "2c8304903bf4ecdc0cf17787d89b9839e9338fc23b886ebff1541a0801d10329",
+   "bytes": 40018
+  },
+  {
+   "path": "data/newspaper/202601020406.csv",
+   "sha256": "c973cfb21967cb45b734cc49cafe27b5b18815b7c490135cb74ab25bbded3fe0",
+   "bytes": 56927
+  },
+  {
+   "path": "data/newspaper/202601020407.csv",
+   "sha256": "f0016ec99da058f0e46ff8b92cbb328e395fd3210d515ace24de1b171616ab03",
+   "bytes": 58090
+  },
+  {
+   "path": "data/newspaper/202601020408.csv",
+   "sha256": "ab5e47e0a05148c7dc9f71d5dd508863ee2068dc688a2201b5aa826a22b1bde1",
+   "bytes": 66273
+  },
+  {
+   "path": "data/newspaper/202601020409.csv",
+   "sha256": "78e19c1a6bb1887266a35f4e78185191ee0f1ecb1e07425692070c713103a929",
+   "bytes": 53447
+  },
+  {
+   "path": "data/newspaper/202601020410.csv",
+   "sha256": "6abf4fb9597c94cb8a8abb905ce56061ff2e4320b2085179a64edd11ce40a98d",
+   "bytes": 79977
+  },
+  {
+   "path": "data/newspaper/202601020411.csv",
+   "sha256": "607800f76863b0dd6a9a6ab172521d9fd3ea970cbe2f2743befe7bea608f49e4",
+   "bytes": 72673
+  },
+  {
+   "path": "data/newspaper/202601020412.csv",
+   "sha256": "49ca782813d934026adc74cb3fd34fafc86f8a351e3379477ed24298406d52ff",
+   "bytes": 69584
+  },
+  {
+   "path": "data/newspaper/202601020501.csv",
+   "sha256": "a1c853d45cab6f1d92ec6ed0f44b7c6bd1b19d0b4d1ed0d0421233d2efd5c8d4",
+   "bytes": 50015
+  },
+  {
+   "path": "data/newspaper/202601020502.csv",
+   "sha256": "21bc015044c33b29755dee23dcfb52721c076893fe3d1ab6656d117b75f58881",
+   "bytes": 52696
+  },
+  {
+   "path": "data/newspaper/202601020503.csv",
+   "sha256": "80762dda266f73f0e6e9300271748ca6c256f9d0edfb8f0f51399b3e57b60c13",
+   "bytes": 56511
+  },
+  {
+   "path": "data/newspaper/202601020504.csv",
+   "sha256": "662189a7befcaf0c99ada58dafc545d7cd4d0eea2106b6da1ac8f156b613816f",
+   "bytes": 61663
+  },
+  {
+   "path": "data/newspaper/202601020505.csv",
+   "sha256": "6fc52c38f4f16eca247e476177053c036c48a78cf6c24a18646c42ab2f693ca1",
+   "bytes": 59026
+  },
+  {
+   "path": "data/newspaper/202601020506.csv",
+   "sha256": "5e41192dd80bc944cbf7225580f87f9bd41bca8032ff8e8c14c5c1088ac82bcd",
+   "bytes": 72697
+  },
+  {
+   "path": "data/newspaper/202601020507.csv",
+   "sha256": "f231074f802d7763ca47ecbd4cff1c4177067ae4bc93779cb73459a5e45f8bbb",
+   "bytes": 60933
+  },
+  {
+   "path": "data/newspaper/202601020508.csv",
+   "sha256": "33cf9d200050abcba17abbc0aa147554aef97112845242767febf7d851f1a6c1",
+   "bytes": 61487
+  },
+  {
+   "path": "data/newspaper/202601020509.csv",
+   "sha256": "ebbd35773adb6798a05c7ba01aed78cf43a34ae942488804915a3027a9171ba9",
+   "bytes": 72003
+  },
+  {
+   "path": "data/newspaper/202601020510.csv",
+   "sha256": "50bebcf4d6b846ff8a397299d4051957672b707b470ec51db3b8617a5e6be791",
+   "bytes": 80640
+  },
+  {
+   "path": "data/newspaper/202601020511.csv",
+   "sha256": "e8838e2079beb3585350f189084c39d4565346fa2edcbffe1812cf4a7e8e102e",
+   "bytes": 50512
+  },
+  {
+   "path": "data/newspaper/202601020512.csv",
+   "sha256": "01a2de170c5c703d4c6329c52b61444b66a92eb01f7b540071cb3f33e87cb1a4",
+   "bytes": 61047
+  },
+  {
+   "path": "data/newspaper/202601020601.csv",
+   "sha256": "81c212376d1db54d436682fdf229cdfe4e654244ff16d0cff2ad9b37defc7052",
+   "bytes": 60390
+  },
+  {
+   "path": "data/newspaper/202601020602.csv",
+   "sha256": "3b8f3342f2a87780ad779cebb0d4880db39f3044947401359e9a4c7e5671f801",
+   "bytes": 48702
+  },
+  {
+   "path": "data/newspaper/202601020603.csv",
+   "sha256": "ef82c865e57f61a5d8a6099a7fc66507a67a31aa56c72bbdd3a6fce97d116a67",
+   "bytes": 63455
+  },
+  {
+   "path": "data/newspaper/202601020604.csv",
+   "sha256": "12b1694df76cdc5dfe10f0b3251f69c44e1904be86850a6452ede5deba9858c9",
+   "bytes": 71388
+  },
+  {
+   "path": "data/newspaper/202601020605.csv",
+   "sha256": "1476d629e8e8fa6013cf21842046cac3c702ecab0d094e31e73f45241102044e",
+   "bytes": 74056
+  },
+  {
+   "path": "data/newspaper/202601020606.csv",
+   "sha256": "e4266943409632abe4cfd936c1254561e565488d6159d359ee389675939eb4b2",
+   "bytes": 57661
+  },
+  {
+   "path": "data/newspaper/202601020607.csv",
+   "sha256": "78c90b76a42d80c682ed01bf3938414587b71acc1bc0fc0b9f32b883e73d6b42",
+   "bytes": 75767
+  },
+  {
+   "path": "data/newspaper/202601020608.csv",
+   "sha256": "0482f1c0f7397e3fe78492e2bf7d6dabac85b7f199c542b5c8cf3b1e8b4b81a1",
+   "bytes": 67782
+  },
+  {
+   "path": "data/newspaper/202601020609.csv",
+   "sha256": "d21ea9863371ac23310d3e6dd3e37c8410921117d253427f00590e0c2c256de3",
+   "bytes": 69160
+  },
+  {
+   "path": "data/newspaper/202601020610.csv",
+   "sha256": "b81960331610e69222960cb15d57577053d7a7c3a0f764549d8528f2d34aae22",
+   "bytes": 71231
+  },
+  {
+   "path": "data/newspaper/202601020611.csv",
+   "sha256": "36d73db9d0f5fd6e42074e1a0eccff5b4bfd45145b85bb5d0495936229234803",
+   "bytes": 73821
+  },
+  {
+   "path": "data/newspaper/202601020612.csv",
+   "sha256": "efa222268594941674613fcd8567811d4e8e25acf1143ebe1f9c0ccbd4488816",
+   "bytes": 57931
+  },
+  {
+   "path": "data/newspaper/202602010901.csv",
+   "sha256": "6dcc7625f25bc9ee83a113487382be47933b2d66a419c7d2520eec250bdfe9d5",
+   "bytes": 47149
+  },
+  {
+   "path": "data/newspaper/202602010902.csv",
+   "sha256": "f9ec5df41696c2e9a09f0515e95dfbf58907d4df71b7c36c473c7c0003162f19",
+   "bytes": 62538
+  },
+  {
+   "path": "data/newspaper/202602010903.csv",
+   "sha256": "17aea3bb6a627d23d7d3f95b6f0d627423c6f3134c8b181b37df15151c1c2714",
+   "bytes": 73268
+  },
+  {
+   "path": "data/newspaper/202602010904.csv",
+   "sha256": "97d73b55c1ebf5d640d4c2afdef2c3014cd1d0cf46b1defd0755ab878159ea31",
+   "bytes": 66106
+  },
+  {
+   "path": "data/newspaper/202602010905.csv",
+   "sha256": "c238a055324f0c925e78c709a8c2d883609bd706af5de52b8da66b8df746f757",
+   "bytes": 48946
+  },
+  {
+   "path": "data/newspaper/202602010906.csv",
+   "sha256": "f97d807b222ccbbb852b45b1cd995af9b43ebba596fb7b7462b88fc226c9afe7",
+   "bytes": 51715
+  },
+  {
+   "path": "data/newspaper/202602010907.csv",
+   "sha256": "022b0041247578c855ec5a7012b6cfe9bed55622eac96bed0a483d76fd6f74b4",
+   "bytes": 68052
+  },
+  {
+   "path": "data/newspaper/202602010908.csv",
+   "sha256": "258d2db9d1d8bbd06b501556fae46fd940d6cc8e4e4324cdab1398d3f43cfc5f",
+   "bytes": 57163
+  },
+  {
+   "path": "data/newspaper/202602010909.csv",
+   "sha256": "ade22727b7daa01f98ab4b8fbb1c245e8725f43e39072ed8108ecc2860d15789",
+   "bytes": 55229
+  },
+  {
+   "path": "data/newspaper/202602010910.csv",
+   "sha256": "890707f83fc6237cca9614ede4d591a65d6c15fba657a65c17759215d154170f",
+   "bytes": 70320
+  },
+  {
+   "path": "data/newspaper/202602010911.csv",
+   "sha256": "20878f78cf91ad45de921b0d661c68aa84a7f65b859b708ed7bdb2b80c1ae7c7",
+   "bytes": 69687
+  },
+  {
+   "path": "data/newspaper/202602010912.csv",
+   "sha256": "264e3179668700f4d88b0dff1ec4a57f3d5e86208a12c9a40de743dddc04f12e",
+   "bytes": 44221
+  },
+  {
+   "path": "data/newspaper/202602011001.csv",
+   "sha256": "0d8c9c063766149813d6b6aa76c25a2e564d0684e7c54c263712328dc735d67d",
+   "bytes": 54683
+  },
+  {
+   "path": "data/newspaper/202602011002.csv",
+   "sha256": "fd02a6ee5051a4a92d190f6f6342c10ada3ae68953c2b46b578ddad213f103f7",
+   "bytes": 60152
+  },
+  {
+   "path": "data/newspaper/202602011003.csv",
+   "sha256": "01c4bf26a5760179a84c174c48997de4f716b45a2087afbed7402a0d2d4fa273",
+   "bytes": 60234
+  },
+  {
+   "path": "data/newspaper/202602011004.csv",
+   "sha256": "08416c552058680f277789edc87ebc5b780de694db296444099746ff012522ba",
+   "bytes": 71196
+  },
+  {
+   "path": "data/newspaper/202602011005.csv",
+   "sha256": "ba8d3ad07bb4b542591ef6f8c3c7bdc7c6d962bf4571904b2271da33320a5121",
+   "bytes": 45230
+  },
+  {
+   "path": "data/newspaper/202602011006.csv",
+   "sha256": "5612c061754099692bfa9bdc02093bc793098111ac4b60a826c186a92d6c80ea",
+   "bytes": 70462
+  },
+  {
+   "path": "data/newspaper/202602011007.csv",
+   "sha256": "226155ef3acbf0d9192927a1dea30bb030c51276dd46ef1ab4c568fca304453b",
+   "bytes": 46973
+  },
+  {
+   "path": "data/newspaper/202602011008.csv",
+   "sha256": "be691c4704b3535e1c1cd03d8d3dc5cb8bc067a82102986c9cef21e9704327f5",
+   "bytes": 53665
+  },
+  {
+   "path": "data/newspaper/202602011009.csv",
+   "sha256": "4d90b5166a1a6a00501ea85faa2b9eee3edb0a889a94a335696e2aac29ae7bac",
+   "bytes": 71301
+  },
+  {
+   "path": "data/newspaper/202602011010.csv",
+   "sha256": "1a67e54e5da5cdca95253e331f13bbb538b6fee4832983750bf2811595ae9e3e",
+   "bytes": 59782
+  },
+  {
+   "path": "data/newspaper/202602011011.csv",
+   "sha256": "d3d95662c40570ec48ab83327785b304f5919cce4cef4efd4bad11db92658095",
+   "bytes": 73118
+  },
+  {
+   "path": "data/newspaper/202602011012.csv",
+   "sha256": "c2f004e79b691e4e9496ce3e0b60f1ed9344a9404438aa948e1c5852442202e7",
+   "bytes": 45889
+  },
+  {
+   "path": "data/newspaper/202602011101.csv",
+   "sha256": "60cefab9700f03a305b89b155aafff4e9c0831ead25adb07a51ef7ec23a8273b",
+   "bytes": 40998
+  },
+  {
+   "path": "data/newspaper/202602011102.csv",
+   "sha256": "2976c54ad805093f4c974cc7c311bec9975c0e1fed1a787a523c607344036465",
+   "bytes": 54034
+  },
+  {
+   "path": "data/newspaper/202602011103.csv",
+   "sha256": "30f63f58b3f9bfc6700897d155c87ac441ea9f893a0ec3d594ff564067104c5a",
+   "bytes": 53632
+  },
+  {
+   "path": "data/newspaper/202602011104.csv",
+   "sha256": "102f760a739537c9810db4c2e4ec7363f34164f7e698348496276feed7051790",
+   "bytes": 70710
+  },
+  {
+   "path": "data/newspaper/202602011105.csv",
+   "sha256": "e70a9875a41c40da12d1f16025d8b5a3d7127708214ae997b0a2b4e645bed6f4",
+   "bytes": 62019
+  },
+  {
+   "path": "data/newspaper/202602011106.csv",
+   "sha256": "b2a7d183eb1bd3df26e604b15f4e7caf5bb7f0087dccdbc999e5a79eabed2dc0",
+   "bytes": 59072
+  },
+  {
+   "path": "data/newspaper/202602011107.csv",
+   "sha256": "df5c4cb628ae8e0945dc5f91695490a4c40b14a4e5e9fb43951ffc0f866a9c40",
+   "bytes": 64209
+  },
+  {
+   "path": "data/newspaper/202602011108.csv",
+   "sha256": "afc6d914c4e823a860f6f0c42bbe32f2ed05778676d3294ee591fda131514c78",
+   "bytes": 60145
+  },
+  {
+   "path": "data/newspaper/202602011109.csv",
+   "sha256": "7e12a950ed2ab65c3fc1d1663078383e0644bd9307a7feb4ca6e430c6f2cb2b8",
+   "bytes": 67480
+  },
+  {
+   "path": "data/newspaper/202602011110.csv",
+   "sha256": "423ab6e48632d704aad03ea8c02b0d207ab5adae45275e7065cdcfabbc5523ca",
+   "bytes": 56006
+  },
+  {
+   "path": "data/newspaper/202602011111.csv",
+   "sha256": "ce9fb64a062f8255c280ee5a4aeb69de30f1221c2228e75a416cd2e30106f067",
+   "bytes": 67283
+  },
+  {
+   "path": "data/newspaper/202602011112.csv",
+   "sha256": "f2412f98b4a4c7e03adacb56e6241a068887fa077f66aa0bc6d4fbd15d265069",
+   "bytes": 61283
+  },
+  {
+   "path": "data/newspaper/202602011201.csv",
+   "sha256": "48f2e52c2aefdf089cb1de5cb06eaeeb922dc95c739edbb8623531f5a9e2248a",
+   "bytes": 42840
+  },
+  {
+   "path": "data/newspaper/202602011202.csv",
+   "sha256": "8b935b605d457f508c6a391669a86cbee3fbdebd7a969735ffc5e83507dbc1e0",
+   "bytes": 47380
+  },
+  {
+   "path": "data/newspaper/202602011203.csv",
+   "sha256": "af0d0ba0b4b435ca2923ba2c5351bdf472816216a051023ec859a9a0d1920603",
+   "bytes": 62595
+  },
+  {
+   "path": "data/newspaper/202602011204.csv",
+   "sha256": "af4b5927aae9bb0ec20b1674b6f2944b6152392e067a0dd9d8680643d60de377",
+   "bytes": 61474
+  },
+  {
+   "path": "data/newspaper/202602011205.csv",
+   "sha256": "1fa881ddda94b5c74c5ce4082499c03ccd32fb7ca63d00a5274802358c92432e",
+   "bytes": 58195
+  },
+  {
+   "path": "data/newspaper/202602011206.csv",
+   "sha256": "335cd184d14591fd4fd4578126acd26e18fbbe8d7a94311794eff4e39ec9d20e",
+   "bytes": 71744
+  },
+  {
+   "path": "data/newspaper/202602011207.csv",
+   "sha256": "89755f9359c0880b126372fbe25e5fcbae955afbd14e41bf456f00ff4921cbc4",
+   "bytes": 63290
+  },
+  {
+   "path": "data/newspaper/202602011208.csv",
+   "sha256": "11f2f7ca61d1d75fef0e284ec23da2e65ef1853352b7732a60782b53005e6fd4",
+   "bytes": 50932
+  },
+  {
+   "path": "data/newspaper/202602011209.csv",
+   "sha256": "2c79d21923e6223bfb62966e1314d3365a6bf60e033f78c7da49b95f5ab144b9",
+   "bytes": 67232
+  },
+  {
+   "path": "data/newspaper/202602011210.csv",
+   "sha256": "3e019abfa1e899c33e959a9ea915abba07cd796f365e79c0be3e81cd6133b9b4",
+   "bytes": 68793
+  },
+  {
+   "path": "data/newspaper/202602011211.csv",
+   "sha256": "6e1ebfbf92260769c7f6896bdb3dfd33ee377359fbdf27530bf80561dd7f56f2",
+   "bytes": 62793
+  },
+  {
+   "path": "data/newspaper/202602011212.csv",
+   "sha256": "93d1dfcd1c942f214a45010cc25347352c19df911491b30e33f83f84a95856cc",
+   "bytes": 68276
+  },
+  {
+   "path": "data/newspaper/202603020501.csv",
+   "sha256": "81ea9157b6dcabd468ad9fb76e8738288e7d58c21b0513f936acb76dc9dc7cfe",
+   "bytes": 47595
+  },
+  {
+   "path": "data/newspaper/202603020502.csv",
+   "sha256": "04b75435e849800a3be41a85728f3edd05b04ac5d6da4c8dfd079d29e2864966",
+   "bytes": 62538
+  },
+  {
+   "path": "data/newspaper/202603020503.csv",
+   "sha256": "1712b437022cd11a7a9549bc87db3877faa0b0e46678b66b3e02f273672d34a6",
+   "bytes": 59968
+  },
+  {
+   "path": "data/newspaper/202603020504.csv",
+   "sha256": "72fefeb7fb69fa9216c74516da7097ae94efb462ba1cf3dd23a2accf59181dfa",
+   "bytes": 64481
+  },
+  {
+   "path": "data/newspaper/202603020505.csv",
+   "sha256": "4479837c8bb6aaff96ad6a7be29d63c18de1e9f9ba2901c84417da94c2c5e171",
+   "bytes": 49403
+  },
+  {
+   "path": "data/newspaper/202603020506.csv",
+   "sha256": "763d6d457e2cd2871163c38eb1a47fa26bf3bab314c98404127cc822334d62fd",
+   "bytes": 70031
+  },
+  {
+   "path": "data/newspaper/202603020507.csv",
+   "sha256": "e2fc3b6cadc4b0fd471647b1fd83cd5fa05a4e13352778ec202a9a1fef5ab695",
+   "bytes": 56867
+  },
+  {
+   "path": "data/newspaper/202603020508.csv",
+   "sha256": "9a9189eb23ac46ea5600de273aab609ac20d9b18a43cacb49301e66d6166ab3a",
+   "bytes": 70094
+  },
+  {
+   "path": "data/newspaper/202603020509.csv",
+   "sha256": "f51e356caeb0a2d7884f55607141e312ad0cb3dd482ece7a80ae195701841d9d",
+   "bytes": 77444
+  },
+  {
+   "path": "data/newspaper/202603020510.csv",
+   "sha256": "678cf866130370f8345b18fb546258e778b1de476c492a0dd84141019cb4f7e0",
+   "bytes": 53902
+  },
+  {
+   "path": "data/newspaper/202603020511.csv",
+   "sha256": "0493e6355bfec24e5fc67b99761a1ae7c498d058ade1be0c475d189e25355adf",
+   "bytes": 54655
+  },
+  {
+   "path": "data/newspaper/202603020512.csv",
+   "sha256": "a284eb96097a93708844e4795dd24139fcbb2a9ddc0829d2243f22148a689f88",
+   "bytes": 66630
+  },
+  {
+   "path": "data/newspaper/202603020601.csv",
+   "sha256": "447f7d1138c1f14bf8955a7f0862ba84c13936c24ff9533ca5cfdb4b4e66a069",
+   "bytes": 55782
+  },
+  {
+   "path": "data/newspaper/202603020602.csv",
+   "sha256": "59d48e0d63560087f6a55fe1cdcff345fba33ffe7c551d0ef5a663278e38d814",
+   "bytes": 62158
+  },
+  {
+   "path": "data/newspaper/202603020603.csv",
+   "sha256": "7308d5443d792d755ae9109b1f90e66e84fcf054672bdb7f635140829fdb93f1",
+   "bytes": 68478
+  },
+  {
+   "path": "data/newspaper/202603020604.csv",
+   "sha256": "20807d8024c279d046826f783f0c6bf9d827f397f2c665ae70c7d57e7dd941ac",
+   "bytes": 45563
+  },
+  {
+   "path": "data/newspaper/202603020605.csv",
+   "sha256": "be7bda62f40ce7ea482bffce077d93f41fc9548fa0b40789855329f886fd98e1",
+   "bytes": 62721
+  },
+  {
+   "path": "data/newspaper/202603020606.csv",
+   "sha256": "cb83a8624b55be6bbb91d690abef16d8ec059227dd4302ff1573f45cc4b9da10",
+   "bytes": 61798
+  },
+  {
+   "path": "data/newspaper/202603020607.csv",
+   "sha256": "c01065c1e28ce8f882ed4a9404e13c4cf03ea9038a3db52f5af240e46442674c",
+   "bytes": 70434
+  },
+  {
+   "path": "data/newspaper/202603020608.csv",
+   "sha256": "cd43e956f922a153e234f754aaf26b461ca4f497b33bb4b6e9844abd9f5b17fb",
+   "bytes": 60837
+  },
+  {
+   "path": "data/newspaper/202603020609.csv",
+   "sha256": "b9c98cec577e35c51b6191fa91991edab44fd75ace5631bf9b793b49a92fe318",
+   "bytes": 72649
+  },
+  {
+   "path": "data/newspaper/202603020610.csv",
+   "sha256": "d771274c99a7ab384c4d2199dd2591bedde65e130db6d2955d2e5c92af81dde6",
+   "bytes": 58743
+  },
+  {
+   "path": "data/newspaper/202603020611.csv",
+   "sha256": "ef2ede9c9e1a5b60819f804b62f1fc517f514da60a1beae28db5d013872ecf0c",
+   "bytes": 84278
+  },
+  {
+   "path": "data/newspaper/202603020612.csv",
+   "sha256": "eed69bbc940456f27e3f9cfd1dd96ca0abffd08677023a7fcada42e7266a91be",
+   "bytes": 76578
+  },
+  {
+   "path": "data/newspaper/202603020701.csv",
+   "sha256": "b7c4a0c403e36013c0a9739f329347d65679ec63ee5f84684ce63ace60008404",
+   "bytes": 57236
+  },
+  {
+   "path": "data/newspaper/202603020702.csv",
+   "sha256": "4c0384e084208ba0c5357929f5438087fb554823d973dff948e75dd351bb898f",
+   "bytes": 44866
+  },
+  {
+   "path": "data/newspaper/202603020703.csv",
+   "sha256": "410a1301b71106119f27df8473e8f5995276759f5bc7b02f64f7e95fc8fcfd5b",
+   "bytes": 66574
+  },
+  {
+   "path": "data/newspaper/202603020704.csv",
+   "sha256": "07e6a042a12ec2aef334ba5eea1da5f01349446b8f7ffc9d4082dd1c6cefc1c6",
+   "bytes": 70440
+  },
+  {
+   "path": "data/newspaper/202603020705.csv",
+   "sha256": "72ebb02e8161ce2cd886377cc8dc05ec42cda99e069c572eb07ff47a42ff42b5",
+   "bytes": 61196
+  },
+  {
+   "path": "data/newspaper/202603020706.csv",
+   "sha256": "f7e79171e18d4a2c4e9e02ea1f1a9304b78943ac8aaf8ed754f44ee9f5a1cfbf",
+   "bytes": 64103
+  },
+  {
+   "path": "data/newspaper/202603020707.csv",
+   "sha256": "ce0f71febfebd782ad89a03f1cf5b732a9f66a97990ab49f19e5296fca53cf69",
+   "bytes": 71518
+  },
+  {
+   "path": "data/newspaper/202603020708.csv",
+   "sha256": "631fcf7472912d5b5281c0ae6631513a9078b336a9c284c116e79dddb41860e1",
+   "bytes": 74487
+  },
+  {
+   "path": "data/newspaper/202603020709.csv",
+   "sha256": "c5e9cd838446e87677dd5e3ca9947850ba33ad42c3890273937744af6f086e89",
+   "bytes": 64174
+  },
+  {
+   "path": "data/newspaper/202603020710.csv",
+   "sha256": "79cc7b1aea3c0566e5ce6765e7933a1d8faebc5e303e48f09b90c33a8403a7d2",
+   "bytes": 73179
+  },
+  {
+   "path": "data/newspaper/202603020711.csv",
+   "sha256": "590bc96dbcc73de0c4e38a5c2530265792a1e4843198d721d793f09faf50a179",
+   "bytes": 83273
+  },
+  {
+   "path": "data/newspaper/202603020712.csv",
+   "sha256": "35bc488ad8efa154217c59035ecba505d698d8149b49ef3f9154affa76e3bfc1",
+   "bytes": 70692
+  },
+  {
+   "path": "data/newspaper/202603020801.csv",
+   "sha256": "59a54c92b7fc818d72df8a5bd41bb5c23ed90f29a265cbf83d1bd1c4c8c9f942",
+   "bytes": 43339
+  },
+  {
+   "path": "data/newspaper/202603020802.csv",
+   "sha256": "667fd2aad76a51bc639d1437aa19b7fa7bdaa11332c44df71e9a55a9f34f3596",
+   "bytes": 70149
+  },
+  {
+   "path": "data/newspaper/202603020803.csv",
+   "sha256": "472d42d34906aa2d694bd85ffe5faf69e69bb7599f48119f7f54af33bce7c153",
+   "bytes": 71498
+  },
+  {
+   "path": "data/newspaper/202603020804.csv",
+   "sha256": "8e0e2c2d2b9b91bb41f36daaac0fb533298af323c6e8c5c794f5590d34b529ea",
+   "bytes": 62737
+  },
+  {
+   "path": "data/newspaper/202603020805.csv",
+   "sha256": "08a7a7384999e9a4a45bbe6ce766a25b395a14b34d8a6f7446e0d9044fa6cf5a",
+   "bytes": 54729
+  },
+  {
+   "path": "data/newspaper/202603020806.csv",
+   "sha256": "838bf7b66a17264d8649769de2b0a1ed2bb3a37608d33d7769d7e099c0ac4057",
+   "bytes": 64034
+  },
+  {
+   "path": "data/newspaper/202603020807.csv",
+   "sha256": "271f412e5dba16df6b02023f5998cbf0ad4709059ed23a57d508f336bc031968",
+   "bytes": 63599
+  },
+  {
+   "path": "data/newspaper/202603020808.csv",
+   "sha256": "9febc9517c7d3c89aa4172fb2371e6859cedd9c01065b29339a16d17aabe77ab",
+   "bytes": 75145
+  },
+  {
+   "path": "data/newspaper/202603020809.csv",
+   "sha256": "45c84fd658953a78776ced611f02eef2377840449e1270bbca7410163c045142",
+   "bytes": 80613
+  },
+  {
+   "path": "data/newspaper/202603020810.csv",
+   "sha256": "4e71749ae6866ab305a15380b89b977ea7a26e21a8590e8522b70f2be30f2fe0",
+   "bytes": 66364
+  },
+  {
+   "path": "data/newspaper/202603020811.csv",
+   "sha256": "d7123158333dd030c1e8ba6f082dab530616812f3a432e785adff76544b7912a",
+   "bytes": 76695
+  },
+  {
+   "path": "data/newspaper/202603020812.csv",
+   "sha256": "f5cf1e6f9d5a1b9f115b0e8de573f2d04b82ec98a8ce147dea43218ef675620d",
+   "bytes": 68381
+  },
+  {
+   "path": "data/newspaper/202604020101.csv",
+   "sha256": "c2d57ddccc4dc88b443a6f065b34623bde347ba59b1d227be6dbd2d41a92465a",
+   "bytes": 46996
+  },
+  {
+   "path": "data/newspaper/202604020102.csv",
+   "sha256": "4eb30fb46ac9b7c76c66e2028c48aab4cb9c0baa6ae5515639aac4ecc28f3da2",
+   "bytes": 53711
+  },
+  {
+   "path": "data/newspaper/202604020103.csv",
+   "sha256": "9d7f7878b79ce8057bb17aeacf6966a212e06e6cb089571ff86c3810cf45d1b0",
+   "bytes": 40505
+  },
+  {
+   "path": "data/newspaper/202604020104.csv",
+   "sha256": "09777f0e025cb981bc04398879060793a6f4598d309d3fd304fbc9426c7a78a9",
+   "bytes": 62124
+  },
+  {
+   "path": "data/newspaper/202604020105.csv",
+   "sha256": "3e9b05a0f17be83f91415037a4fcdc38f01bbd6982f4cecb5d6ae0610eefe27b",
+   "bytes": 56800
+  },
+  {
+   "path": "data/newspaper/202604020106.csv",
+   "sha256": "6981cff01e9761f4290b894cd2b24adb64c3bb9db82203075485782342cd3eb2",
+   "bytes": 76697
+  },
+  {
+   "path": "data/newspaper/202604020107.csv",
+   "sha256": "cf85376a25c4589237bbf530c3dfa25b8e1c46a63fc8b0dca0a2d54037fd27ae",
+   "bytes": 89421
+  },
+  {
+   "path": "data/newspaper/202604020108.csv",
+   "sha256": "93f4c5eef6a1518ea564ae32b6d21585c9e5fb20e6b252b184f799583c804262",
+   "bytes": 64061
+  },
+  {
+   "path": "data/newspaper/202604020109.csv",
+   "sha256": "d0ab02d2d5bb7785556a1498a87412dc997050196cb42dab59ef22b3dec02458",
+   "bytes": 45753
+  },
+  {
+   "path": "data/newspaper/202604020110.csv",
+   "sha256": "fe2181b0a4206e83c180e5b41a6d27290fd7ad8b69c6a52722415adb1e5ab307",
+   "bytes": 63088
+  },
+  {
+   "path": "data/newspaper/202604020111.csv",
+   "sha256": "109def1fd249d53c1f37b29bf0b1e1feed8e44ca06705996ea1348261d9444a8",
+   "bytes": 74787
+  },
+  {
+   "path": "data/newspaper/202604020112.csv",
+   "sha256": "34d532d8d2cc72ec497ed69501ef6f60415ce9343b20ed745e69bee21e3b7377",
+   "bytes": 77161
+  },
+  {
+   "path": "data/newspaper/202604020201.csv",
+   "sha256": "f1dfeaed86920204c7941cce70dc6270c3106bf3f2d8af8527854fd3648c092a",
+   "bytes": 50516
+  },
+  {
+   "path": "data/newspaper/202604020202.csv",
+   "sha256": "7558ffa8d98ba76febed91bd82268c6cfc328b6ee29edf35b3cffe4ac5ee7e2b",
+   "bytes": 42973
+  },
+  {
+   "path": "data/newspaper/202604020203.csv",
+   "sha256": "3f1746df2ecd1fef2fb8ac6ef72e291e44e3b5f15720b7baa4797f3ac54f1aeb",
+   "bytes": 64596
+  },
+  {
+   "path": "data/newspaper/202604020204.csv",
+   "sha256": "94582af7b60f0de134ddfa298ad18334075018ef5ecad7f3dc4034d91626c6db",
+   "bytes": 77109
+  },
+  {
+   "path": "data/newspaper/202604020205.csv",
+   "sha256": "9df71606e062117f42e80f69a96a94727ad7a2247787f25f9533e87b8730eb97",
+   "bytes": 68143
+  },
+  {
+   "path": "data/newspaper/202604020206.csv",
+   "sha256": "de1122477cd17acf72662b82841ac0504b975b8a454c3c5e122526367a3ca121",
+   "bytes": 58724
+  },
+  {
+   "path": "data/newspaper/202604020207.csv",
+   "sha256": "6819c147f78c827670174493644cf93eb3d6cbf013324515a41394209406d4aa",
+   "bytes": 75727
+  },
+  {
+   "path": "data/newspaper/202604020208.csv",
+   "sha256": "ceafa5b11e7b9c665e20a2c059ea6242dabfdca794e89f822812e7bdf4914cb4",
+   "bytes": 73576
+  },
+  {
+   "path": "data/newspaper/202604020209.csv",
+   "sha256": "390706661f79db994a12f3a0057462ce2e5baa8a3921a103984930709001ca08",
+   "bytes": 56707
+  },
+  {
+   "path": "data/newspaper/202604020210.csv",
+   "sha256": "873a73c126591de6c6bd7f2f188e265cea8f5512fea861f14f9f5af97655b1ea",
+   "bytes": 59854
+  },
+  {
+   "path": "data/newspaper/202604020211.csv",
+   "sha256": "3a9df5b1a3a9eec7f8c80c67da4137262a3e2b78c4ed583174c7f0ce902be28b",
+   "bytes": 70886
+  },
+  {
+   "path": "data/newspaper/202604020212.csv",
+   "sha256": "0e6923179269fe00abb5f623eaaa1aa85366bdbdb5a407bc073ee0d79565ab0d",
+   "bytes": 66121
+  },
+  {
+   "path": "data/newspaper/202604020301.csv",
+   "sha256": "eac4944f623d614d9c12a8e487f4b3d6d5e5c84f0e79fc3cd07d088ec84d2746",
+   "bytes": 50351
+  },
+  {
+   "path": "data/newspaper/202604020302.csv",
+   "sha256": "c2bb7becebcc116d79d5045ec5238d4095ff570d28a468ed51a5e72f6ffa8208",
+   "bytes": 40011
+  },
+  {
+   "path": "data/newspaper/202604020303.csv",
+   "sha256": "f7a37f74b4192d7fc77998795fb71ca583fac6d72caacba9707dfcf0040ab8ce",
+   "bytes": 69803
+  },
+  {
+   "path": "data/newspaper/202604020304.csv",
+   "sha256": "98309a234355d1d5a2520b307f15d22902104e04fbaa6b66d4bcc181bff03576",
+   "bytes": 62620
+  },
+  {
+   "path": "data/newspaper/202604020305.csv",
+   "sha256": "3c6e70ed0f66c009a410abefa63f6568e9af139a9bd20d424311c9600e45b712",
+   "bytes": 62927
+  },
+  {
+   "path": "data/newspaper/202604020306.csv",
+   "sha256": "97417ed88047f92d4f6ade962ea4c9fd67735d4c62cc5fa37ba23f1c3fa977ae",
+   "bytes": 66035
+  },
+  {
+   "path": "data/newspaper/202604020307.csv",
+   "sha256": "8131887b2566561b5956f7981a3b15fccc83609b4f527cfee3654cef66e6b8a4",
+   "bytes": 73328
+  },
+  {
+   "path": "data/newspaper/202604020308.csv",
+   "sha256": "4d0d21df438a2602e77268c6a98723157e79dbb33f41797ae12cb0cc3923d854",
+   "bytes": 67915
+  },
+  {
+   "path": "data/newspaper/202604020309.csv",
+   "sha256": "01ffbf965168e105fbb19524cc08fc420dcb261664e7b22df2e82a9dac2e72ce",
+   "bytes": 66666
+  },
+  {
+   "path": "data/newspaper/202604020310.csv",
+   "sha256": "cce60563c19c374602d2199f0c2c6ca36b0f48f0ca8c7dc1b544c8c37c8d1f08",
+   "bytes": 63230
+  },
+  {
+   "path": "data/newspaper/202604020311.csv",
+   "sha256": "63790ef2ec24fd796304fe0809bc8aec6dd47c3c30ab41d5aec360f9b9d84c99",
+   "bytes": 76770
+  },
+  {
+   "path": "data/newspaper/202604020312.csv",
+   "sha256": "80067696f1420d5d7eb10a364f50cbc7b06031ce46f6c1339aa4e248a3fe818b",
+   "bytes": 75566
+  },
+  {
+   "path": "data/newspaper/202604020401.csv",
+   "sha256": "1237d4e83ade40471b16e87cec16524580548e33fcc589c8a354686beeeb4fb1",
+   "bytes": 52204
+  },
+  {
+   "path": "data/newspaper/202604020402.csv",
+   "sha256": "3c798fa8f9966808770cf0326669449321ab73b72ae1f2959ed3e6605209c8fd",
+   "bytes": 47991
+  },
+  {
+   "path": "data/newspaper/202604020403.csv",
+   "sha256": "370e6834c00ed023f8c907877965bf25d4be285acc59f1b15ef4cd8d92ff231a",
+   "bytes": 54082
+  },
+  {
+   "path": "data/newspaper/202604020404.csv",
+   "sha256": "989f966eb00462c61af3cc4a67dd9858208f27e34e8c4d1061580688020d180c",
+   "bytes": 61621
+  },
+  {
+   "path": "data/newspaper/202604020405.csv",
+   "sha256": "43c901e077aa024e71b7977245a9afd4590a99983b3ffcbd48ddbb715c5377cb",
+   "bytes": 76357
+  },
+  {
+   "path": "data/newspaper/202604020406.csv",
+   "sha256": "9433015b60575ba8dd2035605eff0cd5afcc06dbac8e62d3fdde36208d9a8b38",
+   "bytes": 73129
+  },
+  {
+   "path": "data/newspaper/202604020407.csv",
+   "sha256": "9209c1f27bf72ae5efe240a87ad46f0933e4a1c46411016b0e9aaa1bd2cd2a51",
+   "bytes": 87168
+  },
+  {
+   "path": "data/newspaper/202604020408.csv",
+   "sha256": "97b090fe89712571d9f850d622c4394e2632a49838b45aa17cc44d3da3cbe3b1",
+   "bytes": 70853
+  },
+  {
+   "path": "data/newspaper/202604020409.csv",
+   "sha256": "74412d2fc60873eb8749bb872afe5037a25290aabb8f92968d4f8b63534890ac",
+   "bytes": 65371
+  },
+  {
+   "path": "data/newspaper/202604020410.csv",
+   "sha256": "65862402e3328e68648e12f80b656a88dc48a5c2a83fcb3da54e41c1ea5859c0",
+   "bytes": 61562
+  },
+  {
+   "path": "data/newspaper/202604020411.csv",
+   "sha256": "7327684c8456494da7aa3540ed3c7e4e26fcaf9b817cb8502029055d3ade1706",
+   "bytes": 63018
+  },
+  {
+   "path": "data/newspaper/202604020412.csv",
+   "sha256": "b222fcc82fece00994408dd217a4446d3a30d8e99cd5d11138af6d143e39b190",
+   "bytes": 75535
+  },
+  {
+   "path": "data/newspaper/202604020501.csv",
+   "sha256": "56281646029522f4dbce33ad4d720a60d4373f397f62e4bf55b75946aacf0d22",
+   "bytes": 55475
+  },
+  {
+   "path": "data/newspaper/202604020502.csv",
+   "sha256": "4792e6ea12032989472e9ef342e6c6e45497429e5936fd69ebd043c2587f1087",
+   "bytes": 42071
+  },
+  {
+   "path": "data/newspaper/202604020503.csv",
+   "sha256": "ba2600281dabd4340c8b53a76ed752ff8de60d65cbc42f31c2e3853ab20ae193",
+   "bytes": 51190
+  },
+  {
+   "path": "data/newspaper/202604020504.csv",
+   "sha256": "690959cfdf490e0643762bff67baceacdcfe666e984090db644ef6b549a14cf0",
+   "bytes": 62420
+  },
+  {
+   "path": "data/newspaper/202604020505.csv",
+   "sha256": "7288ab1038264c64bc3cc58b635b6b863a27d93946a8d8f2b028bb71772e2982",
+   "bytes": 63567
+  },
+  {
+   "path": "data/newspaper/202604020506.csv",
+   "sha256": "fec7fda2e86d23474b11139272de0e3f268a32f927e24624edc094b00458384c",
+   "bytes": 56520
+  },
+  {
+   "path": "data/newspaper/202604020507.csv",
+   "sha256": "51f14e18d7576fde1e4470fac75b1bbff9afedc3a9a7d515da654b9d0ccbd2d5",
+   "bytes": 81201
+  },
+  {
+   "path": "data/newspaper/202604020508.csv",
+   "sha256": "04ac16b366c8de9a4f1a8d120db534476f5a1361820e8f32eb85f61c360e1892",
+   "bytes": 47291
+  },
+  {
+   "path": "data/newspaper/202604020509.csv",
+   "sha256": "f1f7356108a1ffccee511dde6ed7567ae8d93b913459830d4a5720980282d387",
+   "bytes": 66722
+  },
+  {
+   "path": "data/newspaper/202604020510.csv",
+   "sha256": "048f6298b55d3c3e3da594e30119cfbedb763839ba884e1222e0bc0ad3bd8a08",
+   "bytes": 60529
+  },
+  {
+   "path": "data/newspaper/202604020511.csv",
+   "sha256": "e1b3ec3d4f94c6e93e3f280fd3c66eb25c03283f5eb2e8e8c268d15f6b532c5a",
+   "bytes": 80051
+  },
+  {
+   "path": "data/newspaper/202604020512.csv",
+   "sha256": "5244435eb6547d98767457b96f9e6e115f1978cf36c88380a1c06c6b2cc700ce",
+   "bytes": 70491
+  },
+  {
+   "path": "data/newspaper/202604020601.csv",
+   "sha256": "0e802e9f5e35295cd5247e3409e71db51f6b91d17288a64160972a9d252e1f8f",
+   "bytes": 65161
+  },
+  {
+   "path": "data/newspaper/202604020602.csv",
+   "sha256": "51925ec8a43d818228525f531ad15dd82d83197700fbdba5e956bba433151812",
+   "bytes": 48288
+  },
+  {
+   "path": "data/newspaper/202604020603.csv",
+   "sha256": "387c47e1f81a0d3be14853d79f45384cc8d3c6758637d88f50bec037840c1f71",
+   "bytes": 63092
+  },
+  {
+   "path": "data/newspaper/202604020604.csv",
+   "sha256": "1a4ff75720bf765a57f70ed95f66df25c4a164c9b012ebe2d424d45e8e5b0f0d",
+   "bytes": 62593
+  },
+  {
+   "path": "data/newspaper/202604020605.csv",
+   "sha256": "7e9073828c2ba0b266bd23a87dede57ef507a630a71bddb65d2f5fa43da566a8",
+   "bytes": 67741
+  },
+  {
+   "path": "data/newspaper/202604020606.csv",
+   "sha256": "54530fa8a41fbf8bb25a9faca746fc8d4fc6e75fbe8b2489ad26c306c29935f7",
+   "bytes": 69341
+  },
+  {
+   "path": "data/newspaper/202604020607.csv",
+   "sha256": "eed552ee1358fd2671f926cade00db3586e8b21fa690626cfc32a9a33c4dae6b",
+   "bytes": 62325
+  },
+  {
+   "path": "data/newspaper/202604020608.csv",
+   "sha256": "8cdbf661536f619fc099b48d5c1d220334678acdacfba3083a267319a61f900d",
+   "bytes": 84775
+  },
+  {
+   "path": "data/newspaper/202604020609.csv",
+   "sha256": "0fbd45568ea1a4ddfdb293fcfb24dc46e232a38a0eccb891549e8941e15102d6",
+   "bytes": 70090
+  },
+  {
+   "path": "data/newspaper/202604020610.csv",
+   "sha256": "a88ba897bb59dc27d35c6983e063251c6ea02aaacf23786478211a6cf45c5f9a",
+   "bytes": 43586
+  },
+  {
+   "path": "data/newspaper/202604020611.csv",
+   "sha256": "04a023e7fdae86b020898843bde63cf4c7e4be5f9c1bdf237a67fecca68cd594",
+   "bytes": 76279
+  },
+  {
+   "path": "data/newspaper/202604020612.csv",
+   "sha256": "2b038c0c08fa9d134e6c200826f30b75711d3a3b6506bf1ea278d63479f34f93",
+   "bytes": 77523
+  },
+  {
+   "path": "data/newspaper/202604020701.csv",
+   "sha256": "c3b4de340856f6bc2fa80d54adb8b48012beab19768664a33afdf3f4b959dad4",
+   "bytes": 44935
+  },
+  {
+   "path": "data/newspaper/202604020702.csv",
+   "sha256": "2e01a9556da52ec49572d6b8b4650f1cdd83085da4b2050d48e2ccdda9229232",
+   "bytes": 60581
+  },
+  {
+   "path": "data/newspaper/202604020703.csv",
+   "sha256": "33f023114a0332085cadf1bd9c78b55dd965e3f5ea43729fb2f2a6432c52d7b3",
+   "bytes": 51805
+  },
+  {
+   "path": "data/newspaper/202604020704.csv",
+   "sha256": "1fb4bf663a435c7940d52d42d450f4a340c4bf3947a3afbb577fb59856c44100",
+   "bytes": 62227
+  },
+  {
+   "path": "data/newspaper/202604020705.csv",
+   "sha256": "f5c370f186058b5d28d0d164e938dafa85702aba00c1b315b6d6d71cb42c3801",
+   "bytes": 81599
+  },
+  {
+   "path": "data/newspaper/202604020706.csv",
+   "sha256": "b47a73bfc69b06f87e69a9abeeeb6ab9294fbe8b4816e78bbdfb754f23f4a2c0",
+   "bytes": 73768
+  },
+  {
+   "path": "data/newspaper/202604020707.csv",
+   "sha256": "16bee8138746615683ee061f0c6b07d2df68a70c6f766d0eeaf12cf4c63a24db",
+   "bytes": 73026
+  },
+  {
+   "path": "data/newspaper/202604020708.csv",
+   "sha256": "b609a46bb918db0fa5a6ae2369f7eb0bf5ea8f61b300abe6f2049bf0ebdb28d2",
+   "bytes": 72788
+  },
+  {
+   "path": "data/newspaper/202604020709.csv",
+   "sha256": "f710f13c58ce662238f8636007e384e8b7c4807068fe88cb73251bd3d0bd7eff",
+   "bytes": 52066
+  },
+  {
+   "path": "data/newspaper/202604020710.csv",
+   "sha256": "518f41d0ac20abfa2b6f9a9b1d71d1d857f6a552f16453d85a7a64dac7a8bc27",
+   "bytes": 64631
+  },
+  {
+   "path": "data/newspaper/202604020711.csv",
+   "sha256": "98d888f1606818db1b118b6482491a307cafc2a90de88dc2de5fd6dbb926064f",
+   "bytes": 77248
+  },
+  {
+   "path": "data/newspaper/202604020712.csv",
+   "sha256": "ca33dc70d55a7193ec7d50b029fdbf2897407140b3dc292058cad7110f71d641",
+   "bytes": 77044
+  },
+  {
+   "path": "data/newspaper/202604020801.csv",
+   "sha256": "76c836d0debfd0c7573c11d74c864447c09306dc1ccf51280c4cc39da55305de",
+   "bytes": 57615
+  },
+  {
+   "path": "data/newspaper/202604020802.csv",
+   "sha256": "d4343fb0b65e3040d60630ae26812b179fb4042fa09ae0e6af8b46cd94b97944",
+   "bytes": 72588
+  },
+  {
+   "path": "data/newspaper/202604020803.csv",
+   "sha256": "94cdd380791e96a6648b6a6e39772407d3b1b967b858519ebf596a4eae7184da",
+   "bytes": 58680
+  },
+  {
+   "path": "data/newspaper/202604020804.csv",
+   "sha256": "be4ad7516581039c1a3d6097ebb10839b60da6409120791de5bdae10d809bfb4",
+   "bytes": 54600
+  },
+  {
+   "path": "data/newspaper/202604020805.csv",
+   "sha256": "12558ed0ba4a104189f153de55b6b0f1b6357e45370aece3463905adc7847546",
+   "bytes": 59865
+  },
+  {
+   "path": "data/newspaper/202604020806.csv",
+   "sha256": "196216dd13aa93aeb01d1292c4a5a9806687ec908524ca111f9331816e1aa75c",
+   "bytes": 67893
+  },
+  {
+   "path": "data/newspaper/202604020807.csv",
+   "sha256": "d4d03693d7f3a1b320b6d1cdb29d6ac57d5f1dad0fee77ceb3c72d9f80d817fe",
+   "bytes": 73102
+  },
+  {
+   "path": "data/newspaper/202604020808.csv",
+   "sha256": "9f2232264704b2eff3e83b49df6131b657b640e9dacc6f7bd0c3701c9db7b42d",
+   "bytes": 65916
+  },
+  {
+   "path": "data/newspaper/202604020809.csv",
+   "sha256": "d629e32a90a0740e13bad0931de6243cd8ed03af72eda4290c1c73dc4b3df12b",
+   "bytes": 49935
+  },
+  {
+   "path": "data/newspaper/202604020810.csv",
+   "sha256": "36826a4b1c23084fcc3385b1c25d33a929aa7d83b2daf0577ae1e05cea5cb460",
+   "bytes": 63675
+  },
+  {
+   "path": "data/newspaper/202604020811.csv",
+   "sha256": "e9279daffabc91352fcc750a9b911b70b35915ff6611ac63836cdcd659edeab3",
+   "bytes": 49014
+  },
+  {
+   "path": "data/newspaper/202604020812.csv",
+   "sha256": "eed182a7f2677e7dae4588079adf3f516b3cefab00af0bbd8386e92c8a5c6802",
+   "bytes": 63362
+  },
+  {
+   "path": "data/newspaper/202604030101.csv",
+   "sha256": "b2cda2752ac12b5eadba632f2e6450345ed27a69a6dcd10c372579b48ea02c54",
+   "bytes": 38391
+  },
+  {
+   "path": "data/newspaper/202604030102.csv",
+   "sha256": "eeec63aa7e5f5b2e287ac70629a4c77d14b3ad9e44cd6ee6b012869cd2f5010c",
+   "bytes": 49867
+  },
+  {
+   "path": "data/newspaper/202604030103.csv",
+   "sha256": "6b09a094e02140b870300ad72cf220b99846fd5f91c89a9dbe846856efb77313",
+   "bytes": 55600
+  },
+  {
+   "path": "data/newspaper/202604030104.csv",
+   "sha256": "6e7617293c5f5ade8fa2f8316a35765602c20fdfbd8251d3f844dc57d8546220",
+   "bytes": 64255
+  },
+  {
+   "path": "data/newspaper/202604030105.csv",
+   "sha256": "9f2e70e0108cdd63a683e0a90f18696625adc7b005d72bd691abebd231e3c39e",
+   "bytes": 76996
+  },
+  {
+   "path": "data/newspaper/202604030106.csv",
+   "sha256": "e2624ea67b282d7ccea85cddae40ae5d84f519715a7767a44cfbd8fd779fe755",
+   "bytes": 89595
+  },
+  {
+   "path": "data/newspaper/202604030107.csv",
+   "sha256": "472204aca59fba0361876b39a094f45b5af9825bbabe03d4a7fb1165ac895711",
+   "bytes": 90896
+  },
+  {
+   "path": "data/newspaper/202604030108.csv",
+   "sha256": "5ecdab6597bef6b64a8f621a6f99bff712d4ade72f926f1b6a3a61be25928c45",
+   "bytes": 74111
+  },
+  {
+   "path": "data/newspaper/202604030109.csv",
+   "sha256": "800fda637b812a4d3712383b304c48b6be17d86682d5866340a7c14353082b0c",
+   "bytes": 67940
+  },
+  {
+   "path": "data/newspaper/202604030110.csv",
+   "sha256": "dad9d26d7d10fbff1272ac0efb307df23e62887c1e441206383b3a1575db2c46",
+   "bytes": 70895
+  },
+  {
+   "path": "data/newspaper/202604030111.csv",
+   "sha256": "e3e4cc01cf6fcafea4def0e9a7c2400f2da4e6f914b58cab52ef30da97a0ea0e",
+   "bytes": 58151
+  },
+  {
+   "path": "data/newspaper/202604030112.csv",
+   "sha256": "16e672f641c1359755cbb2ae1d7faf79323a9e074a5aae4cea4aa76cdc45adf8",
+   "bytes": 61678
+  },
+  {
+   "path": "data/newspaper/202604030201.csv",
+   "sha256": "a8296978ca22c29e4f86727f1d930ebf7cfb6bccfd647aca57f035cb2d61efa3",
+   "bytes": 54031
+  },
+  {
+   "path": "data/newspaper/202604030202.csv",
+   "sha256": "f1b0a92a59b57268c93d7d22f94268022a8307370a96b5803a2684e73e6e7524",
+   "bytes": 48504
+  },
+  {
+   "path": "data/newspaper/202604030203.csv",
+   "sha256": "7772cdb35d6dc581f8ed5f6cc5754d28061939060170a546b7891542115d3589",
+   "bytes": 51618
+  },
+  {
+   "path": "data/newspaper/202604030204.csv",
+   "sha256": "07c7db1db368c7b7e766c507bade8b9bbe4abed8c71468670fe015ab2962871a",
+   "bytes": 64129
+  },
+  {
+   "path": "data/newspaper/202604030205.csv",
+   "sha256": "e58490e6bea8d0c66ddfe2b99b48adcad73def67d02b6f365ab83bc50a5743ec",
+   "bytes": 75991
+  },
+  {
+   "path": "data/newspaper/202604030206.csv",
+   "sha256": "994a88dfd2a86213bd9395c23d7ca71d218d9ac3f20bb67513e7b2d648fb3c84",
+   "bytes": 73433
+  },
+  {
+   "path": "data/newspaper/202604030207.csv",
+   "sha256": "b199c3a5b00d97d6cf45cbdc300f4df395bcc0c5ddfebb4ab125d23d24423dcb",
+   "bytes": 53068
+  },
+  {
+   "path": "data/newspaper/202604030208.csv",
+   "sha256": "96365ce82fd16bfc8c2ab0e299d78451c7f1177cb25ff00bf98909d2ca0d83d0",
+   "bytes": 65641
+  },
+  {
+   "path": "data/newspaper/202604030209.csv",
+   "sha256": "ad45e30e88f1aa73982c8d3fa2b9c1222d7c158e25d7f5e2e54373a955c211ad",
+   "bytes": 67044
+  },
+  {
+   "path": "data/newspaper/202604030210.csv",
+   "sha256": "02f63e2d5c1364604a8603064ac83ca090c5f5c2fe8d9ddb77525f7dc45cff76",
+   "bytes": 60349
+  },
+  {
+   "path": "data/newspaper/202604030211.csv",
+   "sha256": "11a49bf99d9bdcfb46cdde18a173c1cfa9d32b2e7689f335fd6287ce98ae038c",
+   "bytes": 77202
+  },
+  {
+   "path": "data/newspaper/202604030212.csv",
+   "sha256": "f2d270b200c136dfa9de628518a0711269c763a0752ffe3b68445deafe14d7e5",
+   "bytes": 54397
+  },
+  {
+   "path": "data/newspaper/202604030301.csv",
+   "sha256": "49350b1114a8c6a89d8d5cafc0394b570807b559aead2de532a8461ab0dbdac0",
+   "bytes": 50341
+  },
+  {
+   "path": "data/newspaper/202604030302.csv",
+   "sha256": "4fcc1494d09e94ea8577464d76026369972355b9c4192812f226c84b159a286c",
+   "bytes": 64693
+  },
+  {
+   "path": "data/newspaper/202604030303.csv",
+   "sha256": "4a423c6f7f23816b8d1562d923d00ecb2ac120a7ceba3aef31913f431d198d1d",
+   "bytes": 51010
+  },
+  {
+   "path": "data/newspaper/202604030304.csv",
+   "sha256": "3564dc659e06dabc29d97b416f4df83548cb074e512aea52582de50a0b255f75",
+   "bytes": 70063
+  },
+  {
+   "path": "data/newspaper/202604030305.csv",
+   "sha256": "77bfaf2c4bc62d87951a15fe63f646dcca1dd32f5801e0ee6a1bf7d69b7528e1",
+   "bytes": 77879
+  },
+  {
+   "path": "data/newspaper/202604030306.csv",
+   "sha256": "37cb3b8051b5dfda6e80a7ff623e2294d47b55bca4de5eeb4bbca25eaf565729",
+   "bytes": 72319
+  },
+  {
+   "path": "data/newspaper/202604030307.csv",
+   "sha256": "8e10f43ab62c4609c4399e02b88da1fea596e98f67301e14921317484e3a6902",
+   "bytes": 85788
+  },
+  {
+   "path": "data/newspaper/202604030308.csv",
+   "sha256": "a57f3dd34fe72f09ce3d0972826ec502d2f17aae76346739e9166bcef0065dcb",
+   "bytes": 59440
+  },
+  {
+   "path": "data/newspaper/202604030309.csv",
+   "sha256": "513c1601559014452f6c15954c68cb99c408c0d295d1aad6bb82be076f608277",
+   "bytes": 64738
+  },
+  {
+   "path": "data/newspaper/202604030310.csv",
+   "sha256": "56b3c4e00c162f8f49193d24e2f52ebb524a32175d637d8eb9f92008bdaa6e3b",
+   "bytes": 81110
+  },
+  {
+   "path": "data/newspaper/202604030311.csv",
+   "sha256": "daaa97c7ef3cc2c87bb4e9b8224934996b9b84b9b1fcf2c2a6789839e8e90f79",
+   "bytes": 78950
+  },
+  {
+   "path": "data/newspaper/202604030312.csv",
+   "sha256": "fb680172e65d5f5a30937ea674d7d94bc6e2a1b2f88774d69e5b4576b93dac54",
+   "bytes": 62264
+  },
+  {
+   "path": "data/newspaper/202604030401.csv",
+   "sha256": "db3724048820bd65657de9d5904dec2848eb72a7e82c055f51b575b8ede238f7",
+   "bytes": 54167
+  },
+  {
+   "path": "data/newspaper/202604030402.csv",
+   "sha256": "b45da3e2426b09f4913ef5535db15f82eeb45672effa8c1571c086ab0505e07e",
+   "bytes": 52162
+  },
+  {
+   "path": "data/newspaper/202604030403.csv",
+   "sha256": "c01b3b8d6f2a6cdbf579f72a56b38fef2c310f96c5b83bffbb9253c0a9558c3b",
+   "bytes": 41860
+  },
+  {
+   "path": "data/newspaper/202604030404.csv",
+   "sha256": "8e93fe1281caea6fe97faa8d7cb227c538ecdb5e0ba432c4ed11445352cddc92",
+   "bytes": 48690
+  },
+  {
+   "path": "data/newspaper/202604030405.csv",
+   "sha256": "f9c405dffc36c7ebf1853801eb8952280dad2daaff51ccfc21d58413bac53171",
+   "bytes": 78903
+  },
+  {
+   "path": "data/newspaper/202604030406.csv",
+   "sha256": "9cd5419c62008e8a93ec461cf746dbca904a0704183b0c7f09948121bea213e5",
+   "bytes": 73949
+  },
+  {
+   "path": "data/newspaper/202604030407.csv",
+   "sha256": "7c096d675e7eb5efcc3ee2905d440455098f31723e948af4e9c7d5b2de550d8b",
+   "bytes": 66761
+  },
+  {
+   "path": "data/newspaper/202604030408.csv",
+   "sha256": "0370185dac05cf34a64bca973f8cd2ca063b81cf0a25c19b24311f53c2fe5c6b",
+   "bytes": 62411
+  },
+  {
+   "path": "data/newspaper/202604030409.csv",
+   "sha256": "50f91cbf96447e2fe8715a9125349e08554acd0f441e2772f83eeb8ce408513d",
+   "bytes": 88029
+  },
+  {
+   "path": "data/newspaper/202604030410.csv",
+   "sha256": "02a1794ea0ecef99dea5601f485e5d5ab8b92315b6bcd021591496f8789fb11a",
+   "bytes": 63058
+  },
+  {
+   "path": "data/newspaper/202604030411.csv",
+   "sha256": "b4eef0762c278d625786c358992008ffda4fccaabd3e66c27f3e0681d591be3e",
+   "bytes": 68255
+  },
+  {
+   "path": "data/newspaper/202604030412.csv",
+   "sha256": "b9c408ef90fe069cd8487b6048968a0ac4311815964be1ca0b0a9d5c22b25f2a",
+   "bytes": 67955
+  },
+  {
+   "path": "data/newspaper/202605040101.csv",
+   "sha256": "12b74898156d28d8cca96de99410c6a37d6c6548389f16da87d371e65b2df5da",
+   "bytes": 59360
+  },
+  {
+   "path": "data/newspaper/202605040102.csv",
+   "sha256": "eb3da07af8df15bcd05e779e51fc412355ac0f6c38d5a16472ade7669ed82d9d",
+   "bytes": 51712
+  },
+  {
+   "path": "data/newspaper/202605040103.csv",
+   "sha256": "74e6b30aeb360c7838665ad6ce9570799c1bc6b0908e9bfc546fcd11be41902e",
+   "bytes": 70483
+  },
+  {
+   "path": "data/newspaper/202605040104.csv",
+   "sha256": "ed99ed74c8e691e7e661fbf7de3fbb9b504735b7d66b9027b74e2fabe36ad4f7",
+   "bytes": 51859
+  },
+  {
+   "path": "data/newspaper/202605040105.csv",
+   "sha256": "4311e143421d79cfbb34509e8e7d73481254a62a7d15624d6dbec430075ada50",
+   "bytes": 50102
+  },
+  {
+   "path": "data/newspaper/202605040106.csv",
+   "sha256": "5bfd7e34fc6efffdd6f424cd02b77089e5ac5c2565efd8c314feceaf3bba302c",
+   "bytes": 71648
+  },
+  {
+   "path": "data/newspaper/202605040107.csv",
+   "sha256": "b6b3462a0cf83ac8325dbc3ef76275b809488716ee7a91dd3af14088703cec03",
+   "bytes": 83333
+  },
+  {
+   "path": "data/newspaper/202605040108.csv",
+   "sha256": "12063441bdeed36811986588b8242940138199d2ab36fd10ed4c09ef371f93c0",
+   "bytes": 73440
+  },
+  {
+   "path": "data/newspaper/202605040109.csv",
+   "sha256": "17e0e562904ddaec327cbc4de94397ce111fd3cfeb0aa9abf42eb27a6ff7e9b4",
+   "bytes": 67146
+  },
+  {
+   "path": "data/newspaper/202605040110.csv",
+   "sha256": "d27093e05e53ccc31fe2aa84493e3319b10f1c492f5ef6c7660cf63f0aa533cb",
+   "bytes": 91664
+  },
+  {
+   "path": "data/newspaper/202605040111.csv",
+   "sha256": "2aaca4d21a911f3deddd975fce49ee8c6009d343666b3dd9260ec56512e80070",
+   "bytes": 73981
+  },
+  {
+   "path": "data/newspaper/202605040112.csv",
+   "sha256": "c04742a871dc234342bff86ec5e5d892fbde47218d83790de21b496023fa0e61",
+   "bytes": 73428
+  },
+  {
+   "path": "data/newspaper/202605040201.csv",
+   "sha256": "f07e9ff627b740339a58771f655cca40303c4e031ae968204dd85fca9d22707b",
+   "bytes": 54930
+  },
+  {
+   "path": "data/newspaper/202605040202.csv",
+   "sha256": "5a52094c328d62afbcdb767d4aa62329c6544f6e5888d4338af033a795402d22",
+   "bytes": 68171
+  },
+  {
+   "path": "data/newspaper/202605040203.csv",
+   "sha256": "6e2a93702fe5f3305f7cdcf52cda00765985c1baba7bbf42fde28d5f524200e6",
+   "bytes": 61685
+  },
+  {
+   "path": "data/newspaper/202605040204.csv",
+   "sha256": "7aca337d4c31a13eee0259b22dfbcb7c6b0cb90aedb61f221b7d24f6f81c973a",
+   "bytes": 56959
+  },
+  {
+   "path": "data/newspaper/202605040205.csv",
+   "sha256": "463f2c9620b1c524a4beaa819b2be5c3960269d33ad06e7705658f8dafaced4f",
+   "bytes": 52779
+  },
+  {
+   "path": "data/newspaper/202605040206.csv",
+   "sha256": "5b71242dc1c61a812c37d58b48018d0447418d63dc5d652e4234a447a91e7cb1",
+   "bytes": 58702
+  },
+  {
+   "path": "data/newspaper/202605040207.csv",
+   "sha256": "b76eb40e6b87791bda62cbd4eadda343d31300980d5f0955f76b58372d0e3f1f",
+   "bytes": 71852
+  },
+  {
+   "path": "data/newspaper/202605040208.csv",
+   "sha256": "aea5e52d4ba1b1fde8962de02f0c0666fa0c7a7e3f5d617dae89a6168815b372",
+   "bytes": 79084
+  },
+  {
+   "path": "data/newspaper/202605040209.csv",
+   "sha256": "007cf899282577ebb40e76e82fcf6e730ec9134f7f8db82e0aadcb584d91395a",
+   "bytes": 78943
+  },
+  {
+   "path": "data/newspaper/202605040210.csv",
+   "sha256": "6fa51face23cbca824c5fd4a1622a8fdf23e19adf62a5157171a3ca6cc66412c",
+   "bytes": 79504
+  },
+  {
+   "path": "data/newspaper/202605040211.csv",
+   "sha256": "c3ac0deaa62a71a52fb0dadf4ee630dc2c32eb6e24604bf302a5cfb0d7419d0a",
+   "bytes": 90345
+  },
+  {
+   "path": "data/newspaper/202605040212.csv",
+   "sha256": "fb70e255bc7c45ebeaafd129891742c4dbcc3a51ae277e5ba133caec63179ca0",
+   "bytes": 72866
+  },
+  {
+   "path": "data/newspaper/202605040301.csv",
+   "sha256": "c2092976f40beb259747f5e7eda7f0031d66986a53d52a07f69af2930708b371",
+   "bytes": 62862
+  },
+  {
+   "path": "data/newspaper/202605040302.csv",
+   "sha256": "99ab6e1f8764ab67eb0e66981a752bd056beaebc9fa6ca8c1e5fa34bc3312eee",
+   "bytes": 58142
+  },
+  {
+   "path": "data/newspaper/202605040303.csv",
+   "sha256": "e80c196e32fde06f94eec3b0dd2ef173e5759f3dc51757fc7c1c9c7020678020",
+   "bytes": 63047
+  },
+  {
+   "path": "data/newspaper/202605040304.csv",
+   "sha256": "c7fa710bba82a7220bf75d3aa63a2e3f545269b42a0b571d6072caa1db981b37",
+   "bytes": 61343
+  },
+  {
+   "path": "data/newspaper/202605040305.csv",
+   "sha256": "ad32b866620fcf0261aac000f27e52fb9b38688ca2984fa8ea9da7b817587c94",
+   "bytes": 52786
+  },
+  {
+   "path": "data/newspaper/202605040306.csv",
+   "sha256": "fe350ddabe89b2f89a8a42f76b07611fd9ec1cf3d00bdb3755efb43b37f286f5",
+   "bytes": 58410
+  },
+  {
+   "path": "data/newspaper/202605040307.csv",
+   "sha256": "12e5fca990eab3c24c7a521c964f35e2ee8775d9b1bdbeaad0d4a5ec2546a2e5",
+   "bytes": 60943
+  },
+  {
+   "path": "data/newspaper/202605040308.csv",
+   "sha256": "25cc2e90053d2c7fb88911dc6e7e131a7e7f30fe20a78f15a701581d71e69d17",
+   "bytes": 57215
+  },
+  {
+   "path": "data/newspaper/202605040309.csv",
+   "sha256": "e84c30af4adf65461abb599340f2e1d8437391614d64165a95fc60c43309acfc",
+   "bytes": 55287
+  },
+  {
+   "path": "data/newspaper/202605040310.csv",
+   "sha256": "0b06d3dedc38f47674acb00d078761923bde1b926aa747b5664472fb339bd117",
+   "bytes": 77637
+  },
+  {
+   "path": "data/newspaper/202605040311.csv",
+   "sha256": "cbe36c4eeb452b79835aa15318cb6469cdc8c4b672f386a0bbf8552fce1db48b",
+   "bytes": 57582
+  },
+  {
+   "path": "data/newspaper/202605040312.csv",
+   "sha256": "f5fdff370a2cf0300a7f488a467af68e1e62bde427492537f6fae68188d716c4",
+   "bytes": 73207
+  },
+  {
+   "path": "data/newspaper/202605040401.csv",
+   "sha256": "19d0ce3df5c64b23fe566f2689c937cd247cd6b38ee9bb30181aa5d8c0d1a2d8",
+   "bytes": 59912
+  },
+  {
+   "path": "data/newspaper/202605040403.csv",
+   "sha256": "0b9641bca6c0159a7af047439cb0a49c4642e344256d1b235c2e7f71044a40d6",
+   "bytes": 62101
+  },
+  {
+   "path": "data/newspaper/202605040404.csv",
+   "sha256": "0fcfda77e712f4d5166a3464e0d3faac575a0a8293723e85efa00c5456d0af3a",
+   "bytes": 61323
+  },
+  {
+   "path": "data/newspaper/202605040405.csv",
+   "sha256": "dae093cc73bf1591546e7dab245b75af3abf195f3d27b09e3a9c40349e42f6f5",
+   "bytes": 48980
+  },
+  {
+   "path": "data/newspaper/202605040406.csv",
+   "sha256": "b789557716db6fa454648d8b46f275089a725f9e33a180cbe9c4cca5307a615c",
+   "bytes": 71753
+  },
+  {
+   "path": "data/newspaper/202605040407.csv",
+   "sha256": "98ce9337c4f038bd468c284640e16fdd9f612919034f1cede4ce54c5fb42e8ad",
+   "bytes": 72082
+  },
+  {
+   "path": "data/newspaper/202605040408.csv",
+   "sha256": "d5c4e53dc6d78f41d44ea03e7f3cf67bc20f46ba5f122351f3a2b20998532983",
+   "bytes": 77852
+  },
+  {
+   "path": "data/newspaper/202605040409.csv",
+   "sha256": "6211aa7abb4563bbae1e17436aadeca5b7cf5728ce2bec8f7a7d65d2b6879ba7",
+   "bytes": 66968
+  },
+  {
+   "path": "data/newspaper/202605040410.csv",
+   "sha256": "8a0901e2a5c269e73981f68ae70460fbc1f3fd817b65a04244884733f7e41462",
+   "bytes": 78332
+  },
+  {
+   "path": "data/newspaper/202605040411.csv",
+   "sha256": "59d44e178c1c17a45d3bac454956135f49ac681aba157b368808df3dafacd529",
+   "bytes": 84628
+  },
+  {
+   "path": "data/newspaper/202605040412.csv",
+   "sha256": "19c99c47684252733b9985baf28a74962e9b04a2bc2aeba8194f76a7edbee5d0",
+   "bytes": 73162
+  },
+  {
+   "path": "data/newspaper/202605040503.csv",
+   "sha256": "fd93d5232df16674f3b22db4fc90ce8d5340f247d5d08494673d1e2559dba91f",
+   "bytes": 52221
+  },
+  {
+   "path": "data/newspaper/202605040504.csv",
+   "sha256": "969f7cfb4dd21b5e45c799d1d7927a925cd569cbb622de7523e78cd78d14988e",
+   "bytes": 56919
+  },
+  {
+   "path": "data/newspaper/202605040505.csv",
+   "sha256": "6123d0a0bfdd780f761c52299a055717a4d347822f68aa2cf413481da830125f",
+   "bytes": 52356
+  },
+  {
+   "path": "data/newspaper/202605040506.csv",
+   "sha256": "c314b0f722cdff2bef518a7c79e235437d75fc33d659cfc1a43259e7a2af7b94",
+   "bytes": 60243
+  },
+  {
+   "path": "data/newspaper/202605040507.csv",
+   "sha256": "e4ed795bee73db0dbab2741853d40a83262c56280a61dd9bf89be763b201ee6d",
+   "bytes": 70907
+  },
+  {
+   "path": "data/newspaper/202605040508.csv",
+   "sha256": "5f28ee6163c810ec85e805d92c6876f85ccd6ddd79f1d554917ee9294afb536d",
+   "bytes": 37314
+  },
+  {
+   "path": "data/newspaper/202605040509.csv",
+   "sha256": "321a3c8c9d1ef2bc8f11fd47d0820bfd042c19d4ba5d265e25133b5fe345614d",
+   "bytes": 67805
+  },
+  {
+   "path": "data/newspaper/202605040510.csv",
+   "sha256": "0ce49ff809ee6df4e7fb699a9eb5b9dd7890d1041a47c42dd9f4f2448fb8f950",
+   "bytes": 61942
+  },
+  {
+   "path": "data/newspaper/202605040511.csv",
+   "sha256": "d9a29932f8186d0e0541c5f7405adbdb626a7611752a30dc2f750f2ae46a9cda",
+   "bytes": 92336
+  },
+  {
+   "path": "data/newspaper/202605040512.csv",
+   "sha256": "678e1cae0ffbed6d14a90b125d4bb14877d91f66f7bf2fa0588b27ac34590dd3",
+   "bytes": 72917
+  },
+  {
+   "path": "data/newspaper/202606040101.csv",
+   "sha256": "e042eca5116fd24245e08caf4e2394682d529d5ed4111af61ce4b96073a01a79",
+   "bytes": 40081
+  },
+  {
+   "path": "data/newspaper/202606040102.csv",
+   "sha256": "3daf33f6c371e3ce50e9774059731870b713d31d7b3a905d983a4147eed81896",
+   "bytes": 72792
+  },
+  {
+   "path": "data/newspaper/202606040103.csv",
+   "sha256": "1a39b0f628b12cdae13f09489e820b1a43ab29917e0d6ebc70e7d1c430789016",
+   "bytes": 44374
+  },
+  {
+   "path": "data/newspaper/202606040104.csv",
+   "sha256": "2cf3f8d023222d6bb6ba54a4f08e8c13bad5599ac835b6e7a26cfaaa69071d3e",
+   "bytes": 51344
+  },
+  {
+   "path": "data/newspaper/202606040105.csv",
+   "sha256": "1291f3522cd5576f43214d10a035e1455e38e6b47e38c2fbc31d8d4fb518e05d",
+   "bytes": 49934
+  },
+  {
+   "path": "data/newspaper/202606040106.csv",
+   "sha256": "258b36ea874407e970dc07ce4d387e0db49da1c434dca1e0f4a9295f22a9ef01",
+   "bytes": 54955
+  },
+  {
+   "path": "data/newspaper/202606040107.csv",
+   "sha256": "7f9bee64cce1b8ffcb65cfa29c5c1807d5dc29cbedc8a89324bc2db16f2a4fea",
+   "bytes": 67067
+  },
+  {
+   "path": "data/newspaper/202606040108.csv",
+   "sha256": "2fc1afe35d1419ef262590d45fc5dbdd5366eb5bb011133259b911f4c1cc959d",
+   "bytes": 72210
+  },
+  {
+   "path": "data/newspaper/202606040109.csv",
+   "sha256": "eee5b31b825e0eb28664fe996297aa52841a884fde96fd91d90322737bfede20",
+   "bytes": 76823
+  },
+  {
+   "path": "data/newspaper/202606040110.csv",
+   "sha256": "5fb1ba960d3de68ed5b94afb6bf940f4fe255a470e49a8cfee378c3943f54bee",
+   "bytes": 69975
+  },
+  {
+   "path": "data/newspaper/202606040111.csv",
+   "sha256": "f7af98a8be931a7810ce6ff923b8e10f940e3be6d2aa7fc975c255adcb264b12",
+   "bytes": 84197
+  },
+  {
+   "path": "data/newspaper/202606040112.csv",
+   "sha256": "b57a0c76f04df5d2711a2f6fd6fdca4418bc7cdcdb8830a996c005f79a36f13f",
+   "bytes": 64119
+  },
+  {
+   "path": "data/newspaper/202606040201.csv",
+   "sha256": "aed881981ee760e6150477892abfce7b1b035502b1b48446cf82d1a9a51e3075",
+   "bytes": 35339
+  },
+  {
+   "path": "data/newspaper/202606040202.csv",
+   "sha256": "16bf86910c2e8d5541d2e64409b9500b9d03bcd9e675168340049fb5195a7768",
+   "bytes": 60307
+  },
+  {
+   "path": "data/newspaper/202606040203.csv",
+   "sha256": "ee96958b4a86a576d5f030f43ea1051e264dfa5314676ffccbabbfc9eac3c7a0",
+   "bytes": 65594
+  },
+  {
+   "path": "data/newspaper/202606040204.csv",
+   "sha256": "28cd6cd01551f6acc358f1f7db2c7a866d8373af0d00be1daed55b9d3c364983",
+   "bytes": 69630
+  },
+  {
+   "path": "data/newspaper/202606040205.csv",
+   "sha256": "49d37d6b4dd5f3b0f1bd0e3884a96fea187b2875d427b626b9e5cfead7257731",
+   "bytes": 60207
+  },
+  {
+   "path": "data/newspaper/202606040206.csv",
+   "sha256": "7940e949dfc6ef2a66f788dc656e7673119b3332ff22494492a61352da69462d",
+   "bytes": 49253
+  },
+  {
+   "path": "data/newspaper/202606040207.csv",
+   "sha256": "6cc165b853b54b9ddf3a880eef85037a40cfb82511dbe33087161f59f5ad1bb2",
+   "bytes": 79236
+  },
+  {
+   "path": "data/newspaper/202606040208.csv",
+   "sha256": "d259fa6d73309fa8852f47aeb54a817c66dd832b9b97425b49d01c097ecfd900",
+   "bytes": 69786
+  },
+  {
+   "path": "data/newspaper/202606040209.csv",
+   "sha256": "928842f52148dd00d5d979e582efa489c32cba52ef01ee0541f9ddc465143f3b",
+   "bytes": 78768
+  },
+  {
+   "path": "data/newspaper/202606040210.csv",
+   "sha256": "c217dcf95c90c4fffb523b6626e51d2884bd21ed4056d1a370c12b5b85c85c7b",
+   "bytes": 53314
+  },
+  {
+   "path": "data/newspaper/202606040211.csv",
+   "sha256": "807911ceb5b12f9317fafbc612ca94e81dc88c55ac4ee0c6ed0549825bc380ad",
+   "bytes": 61908
+  },
+  {
+   "path": "data/newspaper/202606040212.csv",
+   "sha256": "f49d003162a6d93ba78f9c76d15c7127bfbea0c5e101c232e474c0045c146b51",
+   "bytes": 75109
+  },
+  {
+   "path": "data/newspaper/202606040301.csv",
+   "sha256": "e7f01f149af4987ceec5ac1d66ff6b46d2b9c0d9567b88895a7d2453d3ee5c5f",
+   "bytes": 49955
+  },
+  {
+   "path": "data/newspaper/202606040302.csv",
+   "sha256": "066aaf07f5a2e96cf5bbf7a9f8478206a1921500da5c33b5a1db57599938d4df",
+   "bytes": 53948
+  },
+  {
+   "path": "data/newspaper/202606040303.csv",
+   "sha256": "f8d42b201bebd5257dcd2e2fea15d2c45094af90e1db94ba0b0317f2fcdc67a3",
+   "bytes": 67844
+  },
+  {
+   "path": "data/newspaper/202606040304.csv",
+   "sha256": "3a677c09f692217ca3fb78a2fe69694735aa08744482832b68e9c556fa4f1e5e",
+   "bytes": 78354
+  },
+  {
+   "path": "data/newspaper/202606040305.csv",
+   "sha256": "173d8b7ce370b80ceaf8ee2851524e8c83dc2c20884b6db1f30d925a81da694d",
+   "bytes": 48761
+  },
+  {
+   "path": "data/newspaper/202606040306.csv",
+   "sha256": "94c6ef2d4aad20f70d440155efe29813f90d934b17b887b3c55ab561ae4390f8",
+   "bytes": 49229
+  },
+  {
+   "path": "data/newspaper/202606040307.csv",
+   "sha256": "df4e2233396ecbc20bc3cfe173daf438bf7591a2d0469f1e5e376c3574993af6",
+   "bytes": 69269
+  },
+  {
+   "path": "data/newspaper/202606040308.csv",
+   "sha256": "1948caf319310593ad65185367d8b9920f484b2179d5cc8d07f674b6d648cb4c",
+   "bytes": 66277
+  },
+  {
+   "path": "data/newspaper/202606040309.csv",
+   "sha256": "3bc973d99502380eaddf25aff0e3e7237a99cab4edbe5334ed2a243dfadcf8c6",
+   "bytes": 73897
+  },
+  {
+   "path": "data/newspaper/202606040310.csv",
+   "sha256": "49eb6ba65e8af9d5a178a7f629a320ff6ed28d4071101bae309ae1ef11afcfbf",
+   "bytes": 62817
+  },
+  {
+   "path": "data/newspaper/202606040311.csv",
+   "sha256": "6255d0a104e55c7dc60a2a082914affd04bfce089092ce50a01116bf20bb8068",
+   "bytes": 77707
+  },
+  {
+   "path": "data/newspaper/202606040312.csv",
+   "sha256": "db39b17c2b116bb5f62da3740b13c429b7825f6113b48c2e2cfb7704a9320f39",
+   "bytes": 71228
+  },
+  {
+   "path": "data/newspaper/202606040401.csv",
+   "sha256": "829485033eb413df396e7d5b7d09108cc8f38d68f3ffb47eb2567c89c4a8d329",
+   "bytes": 45558
+  },
+  {
+   "path": "data/newspaper/202606040402.csv",
+   "sha256": "517ce4c2d5bcaca5a3baaa5134a1cf65e3289c29ad1a90a578b79d1a3d4caf14",
+   "bytes": 47949
+  },
+  {
+   "path": "data/newspaper/202606040403.csv",
+   "sha256": "1b655d99a069df9d3b0555edf6f57809316e2275c9fa9e956cfcfad2b49185d4",
+   "bytes": 60946
+  },
+  {
+   "path": "data/newspaper/202606040404.csv",
+   "sha256": "e3507bf37d437f41edb96ad9ed1cd3fa4f970df6adb59eb9f8ef7c05d32a69c6",
+   "bytes": 72771
+  },
+  {
+   "path": "data/newspaper/202606040405.csv",
+   "sha256": "dbf0bddf5e9d29ddfeb3a5d4456dc1d0c65276ec315484607724ee195ff8e3a4",
+   "bytes": 48580
+  },
+  {
+   "path": "data/newspaper/202606040406.csv",
+   "sha256": "f39949a0d5a0fbeeee0de4f6ffd0d767fde637d8527ad657751692a95e7ab615",
+   "bytes": 68838
+  },
+  {
+   "path": "data/newspaper/202606040407.csv",
+   "sha256": "47576d01594a0d594e420cdb1e72808c8d9e10ca56877a2c812f2cf9ad6ef12c",
+   "bytes": 76278
+  },
+  {
+   "path": "data/newspaper/202606040408.csv",
+   "sha256": "49bb88ccab0ff28a958df5dbfd15ad5f2c0beefbcbefd3dc85f9a6aadc1c8a3c",
+   "bytes": 70036
+  },
+  {
+   "path": "data/newspaper/202606040409.csv",
+   "sha256": "805c11d01c046f9fd32c326c4f97239e2d4e570f578b58f75617e195c5a04fb8",
+   "bytes": 62719
+  },
+  {
+   "path": "data/newspaper/202606040410.csv",
+   "sha256": "877fd92a96f6df0255b34bb337b77a87696ccf5cbfe741355c360781d4302de9",
+   "bytes": 53783
+  },
+  {
+   "path": "data/newspaper/202606040411.csv",
+   "sha256": "181a452e110fb34ce7f5d49af91be47f637936526d6885ae4e468f8a6a1dbc4d",
+   "bytes": 82325
+  },
+  {
+   "path": "data/newspaper/202606040412.csv",
+   "sha256": "153293cf7e6529167ab75aa4f5449efebff2aa1c38a4c33bc0f29d4f58d19b33",
+   "bytes": 61788
+  },
+  {
+   "path": "data/newspaper/202606040501.csv",
+   "sha256": "f46daeedb0bc3ecae6f0a513dbda02fce0289e351d38cdcd03563f7f1c4c3f3d",
+   "bytes": 42054
+  },
+  {
+   "path": "data/newspaper/202606040502.csv",
+   "sha256": "8308df8644f0ae27a9378fae2b9c6e50a613173478e026d6d99f4ef9cf5d43c9",
+   "bytes": 39038
+  },
+  {
+   "path": "data/newspaper/202606040503.csv",
+   "sha256": "4c9a927a649b1c14f94194359cf96df7493683dfe454a2684d6f337b79fb6526",
+   "bytes": 54447
+  },
+  {
+   "path": "data/newspaper/202606040504.csv",
+   "sha256": "bc38dcaea1e8baf6205df12fb8a6fac0c5f39cb823b9aba2b7f26a74a020f36d",
+   "bytes": 63300
+  },
+  {
+   "path": "data/newspaper/202606040505.csv",
+   "sha256": "55729e1c135b3509618daad4834a82d4f82e76b48a07c37a8650be98dbbe5b24",
+   "bytes": 52457
+  },
+  {
+   "path": "data/newspaper/202606040506.csv",
+   "sha256": "1ffe68bb16f0f7a435ab9aaa0a4f3e9b0fb1c5b6305ded9b805adb4942a596e9",
+   "bytes": 49117
+  },
+  {
+   "path": "data/newspaper/202606040507.csv",
+   "sha256": "cc7751f074144af12b291d606ae0e82c2c4b01436246f236400e2f21f24b327f",
+   "bytes": 62132
+  },
+  {
+   "path": "data/newspaper/202606040508.csv",
+   "sha256": "c5e3678e92432ed038db10bf5142218e7a30780d6ed1fc3db43a57d90d2e20e4",
+   "bytes": 63875
+  },
+  {
+   "path": "data/newspaper/202606040509.csv",
+   "sha256": "79e5f5d0662f8bb59eef42f3b1510bab7ccfeb872af2889502f31338023aca2a",
+   "bytes": 49309
+  },
+  {
+   "path": "data/newspaper/202606040510.csv",
+   "sha256": "be9384e8acbe0bc10a7ea613b8aae920e303d5ed54a8f50895e8dcdb03631168",
+   "bytes": 65342
+  },
+  {
+   "path": "data/newspaper/202606040511.csv",
+   "sha256": "e788760f6766dfe087dee67d16464c989281935987114e04c7cd4fc2a833b10f",
+   "bytes": 69609
+  },
+  {
+   "path": "data/newspaper/202606040512.csv",
+   "sha256": "8c8f842530f2146969ed835271b7b4e890243ff28319631014cf31d2a2ad50bd",
+   "bytes": 70993
+  },
+  {
+   "path": "data/newspaper/202606040601.csv",
+   "sha256": "425af4fa43a3e9b195bb9fc65fd7ca490873749dcd49f102f9142f637cbb6d2c",
+   "bytes": 59608
+  },
+  {
+   "path": "data/newspaper/202606040602.csv",
+   "sha256": "64fcee004debdb3a147975994f5b72ac51a75cd9f9f847eaa784a8134bf7f212",
+   "bytes": 59651
+  },
+  {
+   "path": "data/newspaper/202606040603.csv",
+   "sha256": "560158d731eed6c14aa11e28cb5a7bd320162fbd600169392549bec28da29a87",
+   "bytes": 58094
+  },
+  {
+   "path": "data/newspaper/202606040604.csv",
+   "sha256": "deb6da2b6baab47f46e6f0ba3dc54a2c8e9809c432523654252a197f7bc7ff0c",
+   "bytes": 60885
+  },
+  {
+   "path": "data/newspaper/202606040605.csv",
+   "sha256": "f0f003d44c8b100f8354db3d7412fb118049807a7142c2df49df6633746736ef",
+   "bytes": 65021
+  },
+  {
+   "path": "data/newspaper/202606040606.csv",
+   "sha256": "1411df668e37834de5fb3b14d032c98247c0cc34bc45bfc8b8b7042c1415f181",
+   "bytes": 64914
+  },
+  {
+   "path": "data/newspaper/202606040607.csv",
+   "sha256": "3b74233f54cad079d483d97cf12e6a7b780a6c1ae1e241905bd86915788b8bc3",
+   "bytes": 82657
+  },
+  {
+   "path": "data/newspaper/202606040608.csv",
+   "sha256": "9585a213928840e52921897b5f1f445c859fc8ed7572849504c42011208f205a",
+   "bytes": 71230
+  },
+  {
+   "path": "data/newspaper/202606040609.csv",
+   "sha256": "27c83a52f7b4fe23177f933aec0d93edab0be4d8871ab72bb7a74b10fccf06a6",
+   "bytes": 61002
+  },
+  {
+   "path": "data/newspaper/202606040610.csv",
+   "sha256": "21450c3d5d5d7bccf89dc270b1cd24afc806ea304a4f2c80c24603a56eafff29",
+   "bytes": 78345
+  },
+  {
+   "path": "data/newspaper/202606040611.csv",
+   "sha256": "b9202411052806fc94428b9e5519f5d997da545ddac7e817590cf7f08df9b030",
+   "bytes": 71106
+  },
+  {
+   "path": "data/newspaper/202606040612.csv",
+   "sha256": "bb8ffb51269ea6e89aa4038b5d15ebbc24dbabb5fe29801fb37a9126281c662d",
+   "bytes": 74098
+  },
+  {
+   "path": "data/newspaper/202606040701.csv",
+   "sha256": "e858a0acf743c68cb546e48824c246cafdcb70716e7a7bc7d492641dc0bd7f5e",
+   "bytes": 58318
+  },
+  {
+   "path": "data/newspaper/202606040702.csv",
+   "sha256": "d09b1a87ffb12c83cb30b445c427328deb6862d6ea380fd892a85c0394d70c5a",
+   "bytes": 60824
+  },
+  {
+   "path": "data/newspaper/202606040703.csv",
+   "sha256": "2bc9ac81e851f145ca9d493f6e8067ac34fd9855c6b0d9839bd40a12de7a30ed",
+   "bytes": 48576
+  },
+  {
+   "path": "data/newspaper/202606040704.csv",
+   "sha256": "34da22e80d8d1f00e72205e34de61394cab8c7b87986a5e88f65abaf51c74bbe",
+   "bytes": 49484
+  },
+  {
+   "path": "data/newspaper/202606040705.csv",
+   "sha256": "56c1c24a0981f6c434e10eab576193bff4e5c77635c8831cb77b4e2fc7103e30",
+   "bytes": 61933
+  },
+  {
+   "path": "data/newspaper/202606040706.csv",
+   "sha256": "6a52a813eb07e281ec433f99664d9baf06a3f3f37549708e4d601aff06ce4f07",
+   "bytes": 41111
+  },
+  {
+   "path": "data/newspaper/202606040707.csv",
+   "sha256": "fd105faf084cb7210bb4d3391acb0889401ef7ccb68d3a09f312dfa186e207d9",
+   "bytes": 64472
+  },
+  {
+   "path": "data/newspaper/202606040708.csv",
+   "sha256": "084b73cd800aafa4fdab7a51e3aeae8b33022f4c4265f7575efb7e351af3a37a",
+   "bytes": 75178
+  },
+  {
+   "path": "data/newspaper/202606040709.csv",
+   "sha256": "19e6ff5b821ee179dd1e5bb6326291eb4da06ba76ce140357b8197c7f3e77c6f",
+   "bytes": 77070
+  },
+  {
+   "path": "data/newspaper/202606040710.csv",
+   "sha256": "cf31a7d8400a112ec9248ca9563ee601e007021adc8b7da999c0b873f89c1e4a",
+   "bytes": 61209
+  },
+  {
+   "path": "data/newspaper/202606040711.csv",
+   "sha256": "48a3eec8f145e60f4399f2a2f570c100091edc8405fa38995c26b332f6a79a9d",
+   "bytes": 79669
+  },
+  {
+   "path": "data/newspaper/202606040712.csv",
+   "sha256": "69b911f9ba43113a96385179943a5447b3f22558cbe79cdb0bfa29a647af8a28",
+   "bytes": 72735
+  },
+  {
+   "path": "data/newspaper/202606040801.csv",
+   "sha256": "c0f3af3fda2c968b5be2c991298c14658a0164ca099c18b4fffebb0cccd691b9",
+   "bytes": 53138
+  },
+  {
+   "path": "data/newspaper/202606040802.csv",
+   "sha256": "eafc15f2bfbd3499625b4d2a132050099d09dc186450f7fbc21abb7b3058489f",
+   "bytes": 53194
+  },
+  {
+   "path": "data/newspaper/202606040803.csv",
+   "sha256": "fa761b126a5665749bd2682fe65091fd48c47a3165957b9d5540d868342ee753",
+   "bytes": 59556
+  },
+  {
+   "path": "data/newspaper/202606040804.csv",
+   "sha256": "7c1afe695c417c710b2c8f1e7105a0111efe02d7d8081da9fc98f890f5630b51",
+   "bytes": 34634
+  },
+  {
+   "path": "data/newspaper/202606040805.csv",
+   "sha256": "9c2516f996e5c0caa2da94d4559a453b8d74f319d2db8eb8a317efc1e2810b70",
+   "bytes": 58428
+  },
+  {
+   "path": "data/newspaper/202606040806.csv",
+   "sha256": "4925693a8968f5bba198a1f5a2ef5b43ab79932e32a7edc722eaa3571206e5aa",
+   "bytes": 40684
+  },
+  {
+   "path": "data/newspaper/202606040807.csv",
+   "sha256": "50dd2dac4754987e40d6158a94f89fadd1d2c7d22f5744646939b0ba9889918a",
+   "bytes": 81645
+  },
+  {
+   "path": "data/newspaper/202606040808.csv",
+   "sha256": "c8338a662cba186bc7590e9b336c944297fac44da5986f4f6f4d786ac1a82e0b",
+   "bytes": 71736
+  },
+  {
+   "path": "data/newspaper/202606040809.csv",
+   "sha256": "776e76bd255a7878e4b4296326f76acebd52118f359ba7808cdff830dc28ce10",
+   "bytes": 45929
+  },
+  {
+   "path": "data/newspaper/202606040810.csv",
+   "sha256": "9ef6d604360fc62a5ef5d69b79840710ca606c7dc7e884673f4a877f2342be2f",
+   "bytes": 81802
+  },
+  {
+   "path": "data/newspaper/202606040811.csv",
+   "sha256": "905b3915aef0c3c96697dd7fec4f3a50ff1cf610a37b8bc488731e4290c2b81f",
+   "bytes": 74315
+  },
+  {
+   "path": "data/newspaper/202606040812.csv",
+   "sha256": "9c63032117df5664fed1b51a6c44dc6d14885c7948a87cd65f353f18a499cea9",
+   "bytes": 72721
+  },
+  {
+   "path": "data/newspaper/202606040901.csv",
+   "sha256": "e81887b8bbbc2118c0ed572e86c609b39903bdc86f97b03d933ee1a6dfa9aa19",
+   "bytes": 62213
+  },
+  {
+   "path": "data/newspaper/202606040902.csv",
+   "sha256": "78b361bbc02779c84bb4250bc72256716671e6a9f75061e315cf0051b2294da2",
+   "bytes": 55164
+  },
+  {
+   "path": "data/newspaper/202606040903.csv",
+   "sha256": "ccf63465adc523de6cf7ac38197067db73e2a47a2f81075f90940286fea08a33",
+   "bytes": 42186
+  },
+  {
+   "path": "data/newspaper/202606040904.csv",
+   "sha256": "7de7cd4bf41f9028cd5a67aab36c26806d565e509e91826c2731587a51c94c33",
+   "bytes": 60698
+  },
+  {
+   "path": "data/newspaper/202606040905.csv",
+   "sha256": "ca40b41cb0733aa205eb35d08e07653b43b3c724e0348ce697e7184576a251bb",
+   "bytes": 46465
+  },
+  {
+   "path": "data/newspaper/202606040906.csv",
+   "sha256": "628a3312b473ce535cbc157670360099775573c27eefbb7201ab205dbd0af8a3",
+   "bytes": 69762
+  },
+  {
+   "path": "data/newspaper/202606040907.csv",
+   "sha256": "3cc44c94fd3e03a2482a71ceb16ae0faf5699b6a7875173bdf37a4f52f3cd88a",
+   "bytes": 75975
+  },
+  {
+   "path": "data/newspaper/202606040908.csv",
+   "sha256": "f0289d1652e53ac3bef3ccf0ce2d5538d32dac9ebf1af8a07f04ac9ebcc843d9",
+   "bytes": 69438
+  },
+  {
+   "path": "data/newspaper/202606040909.csv",
+   "sha256": "df5013515dc94cd5f99cdeec36baa26154156767d1453a09edf5de0eb10c6902",
+   "bytes": 41928
+  },
+  {
+   "path": "data/newspaper/202606040910.csv",
+   "sha256": "8a163fba600c3bc3b29148068fbde084349456fecde254e31fb186c3f6a8b604",
+   "bytes": 90125
+  },
+  {
+   "path": "data/newspaper/202606040911.csv",
+   "sha256": "16e99acac1cad0a1a2bf46259e5437572fddc6ada1974f99354297da271612c1",
+   "bytes": 83710
+  },
+  {
+   "path": "data/newspaper/202606040912.csv",
+   "sha256": "6bf21b9c3e486b188d7c8b540d2af70d9c3665cf4e7ba0812bf8a1edb9425240",
+   "bytes": 78266
+  },
+  {
+   "path": "data/newspaper/202607020101.csv",
+   "sha256": "a7841e218b8f9da548166120983b1461076692e05564ab58c9b6cc7231aa7cf0",
+   "bytes": 40683
+  },
+  {
+   "path": "data/newspaper/202607020102.csv",
+   "sha256": "8094a9cc28e57ebc070c9ff801b697ba42af5f012b235b089715355f8d341178",
+   "bytes": 54440
+  },
+  {
+   "path": "data/newspaper/202607020103.csv",
+   "sha256": "3620f5eb12e1723647a555871c63faccc04f1ea7171ce75320c13a2f46fcdb40",
+   "bytes": 57682
+  },
+  {
+   "path": "data/newspaper/202607020104.csv",
+   "sha256": "0a251927d7c0779496e9d032a6ac6f1e84be94ef3f16a69a981413e4bd47aa55",
+   "bytes": 66190
+  },
+  {
+   "path": "data/newspaper/202607020105.csv",
+   "sha256": "10d559b4f552fbfaff7e466f97c7cf14f0f2fbb5c543cc89644194e147a92254",
+   "bytes": 67293
+  },
+  {
+   "path": "data/newspaper/202607020106.csv",
+   "sha256": "f0ecba6e9bba2f4beea67d983046ecc694c0bb87a0e859611b24cd16919c210e",
+   "bytes": 76944
+  },
+  {
+   "path": "data/newspaper/202607020107.csv",
+   "sha256": "e00ffec0f643ef7f3d0a1a2778db3063ec7b7a5fac974d7c329155beb942a156",
+   "bytes": 63275
+  },
+  {
+   "path": "data/newspaper/202607020108.csv",
+   "sha256": "408bc6ede039ffd258adde03cd29bcc4943ff7717305f5bf47afa18958ffd3e0",
+   "bytes": 48601
+  },
+  {
+   "path": "data/newspaper/202607020109.csv",
+   "sha256": "20c0bf4313734b3e1a72d3bec2c87f969219bd364f61478725c2ef979d5d7d65",
+   "bytes": 69894
+  },
+  {
+   "path": "data/newspaper/202607020110.csv",
+   "sha256": "e42de77b7d84201a2484d9b94611a0ca0c69b5f55363671d2aa0aa9edf501560",
+   "bytes": 59842
+  },
+  {
+   "path": "data/newspaper/202607020111.csv",
+   "sha256": "f1d217953eae4b47c8d6aac4354880c8135ee5ea4d3faaf942222054701ebd05",
+   "bytes": 45449
+  },
+  {
+   "path": "data/newspaper/202607020112.csv",
+   "sha256": "a6000fd760a813022ee8a3bb706c288351f217c64d5a1c5ac7cc26a3e7761ab7",
+   "bytes": 71744
+  },
+  {
+   "path": "data/newspaper/202607020201.csv",
+   "sha256": "5d510506dab2ba3bd102ebcb30d08f945cd98e085cdf0442dc9a50cdefd4beea",
+   "bytes": 44401
+  },
+  {
+   "path": "data/newspaper/202607020202.csv",
+   "sha256": "a5af8d6853ce7ef627d19fab40c18fbfe97cb54e302883ae4c8e40f9a4b35e98",
+   "bytes": 34633
+  },
+  {
+   "path": "data/newspaper/202607020203.csv",
+   "sha256": "e229c6463cb6bd74c56b38c7d0b653a2f5ebe5053373ffbe93c34225d9791762",
+   "bytes": 52271
+  },
+  {
+   "path": "data/newspaper/202607020204.csv",
+   "sha256": "85a36b40c19af9f633f49fac69d87c99d9f8ccda9f97b38ff468d044116fdd14",
+   "bytes": 61806
+  },
+  {
+   "path": "data/newspaper/202607020205.csv",
+   "sha256": "a04f0b44660ffb11c85e6bf68629ab17a695cc3cdc7c7b5d26ba7f7902a8ffcf",
+   "bytes": 64962
+  },
+  {
+   "path": "data/newspaper/202607020206.csv",
+   "sha256": "f54321e757ba7ee8d5599efcf4f288d79f2af865f44d20b20b5f65d6eae0a243",
+   "bytes": 57224
+  },
+  {
+   "path": "data/newspaper/202607020207.csv",
+   "sha256": "6ee423eeb3c2970b1b5c3343118882ce2e5aa9a1571c683fdc191816f54ae95e",
+   "bytes": 72767
+  },
+  {
+   "path": "data/newspaper/202607020208.csv",
+   "sha256": "faf2a966ea18800fcd3672faa82eaf471e40ef8666176b3834d86fe47bbe0abc",
+   "bytes": 62425
+  },
+  {
+   "path": "data/newspaper/202607020209.csv",
+   "sha256": "22a13f0750a7e12160fecf358d600a9622c0051cf61433cf4606482409d311c6",
+   "bytes": 67076
+  },
+  {
+   "path": "data/newspaper/202607020210.csv",
+   "sha256": "be978bb12877d36a5ea118c7808c386508d6a909dfac891bdf23a1e8f3d44e29",
+   "bytes": 69947
+  },
+  {
+   "path": "data/newspaper/202607020211.csv",
+   "sha256": "6a776dc5b147ad43f6cfa5b450b52ee4c7c66c772473f0958fe894d6ff99863a",
+   "bytes": 75376
+  },
+  {
+   "path": "data/newspaper/202607020212.csv",
+   "sha256": "457d904f895aef9b276d33cf47748a9c9c9802413fe784cd7ae935697e67cf6c",
+   "bytes": 66784
+  },
+  {
+   "path": "data/newspaper/202607020301.csv",
+   "sha256": "a144c9899b4ad2b3d7d0eee664c030733bcb418989d286ca409f2c18372fe538",
+   "bytes": 47502
+  },
+  {
+   "path": "data/newspaper/202607020302.csv",
+   "sha256": "86cdb0222ff6cfecb6c438eeca644fe07aa689f7ce0935b4b4764f97079cdb83",
+   "bytes": 53715
+  },
+  {
+   "path": "data/newspaper/202607020303.csv",
+   "sha256": "e29695c2edc5769192b8a01226d16b6b534e73a672acce956315a1f52567b9a1",
+   "bytes": 70757
+  },
+  {
+   "path": "data/newspaper/202607020304.csv",
+   "sha256": "34eb7150def33d967db9f9cc01e96b4d8fde788c8e080dcedbe94b58edd82f3e",
+   "bytes": 66312
+  },
+  {
+   "path": "data/newspaper/202607020305.csv",
+   "sha256": "97bdd015e2dfbe33cb0e345b6ea87b747065097822e0ce367c931dc8052285e9",
+   "bytes": 66317
+  },
+  {
+   "path": "data/newspaper/202607020306.csv",
+   "sha256": "f4691b15a16521f6423068e99db453eebe7f3f04a960ef2b4f10a20ac35a32bd",
+   "bytes": 76667
+  },
+  {
+   "path": "data/newspaper/202607020307.csv",
+   "sha256": "6a63f37322268a7ef0f421113f484e06042920b3f6aa954564d69bce8cfe1297",
+   "bytes": 61957
+  },
+  {
+   "path": "data/newspaper/202607020308.csv",
+   "sha256": "141c40b23648b48cce7dbb8b99a8281e45188a65a5173ee4006d4b34d9ed2bad",
+   "bytes": 65963
+  },
+  {
+   "path": "data/newspaper/202607020309.csv",
+   "sha256": "4e0feac16f8edf6b5d7545a0dd649297e4c35bee1d8fb5d6f21a77737b69d8e2",
+   "bytes": 46582
+  },
+  {
+   "path": "data/newspaper/202607020310.csv",
+   "sha256": "222f535115fd1fd3a069c8e721edb6acdaebb39f3b987ce1302b066e2cd0f7c4",
+   "bytes": 69659
+  },
+  {
+   "path": "data/newspaper/202607020311.csv",
+   "sha256": "f61f450514d8177f70d53281ec9c6c802249a48f2bcb1dbe8e3d3a1a6f5c6bdb",
+   "bytes": 49296
+  },
+  {
+   "path": "data/newspaper/202607020312.csv",
+   "sha256": "a271c75122afa0aefa4e6509c7dc0578c892c59f6b686e7a5a174d0a900e6812",
+   "bytes": 56862
+  },
+  {
+   "path": "data/newspaper/202607020401.csv",
+   "sha256": "006c421c871cff5ab31b0afa99d079bd62dead0024315c79a70573b25bba971a",
+   "bytes": 75489
+  },
+  {
+   "path": "data/newspaper/202607020402.csv",
+   "sha256": "645df3d5d8347ed88dc0d023be41478a873ad846a8476674ba8f58ddf6ae2ae1",
+   "bytes": 36778
+  },
+  {
+   "path": "data/newspaper/202607020403.csv",
+   "sha256": "8d23a32b3318fca8ecdc0ddf2b23dcd6759e029fdd19fdf9fc3efee36a53e513",
+   "bytes": 45192
+  },
+  {
+   "path": "data/newspaper/202607020404.csv",
+   "sha256": "5ffc3799f13fa5e8fa7898ca08a646d0484936a81209c050b27b726425065c18",
+   "bytes": 66407
+  },
+  {
+   "path": "data/newspaper/202607020405.csv",
+   "sha256": "7f30fa13ffc501be5e21ea41efbd9ca34e95ea7af6cbbb3757177fa4644ac2fe",
+   "bytes": 44838
+  },
+  {
+   "path": "data/newspaper/202607020406.csv",
+   "sha256": "dab0b15ef402c174062aedfc9369bc13167e9c093cdecee5ee82e83a6f7a786d",
+   "bytes": 53073
+  },
+  {
+   "path": "data/newspaper/202607020407.csv",
+   "sha256": "2978412c70842f8922eb8c1c9b6d3276aca62e539b3285f5d3f63193a6923678",
+   "bytes": 50550
+  },
+  {
+   "path": "data/newspaper/202607020408.csv",
+   "sha256": "2704d478076355bbe1e25d5b98f24f148e3091b00efe98fb59e1a89d7f51b8aa",
+   "bytes": 57192
+  },
+  {
+   "path": "data/newspaper/202607020409.csv",
+   "sha256": "3db8b2b73ddda807d904c3d033890dd6a297e283cd7dc65cf35c30cd81484a54",
+   "bytes": 43248
+  },
+  {
+   "path": "data/newspaper/202607020410.csv",
+   "sha256": "8e4527bc031323ff39fd73b87c7514d6d026791f36fe871e635d1258072dd855",
+   "bytes": 62637
+  },
+  {
+   "path": "data/newspaper/202607020411.csv",
+   "sha256": "ad2d6dcd218c8cf4b8198e35c536dde195ef3ade62609c52a3804fb3ee9f3081",
+   "bytes": 38952
+  },
+  {
+   "path": "data/newspaper/202607020412.csv",
+   "sha256": "4cb78153660ed8043c481474f0a9fbd205986c29055f5e91f6883b3efde500b0",
+   "bytes": 75792
+  },
+  {
+   "path": "data/newspaper/202607020501.csv",
+   "sha256": "5bce687ab73bd8ba3a215f08675fd1e64199b8352dbae655408bc3f7aeb2f0f0",
+   "bytes": 44308
+  },
+  {
+   "path": "data/newspaper/202607020502.csv",
+   "sha256": "df2df88d34ab8853045e7025826967bc071b9ac2198e4c9164963b458346bc05",
+   "bytes": 36853
+  },
+  {
+   "path": "data/newspaper/202607020503.csv",
+   "sha256": "1e63de2acb3399eecc75f9d1c7ac90b3229d3adacab560eefd367fbf333cd7b9",
+   "bytes": 64056
+  },
+  {
+   "path": "data/newspaper/202607020504.csv",
+   "sha256": "9154ede642fc67eea924c07f3688ccbab01d578161bc7307b0bef24749be9d9b",
+   "bytes": 66563
+  },
+  {
+   "path": "data/newspaper/202607020505.csv",
+   "sha256": "c5db2ca696fd291372a9fbffe49bedfb51d3927ccef2402b5d5263209614d992",
+   "bytes": 45772
+  },
+  {
+   "path": "data/newspaper/202607020506.csv",
+   "sha256": "3613ede12feb7d19d68b98e52d1ada236de47d51a603615d9dfeb02b9d55f111",
+   "bytes": 61294
+  },
+  {
+   "path": "data/newspaper/202607020507.csv",
+   "sha256": "ec271c27312067717c21a7ace9057088c24b8ea165f9b2f87f782d2d876bf843",
+   "bytes": 46433
+  },
+  {
+   "path": "data/newspaper/202607020508.csv",
+   "sha256": "47063945a2ea833f7cf53984e7e3bfcae7f2fcc1f01e2434dd382b5668c9992f",
+   "bytes": 59603
+  },
+  {
+   "path": "data/newspaper/202607020509.csv",
+   "sha256": "dd2b571c6bae8d54e05376a74f4ee97a698aab90c3b99553c463069591de5e82",
+   "bytes": 44040
+  },
+  {
+   "path": "data/newspaper/202607020510.csv",
+   "sha256": "0910844c3c4e56e5dae53e321c7fa5b654c899be30d69a7766bc36b0ba68c8cf",
+   "bytes": 64807
+  },
+  {
+   "path": "data/newspaper/202607020511.csv",
+   "sha256": "5b1ed0c1119b336c83fdfca9e3c13d27baeb7f45042091b935be44f00a47c657",
+   "bytes": 60270
+  },
+  {
+   "path": "data/newspaper/202607020512.csv",
+   "sha256": "f66423ab0eaf3314c8daf12c8a3a1f960dc04410b3c0dc415a987aa166c3738d",
+   "bytes": 74564
+  },
+  {
+   "path": "data/newspaper/202607020601.csv",
+   "sha256": "869ef192481193ff81fe80f0ab24dccc4c5bbbda341cd206bf036ffd6b754ff2",
+   "bytes": 70978
+  },
+  {
+   "path": "data/newspaper/202607020602.csv",
+   "sha256": "709dfe790367946ea1fe7d0cbbc032bd0f122dd5d2821426bdb92ffb64a0d884",
+   "bytes": 42611
+  },
+  {
+   "path": "data/newspaper/202607020603.csv",
+   "sha256": "ba064554e831fcb2e71c0c5e6ba80951f2c223c5a0f113cdeb3cd055293912b9",
+   "bytes": 40452
+  },
+  {
+   "path": "data/newspaper/202607020604.csv",
+   "sha256": "a5f5db864232746091289771d20d5f031c8d95b519c6f44acddb0b19375367ff",
+   "bytes": 67718
+  },
+  {
+   "path": "data/newspaper/202607020605.csv",
+   "sha256": "406211c3ee95e8fb5968d2f034c91f03725b95bbfb0bdbbab310d0002f44c001",
+   "bytes": 70337
+  },
+  {
+   "path": "data/newspaper/202607020606.csv",
+   "sha256": "cf293cc51326689bd6061bc11a0bff1a187f0e87865430fd648c1ef33b278040",
+   "bytes": 45818
+  },
+  {
+   "path": "data/newspaper/202607020607.csv",
+   "sha256": "ce7ff7f98153044e46c00fb2ab9ba96fa47385c67c2a9fa1da41ab277a6befe9",
+   "bytes": 90907
+  },
+  {
+   "path": "data/newspaper/202607020608.csv",
+   "sha256": "39d09aa76c366aa62c3eb440f07ebded7395665a1e125f71fc2c8bb83f31faec",
+   "bytes": 59149
+  },
+  {
+   "path": "data/newspaper/202607020609.csv",
+   "sha256": "99efc48d56b873e02c8f2830f7ed1aac22d1b173d00b0c142dcc96a3427aa63c",
+   "bytes": 53072
+  },
+  {
+   "path": "data/newspaper/202607020610.csv",
+   "sha256": "682752df2fd22c358817651af38c3b615ea6719cb0a68c51f2057307b5aa509a",
+   "bytes": 71495
+  },
+  {
+   "path": "data/newspaper/202607020611.csv",
+   "sha256": "83f1528c42b8cb183d3028d4a661bbff01709db2f4684ceea925afd488c32083",
+   "bytes": 81981
+  },
+  {
+   "path": "data/newspaper/202607020612.csv",
+   "sha256": "074851c6e0719e9e71b0ec9420a00c2e8042801295c45a46b60d1de797ff8698",
+   "bytes": 72969
+  },
+  {
+   "path": "data/newspaper/202607020701.csv",
+   "sha256": "0f68d947059a0e90079b2c351ee5b1becd2e8441d93f5fb78bd10448b90e3cb0",
+   "bytes": 61102
+  },
+  {
+   "path": "data/newspaper/202607020702.csv",
+   "sha256": "d7f88cebd0728aae35258496d5ebcdb582b471a7757bef30863b46d1e9ca147b",
+   "bytes": 68253
+  },
+  {
+   "path": "data/newspaper/202607020703.csv",
+   "sha256": "3b939015657df648618830fb5145f6264e79028b3c804f5d45eacfcc86c8e731",
+   "bytes": 36857
+  },
+  {
+   "path": "data/newspaper/202607020704.csv",
+   "sha256": "3f08ddb080e23190eb6fa686cb4996405e931840b835c7ba7eb6b2df3157c719",
+   "bytes": 65843
+  },
+  {
+   "path": "data/newspaper/202607020705.csv",
+   "sha256": "602ef63542dfc3c89d1806e1377cc3c0e0d101622245f93e0d7a8ef829066e22",
+   "bytes": 66307
+  },
+  {
+   "path": "data/newspaper/202607020706.csv",
+   "sha256": "bbe1b31d7a7ae091fa8f67a9bb648fe7a5f30ac1d1f5e9ac1913f0465bc1ed8d",
+   "bytes": 60245
+  },
+  {
+   "path": "data/newspaper/202607020707.csv",
+   "sha256": "ca8cec38355951ba3b80f18b7f00a403b0b4692850b20fde8619e28b3f069218",
+   "bytes": 50128
+  },
+  {
+   "path": "data/newspaper/202607020708.csv",
+   "sha256": "05c6029e3f00117b8af0e34c79388c079718e4a1e8d5d882029fbde853d26946",
+   "bytes": 56745
+  },
+  {
+   "path": "data/newspaper/202607020709.csv",
+   "sha256": "7bdd45731efcab2c376e78c6f39e84189988c5474f382f83c4d3c3901af14fe1",
+   "bytes": 69921
+  },
+  {
+   "path": "data/newspaper/202607020710.csv",
+   "sha256": "a9e98c484445af0f876c6d03363590f5408e6c107d8365a3d9630ca6a4e90554",
+   "bytes": 70476
+  },
+  {
+   "path": "data/newspaper/202607020711.csv",
+   "sha256": "4597850467b3ed6eeb363adc8fddb306219dd1ab941e6d6b8287ede4fe9eada9",
+   "bytes": 71471
+  },
+  {
+   "path": "data/newspaper/202607020712.csv",
+   "sha256": "0ac231b3e99feb033cf76ae3758267c536174560fbb86f13490f417d1fe059d4",
+   "bytes": 64960
+  },
+  {
+   "path": "data/newspaper/202607020801.csv",
+   "sha256": "ca37372847796d41585d81803a056e8caea034710a6614befde18bf77c35dded",
+   "bytes": 47858
+  },
+  {
+   "path": "data/newspaper/202607020802.csv",
+   "sha256": "7b8c057817fb7daccf7d85e0e7298a342d98b0e0e9f331c8f14966905a01f41c",
+   "bytes": 49162
+  },
+  {
+   "path": "data/newspaper/202607020803.csv",
+   "sha256": "e6af4054786b08ef4c26b6c860257b905a0507031e2d424479b83826546993ca",
+   "bytes": 40023
+  },
+  {
+   "path": "data/newspaper/202607020804.csv",
+   "sha256": "f66c867f9ba807facf287a628af50663b972267edb1fbe2308a5a63d65e5012a",
+   "bytes": 77401
+  },
+  {
+   "path": "data/newspaper/202607020805.csv",
+   "sha256": "7af5b3701314d7ec0a30d0a5de5cda1d4efeba33f8296f0188e99076c67c52f5",
+   "bytes": 64427
+  },
+  {
+   "path": "data/newspaper/202607020806.csv",
+   "sha256": "9126f033f455ec09a20b151b3f7e3e805e27ab07a51aa90ea8c5929431392624",
+   "bytes": 46482
+  },
+  {
+   "path": "data/newspaper/202607020807.csv",
+   "sha256": "9f8fbcba2862fae474e77a492eac35ec583e21cb1f4e1f5df0f84a396d4042df",
+   "bytes": 82377
+  },
+  {
+   "path": "data/newspaper/202607020808.csv",
+   "sha256": "737f97318e2e5fa1d36d3aed67399c11fe372d1a2531f53e70b52dde45f07812",
+   "bytes": 76897
+  },
+  {
+   "path": "data/newspaper/202607020809.csv",
+   "sha256": "9b06742778a83f1f04328704540d98d46f38e6591cdf1259e4d639fbbd783b83",
+   "bytes": 77087
+  },
+  {
+   "path": "data/newspaper/202607020810.csv",
+   "sha256": "f8c387304e879ddf05a1469ea8cdb2f3f0fcf83a79ae24003a9a3dcfd4f4e56a",
+   "bytes": 68091
+  },
+  {
+   "path": "data/newspaper/202607020811.csv",
+   "sha256": "9fead7ed8694968048a5fc835b374fb52a8e4b7d7d0f482c8ea259fa71f0cf46",
+   "bytes": 74080
+  },
+  {
+   "path": "data/newspaper/202607020812.csv",
+   "sha256": "63ab228c6c1af0a80c77ed5368a9d04e9e06dda29993cc7a531606ce6aacf8de",
+   "bytes": 65064
+  },
+  {
+   "path": "data/newspaper/202607030101.csv",
+   "sha256": "68a9e0f98e29583f7b84bf852d4b5ed6c9186f4d9e31eee0ada8eb4da5774a3f",
+   "bytes": 45264
+  },
+  {
+   "path": "data/newspaper/202607030102.csv",
+   "sha256": "58fbc87f00b303f721aa630b4468b6a2bc994b8a84a5c8491aa9fea5dad5353a",
+   "bytes": 43194
+  },
+  {
+   "path": "data/newspaper/202607030103.csv",
+   "sha256": "9b493514bc0b09e9306fe216f8849508a3bb11e87d037e6fab82d22d16ccf00b",
+   "bytes": 45669
+  },
+  {
+   "path": "data/newspaper/202607030104.csv",
+   "sha256": "9f2234afedf8b063667691e547dd4ff165ab2c0d282fee4395920d0b14535a26",
+   "bytes": 78097
+  },
+  {
+   "path": "data/newspaper/202607030105.csv",
+   "sha256": "9b97d7648d7d65b93568d900da754d1d6ff3bc5a3b360ddd1a5de3f2776c0a0f",
+   "bytes": 65605
+  },
+  {
+   "path": "data/newspaper/202607030106.csv",
+   "sha256": "237c6d17747af8d46e2ff9dd64b0b2efbdbc48695212f7593fdbf3b5ce037ae1",
+   "bytes": 68335
+  },
+  {
+   "path": "data/newspaper/202607030107.csv",
+   "sha256": "1e25b57ae748361599199b8fd270bd96f5c03c75884735a9bf24a6e05de51d5c",
+   "bytes": 77012
+  },
+  {
+   "path": "data/newspaper/202607030108.csv",
+   "sha256": "3a79597eb944ae7eaf710b3cf12e269903ae4a00900a22f596be027bf5d938c2",
+   "bytes": 53801
+  },
+  {
+   "path": "data/newspaper/202607030109.csv",
+   "sha256": "87872bcd89dcf16c3d08bbc20f96039183dcb2eb6979dc8615704276d012c484",
+   "bytes": 31942
+  },
+  {
+   "path": "data/newspaper/202607030110.csv",
+   "sha256": "62270184bd8e88baa1001bf97cb9cf612e7948301d09dba86969a29efce08be5",
+   "bytes": 55448
+  },
+  {
+   "path": "data/newspaper/202607030111.csv",
+   "sha256": "3d43d279ad462e46e099e134ddfba0d1a7fcc4b103c32fee0c14cb6ec81551d8",
+   "bytes": 70829
+  },
+  {
+   "path": "data/newspaper/202607030112.csv",
+   "sha256": "b2d1f3da06499be254a6e12a1332e6158dafbe7124b8b4ab7d82158f4a34b3a5",
+   "bytes": 76747
+  },
+  {
+   "path": "data/newspaper/202607030201.csv",
+   "sha256": "86cf4c35a127c3da0023b7bb23d725c679543b57e2bc3cf7e54e0ed35b5a7a3f",
+   "bytes": 38661
+  },
+  {
+   "path": "data/newspaper/202607030202.csv",
+   "sha256": "a1f8a4fa9c12ba29416763fed2c533fc8f43acd0eaa8e991f6412deed2fb516f",
+   "bytes": 40104
+  },
+  {
+   "path": "data/newspaper/202607030203.csv",
+   "sha256": "cd884ab97e0889de388b6f93a5c81fe3e381ab5bf43fd1d608e1b6697e886747",
+   "bytes": 42753
+  },
+  {
+   "path": "data/newspaper/202607030204.csv",
+   "sha256": "bbb451b14865c0f52d6ae8ef7cd300417a5d4191b772e790975fa887924f151f",
+   "bytes": 65927
+  },
+  {
+   "path": "data/newspaper/202607030205.csv",
+   "sha256": "1064c8950ba0af0b79bee68ed771df25576fbfb3fd4408a58fc68f511380957b",
+   "bytes": 57467
+  },
+  {
+   "path": "data/newspaper/202607030206.csv",
+   "sha256": "9b4b898c584079d14608ea3f508461e3a3e1f68807c77b273ca532961088e080",
+   "bytes": 73694
+  },
+  {
+   "path": "data/newspaper/202607030207.csv",
+   "sha256": "16b7e1059f4be0775a21aec33b1caa7a944cf3a78c709fdb770c96913def278e",
+   "bytes": 78418
+  },
+  {
+   "path": "data/newspaper/202607030208.csv",
+   "sha256": "9e9a167533b945be7762ece8566fb0d6b514aa738b01511fb4c6354194d1bebd",
+   "bytes": 75444
+  },
+  {
+   "path": "data/newspaper/202607030209.csv",
+   "sha256": "62ed65746e9b1e3d2ddfc21eb2b7e8d776a9f65950d9bb0f67e487f8b7649e12",
+   "bytes": 38207
+  },
+  {
+   "path": "data/newspaper/202607030210.csv",
+   "sha256": "359382814fafa4100ea7063494d6f61216e2f63b1155cf130530715f72526ba1",
+   "bytes": 59573
+  },
+  {
+   "path": "data/newspaper/202607030211.csv",
+   "sha256": "a698cce9c723972b9fb13356f296c8a296f0959cb141235ec698958af1e07da2",
+   "bytes": 77727
+  },
+  {
+   "path": "data/newspaper/202607030212.csv",
+   "sha256": "94bdb8ce4fc86b2388127d9bb8e074b165b26af150f1484cd734ce17dacd74d5",
+   "bytes": 65700
+  },
+  {
+   "path": "data/newspaper/202607030301.csv",
+   "sha256": "6a67770dbd8f5bce326102752e8d618c170d355b29c730bdb196bca104691966",
+   "bytes": 51004
+  },
+  {
+   "path": "data/newspaper/202607030302.csv",
+   "sha256": "463f2a24a811e45ff1df58b05d888bf7f48e949307588a621ed5022f5acbde7a",
+   "bytes": 49053
+  },
+  {
+   "path": "data/newspaper/202607030303.csv",
+   "sha256": "e6f26dd6f46ac6082bf005cb28a848e786e200bf2021800d50d74a564ddc5e50",
+   "bytes": 52130
+  },
+  {
+   "path": "data/newspaper/202607030304.csv",
+   "sha256": "f6a224f990f89dc240ac0b104f32dd95c5a6c14530965ca8c02d1997669c2970",
+   "bytes": 71408
+  },
+  {
+   "path": "data/newspaper/202607030305.csv",
+   "sha256": "3e4d58b49df258650109ad389be77dd2a5b3875e0b2de2e9b696086a883ba1ca",
+   "bytes": 60989
+  },
+  {
+   "path": "data/newspaper/202607030306.csv",
+   "sha256": "0fca6ee820ea53fb5e0ed1bd8001cbfac1e2b180c305619b28e01ac632e4593a",
+   "bytes": 65953
+  },
+  {
+   "path": "data/newspaper/202607030307.csv",
+   "sha256": "8ae6b7ed900e2fe22592494795c933e264d0f6fcf020b7324682ab761a77d1d4",
+   "bytes": 77783
+  },
+  {
+   "path": "data/newspaper/202607030308.csv",
+   "sha256": "ad6c905cca392c13bd3435d683376c0bc06a7a0cf9d2383ebe0b63a766b9074b",
+   "bytes": 73621
+  },
+  {
+   "path": "data/newspaper/202607030309.csv",
+   "sha256": "d1e4dc9eb6e49dff5abdd96663e3666e840d4d37e442af258882730a279ef154",
+   "bytes": 45518
+  },
+  {
+   "path": "data/newspaper/202607030310.csv",
+   "sha256": "ae2c0b933e392705b7dafa8b4bb21cf4c13616e4a10c0139aa82b4e2f9c24bc3",
+   "bytes": 69918
+  },
+  {
+   "path": "data/newspaper/202607030311.csv",
+   "sha256": "a9c08c1f92d849c2467a06672eecc8f1d194cde89987c47839db201d331a9851",
+   "bytes": 64080
+  },
+  {
+   "path": "data/newspaper/202607030312.csv",
+   "sha256": "a1e39ee09f7208c718974254d1d5bdb23ed025a1df1fdb949ff366000470be3e",
+   "bytes": 59649
+  },
+  {
+   "path": "data/newspaper/202607030401.csv",
+   "sha256": "d9b680c7e58580dda05f3d80b72589adbd983fb3c4b8064cb3eb583b0c9ef81c",
+   "bytes": 48006
+  },
+  {
+   "path": "data/newspaper/202607030402.csv",
+   "sha256": "b7d7023416f03bd26bdd72fea0fdc8623857c18c34086a926286367919756980",
+   "bytes": 46530
+  },
+  {
+   "path": "data/newspaper/202607030403.csv",
+   "sha256": "a7e78b00cff8f81ae866cb716551c74a0471d1368111abc261bdb93398e6a2b4",
+   "bytes": 49077
+  },
+  {
+   "path": "data/newspaper/202607030404.csv",
+   "sha256": "90c8652420ae72171a206f2e20e50081bcbc88e74a7bc4f535a7e2fa4783f212",
+   "bytes": 65291
+  },
+  {
+   "path": "data/newspaper/202607030405.csv",
+   "sha256": "6c7633795cb30f378c417ec1ec10d50c294b5a4f65168f1f82068667b8b579b2",
+   "bytes": 59778
+  },
+  {
+   "path": "data/newspaper/202607030406.csv",
+   "sha256": "df89bf6fae85148c73cb94c30a6b0fe7d609fc4447a0f2afcccce6c4b612b5d4",
+   "bytes": 78545
+  },
+  {
+   "path": "data/newspaper/202607030407.csv",
+   "sha256": "fc8898993d544dbdb6a1864fd2b813ec739899d0f9d1b46c998cb8b2f101cb18",
+   "bytes": 49875
+  },
+  {
+   "path": "data/newspaper/202607030408.csv",
+   "sha256": "b5b56a2472c1bb978c23358051f9ecb88c65786e614e91ad686956b23269edf6",
+   "bytes": 78124
+  },
+  {
+   "path": "data/newspaper/202607030409.csv",
+   "sha256": "684f880f087e1002668f432a8911d6dc890352422784957edaf77f808ff84528",
+   "bytes": 63960
+  },
+  {
+   "path": "data/newspaper/202607030410.csv",
+   "sha256": "7729acf7764801c78de253f35f20c209a454c45e552dd163bc140dfa715f2d27",
+   "bytes": 53897
+  },
+  {
+   "path": "data/newspaper/202607030411.csv",
+   "sha256": "1d1f72ca7fcdc3dcf04af86cabcaba9feece5a0d17108a94ca843525738148e8",
+   "bytes": 79775
+  },
+  {
+   "path": "data/newspaper/202607030412.csv",
+   "sha256": "2802510cb9e45464693f1d2519b5a4fe559c4797267b5b9ed41ac35a2dc2e9f7",
+   "bytes": 63568
+  },
+  {
+   "path": "data/newspaper/202608040101.csv",
+   "sha256": "591b93e7a2f30fdc796b1cb4c506c64443dbe4862cc14a96cdf1775e38aa4401",
+   "bytes": 59758
+  },
+  {
+   "path": "data/newspaper/202608040102.csv",
+   "sha256": "482cc1393cf99f84559ebdd9b9feb2694b278782a504342117118ab51cac9a11",
+   "bytes": 49069
+  },
+  {
+   "path": "data/newspaper/202608040103.csv",
+   "sha256": "620d4d9479b1eaf77afc73ff23c219dd4ea2feacb4275e3541020a10c088328f",
+   "bytes": 72153
+  },
+  {
+   "path": "data/newspaper/202608040104.csv",
+   "sha256": "f0698b188e6d6162ac847a654a1e66396cc4a4e4866dec0ddbb23da4d7421f87",
+   "bytes": 55616
+  },
+  {
+   "path": "data/newspaper/202608040105.csv",
+   "sha256": "077ae240b321798530046cb59a732e2280fe6b4d305ac6e9584eea42e481778f",
+   "bytes": 65166
+  },
+  {
+   "path": "data/newspaper/202608040106.csv",
+   "sha256": "cfffeb4fba10293209c0d822bc5e328a975f6e74d5499e601e2d53178a2aafdc",
+   "bytes": 78966
+  },
+  {
+   "path": "data/newspaper/202608040107.csv",
+   "sha256": "5d5294f0650fad6d83420d06e7e74f7bf33808d3349649159d845fbf8c3087ee",
+   "bytes": 70725
+  },
+  {
+   "path": "data/newspaper/202608040108.csv",
+   "sha256": "ab5a2808d7bc59ea551f27fc253d43aa2a1a0259bcc1c472249db402f3211a2d",
+   "bytes": 58151
+  },
+  {
+   "path": "data/newspaper/202608040109.csv",
+   "sha256": "46205a27cf88f243fbce666aa9451e137378351ed21b55a988eb2ba6f398d927",
+   "bytes": 45679
+  },
+  {
+   "path": "data/newspaper/202608040110.csv",
+   "sha256": "74ab08523384732148100a6955a53a06483bd49f070a3aa3e41b3fc0df99140f",
+   "bytes": 79222
+  },
+  {
+   "path": "data/newspaper/202608040111.csv",
+   "sha256": "a8f9706ab919ea798fe8619be54fbd4731ad3fa903e736b87337e87e0ab7d8ed",
+   "bytes": 91237
+  },
+  {
+   "path": "data/newspaper/202608040112.csv",
+   "sha256": "f4664e20107317c1f034c4120afad24ffe66f0bdc77ae6a3a3fd33bf17febf8f",
+   "bytes": 65918
+  },
+  {
+   "path": "data/newspaper/202608040201.csv",
+   "sha256": "c6eaee66c72922a8693bb48021a6d4489de231894c49435329236d92552a895d",
+   "bytes": 39817
+  },
+  {
+   "path": "data/newspaper/202608040202.csv",
+   "sha256": "45fe325fd7aaa1f0984f226531471764e3f572c52514a386b858befb46a302e2",
+   "bytes": 44804
+  },
+  {
+   "path": "data/newspaper/202608040203.csv",
+   "sha256": "07c11a8935e9a748522bc963771648884d4290ef6eb2cf81a95896ac63f5ad17",
+   "bytes": 59757
+  },
+  {
+   "path": "data/newspaper/202608040204.csv",
+   "sha256": "776a04a76966b89f9f1bb5dff6f40265ed5674fcd50e959bfc83ec82e10db8bb",
+   "bytes": 63841
+  },
+  {
+   "path": "data/newspaper/202608040205.csv",
+   "sha256": "cd258c4296a24517a480313ae838197de14bfb76df67de343346957ed20671f1",
+   "bytes": 52787
+  },
+  {
+   "path": "data/newspaper/202608040206.csv",
+   "sha256": "d0ae5546ac22f34cdfe3133e46bb5d9bdbd620909485a658c414a912620de281",
+   "bytes": 70337
+  },
+  {
+   "path": "data/newspaper/202608040207.csv",
+   "sha256": "e4a219881011257423b00fc5963b8ed19e5b6488b646b000218bc46c3b450902",
+   "bytes": 82335
+  },
+  {
+   "path": "data/newspaper/202608040208.csv",
+   "sha256": "08817c945311926327fa11fe6dd8f19ef30d9f08dc3f053887a04d6e2b837a0b",
+   "bytes": 72937
+  },
+  {
+   "path": "data/newspaper/202608040209.csv",
+   "sha256": "658921c3d21d83d2e5894687978b8dcd4505a2c7be15b0d7f07afc2a08c6c911",
+   "bytes": 91288
+  },
+  {
+   "path": "data/newspaper/202608040210.csv",
+   "sha256": "292a32ac792e04e6df93f13bf5a69fe2fe5d329d401b57418daf58506e27ff0e",
+   "bytes": 77854
+  },
+  {
+   "path": "data/newspaper/202608040211.csv",
+   "sha256": "01e589230d67d6ad0771965707403f1b4e0337822cdbe714ed4528cabb8ed555",
+   "bytes": 92909
+  },
+  {
+   "path": "data/newspaper/202608040212.csv",
+   "sha256": "0e3c2dbec574ee66f18f604a500faeea2b3a5e85bac66681b35d093793949c3e",
+   "bytes": 84177
+  },
+  {
+   "path": "data/newspaper/202608040301.csv",
+   "sha256": "daeabe9cd756a042a826345188b13c2d9876c1b942991004cefdce182bd77a16",
+   "bytes": 56733
+  },
+  {
+   "path": "data/newspaper/202608040302.csv",
+   "sha256": "d6ac79a58a096f76340585ef8ec3df176a6033992e0e3b7b61f0c96e5e16101e",
+   "bytes": 45291
+  },
+  {
+   "path": "data/newspaper/202608040303.csv",
+   "sha256": "d69cacaf9b150122568a3158c16d5faa6658076c9da62e170718624702f7342a",
+   "bytes": 42328
+  },
+  {
+   "path": "data/newspaper/202608040304.csv",
+   "sha256": "b16b9e2959427973c65e2e4336ec581cfa7955749b65f8938998d55d4958e5e6",
+   "bytes": 58201
+  },
+  {
+   "path": "data/newspaper/202608040305.csv",
+   "sha256": "cdeba4328feb848ac56d57705f5240a6d811647bdc9b9a3c99f9b9122e765a28",
+   "bytes": 57554
+  },
+  {
+   "path": "data/newspaper/202608040306.csv",
+   "sha256": "07dc814ef65b4e79d69c18c7a46c63b68f99923b4cc1fb10f561affefce3afa4",
+   "bytes": 46539
+  },
+  {
+   "path": "data/newspaper/202608040307.csv",
+   "sha256": "28e635d699d56bacc24d9b027066717d40fa74ebf44e69175bbb586db7212dd9",
+   "bytes": 71216
+  },
+  {
+   "path": "data/newspaper/202608040308.csv",
+   "sha256": "31aa3d1aa14999548d5069bd77b61d468e0a3936a707e0e5f4d8ab9bb9067a2f",
+   "bytes": 39098
+  },
+  {
+   "path": "data/newspaper/202608040309.csv",
+   "sha256": "29012c9995cf73e74871362d980ac402d050341a0690af449e73e2d4f81cfdbc",
+   "bytes": 71979
+  },
+  {
+   "path": "data/newspaper/202608040310.csv",
+   "sha256": "127e52d656f54ee53597095e0bb1312a4a9bcfb4dcd07c13f0016dc822066913",
+   "bytes": 78280
+  },
+  {
+   "path": "data/newspaper/202608040311.csv",
+   "sha256": "0e28ed04530952a996bc9cd1ce6f4b7251ef50970c50a717ca67bd180190bd86",
+   "bytes": 66973
+  },
+  {
+   "path": "data/newspaper/202608040312.csv",
+   "sha256": "34d33cee262636268e57286fb20bea91779e98d58857380e1beeb6ecd47af73e",
+   "bytes": 71286
+  },
+  {
+   "path": "data/newspaper/202608040401.csv",
+   "sha256": "7fe87cd4889159f402062a6980d02463e014052d5ab0ce7cfd7a87e7920f8c3d",
+   "bytes": 60928
+  },
+  {
+   "path": "data/newspaper/202608040402.csv",
+   "sha256": "1c184c0834d867c25b246f085255ee01aa40f380f93e1556f0e45a7675d74bc8",
+   "bytes": 49199
+  },
+  {
+   "path": "data/newspaper/202608040404.csv",
+   "sha256": "4e9f2a3370c068d4b27043a38e4f6a036d39f43be0b2c19a2c620deee82d2fcf",
+   "bytes": 42116
+  },
+  {
+   "path": "data/newspaper/202608040405.csv",
+   "sha256": "ecb33510e92c26f93261bb29654d91a8bec4c3d4168a6f57474dd3e7879b10d1",
+   "bytes": 49861
+  },
+  {
+   "path": "data/newspaper/202608040406.csv",
+   "sha256": "d1cda7d4620158b04b1447b4a62f7cc781d3624b5f2f7beee8482638c1e4b948",
+   "bytes": 71196
+  },
+  {
+   "path": "data/newspaper/202608040407.csv",
+   "sha256": "466ce25ef63f91d2aba4d55555841f315a44ca68fcea9e2a7f607c75c28fd0e5",
+   "bytes": 56950
+  },
+  {
+   "path": "data/newspaper/202608040408.csv",
+   "sha256": "85e5458789aeb093314e2d43a8459184542f65024f431bd9f60a975750eb4f25",
+   "bytes": 71399
+  },
+  {
+   "path": "data/newspaper/202608040409.csv",
+   "sha256": "ab76563895168004bf839f91ed00c3ebb399b19ad002c68bd0d3f8f16f1c9f3c",
+   "bytes": 78319
+  },
+  {
+   "path": "data/newspaper/202608040410.csv",
+   "sha256": "b3382d8ffaf89798880b304c96a76a763a9fe7de56d10986d6897e31782d87d4",
+   "bytes": 86915
+  },
+  {
+   "path": "data/newspaper/202608040411.csv",
+   "sha256": "5dd4eea7bd09d697c5a34b17e02a1c1aa09c4898b529d970c08bd64a839556ac",
+   "bytes": 70179
+  },
+  {
+   "path": "data/newspaper/202608040412.csv",
+   "sha256": "3fad90e9681ff1443b001353253c1fada0e4ad93a9281f996c904f74aef3e047",
+   "bytes": 76064
+  },
+  {
+   "path": "data/newspaper/202608040501.csv",
+   "sha256": "8431ba96b090232c4903e1eb2125c85fb776677a5af00801bff15323cc0d6302",
+   "bytes": 60575
+  },
+  {
+   "path": "data/newspaper/202608040502.csv",
+   "sha256": "5f57385d15b25c51afa8421f46dcda43026a52a2475dd82f9e4c2344e6c079ff",
+   "bytes": 50255
+  },
+  {
+   "path": "data/newspaper/202608040503.csv",
+   "sha256": "4691fa25b775e7ec48b6089de196c7a8e59cb8253d0faf428fff3b9ab1408d4c",
+   "bytes": 54734
+  },
+  {
+   "path": "data/newspaper/202608040504.csv",
+   "sha256": "70780c86cccf05cc9b2809cc7d70434db45ff7afab1febe3a3b4e805d49d5fb3",
+   "bytes": 61319
+  },
+  {
+   "path": "data/newspaper/202608040505.csv",
+   "sha256": "56897a312f8ecb6a42b646ed4708a507e69373055a1fee4f33f084ecbdf8adda",
+   "bytes": 44514
+  },
+  {
+   "path": "data/newspaper/202608040506.csv",
+   "sha256": "30282fed204fe0661c9bf4fba57c87eebc3b3ec7906768295283856ebc3a7eba",
+   "bytes": 52794
+  },
+  {
+   "path": "data/newspaper/202608040507.csv",
+   "sha256": "7bf47d8ebe4225a63350cf9b3701115c0afc9315e4f37d5aec51cc6e97040182",
+   "bytes": 73248
+  },
+  {
+   "path": "data/newspaper/202608040508.csv",
+   "sha256": "29a88b6a900f2c5a7f8af39bf8749287f91dbf150fd4336807da6341da4fbbb1",
+   "bytes": 57115
+  },
+  {
+   "path": "data/newspaper/202608040509.csv",
+   "sha256": "2fb080c2ffe429d0cd516e1f1c99f2905a3df65f69b2dc70b6b5f2dd55a5ebb4",
+   "bytes": 62504
+  },
+  {
+   "path": "data/newspaper/202608040510.csv",
+   "sha256": "4c6abf3245ff3685fadcc6a2dce941e81b9f9c92a95768586687b7c1036f95dc",
+   "bytes": 58835
+  },
+  {
+   "path": "data/newspaper/202608040511.csv",
+   "sha256": "a692490ab7cba4a3fe30f78b861ea7a339d6d8271c599804e02da78e6f8535f2",
+   "bytes": 92170
+  },
+  {
+   "path": "data/newspaper/202608040512.csv",
+   "sha256": "19a9a2c2ec1a707b076d165b6b698d8cd984670624775cf056a4f1c248985b73",
+   "bytes": 71620
+  },
+  {
+   "path": "data/newspaper/202609040101.csv",
+   "sha256": "0fd715d828201ab0dc6765966c8e131d5ff21648438b437bbd93a6495353b39c",
+   "bytes": 47780
+  },
+  {
+   "path": "data/newspaper/202609040103.csv",
+   "sha256": "57bd519a76ce1c7ea70be20ea00871322a843d7fd8098652b5264166ba4f63c5",
+   "bytes": 58533
+  },
+  {
+   "path": "data/newspaper/202609040104.csv",
+   "sha256": "f09ca8ae57abccfb36e7d7e4c6e4dcefe5844c5908208dcd1652a8057cc0d838",
+   "bytes": 79336
+  },
+  {
+   "path": "data/newspaper/202609040105.csv",
+   "sha256": "e1f6e08ab121f907b00eb1914d390518261a23e2fcba5f05f62e574acb03b9af",
+   "bytes": 51863
+  },
+  {
+   "path": "data/newspaper/202609040106.csv",
+   "sha256": "039619bc640e53017eefcd3ab7e048304ede2e981c269d0103804f2fc511442d",
+   "bytes": 51034
+  },
+  {
+   "path": "data/newspaper/202609040107.csv",
+   "sha256": "c610b890a3e2afd53092b2dd3dcdf94cf6d922f1691587505970a17fce0bb705",
+   "bytes": 74313
+  },
+  {
+   "path": "data/newspaper/202609040108.csv",
+   "sha256": "fca9efe1c706f80f4549e75ea793faf9b35d160ba982e66a2435db4b23d26fdd",
+   "bytes": 50743
+  },
+  {
+   "path": "data/newspaper/202609040109.csv",
+   "sha256": "0d534c0afaf0fa3ff64fb5eda618f5fa29e02307212a2446c4de73e3f6c4059a",
+   "bytes": 58740
+  },
+  {
+   "path": "data/newspaper/202609040110.csv",
+   "sha256": "c48d369d1afbb594de9aad62a6d0e0cbe88e68efc07380b01e4c64f2ae54d182",
+   "bytes": 46311
+  },
+  {
+   "path": "data/newspaper/202609040111.csv",
+   "sha256": "22d5b180b1fc53733fc6c8cb8dec7f5f64ee78b292a07c943ecbcb5972ce7c1e",
+   "bytes": 61292
+  },
+  {
+   "path": "data/newspaper/202609040112.csv",
+   "sha256": "eaf0a4df94640aa13fe0052a901f4bc8b5c3e706e4936b6b51587d37c3641747",
+   "bytes": 57003
+  },
+  {
+   "path": "data/newspaper/202609040201.csv",
+   "sha256": "f77003a32cde92cc033eab990288570fa6580bbd96239849116fb17e900d65bd",
+   "bytes": 47563
+  },
+  {
+   "path": "data/newspaper/202609040202.csv",
+   "sha256": "851884d5ad5358ee4608d815c8954757760b9cc30a9ef5b6e53741e70a6070f8",
+   "bytes": 68493
+  },
+  {
+   "path": "data/newspaper/202609040203.csv",
+   "sha256": "2d152c3c9ba4ba4a1d4f457dea40ec069cbe1e2b936fb181b87cc8d7e7621fd9",
+   "bytes": 64853
+  },
+  {
+   "path": "data/newspaper/202609040204.csv",
+   "sha256": "4a98664c390fff3a36943b35775a7de9ca6584ba6d539d06248d99738e199f8e",
+   "bytes": 70824
+  },
+  {
+   "path": "data/newspaper/202609040205.csv",
+   "sha256": "82a65b20488aca12d86d67feecfcb8776674fb608e22f355e9cba27a269b197a",
+   "bytes": 46490
+  },
+  {
+   "path": "data/newspaper/202609040206.csv",
+   "sha256": "601a58fe52a5bac4516097242cbb2606882bda6687f021aba3c06c4df190fb23",
+   "bytes": 56263
+  },
+  {
+   "path": "data/newspaper/202609040207.csv",
+   "sha256": "7fcc21f3d905b4984db09ef8dcde5b9648d9b96570476ea2181553ae41c70e12",
+   "bytes": 67277
+  },
+  {
+   "path": "data/newspaper/202609040208.csv",
+   "sha256": "930862ff68c9f6dab6d2bea07e17e21c549f68e944a52f8f95bfbb66d4b0e258",
+   "bytes": 45983
+  },
+  {
+   "path": "data/newspaper/202609040209.csv",
+   "sha256": "190c82105df2082ade96fc9af06f0b60397cf093a7ace7d92c2ea2e06f718ea7",
+   "bytes": 70984
+  },
+  {
+   "path": "data/newspaper/202609040210.csv",
+   "sha256": "5bafcddf7c79b56c2e2e30d22a5052b4dffbca3b134780fe319aafe327d0c195",
+   "bytes": 66139
+  },
+  {
+   "path": "data/newspaper/202609040211.csv",
+   "sha256": "587af9e658759156b44ed7346fe7aab3ffe5275979d2779b63e01f84d46f3849",
+   "bytes": 83491
+  },
+  {
+   "path": "data/newspaper/202609040212.csv",
+   "sha256": "6b09b9bd25f603d910a81d77f612525fc2a5af8c527cf7072372f807c0a34a19",
+   "bytes": 70896
+  },
+  {
+   "path": "data/newspaper/202609040301.csv",
+   "sha256": "6e2e1b76a0d7d25e5e2668c8f0425eaedb4e711115106bb0ef669407dd2ccba9",
+   "bytes": 38873
+  },
+  {
+   "path": "data/newspaper/202609040302.csv",
+   "sha256": "cfd71dbc9fc7361c96fc5909434659af2c0a931d54bb8c8f44bdc075340db112",
+   "bytes": 38735
+  },
+  {
+   "path": "data/newspaper/202609040303.csv",
+   "sha256": "c24d8b8494ecc180a0fa8a51a720aa471fa606c27b54087a531495a9a69cb953",
+   "bytes": 35844
+  },
+  {
+   "path": "data/newspaper/202609040304.csv",
+   "sha256": "8d449ac1f24550729cbdabb2fc57ef142f1d3a476a09044cf9c10492661d0e9d",
+   "bytes": 79335
+  },
+  {
+   "path": "data/newspaper/202609040305.csv",
+   "sha256": "0e46109c983304b6f3fdd6f6030bf326d7d4deb21aaded755c23162f73c7d414",
+   "bytes": 45530
+  },
+  {
+   "path": "data/newspaper/202609040306.csv",
+   "sha256": "f81f843c15beae6359ab6a30347f287ac275a1c29f49798a76981c61deac7179",
+   "bytes": 36583
+  },
+  {
+   "path": "data/newspaper/202609040307.csv",
+   "sha256": "e1bc5d66ee1acdb0d6c41d61be5d74298a5d0cd58f9c69b9b337c213be963450",
+   "bytes": 67463
+  },
+  {
+   "path": "data/newspaper/202609040308.csv",
+   "sha256": "2394b74f616a70f6ccfc748b046237e966aa51a8e472081cf8fdf6467a5b46f6",
+   "bytes": 67563
+  },
+  {
+   "path": "data/newspaper/202609040309.csv",
+   "sha256": "b695a3fa3f9217a196177e4956991e36f064553c817f502e4df9a5d851bcf6e8",
+   "bytes": 68750
+  },
+  {
+   "path": "data/newspaper/202609040310.csv",
+   "sha256": "ecca83a004e19f5947fb91fef29bdf448aa41801dbbbc35664ae6cfea6c741c3",
+   "bytes": 72977
+  },
+  {
+   "path": "data/newspaper/202609040311.csv",
+   "sha256": "b03158736a7e77ca4ba3c6191cd087ef5b25b51abeae029ce9bc1e9256392d17",
+   "bytes": 84132
+  },
+  {
+   "path": "data/newspaper/202609040312.csv",
+   "sha256": "413f13c34ad2eabb585f66fcb921076ef35201453a6678920c483a455163dc11",
+   "bytes": 70965
+  },
+  {
+   "path": "data/newspaper/202609040401.csv",
+   "sha256": "ed94a4fb7659f89230fb22ac40d4dd5b42766c6e0c875094b52029252f671839",
+   "bytes": 47162
+  },
+  {
+   "path": "data/newspaper/202609040402.csv",
+   "sha256": "a3cb5217f15dcc3595c98e1cae74a78a27a4a1377a7cdd1361c3d7be63c258d4",
+   "bytes": 38748
+  },
+  {
+   "path": "data/newspaper/202609040403.csv",
+   "sha256": "155b9fa758af87e4fcc6a3df2d668243a183456adc34bed61504371f123ab59d",
+   "bytes": 66497
+  },
+  {
+   "path": "data/newspaper/202609040404.csv",
+   "sha256": "40f26e633c2f5c1677fd9b7cf1bfdd85f4eb3f43d7ad31a7b86c1aa49e079f48",
+   "bytes": 79731
+  },
+  {
+   "path": "data/newspaper/202609040405.csv",
+   "sha256": "61bdb1895692c9a8f32796d185a5fc37c098fd1b837f8c1c86cb2bd092c8070c",
+   "bytes": 34561
+  },
+  {
+   "path": "data/newspaper/202609040406.csv",
+   "sha256": "2cffeaeae4f3a5bddfa8296bc748244509111ebbe1dfa11f8cf6ea6bf538a53e",
+   "bytes": 63400
+  },
+  {
+   "path": "data/newspaper/202609040407.csv",
+   "sha256": "45dec06f6553e2ca77a17fea1b384baece486c499bbc34f7a151eac2f9c0e438",
+   "bytes": 69919
+  },
+  {
+   "path": "data/newspaper/202609040408.csv",
+   "sha256": "8f7ffee334c195117e6c58c70ea448f7d3cc4b6fbe771f798c6a136acf84b2bf",
+   "bytes": 57302
+  },
+  {
+   "path": "data/newspaper/202609040409.csv",
+   "sha256": "9c227d22c735492bdf001e904710fdb8a77a811d8de8e7654eaec793883c9f8f",
+   "bytes": 61383
+  },
+  {
+   "path": "data/newspaper/202609040410.csv",
+   "sha256": "3d524feaeea019846233e294d5667b604aa43faf6d56b1dfe212fd691ed59fb1",
+   "bytes": 78158
+  },
+  {
+   "path": "data/newspaper/202609040411.csv",
+   "sha256": "aa885dfc18c8ebe05e8463378df79b7628ca413a967c55d67a6293d94403ec1a",
+   "bytes": 65192
+  },
+  {
+   "path": "data/newspaper/202609040412.csv",
+   "sha256": "0d0f527879a70a98daee6aa3ee695e6c9f4936792ebfa0da53d013ef52e113ae",
+   "bytes": 65496
+  },
+  {
+   "path": "data/newspaper/202609040501.csv",
+   "sha256": "4552df285d95230a169b3d87f7fe1c8f041d1b9cf7bb293381c2f9916fbeafd1",
+   "bytes": 38669
+  },
+  {
+   "path": "data/newspaper/202609040502.csv",
+   "sha256": "040eb14ef38794f6a31e695250a4f90a7f7f06abf495a2264f578854c67e5ee1",
+   "bytes": 42513
+  },
+  {
+   "path": "data/newspaper/202609040503.csv",
+   "sha256": "40af3050be4eea3f1f820aba94073e6945036039600f4607d266934cb8d9e784",
+   "bytes": 47044
+  },
+  {
+   "path": "data/newspaper/202609040504.csv",
+   "sha256": "3c6d51d5b85e82c75e17207a924bcc5352ffa1fca231f793a9c093d49a661145",
+   "bytes": 55455
+  },
+  {
+   "path": "data/newspaper/202609040505.csv",
+   "sha256": "9c94bf5cb359086e230628ec342ebfb244a2ec980a59700751458ad928f27fb3",
+   "bytes": 45710
+  },
+  {
+   "path": "data/newspaper/202609040506.csv",
+   "sha256": "6b7533e6d9f3524435f241fde7dba3bf3610c8cc2df3a7b483ae93ea4e6c0110",
+   "bytes": 45623
+  },
+  {
+   "path": "data/newspaper/202609040507.csv",
+   "sha256": "66039cebfd87f9326a76519d31801686d736b8bf09afd2fb38402c488d87f2ff",
+   "bytes": 60483
+  },
+  {
+   "path": "data/newspaper/202609040508.csv",
+   "sha256": "3873ac77ad3d549b3d4d805104dd4c26983d157b5411531b04bd57ba223e5c33",
+   "bytes": 38558
+  },
+  {
+   "path": "data/newspaper/202609040509.csv",
+   "sha256": "dea1f83bffe4feffcf3f7bb3f4b6a5916b71150d566d0a4d7dea5611d15017e3",
+   "bytes": 63958
+  },
+  {
+   "path": "data/newspaper/202609040510.csv",
+   "sha256": "00ed836d510a4ed450879c5049801fe346d1123d73cf37b7ff9c89aac3de9bef",
+   "bytes": 76794
+  },
+  {
+   "path": "data/newspaper/202609040511.csv",
+   "sha256": "b29aed062647d38bf429815c0196fbc9511a4e239939a1cb098b39a4746e130d",
+   "bytes": 78070
+  },
+  {
+   "path": "data/newspaper/202609040512.csv",
+   "sha256": "aa53b473179a241c77ce83f557b1c4c39d489cc911376833a0a9ac48863f8c39",
+   "bytes": 71841
+  },
+  {
+   "path": "data/newspaper/202609040601.csv",
+   "sha256": "24342c6cc75d19db9d2c8e60ec3e679fc616726c8b4c4031794e7b74ba46ff68",
+   "bytes": 51357
+  },
+  {
+   "path": "data/newspaper/202609040602.csv",
+   "sha256": "9defe911829e49bec4a46493a335783e788a5d205895eae8dd8ea3354a11950f",
+   "bytes": 53760
+  },
+  {
+   "path": "data/newspaper/202609040603.csv",
+   "sha256": "e9ba2576c4987931ff9c88b5b0e67b0f16e72e3ba2b556f9a430ff348281ef0b",
+   "bytes": 38979
+  },
+  {
+   "path": "data/newspaper/202609040604.csv",
+   "sha256": "efc17c845654a69ea6dd4b947d6816e7872e37616ee567221f67a357e0cea793",
+   "bytes": 57266
+  },
+  {
+   "path": "data/newspaper/202609040605.csv",
+   "sha256": "10d2682543864af9438e390eb9ad8f15cfa522b237f58ef375f519774c81875b",
+   "bytes": 58349
+  },
+  {
+   "path": "data/newspaper/202609040606.csv",
+   "sha256": "41a2b4c9055257ce0bef98db764878c7d399ce5a9fa8a525ea03eaddd2b4ad75",
+   "bytes": 56857
+  },
+  {
+   "path": "data/newspaper/202609040607.csv",
+   "sha256": "130318e5b5422bf23ef2d413c7a945179b4b579d889525aee1fa0a3ca04bc26a",
+   "bytes": 56943
+  },
+  {
+   "path": "data/newspaper/202609040608.csv",
+   "sha256": "9d514a885fc6a56fd291d434dc2c0d40a65154ecc0ee2a3bf650c82150838b4e",
+   "bytes": 71025
+  },
+  {
+   "path": "data/newspaper/202609040609.csv",
+   "sha256": "3d6a03c1f858234086ac02de3a1a8d02bf85ced57c1408211ad12f39972eda69",
+   "bytes": 57691
+  },
+  {
+   "path": "data/newspaper/202609040610.csv",
+   "sha256": "0b645f616388f7526f88d98607c3ec2fe9ce1b31c548edb8989b134710b7b808",
+   "bytes": 73438
+  },
+  {
+   "path": "data/newspaper/202609040611.csv",
+   "sha256": "e02996a80b8c3580953c6c6b90b4b6bfed08721d93b29d8ddd8b661bd1e7d367",
+   "bytes": 79909
+  },
+  {
+   "path": "data/newspaper/202609040612.csv",
+   "sha256": "8d9e4de07ba84e229e0b43d3a23ec490b4a47564846f0d63f3c2287088fd4462",
+   "bytes": 67188
+  },
+  {
+   "path": "data/newspaper/202609040701.csv",
+   "sha256": "f16767f62dea2fded28144f8017c2eeefe00980abcb56aea620ac9d0658e08cd",
+   "bytes": 38039
+  },
+  {
+   "path": "data/newspaper/202609040702.csv",
+   "sha256": "2af52258d2860dc5eaaf77526d3a984ed74047c881772d63b1abefebed485adc",
+   "bytes": 47648
+  },
+  {
+   "path": "data/newspaper/202609040703.csv",
+   "sha256": "833a0a12570ac321c81ddb92adde66dbd20493d148a6600b3e70403da8b45656",
+   "bytes": 56255
+  },
+  {
+   "path": "data/newspaper/202609040704.csv",
+   "sha256": "f3b24e7409b4c52c2510c7f198a6c38db082d416bdaac39e6f882e81c8be45d7",
+   "bytes": 57331
+  },
+  {
+   "path": "data/newspaper/202609040705.csv",
+   "sha256": "52252079b42dbbb3380e5f761e668ad68bf47c56cd7903089498e47043e8971b",
+   "bytes": 45436
+  },
+  {
+   "path": "data/newspaper/202609040706.csv",
+   "sha256": "f5da1d6b21e95990c5d9e98961c93f873a635ec482155ee91ee7751cb0b8f955",
+   "bytes": 65533
+  },
+  {
+   "path": "data/newspaper/202609040707.csv",
+   "sha256": "4672f33f65efcca87ec584fe171da3a19e83a2bc7f23f50b75a93dc71b7a7f20",
+   "bytes": 80726
+  },
+  {
+   "path": "data/newspaper/202609040708.csv",
+   "sha256": "34b3afd1147b5af28815b1ef87b9bb0adb60dfff9606c43322430950daf12f6b",
+   "bytes": 57982
+  },
+  {
+   "path": "data/newspaper/202609040709.csv",
+   "sha256": "1b0e2593b5b5ee9d509bb38ac3d70a0e39c37d80d4da3bf122797e7dd1868d5f",
+   "bytes": 76184
+  },
+  {
+   "path": "data/newspaper/202609040710.csv",
+   "sha256": "ce769e82f11de6aa7325782289428adc81f564c028c14703292b192e01f231f0",
+   "bytes": 82405
+  },
+  {
+   "path": "data/newspaper/202609040711.csv",
+   "sha256": "9976113319c4c6d04e2b06013d34c583473539e2e19a3b199691102815ab5ddb",
+   "bytes": 60420
+  },
+  {
+   "path": "data/newspaper/202609040712.csv",
+   "sha256": "eaaa55c3f3856205ceed91a1ae5a8c19a69707d09441a10ef554d383a276cedb",
+   "bytes": 67033
+  },
+  {
+   "path": "data/newspaper/202609040801.csv",
+   "sha256": "b0648ed2c037e09ee67724ac62c0a11352efe5c4e6996058b6bd73854aa2d23d",
+   "bytes": 48865
+  },
+  {
+   "path": "data/newspaper/202609040802.csv",
+   "sha256": "3d5012426972d3dc0d053d4f4337e85c90972743af1f9aaf72f985273e144a28",
+   "bytes": 36033
+  },
+  {
+   "path": "data/newspaper/202609040803.csv",
+   "sha256": "ccd88c94d3c8c2e97a08f3d84b10043f4495c6bcc28ac0ceac5b6a6ac3174595",
+   "bytes": 63681
+  },
+  {
+   "path": "data/newspaper/202609040804.csv",
+   "sha256": "026e9a1d05fe41a35dc6cd346a3ed4b9e725e1109faa3696b2d6a5058683fe70",
+   "bytes": 59623
+  },
+  {
+   "path": "data/newspaper/202609040805.csv",
+   "sha256": "ba20e226c14882dfab34d0082864e8fb8b61905392fcc105f254b2c1d8438ef2",
+   "bytes": 60939
+  },
+  {
+   "path": "data/newspaper/202609040806.csv",
+   "sha256": "7db583c7a2e9ceabd0841b112cdf9e42d05afa7d93672fab04292254e1f3dfb2",
+   "bytes": 69573
+  },
+  {
+   "path": "data/newspaper/202609040807.csv",
+   "sha256": "556644a989abe82dcb52ee5ed462010cf021d14bdca6b6bb9c7ca1881e63755e",
+   "bytes": 64498
+  },
+  {
+   "path": "data/newspaper/202609040808.csv",
+   "sha256": "51010e16f1cd671badaa7f7e04f58ee5f9bc7de20ab076770d756c013f58d897",
+   "bytes": 56002
+  },
+  {
+   "path": "data/newspaper/202609040809.csv",
+   "sha256": "1ff1d2601e30191e0199fc1d482c0f5b353c83cbcb2e4dc78ba0632e133bccb0",
+   "bytes": 42966
+  },
+  {
+   "path": "data/newspaper/202609040810.csv",
+   "sha256": "f6e11888a55594318bde5e763266ce441a76bf6218a49cae469e159448dab483",
+   "bytes": 74663
+  },
+  {
+   "path": "data/newspaper/202609040811.csv",
+   "sha256": "b30082639565ade887a0e1e7ada0dd0041886b3930ea4be13ad972c651ad3958",
+   "bytes": 78890
+  },
+  {
+   "path": "data/newspaper/202609040812.csv",
+   "sha256": "1b2f42af9fc844f70a6e1ea194ef6ccd9995267ccd5a577ffc6815a55d571f28",
+   "bytes": 72397
+  },
+  {
+   "path": "data/newspaper/202609040901.csv",
+   "sha256": "cc50f735af83e87f3abba5f9c67bc935565de0c87688903663a5cf351a2ec2ae",
+   "bytes": 51377
+  },
+  {
+   "path": "data/newspaper/202609040902.csv",
+   "sha256": "462bdcb4afc15eb04489258685c2a9d8f31bfa916f30c98594d5c051bd3c0c1b",
+   "bytes": 42092
+  },
+  {
+   "path": "data/newspaper/202609040903.csv",
+   "sha256": "d7d7bfe341a3b2311df5b94aae68364e5db7879c4de3cb6888000422a3a289eb",
+   "bytes": 41702
+  },
+  {
+   "path": "data/newspaper/202609040904.csv",
+   "sha256": "487492707fe6b0f1a6e19a650a4309c849023bc569a39bf663ba1467de30eb53",
+   "bytes": 38908
+  },
+  {
+   "path": "data/newspaper/202609040905.csv",
+   "sha256": "87de008521335a40ad3164e17faa68dba00737a8bcc4b9831d808edf1157809f",
+   "bytes": 45355
+  },
+  {
+   "path": "data/newspaper/202609040906.csv",
+   "sha256": "511d7d8c9c60f5619690ae363de118d768e398b8b1dece90b02232174303c496",
+   "bytes": 60779
+  },
+  {
+   "path": "data/newspaper/202609040907.csv",
+   "sha256": "9ab9ba63def379f068864e7e7224039d2fa599bdc7a33d38c6121894e2bfb521",
+   "bytes": 69950
+  },
+  {
+   "path": "data/newspaper/202609040908.csv",
+   "sha256": "41cd1a2a59490f58a48c619ba751ef5f50029ec4c457477b1284c4eb7259b015",
+   "bytes": 60909
+  },
+  {
+   "path": "data/newspaper/202609040909.csv",
+   "sha256": "21f89630609a30a3b744b035f1b28c47559f427dd733213335300f7d71b2b069",
+   "bytes": 61164
+  },
+  {
+   "path": "data/newspaper/202609040910.csv",
+   "sha256": "eaf2085d22579e5ca4df79ae7b7f7c0106c1f6c7fc7b1a31bf89e27f60949cf5",
+   "bytes": 62436
+  },
+  {
+   "path": "data/newspaper/202609040911.csv",
+   "sha256": "6ae876d62fa2e5b260169aef0a9644dc923bada4cbe694604549e6f5932f1455",
+   "bytes": 82190
+  },
+  {
+   "path": "data/newspaper/202609040912.csv",
+   "sha256": "8f6409049ba9c9281f4094c2dd90da9802f5568c37ad6668d8f3cbfd1d12fc8f",
+   "bytes": 57367
+  },
+  {
+   "path": "data/newspaper/202610020501.csv",
+   "sha256": "3ed55316db14bf031bf591b54242b441c9b6a48a0861869e0edf103c2e6d47a9",
+   "bytes": 53486
+  },
+  {
+   "path": "data/newspaper/202610020502.csv",
+   "sha256": "ae7ea6462d101c118914300fffb44826b3e81401203ca6049e64a88933e3680f",
+   "bytes": 65073
+  },
+  {
+   "path": "data/newspaper/202610020503.csv",
+   "sha256": "ccae6a9df17b52d6416ef2ee47875b7f955143b78931d818fe9fbb93c7d6dc07",
+   "bytes": 77429
+  },
+  {
+   "path": "data/newspaper/202610020504.csv",
+   "sha256": "ec2b14eeb0dbe198909aeddb835b06c7cfeb1e5b9f305ca023f78af8bca69133",
+   "bytes": 66903
+  },
+  {
+   "path": "data/newspaper/202610020505.csv",
+   "sha256": "c0d5b7dcebfbb0e98fe3d931ae4612fca8a21f9152ff4e10327bb41151a71d17",
+   "bytes": 51713
+  },
+  {
+   "path": "data/newspaper/202610020506.csv",
+   "sha256": "3d5c3424720470430a48cc3eeebb0604d77df4d55b1798759492b390fd83b861",
+   "bytes": 78012
+  },
+  {
+   "path": "data/newspaper/202610020507.csv",
+   "sha256": "d598a65feaba7b24daa6d0caf45f30bfc5a98023e8d11f88ca2c8dbbfc0ccf14",
+   "bytes": 61051
+  },
+  {
+   "path": "data/newspaper/202610020508.csv",
+   "sha256": "d125e48d6ea59ffe725cb48dfd7cd27b7897dd064f4205b3dd5974ae4a70290e",
+   "bytes": 53241
+  },
+  {
+   "path": "data/newspaper/202610020509.csv",
+   "sha256": "3a8aa404a410af729f6712b061162578830f0ceef5a468c9a26423d744a7f2e8",
+   "bytes": 60099
+  },
+  {
+   "path": "data/newspaper/202610020510.csv",
+   "sha256": "ae0aedf8ab0079851e0d78db290b6004ebb097cd678de71735a7571993f877c6",
+   "bytes": 89298
+  },
+  {
+   "path": "data/newspaper/202610020511.csv",
+   "sha256": "2bd18a416112e2ee9db20068883f97dffda770c04d0f1580625ea4a564a3e74a",
+   "bytes": 57794
+  },
+  {
+   "path": "data/newspaper/202610020512.csv",
+   "sha256": "524d55523c8e59ccfed93cb13873ff19dfadad065b0a019d373928f46e86b6bb",
+   "bytes": 75354
+  },
+  {
+   "path": "data/newspaper/202610020601.csv",
+   "sha256": "b6570af3a3775d3ca7299ff3e94fdec587593588820678461e097769df9669e2",
+   "bytes": 72528
+  },
+  {
+   "path": "data/newspaper/202610020602.csv",
+   "sha256": "c55b6f81bc2b2a648812bb39b01bdd53f22b73db6f38e3c104f6bfcfe0242618",
+   "bytes": 60171
+  },
+  {
+   "path": "data/newspaper/202610020603.csv",
+   "sha256": "d08df7e30bc0c66bc91f1a1b8e2157da6e03b482a089f08bb92c812b73515871",
+   "bytes": 66849
+  },
+  {
+   "path": "data/newspaper/202610020604.csv",
+   "sha256": "bcfec3b8cbd7493e35d7ed4d33a8d87b2187d9152070d95bc0ae3b8498a2a5e0",
+   "bytes": 61161
+  },
+  {
+   "path": "data/newspaper/202610020605.csv",
+   "sha256": "32be0c838fada86a87ae7417046d66833fa4e95749bfcb8f0be6fe6efe849ddf",
+   "bytes": 40067
+  },
+  {
+   "path": "data/newspaper/202610020606.csv",
+   "sha256": "1f16cdd38479982f1a47fff7f37999e8f31d8db7d58debcfbbfa14f6b1578534",
+   "bytes": 42778
+  },
+  {
+   "path": "data/newspaper/202610020607.csv",
+   "sha256": "3e69ff425cc10ef87ad48a8f0e858a5a4dc539026f40ac0733ff63b4be632ddc",
+   "bytes": 66219
+  },
+  {
+   "path": "data/newspaper/202610020608.csv",
+   "sha256": "a88fb1fc23c3df2632109b9e2a6ec938d7a62803c20039a0926ba8df6119ef25",
+   "bytes": 49842
+  },
+  {
+   "path": "data/newspaper/202610020609.csv",
+   "sha256": "6496325549e82935a0905191671cd404faaab7d391841ca9988606194ee5365e",
+   "bytes": 54461
+  },
+  {
+   "path": "data/newspaper/202610020610.csv",
+   "sha256": "5723b02e8b92f56c997296d3c98a2897ab9d01edbf3519a2c9bfc0d5f1220dc0",
+   "bytes": 61275
+  },
+  {
+   "path": "data/newspaper/202610020611.csv",
+   "sha256": "dd03ae15f5d8119b7a10970513fe3cbeabf58cb5e11faff29814857d243ddb66",
+   "bytes": 59143
+  },
+  {
+   "path": "data/newspaper/202610020612.csv",
+   "sha256": "ee4c9309e1974cc48e1dadcba163387c5d7c4a68a1a6adfacc43c9a4fdcd4647",
+   "bytes": 78230
+  },
+  {
+   "path": "data/newspaper/202610020701.csv",
+   "sha256": "19953e71d0fba665d6cdd4e37be980c99a3b51d331f0a264e19d1cb84cdd2370",
+   "bytes": 50321
+  },
+  {
+   "path": "data/newspaper/202610020702.csv",
+   "sha256": "2d3e67566e5ff46f4fd4426cddc71850d4858ba1744cda6048e32e3cbe7104c4",
+   "bytes": 49762
+  },
+  {
+   "path": "data/newspaper/202610020703.csv",
+   "sha256": "92c78c46131f4a62fb738add2564e89319df2d91c05562107d8a16e3d72a224a",
+   "bytes": 59957
+  },
+  {
+   "path": "data/newspaper/202610020704.csv",
+   "sha256": "f7a2c58bb8a60e6e438fcc3983078518f732796d0dddb0986f0f87179800d161",
+   "bytes": 41977
+  },
+  {
+   "path": "data/newspaper/202610020705.csv",
+   "sha256": "f3932fcb4ecf42ee7ee63a9e2502ae451222e7ed0d8e70f7a42eb3918e1de7c8",
+   "bytes": 37400
+  },
+  {
+   "path": "data/newspaper/202610020706.csv",
+   "sha256": "d2ff836a63b27b0fb42176744ef3f5136fdbb3c7b0b6a3dd4534a722933afa73",
+   "bytes": 56902
+  },
+  {
+   "path": "data/newspaper/202610020707.csv",
+   "sha256": "fc42cf7b44b6feea92ca5f4c04221b0c1be56b755129bb7884aae945dd64bb44",
+   "bytes": 63691
+  },
+  {
+   "path": "data/newspaper/202610020708.csv",
+   "sha256": "034a5b0aa125784dc6b6c3b41e950c543718adb8f146919274c215d204d8a25d",
+   "bytes": 53447
+  },
+  {
+   "path": "data/newspaper/202610020709.csv",
+   "sha256": "459e6a2142fa61bdaaff1b7ed8c05497090389fc99259576ae20ca918a8b16a0",
+   "bytes": 78907
+  },
+  {
+   "path": "data/newspaper/202610020710.csv",
+   "sha256": "a4888ce8e1a6ee5e51cc0fbd7480b5150661360d69aac527f3f0a96257444f03",
+   "bytes": 62288
+  },
+  {
+   "path": "data/newspaper/202610020711.csv",
+   "sha256": "4859ab2ec96f65738b2d0aeaf56653e373e8a0af4bf97bda96c0306de11b8bdf",
+   "bytes": 65952
+  },
+  {
+   "path": "data/newspaper/202610020712.csv",
+   "sha256": "9c5d3812516fc09623b7f706ae8e26aa142ceb009efdc924848afc9c6e4d6f2e",
+   "bytes": 63708
+  },
+  {
+   "path": "data/newspaper/202610020801.csv",
+   "sha256": "aaca3beb7168ba0a4f9435f556acaaa3d714490938814ef99e5e96fae8a098aa",
+   "bytes": 47721
+  },
+  {
+   "path": "data/newspaper/202610020802.csv",
+   "sha256": "f872984771516225854d1a78b5e46d9fa607354fc7b046e32fc842564e07e641",
+   "bytes": 78363
+  },
+  {
+   "path": "data/newspaper/202610020803.csv",
+   "sha256": "5c1c9de9dbb3b3f17a7e4c7d22cfb2f2c175535805f190a6449983c12b640178",
+   "bytes": 66372
+  },
+  {
+   "path": "data/newspaper/202610020804.csv",
+   "sha256": "52ca5f68d4d7a3e1f980ff1128f16bf3874d6e94518a88e3888102c811f8d716",
+   "bytes": 64520
+  },
+  {
+   "path": "data/newspaper/202610020805.csv",
+   "sha256": "3ffb489abf6866906892c1b3f715a7c69c60cc30b1fcbe1ee72e077a7d4b3449",
+   "bytes": 39858
+  },
+  {
+   "path": "data/newspaper/202610020806.csv",
+   "sha256": "dbf2f83ba6af049614ff3d6970d2287e0c2ebfbb3fa07463ff84f7486bc468f1",
+   "bytes": 59883
+  },
+  {
+   "path": "data/newspaper/202610020807.csv",
+   "sha256": "94b1c20fd2c0ee89457715cc537c0ae5017462841d21c1418c4d8156ffd64773",
+   "bytes": 78832
+  },
+  {
+   "path": "data/newspaper/202610020808.csv",
+   "sha256": "b98c63d9deab967cc21bbf18634e3bdbe08999fd1d932ce514e23650e9af8613",
+   "bytes": 64788
+  },
+  {
+   "path": "data/newspaper/202610020809.csv",
+   "sha256": "157cfdb8f895ec914b186bfbfcf6564f102f360963919bad2b430610268bf018",
+   "bytes": 50411
+  },
+  {
+   "path": "data/newspaper/202610020810.csv",
+   "sha256": "a713c98d8d4d10383468b048bdbdc3ea8d03e95f278f87b41fc2ff18bb02fa6d",
+   "bytes": 77576
+  },
+  {
+   "path": "data/newspaper/202610020811.csv",
+   "sha256": "3a6f47616e2e8c9a019714497abe28176eed589282b5a15fe9a0aa8ae47a19bf",
+   "bytes": 91105
+  },
+  {
+   "path": "data/newspaper/202610020812.csv",
+   "sha256": "0ebbc33c6be5ae69ed09d974c69008d82adcf94619a251c5f8e8ad2e933efaa1",
+   "bytes": 53030
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/comment_labels.csv",
+   "sha256": "0e1b658052a551de4dbe83295740faaf1aaa23c99e7684a5ab807c3160b4fd8a",
+   "bytes": 644618
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/lambda_2017_2025.json",
+   "sha256": "fd0b2536b2136f047c2b0e86bddb55e80e45a0fda344e48613c3d0fce938cafe",
+   "bytes": 141
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/rater_agreement.json",
+   "sha256": "8f768dae35d28ed37937da2b5bd7c451747ab9867b258183c6c88d835c39ebc1",
+   "bytes": 663
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/comment_labels_raw/key.csv",
+   "sha256": "a3ff4705670dc65eabf55b48e4f590396116df7fb6a6407191654210e65e37af",
+   "bytes": 625252
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/comment_labels_raw/labels_00.txt",
+   "sha256": "79d243e966ae40165d36996bde9b9b124b3100237568055f8ba11c5113decb1a",
+   "bytes": 1549
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/comment_labels_raw/labels_01.txt",
+   "sha256": "555c34f695796f77acc50762297f12f2506275275b9b2388657854e22208c52c",
+   "bytes": 1580
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/comment_labels_raw/labels_02.txt",
+   "sha256": "d703dc3c68b9576b2b96e0e60fdbcfa021512a7d0e6ed1bd159897b040402efc",
+   "bytes": 1620
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/comment_labels_raw/labels_03.txt",
+   "sha256": "790ac666a442c54399531a91b4120634a602b90a0356e87f556d78471cf2e254",
+   "bytes": 1620
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/comment_labels_raw/labels_04.txt",
+   "sha256": "04f9d127796947471537029fa4c4314db9aff1f3ba78458c5d23db72f508e29a",
+   "bytes": 1620
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/comment_labels_raw/labels_05.txt",
+   "sha256": "71278d776503dad49dd435b012d772d743be282eb744b53fd0b9076536009400",
+   "bytes": 1620
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/comment_labels_raw/labels_06.txt",
+   "sha256": "cde3a74c73e1a878a940dfb3d0f48ad6743dd554c2a39fe738c1103b18fc3fae",
+   "bytes": 1620
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/comment_labels_raw/labels_07.txt",
+   "sha256": "993e38c1501ec39b92d08e4bbee06ba0bacce75cc9d0f055b1fceaf002b5969c",
+   "bytes": 1305
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260801.csv.gz",
+   "sha256": "ead8a9e0b8a47853b9e10ca34c5ba9ba362f3cf6a627837738c04f51c145e710",
+   "bytes": 49416
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260802.csv.gz",
+   "sha256": "9f3a83e563b4c24c9fb550b7cfc0c8a4aa84be9c029bfccd0e554859f7450096",
+   "bytes": 48129
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260808.csv.gz",
+   "sha256": "ec6469e1cc99fd15495858be9abd379af190176c0c92fdbdbb445b11b7217f47",
+   "bytes": 49220
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260809.csv.gz",
+   "sha256": "015f6e5a20eb6a6215766cdd043a9bd872c570bac2e39c5fe7159b857cd270c9",
+   "bytes": 35849
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260815.csv.gz",
+   "sha256": "9bb6d6b421181bae137fa8e0c68bfe12eadaaf59a901bbd1183abadc3e4af3b5",
+   "bytes": 51825
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260816.csv.gz",
+   "sha256": "a81f1bdd3ae594bc34132c3fd2a58a99cb3f7b8fd9db1d55c5dd26ad7b2951b3",
+   "bytes": 44551
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260822.csv.gz",
+   "sha256": "0709879dfd47f1aa5a6a3335906e180e39d609f9488a4a0bf911103548e87e03",
+   "bytes": 51096
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260823.csv.gz",
+   "sha256": "281b9443d213a32cc22c1f537fa5e98eefc70e1da7abd825f0769485de0c046e",
+   "bytes": 41028
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260829.csv.gz",
+   "sha256": "26fa24ad42b0e7b9d17a2f5a0489be3d4ffd83af83e736e7f7f5a227f2ce6ca9",
+   "bytes": 41504
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260830.csv.gz",
+   "sha256": "9d1b6af54eff8362799e8f034daaaf0009bec43d4bd786b07bbc54a8f18d1424",
+   "bytes": 50948
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260905.csv.gz",
+   "sha256": "40eb868230b3536b1fad17dc97b5263d0d0e28cee931c353881355eb03a90d59",
+   "bytes": 43060
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260906.csv.gz",
+   "sha256": "0041f1d6983392687c1765040ae120f5a572e13e8d4e699b97a9581434181f93",
+   "bytes": 32897
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260912.csv.gz",
+   "sha256": "46c4aa14ea6a1246cac1cd2b1cd8101720eb16a57c59db84e404a2bbff1cd6fb",
+   "bytes": 32127
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260913.csv.gz",
+   "sha256": "b8cb70933cebba252e10ac87bf4215e01cf27d0738ce86983fa40faf5c900ac8",
+   "bytes": 30713
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260919.csv.gz",
+   "sha256": "17a1424354a853c35d6302582cc6f722ede9ef2cc7dd90df6e02d4e8e29b3662",
+   "bytes": 29020
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260920.csv.gz",
+   "sha256": "e68e05dc56d5294710f0836954d3545f95a8e6f53180ae605e768fa4caa6e1c2",
+   "bytes": 28042
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260921.csv.gz",
+   "sha256": "8184291b89752b02845f8c029ebb7fb5735a9a89ea40d815a2632a0aa3aaba55",
+   "bytes": 14941
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260922.csv.gz",
+   "sha256": "9045b382a2cbaaeda6524125e65e96be4c8d0a5be3b8d86503edd70a6444c71e",
+   "bytes": 14300
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260926.csv.gz",
+   "sha256": "ca8f360a95cd9648d6c9fd6f5cc1fccf89b805a82c3645b241c9f8976ec9179c",
+   "bytes": 31948
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20260927.csv.gz",
+   "sha256": "526550cd34e547a5ad50ef30fe596005d98fafccb4c4a5f73f89194f03222ecf",
+   "bytes": 26004
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20261003.csv.gz",
+   "sha256": "ba0533c0b6998d610ee00427fd453390fe9a381ab6e9e44d91d2efeafa7ad44f",
+   "bytes": 37109
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20261004.csv.gz",
+   "sha256": "39924e97b60e7a4bb79a594af1ab164679d6874b655d415c70390aa169be0785",
+   "bytes": 39027
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20261010.csv.gz",
+   "sha256": "d295c78508f3d828c3a182536c7332a92dc55f100a90bac2abf51907414163c8",
+   "bytes": 31973
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20261011.csv.gz",
+   "sha256": "c9d3dda8574b1ad9ad47b169cd95534cd3ed87d9eeca213cca8623f3e2229e03",
+   "bytes": 25295
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho/odds_history_20261012.csv.gz",
+   "sha256": "9fb6b4b8f26287e16b3080dfc48908f99ef8852976e094bd61a1738cc77dbec1",
+   "bytes": 32569
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/odds_tansho_sha256.txt",
+   "sha256": "0a93242a940448ba537e53b8050d2b1c0c1c0f966f2cd83155e1de3d390aecd1",
+   "bytes": 2675
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/rater2/items200.txt",
+   "sha256": "2c16536e7ab203138f0947fa92acf58f7d98d340a631480a248f8b25bcc77c5e",
+   "bytes": 23554
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/rater2/key200.csv",
+   "sha256": "1e83de3cbfad87b64cacd80a10c720115a90fa999e23b97a06ecc071dfa951c8",
+   "bytes": 1842
+  },
+  {
+   "path": "data/jra_pipeline/market_pools_2026_10_12/inputs/rater2/rater2.csv",
+   "sha256": "4e6e4678af1579768ae0b328012b6623ea36319dbc87364f246331d0fa9fd054",
+   "bytes": 1536
+  }
+ ]
+}
