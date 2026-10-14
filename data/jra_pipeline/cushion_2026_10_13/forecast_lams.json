@@ -1,0 +1,11 @@
+{
+ "cushion_none": 30.0,
+ "moist_turf_none": 10.0,
+ "moist_dirt_none": 30.0,
+ "cushion_night": 30.0,
+ "moist_turf_night": 10.0,
+ "moist_dirt_night": 30.0,
+ "cushion_morning": 30.0,
+ "moist_turf_morning": 10.0,
+ "moist_dirt_morning": 30.0
+}

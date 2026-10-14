@@ -1,0 +1,158 @@
+<title>クッション値 再開メモ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700&family=Noto+Sans+JP:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* 誌面: 1カラムの検証記録。判定表→図→方向ごとの詳細→レビュー→再現の順 */
+:root{
+  --bg:#f6f6f2;--fg:#1c1d1a;--mut:#62645c;--card:#ffffff;--bd:#dcddd4;--soft:#ecede6;
+  --ok:#1f7a45;--ng:#a8321f;--acc:#2f6a3e;--mark:#c48a12;
+  --f-disp:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-num:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#151613;--fg:#e9eae3;--mut:#a2a499;--card:#1e1f1b;--bd:#34362f;--soft:#26281f;
+  --ok:#62c48d;--ng:#ef8a78;--acc:#8fcf9c;--mark:#e3b453;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#151613;--fg:#e9eae3;--mut:#a2a499;--card:#1e1f1b;--bd:#34362f;--soft:#26281f;
+  --ok:#62c48d;--ng:#ef8a78;--acc:#8fcf9c;--mark:#e3b453;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.75}
+.wrap{max-width:880px;margin:0 auto;padding-inline:16px;padding-block:28px 64px;display:flex;flex-direction:column;gap:34px}
+h1,h2,h3{font-family:var(--f-disp);text-wrap:balance;line-height:1.35;margin:0}
+h1{font-size:1.85rem;font-weight:700}
+h2{font-size:1.3rem;font-weight:700;padding-bottom:6px;border-bottom:1px solid var(--bd)}
+h3{font-size:1.05rem;font-weight:700}
+p{margin:0;max-width:68ch}
+section{display:flex;flex-direction:column;gap:14px;min-width:0}
+.eyebrow{font-size:.78rem;letter-spacing:.08em;color:var(--mut)}
+.lead{font-size:1.02rem}
+.mut{color:var(--mut);font-size:.88rem}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+.verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.vc{background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.vc .k{font-size:.8rem;color:var(--mut)}
+.vc .t{font-family:var(--f-disp);font-weight:700}
+.pill{display:inline-block;font-size:.75rem;font-weight:700;padding:1px 9px;border-radius:999px;letter-spacing:.04em;width:fit-content}
+.pill.ng{color:var(--ng);border:1px solid var(--ng)}
+.pill.ok{color:var(--ok);border:1px solid var(--ok)}
+.pill.ref{color:var(--mut);border:1px solid var(--bd)}
+.tbl{overflow-x:auto;border:1px solid var(--bd);border-radius:6px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{padding:7px 10px;border-bottom:1px solid var(--bd);text-align:left;vertical-align:top}
+th{font-weight:700;background:var(--soft);white-space:nowrap}
+td.r,th.r{text-align:right;font-family:var(--f-num);font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+.fig{background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:12px;overflow-x:auto}
+.fig svg{display:block;max-width:100%;height:auto}
+.fig text{fill:var(--fg);font-family:var(--f-body)}
+.fig .ax{stroke:var(--bd)}
+.fig .zero{stroke:var(--mut);stroke-dasharray:3 3}
+.fig .ci{stroke:var(--acc);stroke-width:2.5}
+.fig .pt{fill:var(--acc)}
+.fig .pl{fill:var(--mark)}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:.82rem;color:var(--mut)}
+.legend i{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:middle}
+ul{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:4px;max-width:70ch}
+.quote{border-left:3px solid var(--bd);padding-left:12px;color:var(--fg)}
+.rev{display:flex;flex-direction:column;gap:10px}
+.rv{background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.rv .who{font-size:.78rem;color:var(--mut);letter-spacing:.04em}
+.code{font-family:var(--f-num);font-size:.82rem;word-break:break-all}
+a{color:var(--acc)}
+a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.bar{fill:var(--acc)}.bar.hi{fill:var(--mark)}.tick{fill:var(--mut);font-size:11px}
+ol{margin:0;padding-left:1.4em;display:flex;flex-direction:column;gap:10px;max-width:72ch}
+</style>
+<main class="wrap">
+<header style="display:flex;flex-direction:column;gap:10px">
+<div class="eyebrow">JRA 予想・検証記録 / 2026-10-14 保留 / 再開用</div>
+<h1>クッション値 再開メモ</h1>
+<p class="lead">クッション値・含水率を予想に盛り込む作業は、2026-10-14 に<strong>保留</strong>にしました。クッション値は天気・コース・距離などと関係があり、重要なファクターの一つと考えています。ただ、今の検証では本番の印や見送りに入れる形が見つかっていないので、いったん見送ります。このページは、あとで再開する会話がここから始められるように、分かったこと・使ったデータの期間・次の候補・手順をまとめたものです。</p>
+<p class="mut">結果の詳細: <a href="https://claude.ai/artifact/Ua9g8rm4KjmqzacGXGXC3p" target="_blank" rel="noopener">クッション値の予想と検証</a> ・ 正本: <span class="code">scripts/jra_model/cushion_2026_10_13/RESUME.md</span></p>
+</header>
+
+<section>
+<h2>いまの状態</h2>
+<div class="verdict">
+<div class="vc"><span class="k">手順2 前夜に当日朝の値を予想</span><span class="pill ok">合格</span><span class="mut">平均誤差 <span class="num">0.333</span>、直前の測定値そのまま <span class="num">0.372</span>(2020〜2024年、1,236開催日)</span></div>
+<div class="vc"><span class="k">手順3 馬ごとの向き不向き</span><span class="pill ng">No-Go</span><span class="mut">C1〜C5 すべて不合格。芝の馬自身は 1SDあたりオッズ比 <span class="num">0.97〜1.03</span></span></div>
+<div class="vc"><span class="k">本番への反映</span><span class="pill ref">保留中</span><span class="mut">前夜の予想値を出す仕組みは未作成。収集のタスク3つは動かし続ける</span></div>
+</div>
+</section>
+
+<section>
+<h2>クッション値と各ファクターの関係</h2>
+<p>2020-01-05〜2026-08-16 の 1,710 開催日の記述です(検定ではありません)。</p>
+<h3>競馬場: 差が最も大きい</h3>
+<div class="fig"><svg viewBox="0 0 640 294" role="img" aria-label="競馬場ごとのクッション値の平均"><line class="ax" x1="64.0" y1="4" x2="64.0" y2="270"/><text class="tick" x="64.0" y="286" text-anchor="middle">6</text><line class="ax" x1="167.2" y1="4" x2="167.2" y2="270"/><text class="tick" x="167.2" y="286" text-anchor="middle">7</text><line class="ax" x1="270.4" y1="4" x2="270.4" y2="270"/><text class="tick" x="270.4" y="286" text-anchor="middle">8</text><line class="ax" x1="373.6" y1="4" x2="373.6" y2="270"/><text class="tick" x="373.6" y="286" text-anchor="middle">9</text><line class="ax" x1="476.8" y1="4" x2="476.8" y2="270"/><text class="tick" x="476.8" y="286" text-anchor="middle">10</text><line class="ax" x1="580.0" y1="4" x2="580.0" y2="270"/><text class="tick" x="580.0" y="286" text-anchor="middle">11</text><text x="56" y="22.1" text-anchor="end" font-size="13">函館</text><rect class="bar hi" x="64.0" y="10" width="137.2" height="16" rx="2"/><text x="207.2" y="22.1" font-size="12">7.33(72日)</text><text x="56" y="48.1" text-anchor="end" font-size="13">札幌</text><rect class="bar hi" x="64.0" y="36" width="157.8" height="16" rx="2"/><text x="227.8" y="48.1" font-size="12">7.53(78日)</text><text x="56" y="74.1" text-anchor="end" font-size="13">福島</text><rect class="bar" x="64.0" y="62" width="298.5" height="16" rx="2"/><text x="368.5" y="74.1" font-size="12">8.89(112日)</text><text x="56" y="100.1" text-anchor="end" font-size="13">小倉</text><rect class="bar" x="64.0" y="88" width="325.1" height="16" rx="2"/><text x="395.1" y="100.1" font-size="12">9.15(146日)</text><text x="56" y="126.1" text-anchor="end" font-size="13">新潟</text><rect class="bar" x="64.0" y="114" width="337.2" height="16" rx="2"/><text x="407.2" y="126.1" font-size="12">9.27(162日)</text><text x="56" y="152.1" text-anchor="end" font-size="13">東京</text><rect class="bar" x="64.0" y="140" width="340.0" height="16" rx="2"/><text x="410.0" y="152.1" font-size="12">9.29(266日)</text><text x="56" y="178.1" text-anchor="end" font-size="13">阪神</text><rect class="bar" x="64.0" y="166" width="351.2" height="16" rx="2"/><text x="421.2" y="178.1" font-size="12">9.40(247日)</text><text x="56" y="204.1" text-anchor="end" font-size="13">中京</text><rect class="bar" x="64.0" y="192" width="371.9" height="16" rx="2"/><text x="441.9" y="204.1" font-size="12">9.60(213日)</text><text x="56" y="230.1" text-anchor="end" font-size="13">中山</text><rect class="bar" x="64.0" y="218" width="373.3" height="16" rx="2"/><text x="443.3" y="230.1" font-size="12">9.62(251日)</text><text x="56" y="256.1" text-anchor="end" font-size="13">京都</text><rect class="bar" x="64.0" y="244" width="415.6" height="16" rx="2"/><text x="485.6" y="256.1" font-size="12">10.03(163日)</text></svg></div>
+<p class="mut">北海道の2場(橙)は洋芝で低く、京都が最も高い。全体のばらつき(SD)は約 0.95 で、その多くは競馬場の差です。</p>
+<h3>季節: 冬が硬め、夏が柔らかめ</h3>
+<div class="fig"><svg viewBox="0 0 640 230" role="img" aria-label="月ごとのクッション値の平均"><line class="ax" x1="40" y1="200.0" x2="630" y2="200.0"/><text class="tick" x="34" y="204.0" text-anchor="end">8.0</text><line class="ax" x1="40" y1="153.0" x2="630" y2="153.0"/><text class="tick" x="34" y="157.0" text-anchor="end">8.5</text><line class="ax" x1="40" y1="106.0" x2="630" y2="106.0"/><text class="tick" x="34" y="110.0" text-anchor="end">9.0</text><line class="ax" x1="40" y1="59.0" x2="630" y2="59.0"/><text class="tick" x="34" y="63.0" text-anchor="end">9.5</text><line class="ax" x1="40" y1="12.0" x2="630" y2="12.0"/><text class="tick" x="34" y="16.0" text-anchor="end">10.0</text><rect class="bar" x="48.9" y="39.2" width="31.5" height="160.8" rx="2"><title>1月 9.71</title></rect><text class="tick" x="64.6" y="220" text-anchor="middle">1月</text><rect class="bar" x="98.0" y="65.2" width="31.5" height="134.8" rx="2"><title>2月 9.43</title></rect><text class="tick" x="113.7" y="220" text-anchor="middle">2月</text><rect class="bar" x="147.2" y="81.1" width="31.5" height="118.9" rx="2"><title>3月 9.26</title></rect><text class="tick" x="162.9" y="220" text-anchor="middle">3月</text><rect class="bar" x="196.3" y="72.6" width="31.5" height="127.4" rx="2"><title>4月 9.36</title></rect><text class="tick" x="212.1" y="220" text-anchor="middle">4月</text><rect class="bar" x="245.5" y="65.0" width="31.5" height="135.0" rx="2"><title>5月 9.44</title></rect><text class="tick" x="261.2" y="220" text-anchor="middle">5月</text><rect class="bar hi" x="294.7" y="122.8" width="31.5" height="77.2" rx="2"><title>6月 8.82</title></rect><text class="tick" x="310.4" y="220" text-anchor="middle">6月</text><rect class="bar hi" x="343.9" y="154.7" width="31.5" height="45.3" rx="2"><title>7月 8.48</title></rect><text class="tick" x="359.6" y="220" text-anchor="middle">7月</text><rect class="bar hi" x="393.0" y="128.3" width="31.5" height="71.7" rx="2"><title>8月 8.76</title></rect><text class="tick" x="408.8" y="220" text-anchor="middle">8月</text><rect class="bar" x="442.2" y="74.3" width="31.5" height="125.7" rx="2"><title>9月 9.34</title></rect><text class="tick" x="457.9" y="220" text-anchor="middle">9月</text><rect class="bar" x="491.4" y="73.8" width="31.5" height="126.2" rx="2"><title>10月 9.34</title></rect><text class="tick" x="507.1" y="220" text-anchor="middle">10月</text><rect class="bar" x="540.5" y="58.3" width="31.5" height="141.7" rx="2"><title>11月 9.51</title></rect><text class="tick" x="556.2" y="220" text-anchor="middle">11月</text><rect class="bar" x="589.7" y="38.9" width="31.5" height="161.1" rx="2"><title>12月 9.71</title></rect><text class="tick" x="605.4" y="220" text-anchor="middle">12月</text></svg></div>
+<p class="mut">6〜8月(橙)が低いのは、夏に北海道開催が多いぶんも含みます。縦軸は 8.0 から。</p>
+<h3>天気・直前の値・コース</h3>
+<div class="tbl"><table>
+<tr><th>ファクター</th><th>関係(手順2のモデル、確認期間)</th></tr>
+<tr><td>前日の天候(レース結果の欄)</td><td>前日が雨 → <span class="num">−0.71</span>、くもり → <span class="num">−0.22</span>(天気なし版)</td></tr>
+<tr><td>当日朝までの雨量(気象庁)</td><td>1mm あたり <span class="num">−0.017</span>(当日朝版)。前夜版では上乗せなし</td></tr>
+<tr><td>日照時間</td><td>1時間あたり <span class="num">+0.014</span>(当日朝版)</td></tr>
+<tr><td>直前の測定値(金曜・前日)</td><td>予想の土台。前回からの変化は平均 <span class="num">0.34〜0.37</span>(開発・確認)</td></tr>
+<tr><td>使用コース(A〜D、仮柵)</td><td>2025年以降のPDFにしか無い。効きは未確認</td></tr>
+<tr><td>含水率</td><td>天気でよく縮む(ダートの誤差 <span class="num">1.74 → 前夜 1.52 → 当日朝 1.39</span>)</td></tr>
+<tr><td>距離・コース形態</td><td>未検証(下の候補3)</td></tr>
+</table></div>
+</section>
+
+<section>
+<h2>使ったデータの期間</h2>
+<div class="tbl"><table>
+<tr><th>期間</th><th>使い方</th><th>状態</th></tr>
+<tr><td class="num">2025-01〜2026-08</td><td>開発(手順2・3の作り込み)</td><td>使用済み</td></tr>
+<tr><td class="num">2020-01〜2024-12</td><td>確認(手順2・手順3 C1〜C5、各1回)</td><td>使用済み。手順3の仮説では二度と使えない</td></tr>
+<tr><td class="num">2026-10-17〜</td><td>未使用</td><td><strong>新しい仮説の確認に最も安全</strong></td></tr>
+</table></div>
+<p class="mut">新しい仮説を 2020〜2024年で確かめることは定義上はできますが、クッション値まわりで一度中身を見た期間なので、使うなら新しい事前登録に「2回目の使用」と書きます。</p>
+</section>
+
+<section>
+<h2>再開するときの候補(未検証)</h2>
+<ol>
+<li><strong>前夜の予想値を毎週出す仕組み</strong>(作業)。<span class="code">cushion_forecast.py</span> は評価だけで、未来の日を予想する部分が無い。前日21時までの天気と直前の測定値から翌朝の値を出し、着順予想２に表示する。</li>
+<li><strong>時計の補正</strong>。過去の走破時計を、その日のクッション値・含水率と距離で補正して能力の見積もりを直す。距離で効き方が違う可能性がある。馬ごとの向き不向き(No-Go)とは別の使い方。</li>
+<li><strong>距離・コース × クッション値</strong>。距離帯・内回り/外回り・直線の長さ(<span class="code">data/jra_course_master.csv</span>)ごとに、脚質・枠の有利さがクッション値で変わるか。「前に行く馬×硬い馬場」は全体では効かなかったので、分けた形で問う。</li>
+<li><strong>使用コース(A〜D)と仮柵替わり</strong>。2025年以降のデータが数年分たまったら。</li>
+<li><strong>予報を使った前夜版</strong>。気象庁は過去の予報を出さないので、取得を始めた 2026-10-13 から先だけ。1年分(約2027-10)たまったら。</li>
+</ol>
+<p class="mut">やり直さないもの: 馬ごとの向き不向き(父・母の父・馬自身 × クッション値/含水率)。確認で No-Go、効果はあっても±3%程度。</p>
+</section>
+
+<section>
+<h2>再開の条件と手順</h2>
+<p>条件: ユーザーが再開を決めたとき(いつでも)。または当日朝の馬場情報が1年分(約2027-10)たまったとき。</p>
+<ol>
+<li><span class="code">python -X utf8 scripts/jra_model/cushion_2026_10_13/resume_status.py</span> で、保留後にたまったデータを見る。</li>
+<li>開催回まとめのPDF(<span class="code">data/jra_baba</span>)は 2026-08-16 で止まっている。収集用の会話に <span class="code">fetch_jra_baba.py</span> で埋めてもらう。</li>
+<li>候補を選び、別フォルダ <span class="code">scripts/jra_model/cushion_&lt;再開日&gt;/</span> に新しい事前登録を書く(今の事前登録は追補4で閉じた)。</li>
+<li>手順2を作り直すときは <span class="code">cushion_forecast.py --period dev|confirm --weather none|night|morning</span> がそのまま使える(λ は <span class="code">forecast_lams.json</span> に凍結)。</li>
+</ol>
+</section>
+
+<section>
+<h2>止めずに続いているもの(収集用の会話の担当)</h2>
+<div class="tbl"><table>
+<tr><th>タスク</th><th>中身</th><th>保存先</th></tr>
+<tr><td class="code">netkeiba_baba_live</td><td>開催日の当日の馬場情報(金土日月 9:00〜16:30、30分おき)</td><td class="code">data/jra_baba_live/</td></tr>
+<tr><td class="code">netkeiba_jma_amedas</td><td>気象庁の1時間ごとの観測(毎日 7:00)</td><td class="code">data/jma_amedas/</td></tr>
+<tr><td class="code">netkeiba_jma_forecast</td><td>気象庁の予報(毎日 19:00)</td><td class="code">data/jma_forecast/</td></tr>
+</table></div>
+<p class="mut">保留中もこの3つは止めません。再開のときのデータになります。依頼書は <span class="code">data/jra_pipeline/cushion_2026_10_13/COLLECTION_REQUEST.md</span>。</p>
+</section>
+
+<section>
+<h2>ファイル</h2>
+<ul>
+<li><span class="code">scripts/jra_model/cushion_2026_10_13/</span>: PREREG(本文・追補1〜4)、RESUME.md、step1_feasibility.py、cushion_forecast.py、horse_features.py、horse_confirm.py、report_cushion.py、resume_status.py</li>
+<li><span class="code">data/jra_pipeline/cushion_2026_10_13/</span>: forecast_result_*.json、forecast_lams.json、horse_result.json、confirm_C1〜C5.json、report.html、resume.html</li>
+<li>作った会話: 0e4f2a72「新しい方向からの予想(市場の外の情報)」</li>
+</ul>
+</section>
+</main>

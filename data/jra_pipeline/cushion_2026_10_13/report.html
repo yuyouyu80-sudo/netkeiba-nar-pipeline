@@ -1,0 +1,141 @@
+<title>クッション値の予想と検証</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700&family=Noto+Sans+JP:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* 誌面: 1カラムの検証記録。判定表→図→方向ごとの詳細→レビュー→再現の順 */
+:root{
+  --bg:#f6f6f2;--fg:#1c1d1a;--mut:#62645c;--card:#ffffff;--bd:#dcddd4;--soft:#ecede6;
+  --ok:#1f7a45;--ng:#a8321f;--acc:#2f6a3e;--mark:#c48a12;
+  --f-disp:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-num:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#151613;--fg:#e9eae3;--mut:#a2a499;--card:#1e1f1b;--bd:#34362f;--soft:#26281f;
+  --ok:#62c48d;--ng:#ef8a78;--acc:#8fcf9c;--mark:#e3b453;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#151613;--fg:#e9eae3;--mut:#a2a499;--card:#1e1f1b;--bd:#34362f;--soft:#26281f;
+  --ok:#62c48d;--ng:#ef8a78;--acc:#8fcf9c;--mark:#e3b453;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.75}
+.wrap{max-width:880px;margin:0 auto;padding-inline:16px;padding-block:28px 64px;display:flex;flex-direction:column;gap:34px}
+h1,h2,h3{font-family:var(--f-disp);text-wrap:balance;line-height:1.35;margin:0}
+h1{font-size:1.85rem;font-weight:700}
+h2{font-size:1.3rem;font-weight:700;padding-bottom:6px;border-bottom:1px solid var(--bd)}
+h3{font-size:1.05rem;font-weight:700}
+p{margin:0;max-width:68ch}
+section{display:flex;flex-direction:column;gap:14px;min-width:0}
+.eyebrow{font-size:.78rem;letter-spacing:.08em;color:var(--mut)}
+.lead{font-size:1.02rem}
+.mut{color:var(--mut);font-size:.88rem}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+.verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.vc{background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.vc .k{font-size:.8rem;color:var(--mut)}
+.vc .t{font-family:var(--f-disp);font-weight:700}
+.pill{display:inline-block;font-size:.75rem;font-weight:700;padding:1px 9px;border-radius:999px;letter-spacing:.04em;width:fit-content}
+.pill.ng{color:var(--ng);border:1px solid var(--ng)}
+.pill.ok{color:var(--ok);border:1px solid var(--ok)}
+.pill.ref{color:var(--mut);border:1px solid var(--bd)}
+.tbl{overflow-x:auto;border:1px solid var(--bd);border-radius:6px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{padding:7px 10px;border-bottom:1px solid var(--bd);text-align:left;vertical-align:top}
+th{font-weight:700;background:var(--soft);white-space:nowrap}
+td.r,th.r{text-align:right;font-family:var(--f-num);font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+.fig{background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:12px;overflow-x:auto}
+.fig svg{display:block;max-width:100%;height:auto}
+.fig text{fill:var(--fg);font-family:var(--f-body)}
+.fig .ax{stroke:var(--bd)}
+.fig .zero{stroke:var(--mut);stroke-dasharray:3 3}
+.fig .ci{stroke:var(--acc);stroke-width:2.5}
+.fig .pt{fill:var(--acc)}
+.fig .pl{fill:var(--mark)}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:.82rem;color:var(--mut)}
+.legend i{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:middle}
+ul{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:4px;max-width:70ch}
+.quote{border-left:3px solid var(--bd);padding-left:12px;color:var(--fg)}
+.rev{display:flex;flex-direction:column;gap:10px}
+.rv{background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.rv .who{font-size:.78rem;color:var(--mut);letter-spacing:.04em}
+.code{font-family:var(--f-num);font-size:.82rem;word-break:break-all}
+a{color:var(--acc)}
+a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+</style>
+<main class="wrap">
+<header style="display:flex;flex-direction:column;gap:10px">
+<div class="eyebrow">JRA 予想・検証記録 / 2026-10-13〜14 / 事前登録 PREREG_cushion_2026_10_13</div>
+<h1>クッション値の予想と検証</h1>
+<p class="lead">クッション値・含水率を予想に盛り込むための検証です。クッション値は開催日の朝に測られて当日朝に発表されるので、当日の予想ではそのまま使えます。発表前(前夜)のために、直前の測定値・前日の天気と馬場・競馬場・季節・コース・気象庁の雨量や気温から当日朝の値を予想するモデルを作りました。2020〜2024年の確認でも、予想の誤差は直前の測定値をそのまま使うより小さくなりました(平均誤差 0.333 対 0.372)。 馬ごとの「硬い・柔らかい馬場への向き不向き」は、確認で確定オッズへの上乗せを検出できませんでした(不合格)。 区間が狭く、効果があっても1標準偏差あたりオッズ比 0.97〜1.03 程度の小ささです。</p>
+<p class="mut">開発(2025-01〜2026-08)で定義を決めて凍結し、収集用の会話が新しく取ってきた2020-01〜2024-12で1回だけ確かめています。合否の条件は「市場の外の情報3方向」と同じです。</p></header>
+<section><h2>判定</h2><div class="verdict">
+<div class="vc"><div class="k">手順2・確認</div><div class="t">クッション値の予想(前夜版)</div><div class="num">平均誤差 0.333(直前値 0.372)</div><div class="mut">1,236開催日・差の区間 [-0.058, -0.021]</div><span class="pill ok">合格</span></div>
+<div class="vc"><div class="k">手順2・確認(参考)</div><div class="t">ダート含水率の予想(当日朝版)</div><div class="num">平均誤差 1.39%(直前値 2.00%)</div><div class="mut">天気なしでは 1.69%。天気がよく効く</div><span class="pill ok">合格</span></div>
+<div class="vc"><div class="k">手順3・確認の主仮説</div><div class="t">馬自身×クッション値(芝)</div><div class="num">ΔLL −1.10  [−1.65, −0.64]</div><div class="mut">7,588レース・順位p 0.87</div><span class="pill ng">No-Go</span></div>
+</div><p class="mut">手順2の合格の目安は「開催回を1つずつ抜いて当てた平均誤差が、直前の測定値をそのまま使うより小さく、開催回ブロックのブートストラップで差の区間が0をまたがない」。手順3は「ΔLL の区間の下限が0より上 かつ プラセボ先頭20回の最大より上」。</p></section>
+<section><h2>クッション値は発走前の情報</h2>
+<p>JRA のアーカイブ(開催回が終わってから公開)では、開催日の測定時刻が 8:20、金曜が 9:30 です。値は当日朝に JRA の馬場情報ページで発表されているので、過去分も「発走前に分かった値」として使えます。「事後データ」だったのはアーカイブの公開時期だけです。2026-10-13 から、収集用の会話が開催日の朝の値を当日中に取得しています(fetch_jra_baba_live.py)。</p>
+<ul><li>当日の予想: 朝の発表値をそのまま使う。</li><li>前夜の予想(朝の発表より前): 下のモデルで当日朝の値を予想する。</li></ul></section>
+<section><h2>手順2 当日朝の値を前もって予想する</h2>
+<p>目的は「直前の測定(金曜か前日朝)からの変化」。説明に使う情報は、直前の測定値と測定からの日数・直前の含水率・競馬場・月(季節)・使用コース(A〜D)と変更・開催の何日目か・前日のその競馬場の天気と馬場状態、天気版ではさらに気象庁の雨量合計・最大1時間雨量・平均気温・日照・平均風速です。線形(リッジ)で、開催回を1つずつ抜いて当てました。</p>
+<h3>開発(2025-01〜2026-08)</h3>
+<div class="tbl"><table><thead><tr><th>予想するもの</th><th>天気</th><th class="r">開催日</th><th class="r">このモデル</th><th class="r">直前の測定値そのまま</th><th class="r">競馬場×月の平均</th><th class="r">天気なし(同じ日)</th><th class="r">差(モデル−直前値)の95%区間</th><th class="r">±0.5以内</th></tr></thead><tbody>
+<tr><td>芝のクッション値</td><td>天気なし</td><td class="r">474</td><td class="r"><b>0.290</b></td><td class="r">0.335</td><td class="r">0.455</td><td class="r">—</td><td class="r">[-0.070, -0.021]</td><td class="r">84%</td></tr>
+<tr><td>芝のクッション値</td><td>前夜版(前日21時までの天気)</td><td class="r">434</td><td class="r"><b>0.293</b></td><td class="r">0.333</td><td class="r">0.433</td><td class="r">0.289</td><td class="r">[-0.068, -0.013]</td><td class="r">84%</td></tr>
+<tr><td>芝のクッション値</td><td>当日朝版(当日7時までの天気)</td><td class="r">434</td><td class="r"><b>0.281</b></td><td class="r">0.333</td><td class="r">0.433</td><td class="r">0.289</td><td class="r">[-0.081, -0.024]</td><td class="r">86%</td></tr>
+<tr><td>芝の含水率(ゴール前、%)</td><td>天気なし</td><td class="r">474</td><td class="r"><b>0.931</b></td><td class="r">1.185</td><td class="r">1.241</td><td class="r">—</td><td class="r">[-0.355, -0.156]</td><td class="r">33%</td></tr>
+<tr><td>芝の含水率(ゴール前、%)</td><td>前夜版(前日21時までの天気)</td><td class="r">434</td><td class="r"><b>0.942</b></td><td class="r">1.224</td><td class="r">1.274</td><td class="r">0.966</td><td class="r">[-0.403, -0.161]</td><td class="r">32%</td></tr>
+<tr><td>芝の含水率(ゴール前、%)</td><td>当日朝版(当日7時までの天気)</td><td class="r">434</td><td class="r"><b>0.896</b></td><td class="r">1.224</td><td class="r">1.274</td><td class="r">0.966</td><td class="r">[-0.459, -0.200]</td><td class="r">32%</td></tr>
+<tr><td>ダートの含水率(ゴール前、%)</td><td>天気なし</td><td class="r">474</td><td class="r"><b>1.589</b></td><td class="r">2.024</td><td class="r">3.501</td><td class="r">—</td><td class="r">[-0.630, -0.242]</td><td class="r">22%</td></tr>
+<tr><td>ダートの含水率(ゴール前、%)</td><td>前夜版(前日21時までの天気)</td><td class="r">434</td><td class="r"><b>1.353</b></td><td class="r">1.994</td><td class="r">3.388</td><td class="r">1.541</td><td class="r">[-0.884, -0.405]</td><td class="r">29%</td></tr>
+<tr><td>ダートの含水率(ゴール前、%)</td><td>当日朝版(当日7時までの天気)</td><td class="r">434</td><td class="r"><b>1.155</b></td><td class="r">1.994</td><td class="r">3.388</td><td class="r">1.541</td><td class="r">[-1.117, -0.578]</td><td class="r">32%</td></tr>
+</tbody></table></div>
+<h3>確認(2020-01〜2024-12、天気版は2020-09〜)</h3>
+<div class="tbl"><table><thead><tr><th>予想するもの</th><th>天気</th><th class="r">開催日</th><th class="r">このモデル</th><th class="r">直前の測定値そのまま</th><th class="r">競馬場×月の平均</th><th class="r">天気なし(同じ日)</th><th class="r">差(モデル−直前値)の95%区間</th><th class="r">±0.5以内</th></tr></thead><tbody>
+<tr><td>芝のクッション値</td><td>天気なし</td><td class="r">1,236</td><td class="r"><b>0.333</b></td><td class="r">0.372</td><td class="r">0.495</td><td class="r">—</td><td class="r">[-0.058, -0.021]</td><td class="r">80%</td></tr>
+<tr><td>芝のクッション値</td><td>前夜版(前日21時までの天気)</td><td class="r">1,130</td><td class="r"><b>0.333</b></td><td class="r">0.371</td><td class="r">0.501</td><td class="r">0.334</td><td class="r">[-0.060, -0.016]</td><td class="r">80%</td></tr>
+<tr><td>芝のクッション値</td><td>当日朝版(当日7時までの天気)</td><td class="r">1,136</td><td class="r"><b>0.310</b></td><td class="r">0.373</td><td class="r">0.502</td><td class="r">0.335</td><td class="r">[-0.088, -0.039]</td><td class="r">83%</td></tr>
+<tr><td>芝の含水率(ゴール前、%)</td><td>天気なし</td><td class="r">1,351</td><td class="r"><b>0.924</b></td><td class="r">1.088</td><td class="r">1.235</td><td class="r">—</td><td class="r">[-0.207, -0.121]</td><td class="r">36%</td></tr>
+<tr><td>芝の含水率(ゴール前、%)</td><td>前夜版(前日21時までの天気)</td><td class="r">1,049</td><td class="r"><b>0.896</b></td><td class="r">1.069</td><td class="r">1.242</td><td class="r">0.928</td><td class="r">[-0.229, -0.116]</td><td class="r">35%</td></tr>
+<tr><td>芝の含水率(ゴール前、%)</td><td>当日朝版(当日7時までの天気)</td><td class="r">1,055</td><td class="r"><b>0.854</b></td><td class="r">1.067</td><td class="r">1.237</td><td class="r">0.925</td><td class="r">[-0.272, -0.155]</td><td class="r">37%</td></tr>
+<tr><td>ダートの含水率(ゴール前、%)</td><td>天気なし</td><td class="r">1,352</td><td class="r"><b>1.742</b></td><td class="r">2.040</td><td class="r">3.537</td><td class="r">—</td><td class="r">[-0.378, -0.219]</td><td class="r">24%</td></tr>
+<tr><td>ダートの含水率(ゴール前、%)</td><td>前夜版(前日21時までの天気)</td><td class="r">1,050</td><td class="r"><b>1.517</b></td><td class="r">1.998</td><td class="r">3.454</td><td class="r">1.681</td><td class="r">[-0.597, -0.369]</td><td class="r">25%</td></tr>
+<tr><td>ダートの含水率(ゴール前、%)</td><td>当日朝版(当日7時までの天気)</td><td class="r">1,056</td><td class="r"><b>1.388</b></td><td class="r">1.998</td><td class="r">3.492</td><td class="r">1.693</td><td class="r">[-0.742, -0.479]</td><td class="r">27%</td></tr>
+</tbody></table></div>
+<p class="mut">芝のクッション値は、前日の雨・曇り、競馬場(京都が高め、札幌・函館が低め)、直前の値が高すぎ・低すぎると戻る動き、コースの変更でよく説明できます。前夜までの天気は、レース結果に載る前日の天気でほぼ足りていて、気象庁の観測値を足しても前夜版は縮みませんでした。夜のうちの雨まで入る当日朝版では縮みます。含水率は天気がはっきり効きます。</p>
+<p class="mut">直前の値から0.5以上動いた日(確認で 331日)は、モデルでも平均誤差 0.64 が残ります。前夜の予報(気象庁の降水確率は 2026-10-13 から取得開始)を足すのが次の改良です。</p>
+</section>
+<section><h2>手順3 馬ごとの向き不向き</h2>
+<p>各走の「オッズに対する着順の上振れ」(人気順位 − 着順を頭数で割ったもの)を、その日の馬場の偏差(競馬場ごとの平均からの差)に回帰した傾きを、前日までの成績だけで父・母の父・馬自身ごとに求め、今回の馬場の偏差と掛けました。芝はクッション値、ダートは含水率です。確定オッズに足して、勝ち馬の当たり方が良くなるかを見ています。</p>
+<p class="mut">下調べ: 「前に行く馬 × 硬い馬場」も確定オッズへの上乗せは無し(芝 2,942レース、ΔLL −1.52)。4角先頭の馬の3着内率は柔らかめ 49%・標準 47%・硬め 47% で、「硬いほど前残り」は2025〜2026年では見られませんでした。</p>
+<h3>開発(2025-01〜2026-08、縮め k=50)</h3>
+<div class="tbl"><table><thead><tr><th>仮説</th><th class="r">レース</th><th class="r">ΔLL</th><th class="r">95%区間</th><th class="r">プラセボ最大</th><th class="r">順位p</th><th class="r">オッズ比の95%区間<br>(1SDあたり)</th><th>判定</th></tr></thead><tbody>
+<tr><td>芝 父×クッション値</td><td class="r">2,942</td><td class="r">−0.65</td><td class="r">[−2.46, +1.09]</td><td class="r">+1.08</td><td class="r">0.43</td><td class="r">F1 0.98〜1.07</td><td><span class="pill ng">不合格</span></td></tr>
+<tr><td>芝 母の父×クッション値</td><td class="r">2,942</td><td class="r">+0.18</td><td class="r">[−2.80, +2.98]</td><td class="r">+1.87</td><td class="r">0.24</td><td class="r">F2 0.99〜1.08</td><td><span class="pill ng">不合格</span></td></tr>
+<tr><td>芝 馬自身×クッション値</td><td class="r">2,942</td><td class="r">+1.32</td><td class="r">[−3.19, +5.57]</td><td class="r">+0.38</td><td class="r">0.05</td><td class="r">F3 1.00〜1.10</td><td><span class="pill ng">不合格</span></td></tr>
+<tr><td>芝 3つまとめて</td><td class="r">2,942</td><td class="r">+0.03</td><td class="r">[−5.39, +5.19]</td><td class="r">+1.21</td><td class="r">0.19</td><td class="r">F1 0.97〜1.06<br>F2 0.97〜1.07<br>F3 0.99〜1.10</td><td><span class="pill ng">不合格</span></td></tr>
+<tr><td>ダート 父×含水率</td><td class="r">2,721</td><td class="r">−1.09</td><td class="r">[−1.60, −0.63]</td><td class="r">−0.09</td><td class="r">0.76</td><td class="r">F1 0.95〜1.05</td><td><span class="pill ng">不合格</span></td></tr>
+<tr><td>ダート 母の父×含水率</td><td class="r">2,721</td><td class="r">−0.44</td><td class="r">[−2.42, +1.42]</td><td class="r">+2.18</td><td class="r">0.14</td><td class="r">F2 0.94〜1.03</td><td><span class="pill ng">不合格</span></td></tr>
+<tr><td>ダート 馬自身×含水率</td><td class="r">2,721</td><td class="r">−1.30</td><td class="r">[−2.52, −0.15]</td><td class="r">+0.85</td><td class="r">0.90</td><td class="r">F3 0.94〜1.05</td><td><span class="pill ng">不合格</span></td></tr>
+<tr><td>ダート 3つまとめて</td><td class="r">2,721</td><td class="r">−2.86</td><td class="r">[−5.30, −0.72]</td><td class="r">+1.24</td><td class="r">0.67</td><td class="r">F1 0.95〜1.05<br>F2 0.94〜1.03<br>F3 0.95〜1.05</td><td><span class="pill ng">不合格</span></td></tr>
+</tbody></table></div>
+<h3>確認(2020-01〜2024-12、縮め k=200、定義は開発で凍結)</h3>
+<div class="tbl"><table><thead><tr><th>仮説</th><th class="r">レース</th><th class="r">ΔLL</th><th class="r">95%区間</th><th class="r">プラセボ最大</th><th class="r">順位p</th><th class="r">オッズ比の95%区間<br>(1SDあたり)</th><th>判定</th></tr></thead><tbody>
+<tr><td><b>C1 芝 馬自身×クッション値(主仮説)</b></td><td class="r">7,588</td><td class="r">−1.10</td><td class="r">[−1.65, −0.64]</td><td class="r">+2.22</td><td class="r">0.87</td><td class="r">F3 0.97〜1.03</td><td><span class="pill ng">不合格</span></td></tr>
+<tr><td>C2 芝 母の父×クッション値</td><td class="r">7,588</td><td class="r">−0.10</td><td class="r">[−2.06, +1.84]</td><td class="r">+1.28</td><td class="r">0.19</td><td class="r">F2 0.99〜1.04</td><td><span class="pill ng">不合格</span></td></tr>
+<tr><td>C3 芝 3つまとめて</td><td class="r">7,588</td><td class="r">−2.35</td><td class="r">[−4.73, −0.08]</td><td class="r">+1.94</td><td class="r">0.81</td><td class="r">F1 0.97〜1.02<br>F2 0.99〜1.04<br>F3 0.97〜1.03</td><td><span class="pill ng">不合格</span></td></tr>
+<tr><td>C4 ダート 3つまとめて(含水率)</td><td class="r">7,900</td><td class="r">−2.03</td><td class="r">[−5.93, +1.77]</td><td class="r">+1.77</td><td class="r">0.71</td><td class="r">F1 0.97〜1.02<br>F2 0.97〜1.02<br>F3 0.99〜1.05</td><td><span class="pill ng">不合格</span></td></tr>
+<tr><td>C5 オッズを使わない着順予想 [u_FINAL] + 芝 3つ(2020年)</td><td class="r">502</td><td class="r">−3.19</td><td class="r">[−6.32, −0.44]</td><td class="r">+0.91</td><td class="r">0.62</td><td class="r">F1 0.88〜1.10<br>F2 0.87〜1.07<br>F3 0.92〜1.09</td><td><span class="pill ng">不合格</span></td></tr>
+</tbody></table></div>
+<div class="fig"><svg viewBox="0 0 760 216" role="img" aria-label="仮説ごとの ΔLL と95%区間、プラセボ最大"><line class="ax" x1="295.3" y1="8" x2="295.3" y2="186"/><text x="295.3" y="204" font-size="11" text-anchor="middle">−6.00</text><line class="ax" x1="344.6" y1="8" x2="344.6" y2="186"/><text x="344.6" y="204" font-size="11" text-anchor="middle">−5.00</text><line class="ax" x1="393.9" y1="8" x2="393.9" y2="186"/><text x="393.9" y="204" font-size="11" text-anchor="middle">−4.00</text><line class="ax" x1="443.2" y1="8" x2="443.2" y2="186"/><text x="443.2" y="204" font-size="11" text-anchor="middle">−3.00</text><line class="ax" x1="492.5" y1="8" x2="492.5" y2="186"/><text x="492.5" y="204" font-size="11" text-anchor="middle">−2.00</text><line class="ax" x1="541.8" y1="8" x2="541.8" y2="186"/><text x="541.8" y="204" font-size="11" text-anchor="middle">−1.00</text><line class="ax" x1="591.1" y1="8" x2="591.1" y2="186"/><text x="591.1" y="204" font-size="11" text-anchor="middle">0</text><line class="ax" x1="640.4" y1="8" x2="640.4" y2="186"/><text x="640.4" y="204" font-size="11" text-anchor="middle">+1.00</text><line class="ax" x1="689.7" y1="8" x2="689.7" y2="186"/><text x="689.7" y="204" font-size="11" text-anchor="middle">+2.00</text><line class="zero" x1="591.1" y1="8" x2="591.1" y2="186"/><text x="8" y="24" font-size="12.5" font-weight="700">C1 芝 馬自身×クッション値(主仮説)</text><line class="ci" x1="509.7" y1="20" x2="559.7" y2="20"/><circle class="pt" cx="536.8" cy="20" r="5"/><path class="pl" d="M700.4 13 l5 7 l-5 7 l-5 -7z"/><text x="8" y="58" font-size="12.5" font-weight="400">C2 芝 母の父×クッション値</text><line class="ci" x1="489.5" y1="54" x2="682.0" y2="54"/><circle class="pt" cx="585.9" cy="54" r="5"/><path class="pl" d="M654.4 47 l5 7 l-5 7 l-5 -7z"/><text x="8" y="92" font-size="12.5" font-weight="400">C3 芝 3つまとめて</text><line class="ci" x1="358.0" y1="88" x2="587.4" y2="88"/><circle class="pt" cx="475.0" cy="88" r="5"/><path class="pl" d="M686.8 81 l5 7 l-5 7 l-5 -7z"/><text x="8" y="126" font-size="12.5" font-weight="400">C4 ダート 3つまとめて(含水率)</text><line class="ci" x1="298.7" y1="122" x2="678.2" y2="122"/><circle class="pt" cx="490.8" cy="122" r="5"/><path class="pl" d="M678.2 115 l5 7 l-5 7 l-5 -7z"/><text x="8" y="160" font-size="12.5" font-weight="400">C5 オッズを使わない着順予想 [u_FINAL] + 芝 3つ(2020年)</text><line class="ci" x1="279.6" y1="156" x2="569.4" y2="156"/><circle class="pt" cx="433.6" cy="156" r="5"/><path class="pl" d="M635.9 149 l5 7 l-5 7 l-5 -7z"/></svg></div>
+<div class="legend"><span><i style="background:var(--acc);border-radius:50%"></i>ΔLL と95%区間</span><span><i style="background:var(--mark);transform:rotate(45deg)"></i>プラセボ20回の最大</span></div>
+<p class="mut">確認の走数 237,285。馬場の値が分かる走は芝 86%・ダート 94%。馬場の偏差はその日より前の開催日だけの平均から計算し、SD は開発期間の値で固定しました。C5 は確定オッズの代わりに finish_v4(オッズを使わない着順予想)の点数を基準にしています。</p>
+</section>
+<section><h2>盛り込み方</h2><ul>
+<li>当日の予想・表示: 開催日朝のクッション値・含水率(fetch_jra_baba_live.py)をそのまま使う。</li>
+<li>前夜の予想・表示: 手順2のモデル(前夜版)の予想値を使い、朝の発表で差し替える。ダートの含水率は当日朝版(7時までの雨)が特に効く。</li>
+<li>馬ごとの向き不向きは、確定オッズへの上乗せが確かめられなかったので、本番の印・見送りの判断には入れない。表示する場合は「参考」とする。</li>
+<li>確定オッズに上乗せしにくい理由: クッション値は当日朝に公開され、馬場状態の発表や当日の先行レースの結果とともに、投票する人にも見えているため。</li>
+</ul></section>
+<section><h2>読み方の注意</h2><ul><li>2024年以前のアーカイブには使用コース(A〜D)と測定時刻が無い。コースの特徴は0、測定時刻は金曜 9:30・開催日 8:00 とみなした。</li><li>気象庁の観測点は競馬場の最寄り(0.8〜17.6km)。新潟の雨は11.4km離れた松浜。</li><li>前夜の天気予報は気象庁が過去分を出さないため、2026-10-13 からの記録しか無い。</li><li>開発と確認は時期が違う(確認の方が昔)。馬ごとの特徴は、確認期間の中だけの成績で作っている。</li></ul></section>
+<section><h2>再現</h2><p class="mut">スクリプト: <span class="code">scripts/jra_model/cushion_2026_10_13/</span>(step1_feasibility.py・cushion_forecast.py・horse_features.py・horse_confirm.py・report_cushion.py)<br>結果: <span class="code">data/jra_pipeline/cushion_2026_10_13/</span>(forecast_result_*.json・horse_result.json・confirm_C*.json)<br>事前登録: <span class="code">PREREG_cushion_2026_10_13.md</span>(追補1 開発の結果と凍結、追補2 確認の実行前の変更)<br>使ったデータ: data/jra_baba(クッション値・含水率)、data/jma_amedas(気象庁)、data/race_results、血統の父・母の父(radar_v2 ped_ids)</p></section>
+</main>
