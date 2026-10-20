@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -32,7 +33,12 @@ TRAINER_PROFILE_URL = "https://db.netkeiba.com/trainer/{person_id}/"
 # src.netkeiba_pipeline.discovery.tracks.race_url(), which switches the host to
 # nar.netkeiba.com for NAR race_ids instead of using a fixed constant here.
 
-REQUEST_DELAY_SECONDS = 1.5
+# 環境変数 NETKEIBA_REQUEST_DELAY で上書き可(別セッションの取得と並行する時などにゆっくり取得する用)。
+# 未設定・不正値は従来の1.5秒
+try:
+    REQUEST_DELAY_SECONDS = float(os.environ.get("NETKEIBA_REQUEST_DELAY", "1.5"))
+except ValueError:
+    REQUEST_DELAY_SECONDS = 1.5
 
 DATA_DIR = PROJECT_ROOT / "data"
 RAW_HTML_DIR = DATA_DIR / "raw_html"
@@ -58,6 +64,9 @@ TRAINER_PROFILE_DIR = DATA_DIR / "trainer_profile"
 # 詳細はwatch_odds.py参照。
 ODDS_HISTORY_FUKU_DIR = DATA_DIR / "odds_history_fuku"
 ODDS_HISTORY_UMAREN_DIR = DATA_DIR / "odds_history_umaren"
+ODDS_HISTORY_TANSHO_DIR = DATA_DIR / "odds_history_tansho"  # 単勝(2026-10-04〜、scratchpad側のodds_history_{date}.csvとは別に永続化)
+ODDS_HISTORY_SANRENPUKU_DIR = DATA_DIR / "odds_history_sanrenpuku"  # 3連複(2026-10-01〜、gzip圧縮CSV)
+ODDS_HISTORY_DEBUG_DIR = DATA_DIR / "odds_history_debug"  # 発走前0行の原因調査用の生JSON(少数のみ保存)
 # JRA公式サイトのクッション値・含水率(Tier3、2026-09-02〜)。venue_code+kai単位
 # (開催回全体で1ファイル、race_id/kaisai_date単位ではない点に注意)。
 JRA_BABA_DIR = DATA_DIR / "jra_baba"
