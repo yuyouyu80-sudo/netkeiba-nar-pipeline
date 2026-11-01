@@ -197,7 +197,15 @@ def fetch_one_race(session, race_id: str, logger: logging.Logger, circuit: str =
         # gated on the last row being labeled "全成績". Other modes are unaffected
         # (not observed to vary) and keep the strict exact-count check.
         terminal_label = "全成績" if (is_nar and mode == "distance") else None
-        df_breakdown = parse_data_breakdown(html_breakdown, race_id, f"data_{mode}", num_slots, terminal_label=terminal_label)
+        # 2026-09-22: JRA mode=others occasionally renders the class-category row
+        # twice (verbatim duplicate) - see race_data_parser.parse_data_breakdown's
+        # allow_extra_row docstring. NAR's own "others" (num_slots=3) has not been
+        # observed to do this, so only gate JRA here.
+        allow_extra_row = (not is_nar) and mode == "others"
+        df_breakdown = parse_data_breakdown(
+            html_breakdown, race_id, f"data_{mode}", num_slots,
+            terminal_label=terminal_label, allow_extra_row=allow_extra_row,
+        )
         df = _merge_breakdown(df, df_breakdown)
 
     df["umaban"] = pd.to_numeric(df["umaban"], errors="coerce")
@@ -232,6 +240,10 @@ def main() -> None:
         help="jra (default, unchanged behavior) or nar (14 tracked regional tracks). "
         "Ignored when --race-id is given directly (circuit is inferred from the race_id itself).",
     )
+    parser.add_argument(
+        "--skip-existing", action="store_true",
+        help="--date指定時、馬柱CSVが既にあるrace_idは取り直さない(中断後の再開・通信量を抑えたい時用)",
+    )
     args = parser.parse_args()
 
     load_dotenv()
@@ -261,6 +273,10 @@ def main() -> None:
     succeeded = []
     failed = []
     for race_id in race_ids:
+        if args.skip_existing and newspaper_csv_path(race_id).exists():
+            logger.info("skip existing race_id=%s", race_id)
+            succeeded.append((race_id, newspaper_csv_path(race_id)))
+            continue
         try:
             path = fetch_one_race(session, race_id, logger, circuit=args.circuit)
             succeeded.append((race_id, path))
