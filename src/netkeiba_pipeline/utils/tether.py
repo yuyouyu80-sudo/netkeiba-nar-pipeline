@@ -18,6 +18,7 @@ tether有効なプロセスが複数あっても合計で上限内に収まる�
 
 確認: python -m src.netkeiba_pipeline.utils.tether  (直近24時間の使用量を表示)
 """
+import json
 import logging
 import os
 import time
@@ -64,9 +65,29 @@ def is_enabled() -> bool:
     return _enabled or os.environ.get("NETKEIBA_TETHER", "") not in ("", "0")
 
 
-def min_interval() -> float:
+def _night_window() -> tuple[int, int] | None:
+    """夜間だけ別の設定にする時間帯(時, 時)。環境変数 NETKEIBA_NIGHT_HOURS="0-7" は0時以上7時未満(ローカル時刻)。
+    未指定なら夜間設定は使わない。"""
     try:
-        return float(os.environ.get("NETKEIBA_TETHER_INTERVAL", DEFAULT_MIN_INTERVAL_SECONDS))
+        start, end = os.environ.get("NETKEIBA_NIGHT_HOURS", "").split("-")
+        return int(start), int(end)
+    except ValueError:
+        return None
+
+
+def _is_night(now: float | None = None) -> bool:
+    window = _night_window()
+    if window is None:
+        return False
+    hour = time.localtime(time.time() if now is None else now).tm_hour
+    start, end = window
+    return start <= hour < end if start < end else hour >= start or hour < end
+
+
+def min_interval() -> float:
+    name = "NETKEIBA_NIGHT_INTERVAL" if _is_night() and os.environ.get("NETKEIBA_NIGHT_INTERVAL") else "NETKEIBA_TETHER_INTERVAL"
+    try:
+        return float(os.environ.get(name, DEFAULT_MIN_INTERVAL_SECONDS))
     except ValueError:
         return DEFAULT_MIN_INTERVAL_SECONDS
 
@@ -147,9 +168,69 @@ def wait_for_budget() -> None:
         time.sleep(min(wait, MAX_SLEEP_CHUNK_SECONDS))
 
 
+def _break_rules() -> list[tuple[float, float]]:
+    """休憩の規則[(稼働秒, 休む秒), ...]。環境変数 NETKEIBA_BREAK_RULES="10:1,30:3" は
+    「稼働10分ごとに1分、稼働30分ごとに3分休む」(同時に当たる時は長い方の休憩だけ取る)。
+    NETKEIBA_BREAK_EVERY_MIN / NETKEIBA_BREAK_MIN の組は規則1つとして扱う。"""
+    rules = []
+    rules_env = os.environ.get("NETKEIBA_BREAK_RULES", "")
+    if _is_night() and os.environ.get("NETKEIBA_NIGHT_BREAK_RULES"):
+        rules_env = os.environ["NETKEIBA_NIGHT_BREAK_RULES"]
+    try:
+        for part in rules_env.split(","):
+            if part.strip():
+                run_m, rest_m = part.split(":")
+                rules.append((float(run_m) * 60, float(rest_m) * 60))
+        if not rules:
+            run_m = float(os.environ.get("NETKEIBA_BREAK_EVERY_MIN", "0"))
+            rest_m = float(os.environ.get("NETKEIBA_BREAK_MIN", "0"))
+            if run_m > 0 and rest_m > 0:
+                rules.append((run_m * 60, rest_m * 60))
+    except ValueError:
+        return []
+    return [(r, w) for r, w in rules if r > 0 and w > 0]
+
+
+def _maybe_take_break() -> None:
+    """休憩の規則(_break_rules)に従い、稼働時間が規則の周期に達したら休む。稼働時間の累計は
+    プロセスをまたいで logs/tether_break_state.json に持つ(スクリプトを何本も続けて回しても周期が続く)。
+    前回のリクエストから10分以上空いた分(スクリプト間の処理・中断など)は稼働に数えない。"""
+    rules = _break_rules()
+    if not rules:
+        return
+    state = LOG_DIR / "tether_break_state.json"
+    now = time.time()
+    try:
+        st = json.loads(state.read_text())
+        worked, last_ts, done = float(st["worked"]), float(st["last_ts"]), list(st["done"])
+        if len(done) != len(rules):
+            raise ValueError
+        if st.get("rules") != [r for r, _ in rules]:  # 昼夜で周期が変わった: 今の稼働時間までは休憩済みとして数える
+            done = [int(worked // r) for r, _ in rules]
+    except (OSError, ValueError, KeyError, TypeError):
+        worked, last_ts, done = 0.0, now, [0] * len(rules)
+    gap = now - last_ts
+    if 0 <= gap < 600:
+        worked += gap
+    due_rest = 0.0
+    for i, (run_s, rest_s) in enumerate(rules):
+        idx = int(worked // run_s)
+        if idx > done[i]:
+            done[i] = idx
+            due_rest = max(due_rest, rest_s)
+    if due_rest > 0:
+        logger.warning("BREAK: %.1f min of fetching done - resting %.1f min", worked / 60, due_rest / 60)
+        time.sleep(due_rest)
+        now = time.time()
+    state.parent.mkdir(parents=True, exist_ok=True)
+    state.write_text(json.dumps({"worked": worked, "last_ts": now, "done": done, "rules": [r for r, _ in rules]}))
+
+
 def throttle(delay_seconds: float) -> None:
     """通常の間隔待ち。デザリングモード時は MIN_INTERVAL_SECONDS 以上に引き上げる。"""
     global _last_request_at
+    if is_enabled():
+        _maybe_take_break()
     delay = max(delay_seconds, min_interval()) if is_enabled() else delay_seconds
     if is_enabled():
         delay = max(0.0, delay - (time.time() - _last_request_at))  # 直前リクエストからの経過を差し引く
